@@ -6,7 +6,7 @@ from model_2.State_model import RobotState
 # 1.获取模型
 model = ChatOpenAI(
     model="Deepseek-V3.2",
-    openai_key = ["model1_api_key"],
+    openai_key = "model1_api_key",
     openai_api_base = "https://llmapi.paratera.com/v1/",
     temperature=0.7,
     max_tokens = 4096,
