@@ -1,0 +1,28 @@
+{
+  "gaze_attention_json": {
+    "file_name": "train_sharegpt.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system",
+      "roles": {
+        "human": "from",
+        "gpt": "from"
+      },
+      "content": "value"
+    }
+  },
+  "gaze_attention_json_val": {
+    "file_name": "val_sharegpt.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system",
+      "roles": {
+        "human": "from",
+        "gpt": "from"
+      },
+      "content": "value"
+    }
+  }
+}

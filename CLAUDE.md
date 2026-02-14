@@ -161,6 +161,8 @@ IROS_AGENT/
 
 ### 1. 设置环境
 
+> **⚠️ 重要：本项目使用 UV 包管理器**
+
 ```bash
 # 安装依赖
 uv pip install -r requirements.txt  # 或: uv sync
@@ -168,6 +170,14 @@ uv pip install -r requirements.txt  # 或: uv sync
 # 复制环境模板并填写你的 API 密钥
 cp .env.example .env
 # 编辑 .env 填入你实际的 API 密钥
+```
+
+**UV 常用命令**：
+```bash
+uv pip install <package>     # 安装包
+uv pip list                # 查看已安装包
+uv pip uninstall <package>   # 卸载包
+uv sync                     # 同步 pyproject.toml
 ```
 
 ### 2. 测试 API 连接

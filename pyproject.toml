@@ -11,7 +11,7 @@ dependencies = [
     "langgraph>=1.0.5",
     "networkx>=3.6.1",
     "openai>=2.15.0",
-    "pandas>=3.0.0",
+    "pandas>=2.0.0,<3.0.0",
 
     # LLM相关
     "python-dotenv>=1.0.0",
@@ -26,6 +26,9 @@ dependencies = [
 
     # 图像处理
     "pillow>=10.2.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "transformers>=4.0.0",
     "opencv-python>=4.9.0",
 
     # 科学计算

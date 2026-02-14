@@ -34,7 +34,9 @@ class LLMReasoner:
             temperature=config.llm_temperature,
             max_tokens=config.llm_max_tokens,
             api_key=config.llm_api_key,
-            base_url=config.llm_base_url
+            base_url=config.llm_base_url,
+            timeout=30,  # 30秒超时
+            request_timeout=30
         )
         self.output_parser = StrOutputParser()
 
@@ -112,14 +114,14 @@ class LLMReasoner:
 
 **输出格式（严格按照JSON）：**
 ```json
-{{
+{{{{
   "prediction_id": "展品ID",
   "prediction_name": "展品名称",
   "attention_level": "A/B/C/D/E",
   "estimated_duration": 秒数,
   "confidence": 0.0-1.0,
   "reasoning": "详细的推理过程，说明为什么选择这个展品..."
-}}
+}}}}
 ```
 
 **重要提示：**

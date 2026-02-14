@@ -8,7 +8,8 @@ This module provides memory management for the Eye-LLM system including:
 - GazeRecord: Data structure for individual gaze observations
 """
 
-from .manager import MemoryManager, GazeRecord
+from .records import GazeRecord
+from .manager import MemoryManager
 from .short_term import ShortTermMemory
 from .long_term import LongTermMemory
 

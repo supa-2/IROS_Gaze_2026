@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(python -c:*)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(pip install:*)",
+      "Bash(uv pip install:*)",
+      "Bash(.venvScriptspython.exe -c \"import xlrd; print\\(xlrd.__version__\\)\")",
+      "Bash(uv run python:*)",
+      "Bash(uv pip list:*)",
+      "Bash(uv run:*)",
+      "Bash(\".venv/Scripts/python.exe\" agent.py)",
+      "Bash(set PYTHONIOENCODING=utf-8:*)",
+      "mcp__web-search-prime__webSearchPrime",
+      "WebSearch",
+      "mcp__web-reader__webReader"
     ]
   }
 }

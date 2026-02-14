@@ -10,6 +10,12 @@ import os
 from typing import List, Dict, Optional
 from datetime import datetime
 
+# 设置 UTF-8 输出编码 (Windows 兼容)
+if sys.platform == 'win32':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 # Import original components
 sys.path.append(os.path.join(os.path.dirname(__file__), 'skills', 'topology'))
 from graph_engine import TopologyEngine
@@ -21,6 +27,8 @@ from skills.memory.manager import GazeRecord
 from skills.visualization.heatmap import HeatmapVisualizer
 from skills.visualization.trajectory import TrajectoryVisualizer
 from skills.visualization.network import NetworkVisualizer
+# 像素级热力图可视化器
+from skills.visualization.pixel_heatmap import PixelHeatmapVisualizer
 
 
 class EyeLLMAgent:
@@ -34,13 +42,13 @@ class EyeLLMAgent:
     - Backward compatibility with original methods
     """
 
-    def __init__(self, map_name='TH', model_name='gpt-4o', use_new_architecture=True):
+    def __init__(self, map_name='TH', model_name=None, use_new_architecture=True):
         """
         初始化Agent
 
         Args:
             map_name: 地图名称 (默认'TH')
-            model_name: LLM模型名称
+            model_name: LLM模型名称 (默认None, 从环境变量读取)
             use_new_architecture: 是否使用新架构 (默认True)
         """
         self.map_name = map_name
@@ -63,9 +71,9 @@ class EyeLLMAgent:
                 self.heatmap_viz = HeatmapVisualizer(self.topology)
                 self.trajectory_viz = TrajectoryVisualizer(self.topology)
                 self.network_viz = NetworkVisualizer(self.topology)
+                # 像素级热力图可视化器（延迟初始化，需要图片路径）
+                self.pixel_heatmap_viz = None
 
-                print(f"✅ Eye-LLM Agent initialized with new architecture")
-                print(f"   Map: {map_name}")
                 print(f"   Model: {self.config.model.llm_model}")
 
             except Exception as e:
@@ -178,6 +186,46 @@ class EyeLLMAgent:
 
         self.trajectory_viz.plot_gaze_trajectory(history, output_path=output_path)
         print(f"✅ Trajectory visualization saved to: {output_path}")
+
+    def visualize_pixel_heatmap(self, image_path: str, output_dir: str = "data/outputs/heatmaps"):
+        """
+        在原图上绘制像素级热力图
+
+        Args:
+            image_path: 展厅照片路径
+            output_dir: 输出目录
+
+        Returns:
+            保存的文件路径
+        """
+        if not self.use_new_architecture:
+            raise NotImplementedError("visualize_pixel_heatmap requires new architecture")
+
+        from skills.visualization.pixel_heatmap import PixelHeatmapVisualizer
+
+        # 初始化像素热力图可视化器
+        self.pixel_heatmap_viz = PixelHeatmapVisualizer(image_path)
+
+        # 获取眼动数据并添加到可视化器
+        gaze_data = self.prediction_engine.memory.get_all_history()
+
+        print(f"   Adding {len(gaze_data)} gaze records to heatmap...")
+
+        # 添加眼动数据（模拟的 x, y 坐标）
+        for record in gaze_data:
+            self.pixel_heatmap_viz.add_gaze_record(
+                region_id=record.exhibit_id,
+                duration=record.actual_duration or record.estimated_duration,
+                pixel_x=None,  # 实际凝视坐标（如果有）
+                pixel_y=None
+            )
+
+        # 计算热力图并保存
+        output_path = self.pixel_heatmap_viz.visualize(
+            output_path=f"{output_dir}/pixel_heatmap_overlay.png"
+        )
+
+        return output_path
 
     def visualize_heatmap(self, output_dir: str = "data/outputs/heatmaps"):
         """

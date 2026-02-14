@@ -34,7 +34,7 @@ class ModelConfig:
     # SAM 2 API配置（Replicate）
     sam2_api_provider: str = "replicate"
     replicate_api_token: str = None
-    sam2_model_version: str = "meta/sam2-hiera-large"  # large/base/small
+    sam2_model_version: str = "lucataco/segment-anything-2"  # 可用模型（免费账户有速率限制）
 
     def __post_init__(self):
         """从环境变量加载配置"""

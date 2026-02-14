@@ -9,7 +9,7 @@ when the buffer is full.
 from collections import deque
 from typing import List
 
-from .manager import GazeRecord
+from .records import GazeRecord
 
 
 class ShortTermMemory:
