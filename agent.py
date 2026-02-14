@@ -28,7 +28,7 @@ from skills.visualization.heatmap import HeatmapVisualizer
 from skills.visualization.trajectory import TrajectoryVisualizer
 from skills.visualization.network import NetworkVisualizer
 # 像素级热力图可视化器
-from skills.visualization.pixel_heatmap import PixelHeatmapVisualizer
+from skills.visualization.pixel_heatmap import GazeHeatmapVisualizer
 
 
 class EyeLLMAgent:
@@ -201,10 +201,10 @@ class EyeLLMAgent:
         if not self.use_new_architecture:
             raise NotImplementedError("visualize_pixel_heatmap requires new architecture")
 
-        from skills.visualization.pixel_heatmap import PixelHeatmapVisualizer
+        from skills.visualization.pixel_heatmap import GazeHeatmapVisualizer
 
         # 初始化像素热力图可视化器
-        self.pixel_heatmap_viz = PixelHeatmapVisualizer(image_path)
+        self.pixel_heatmap_viz = GazeHeatmapVisualizer(image_path)
 
         # 获取眼动数据并添加到可视化器
         gaze_data = self.prediction_engine.memory.get_all_history()
