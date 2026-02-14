@@ -439,3 +439,55 @@ prediction = agent.predict_next_gaze(history)
 *实施完成时间: 2025-02-05*
 *适合用于: IROS 2026 会议投稿*
 *系统状态: 生产就绪 ✅*
+
+---
+
+## 🔧 Git 工作流程
+
+> **重要：每次代码修改后都要进行 git commit**
+
+### Commit 规范
+
+```bash
+# 1. 查看修改状态
+git status
+
+# 2. 添加所有修改
+git add -A
+
+# 3. 提交（使用描述性信息）
+git commit -m "feat: 简短描述
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+```
+
+### Commit 消息格式
+
+```
+feat: <主要功能描述>
+
+详细更新：
+- 添加了 XXX 功能
+- 修复了 XXX bug
+- 更新了 XXX 文件
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+```
+
+### 示例
+
+```
+feat: 添加眼动热力图和轨迹可视化系统
+
+主要更新：
+- 实现像素级热力图可视化器 (pixel_heatmap.py)
+- 实现眼动轨迹可视化器 (gaze_trajectory.py)
+- 更新 VLM mapper 支持详细展品描述
+- 添加 SAM 2 分割模块 (segmentation/)
+- 生成多张热力图和轨迹可视化
+- 更新文档标注使用 UV 包管理器
+
+Co-Authored-By: Claude Opus 4.5
+```
+
+---
