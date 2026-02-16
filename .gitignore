@@ -7,17 +7,41 @@ wheels/
 *.egg-info
 
 # Virtual environments
-.venv
-.env
+.venv/
+.env/
+uv/
 
 # Large model files
 models/**/*.pt
 models/**/*.pth
 models/**/*.bin
 models/**/*.safetensors
+*.pt
+*.pth
 
-# Large data files
-skills/topology/assets/*.xlsx
-skills/topology/assets/*.xls
-data/raw/*.xlsx
-data/raw/*.xls
+# Large data files - Excel
+**/*.xlsx
+**/*.xls
+!*.gitkeep
+
+# Processed data outputs
+data/outputs/**/*.png
+data/outputs/**/*.jpg
+data/outputs/**/*.jpeg
+
+# Temporary files
+temp_*.json
+temp_*.txt
+*.backup
+*_backup.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
