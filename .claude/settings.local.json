@@ -20,7 +20,9 @@
       "Bash(dir:*)",
       "Bash(C:Userssupa_2AppDataRoaminguvpythoncpython-3.11.13-windows-x86_64-nonepython.exe -c \"\nimport os\nimport shutil\nsrc = ''D:/Python/IROS 2026_gaze/IROS_AGENT''\ndst = src + ''/scripts/check''\nos.makedirs\\(dst, exist_ok=True\\)\ncheck_files = [''check_topology.py'', ''check_topology2.py'', ''check_topology3.py'', ''check_raw_data.py'', ''check_th_map.py'']\nfor f in check_files:\n    s = os.path.join\\(src, f\\)\n    if os.path.exists\\(s\\):\n        shutil.move\\(s, os.path.join\\(dst, f\\)\\)\n        print\\(f''Moved: {f}''\\)\nprint\\(''Done moving check scripts''\\)\n\")",
       "Bash(\"/c/Users/supa_2/AppData/Roaming/uv/python/cpython-3.11.13-windows-x86_64-none/python.exe\" -c \"\nimport os, shutil\nsrc = ''D:/Python/IROS 2026_gaze/IROS_AGENT''\ndst = src + ''/scripts/check''\nos.makedirs\\(dst, exist_ok=True\\)\nfor f in [''check_topology.py'', ''check_topology2.py'', ''check_topology3.py'', ''check_raw_data.py'', ''check_th_map.py'']:\n    s = src + ''/'' + f\n    if os.path.exists\\(s\\):\n        shutil.move\\(s, dst + ''/'' + f\\)\n        print\\(f''Moved: {f}''\\)\n\")",
-      "Bash(\".venv/Scripts/python.exe\" -m pip list)"
+      "Bash(\".venv/Scripts/python.exe\" -m pip list)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
     ]
   }
 }
