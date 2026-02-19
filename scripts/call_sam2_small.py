@@ -21,7 +21,7 @@ from sam2.build_sam import build_sam2
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
-def load_sam2_small(model_path="models/sam2/sam2-hiera-small.pt",
+def load_sam2_small(model_path="models/sam2/sam2_hiera_small.pt",
                     config_path="sam2/configs/sam2-hiera-small.yaml",
                     device="auto"):
     """
@@ -264,19 +264,24 @@ def create_overlay(result, output_dir):
 
 def find_model_and_config():
     """Auto-find model and config files in common paths."""
-    # Possible model paths
+    # Possible model paths (try both underscore and hyphen naming)
     model_candidates = [
+        "models/sam2/sam2_hiera_small.pt",
         "models/sam2/sam2-hiera-small.pt",
+        "models/sam2_hiera_small.pt",
         "models/sam2-hiera-small.pt",
+        "../models/sam2_hiera_small.pt",
         "../models/sam2-hiera-small.pt",
-        "../../models/sam2-hiera-small.pt",
+        "../../models/sam2_hiera_small.pt",
+        "~/models/sam2_hiera_small.pt",
         "~/models/sam2-hiera-small.pt",
-        "/opt/models/sam2-hiera-small.pt",
+        "/opt/models/sam2_hiera_small.pt",
     ]
 
     # Possible config paths
     config_candidates = [
         "sam2/configs/sam2-hiera-small.yaml",
+        "sam2/configs/sam2_hiera_small.yaml",
         "configs/sam2-hiera-small.yaml",
         "../sam2_repo/sam2/configs/sam2-hiera-small.yaml",
     ]
