@@ -29,26 +29,30 @@ def ensure_sam2_installed():
         from sam2.build_sam import build_sam2
         return True
     except ImportError:
-        print("[*] sam2 未安装，正在从 GitHub 安装...")
+        print("[*] SAM2 未安装，正在从 GitHub 安装...")
         try:
             # 安装官方 SAM2 包
-            subprocess.run(
+            result = subprocess.run(
                 [sys.executable, "-m", "pip", "install",
                  "git+https://github.com/facebookresearch/segment-anything-2.git"],
-                check=True,
-                capture_output=True
+                capture_output=True,
+                text=True
             )
-            print("[+] SAM2 安装成功!")
-            return True
-        except subprocess.CalledProcessError as e:
-            print(f"[!] SAM2 安装失败: {e}")
-            print("\n请手动运行:")
-            print("  pip install git+https://github.com/facebookresearch/segment-anything-2.git")
+            if result.returncode == 0:
+                print("[+] SAM2 安装成功!")
+                print("[*] 请重新运行脚本")
+                return False
+            else:
+                print(f"[!] SAM2 安装失败: {result.stderr}")
+                return False
+        except Exception as e:
+            print(f"[!] SAM2 安装异常: {e}")
             return False
 
-# 尝试导入 sam2
+# 检查并尝试安装
 if not ensure_sam2_installed():
-    print("[!] 无法继续，请先安装 SAM2")
+    print("\n请重新运行:")
+    print("  python scripts/vlm_sam2_pipeline.py --image data/R.jpg")
     sys.exit(1)
 
 import torch
