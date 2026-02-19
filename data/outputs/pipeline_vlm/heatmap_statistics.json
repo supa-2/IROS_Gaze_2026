@@ -1,0 +1,121 @@
+{
+  "EX-000": {
+    "label": "画作1",
+    "type": "画作",
+    "fixation_count": 3,
+    "total_duration": 76.73043745286654,
+    "avg_duration": 25.576812484288848,
+    "bbox": [
+      27,
+      218,
+      240,
+      445
+    ],
+    "center": [
+      133,
+      331
+    ]
+  },
+  "EX-001": {
+    "label": "画作2",
+    "type": "画作",
+    "fixation_count": 2,
+    "total_duration": 82.31627561056862,
+    "avg_duration": 41.15813780528431,
+    "bbox": [
+      256,
+      229,
+      342,
+      404
+    ],
+    "center": [
+      299,
+      316
+    ]
+  },
+  "EX-002": {
+    "label": "画作3",
+    "type": "画作",
+    "fixation_count": 2,
+    "total_duration": 66.84264309652202,
+    "avg_duration": 33.42132154826101,
+    "bbox": [
+      362,
+      257,
+      402,
+      365
+    ],
+    "center": [
+      382,
+      311
+    ]
+  },
+  "EX-003": {
+    "label": "画作4",
+    "type": "画作",
+    "fixation_count": 1,
+    "total_duration": 18.680374211075968,
+    "avg_duration": 18.680374211075968,
+    "bbox": [
+      405,
+      265,
+      427,
+      354
+    ],
+    "center": [
+      416,
+      309
+    ]
+  },
+  "EX-004": {
+    "label": "画作5",
+    "type": "画作",
+    "fixation_count": 6,
+    "total_duration": 379.773535647916,
+    "avg_duration": 63.29558927465266,
+    "bbox": [
+      465,
+      275,
+      564,
+      327
+    ],
+    "center": [
+      514,
+      301
+    ]
+  },
+  "EX-005": {
+    "label": "雕塑A",
+    "type": "雕塑",
+    "fixation_count": 4,
+    "total_duration": 113.6941396771948,
+    "avg_duration": 28.4235349192987,
+    "bbox": [
+      545,
+      334,
+      584,
+      381
+    ],
+    "center": [
+      564,
+      357
+    ]
+  },
+  "EX-006": {
+    "label": "画作6",
+    "type": "画作",
+    "fixation_count": 2,
+    "total_duration": 19.015632840268317,
+    "avg_duration": 9.507816420134159,
+    "bbox": [
+      761,
+      213,
+      996,
+      434
+    ],
+    "center": [
+      878,
+      323
+    ]
+  }
+}

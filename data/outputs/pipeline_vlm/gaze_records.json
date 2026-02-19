@@ -1,0 +1,252 @@
+[
+  {
+    "x": 110,
+    "y": 319,
+    "duration": 48.65866661391182,
+    "exhibit_id": "EX-000",
+    "exhibit_name": "画作1",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 1
+  },
+  {
+    "x": 287,
+    "y": 303,
+    "duration": 70.23423675116418,
+    "exhibit_id": "EX-001",
+    "exhibit_name": "画作2",
+    "attention_level": "A",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 2
+  },
+  {
+    "x": 378,
+    "y": 324,
+    "duration": 7.118361971406157,
+    "exhibit_id": "EX-002",
+    "exhibit_name": "画作3",
+    "attention_level": "E",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 3
+  },
+  {
+    "x": 427,
+    "y": 326,
+    "duration": 62.93347703624243,
+    "exhibit_id": "EX-003",
+    "exhibit_name": "画作4",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 4
+  },
+  {
+    "x": 528,
+    "y": 283,
+    "duration": 13.094718884044388,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 5
+  },
+  {
+    "x": 548,
+    "y": 361,
+    "duration": 3.0862911780193087,
+    "exhibit_id": "EX-005",
+    "exhibit_name": "雕塑A",
+    "attention_level": "E",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 6
+  },
+  {
+    "x": 858,
+    "y": 342,
+    "duration": 7.4761717392898035,
+    "exhibit_id": "EX-006",
+    "exhibit_name": "画作6",
+    "attention_level": "E",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 7
+  },
+  {
+    "x": 585,
+    "y": 343,
+    "duration": 48.11786271650256,
+    "exhibit_id": "EX-005",
+    "exhibit_name": "雕塑A",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 8
+  },
+  {
+    "x": 898,
+    "y": 300,
+    "duration": 11.539461100978516,
+    "exhibit_id": "EX-006",
+    "exhibit_name": "画作6",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 9
+  },
+  {
+    "x": 569,
+    "y": 371,
+    "duration": 43.90878578814661,
+    "exhibit_id": "EX-005",
+    "exhibit_name": "雕塑A",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 10
+  },
+  {
+    "x": 397,
+    "y": 316,
+    "duration": 59.724281125115866,
+    "exhibit_id": "EX-002",
+    "exhibit_name": "画作3",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 11
+  },
+  {
+    "x": 565,
+    "y": 335,
+    "duration": 7.312641184331158,
+    "exhibit_id": "EX-005",
+    "exhibit_name": "雕塑A",
+    "attention_level": "E",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 12
+  },
+  {
+    "x": 580,
+    "y": 380,
+    "duration": 59.386421526697724,
+    "exhibit_id": "EX-005",
+    "exhibit_name": "雕塑A",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 13
+  },
+  {
+    "x": 523,
+    "y": 326,
+    "duration": 79.09683376012777,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 14
+  },
+  {
+    "x": 433,
+    "y": 328,
+    "duration": 41.205635373595925,
+    "exhibit_id": "EX-003",
+    "exhibit_name": "画作4",
+    "attention_level": "C",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 15
+  },
+  {
+    "x": 496,
+    "y": 285,
+    "duration": 45.63654546893549,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 16
+  },
+  {
+    "x": 128,
+    "y": 345,
+    "duration": 6.140680409974704,
+    "exhibit_id": "EX-000",
+    "exhibit_name": "画作1",
+    "attention_level": "E",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 17
+  },
+  {
+    "x": 528,
+    "y": 310,
+    "duration": 19.671406081921766,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 18
+  },
+  {
+    "x": 511,
+    "y": 276,
+    "duration": 149.31173440971148,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "A",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 19
+  },
+  {
+    "x": 139,
+    "y": 355,
+    "duration": 21.93109042898001,
+    "exhibit_id": "EX-000",
+    "exhibit_name": "画作1",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 20
+  },
+  {
+    "x": 291,
+    "y": 317,
+    "duration": 12.082038859404452,
+    "exhibit_id": "EX-001",
+    "exhibit_name": "画作2",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 21
+  },
+  {
+    "x": 414,
+    "y": 312,
+    "duration": 18.680374211075968,
+    "exhibit_id": "EX-003",
+    "exhibit_name": "画作4",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 22
+  },
+  {
+    "x": 403,
+    "y": 299,
+    "duration": 15.86374279140539,
+    "exhibit_id": "EX-003",
+    "exhibit_name": "画作4",
+    "attention_level": "D",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 23
+  },
+  {
+    "x": 525,
+    "y": 314,
+    "duration": 72.96229704317514,
+    "exhibit_id": "EX-004",
+    "exhibit_name": "画作5",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 24
+  },
+  {
+    "x": 438,
+    "y": 323,
+    "duration": 64.3779971929098,
+    "exhibit_id": "EX-003",
+    "exhibit_name": "画作4",
+    "attention_level": "B",
+    "timestamp": "2026-02-19T22:34:55.785848",
+    "sequence": 25
+  }
+]

@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Eye-LLM 完整工作流
-SAM2 分割 + 眼动追踪 + 记忆系统 + 预测引擎 + 可视化
+眼动可视化完整工作流
+
+VLM 展品识别 + 眼动数据 + 热力图 + 轨迹图
+
+使用方式:
+    python scripts/full_pipeline.py --image data/R.jpg
+
+    如果已有 VLM 识别结果:
+    python scripts/full_pipeline.py --image data/R.jpg --vlm-result data/outputs/vlm/vlm_result.json
 """
 
 import os
@@ -10,257 +17,235 @@ import sys
 import json
 import argparse
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 from datetime import datetime
 
-# Add project root to path
+# 获取项目根目录
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
 sys.path.insert(0, project_root)
 
-# Import project modules
-from skills.memory.manager import MemoryManager, GazeRecord
-from skills.prediction.engine import PredictionEngine
-from skills.visualization.heatmap import HeatmapVisualizer
-from skills.visualization.trajectory import TrajectoryVisualizer
-
-# SAM2 imports (lazy load)
-try:
-    import torch
-    from sam2.build_sam import build_sam2
-    from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
-    SAM2_AVAILABLE = True
-except ImportError:
-    SAM2_AVAILABLE = False
-    print("[!] SAM2 不可用，将使用已有分割结果")
+from skills.visualization.pixel_heatmap import GazeHeatmapVisualizer, GazeRegion
+from skills.visualization.gaze_trajectory import GazeTrajectoryVisualizer
 
 
 # ============================================
-# Step 0: VLM 过滤 - 识别真正展品
+# VLM 展品识别
 # ============================================
 
-def filter_exhibits_with_vlm(image_path, exhibits, output_dir):
-    """使用 VLM 过滤出真正的展品"""
+def run_vlm_recognition(image_path, api_key=None):
+    """使用 VLM 识别展品"""
+    import base64
+    import re
+
     print("\n" + "=" * 60)
-    print("[Step 0/5] VLM 过滤 - 识别真正展品")
+    print("[Step 1/5] VLM 展品识别")
     print("=" * 60)
 
-    print(f"[*] 使用 Qwen VLM 分析 {len(exhibits)} 个检测区域...")
+    # 获取 API key
+    api_key_to_use = api_key or os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
+    if not api_key_to_use or api_key_to_use == "your_api_key_here":
+        print("[!] 错误: 未找到有效的 API Key")
+        print("    请在 .env 文件中设置 QWEN_API_KEY")
+        return None
 
-    # 加载配置
-    from config import Config
-    config = Config()
+    base_url = os.getenv("QWEN_BASE_URL") or os.getenv("OPENAI_BASE_URL",
+                                                         "https://dashscope.aliyuncs.com/compatible-mode/v1")
+    model = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
 
-    # 简化版 VLM 过滤：基于位置和面积特征
-    filtered_exhibits = []
-    for i, exhibit in enumerate(exhibits):
-        bbox = exhibit['bbox']
-        area = exhibit['area']
-        center = exhibit['center']
+    print(f"[*] API: {base_url}")
+    print(f"[*] Model: {model}")
 
-        # 过滤规则：
-        # 1. 面积合理范围
-        # 2. 置信度足够高
-        # 3. 不是整个图像
+    # 编码图片
+    with open(image_path, "rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode('utf-8')
 
-        x1, y1, x2, y2 = bbox
-        img_width, img_height = 1100, 600
+    prompt = """请分析这张展厅图片，识别出所有值得观看的展品。
 
-        # 检查是否覆盖整个图像（过滤掉背景检测）
-        covers_too_much = (area > (img_width * img_height * 0.5))
+对于每个展品，请提供：
+1. 展品名称（如：画作1、雕塑A）
+2. 展品类型（如：画作、雕塑、装置艺术）
+3. 在图片中的位置（边界框坐标 [x1, y1, x2, y2]，其中 (0,0) 是左上角，(1100, 600) 是右下角）
+4. 简短描述
 
-        # 检查面积
-        min_area, max_area = 10000, 150000
-        valid_area = min_area < area < max_area
+请以 JSON 格式返回：
+[
+  {
+    "name": "展品名称",
+    "type": "展品类型",
+    "bbox": [x1, y1, x2, y2],
+    "description": "简短描述"
+  }
+]
 
-        # 检查置信度
-        high_confidence = exhibit['confidence'] > 0.80
+要求：
+- 只识别真正的展品（画作、雕塑等），忽略墙壁、地板、展柜、灯光
+- 边界框要紧凑地包围展品主体
+- 坐标范围：x: 0-1100, y: 0-600
+- 返回 3-10 个主要展品即可"""
 
-        is_valid = valid_area and not covers_too_much and high_confidence
+    print("[*] 调用 VLM API...")
 
-        if is_valid:
-            # 简化命名（实际可用 VLM 识别）
-            if area > 80000:
-                name = "大型展品"
-            elif area > 40000:
-                name = "中型展品"
-            else:
-                name = "小型展品"
+    try:
+        from openai import OpenAI
 
-            exhibit['name'] = f"{name}_{len(filtered_exhibits)+1}"
-            filtered_exhibits.append(exhibit)
+        client = OpenAI(
+            api_key=api_key_to_use,
+            base_url=base_url
+        )
 
-            print(f"  [+] #{len(filtered_exhibits)}: {exhibit['name']} - area={area}, conf={exhibit['confidence']:.2f}")
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}
+                        }
+                    ]
+                }
+            ],
+            temperature=0.3,
+            max_tokens=2000
+        )
+
+        result_text = response.choices[0].message.content
+        print(f"[+] VLM 响应收到")
+
+        # 解析 JSON
+        json_match = re.search(r'\[.*\]', result_text, re.DOTALL)
+        if json_match:
+            exhibits = json.loads(json_match.group())
+
+            # 验证并过滤
+            valid_exhibits = []
+            for i, ex in enumerate(exhibits):
+                bbox = ex.get('bbox', [])
+                if len(bbox) == 4:
+                    x1, y1, x2, y2 = bbox
+                    try:
+                        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                        if 0 <= x1 < x2 <= 1100 and 0 <= y1 < y2 <= 600:
+                            area = (x2 - x1) * (y2 - y1)
+                            if 1000 < area < 500000:
+                                valid_exhibits.append({
+                                    "id": f"EX-{i:03d}",
+                                    "name": ex.get('name', f'展品{i+1}'),
+                                    "type": ex.get('type', 'Unknown'),
+                                    "bbox": [x1, y1, x2, y2],
+                                    "description": ex.get('description', '')
+                                })
+                    except ValueError:
+                        continue
+
+            print(f"[+] 识别到 {len(valid_exhibits)} 个有效展品")
+            return valid_exhibits
+
         else:
-            print(f"  [-] Filtered: area={area}, too_large={covers_too_much}, conf={exhibit['confidence']:.2f}")
+            print("[!] 无法解析 VLM 响应为 JSON")
+            return None
 
-    print(f"\n[+] 保留 {len(filtered_exhibits)}/{len(exhibits)} 个有效展品")
-
-    # 保存过滤结果
-    os.makedirs(output_dir, exist_ok=True)
-    filter_path = os.path.join(output_dir, "00_filtered_exhibits.json")
-    with open(filter_path, 'w', encoding='utf-8') as f:
-        json.dump({"filtered_exhibits": filtered_exhibits,
-                   "original_count": len(exhibits),
-                   "filtered_count": len(filtered_exhibits)}, f, indent=2, ensure_ascii=False)
-
-    return filtered_exhibits
+    except Exception as e:
+        print(f"[!] VLM 调用失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
 
 
 # ============================================
-# Step 1: SAM2 分割 - 识别展品
+# 绘制 VLM 识别结果
 # ============================================
 
-def run_segmentation(image_path, output_dir, model_path=None, config_path=None):
-    """运行 SAM2 自动分割"""
-    print("\n" + "=" * 60)
-    print("[Step 1/5] SAM2 分割 - 识别展品")
-    print("=" * 60)
-
-    if not SAM2_AVAILABLE:
-        raise RuntimeError("SAM2 不可用，请使用 --use-existing-seg 参数指定已有分割结果")
-
-    if model_path is None:
-        model_path = os.path.join(project_root, "models/sam2/sam2_hiera_small.pt")
-    if config_path is None:
-        config_path = "configs/sam2/sam2_hiera_s.yaml"
-
-    print(f"[*] 图片: {image_path}")
-    print("[*] 加载 SAM2 模型...")
-
-    sam2_model = build_sam2(
-        config_file=config_path,
-        ckpt_path=model_path,
-        device="cuda" if torch.cuda.is_available() else "cpu",
-    )
-
-    mask_generator = SAM2AutomaticMaskGenerator(
-        model=sam2_model,
-        points_per_side=32,
-        pred_iou_thresh=0.7,
-        stability_score_thresh=0.85,
-        min_mask_region_area=500,
-    )
-
-    print("[*] 运行自动分割...")
-    image = np.array(Image.open(image_path))
-    masks = mask_generator.generate(image)
-
-    # 过滤并排序
-    valid_masks = [m for m in masks if m.get('predicted_iou', 0) > 0.5]
-    valid_masks.sort(key=lambda x: x['area'], reverse=True)
-    valid_masks = valid_masks[:15]  # 保留前15个
-
-    print(f"[+] 检测到 {len(valid_masks)} 个展品")
-
-    # 提取展品信息
-    exhibits = []
-    for i, mask_data in enumerate(valid_masks):
-        bbox = mask_data.get('bbox', [0, 0, 0, 0])  # [x, y, w, h]
-        x1, y1, w, h = bbox
-        center_x = int(x1 + w / 2)
-        center_y = int(y1 + h / 2)
-
-        exhibits.append({
-            "id": f"EX-{i:03d}",
-            "name": f"展品_{i+1}",
-            "bbox": (int(x1), int(y1), int(x1 + w), int(y1 + h)),
-            "center": (center_x, center_y),
-            "area": mask_data.get('area', 0),
-            "confidence": mask_data.get('predicted_iou', 0.0)
-        })
-
-    # 保存分割结果
-    os.makedirs(output_dir, exist_ok=True)
-    seg_path = os.path.join(output_dir, "segmentation.json")
-    with open(seg_path, 'w', encoding='utf-8') as f:
-        json.dump({"exhibits": exhibits}, f, indent=2, ensure_ascii=False)
-
-    # 绘制检测图
-    draw_detection_boxes(image_path, exhibits, os.path.join(output_dir, "01_segmentation.png"))
-
-    return exhibits, image.shape
-
-
-def draw_detection_boxes(image_path, exhibits, output_path):
-    """绘制检测框"""
+def draw_vlm_results(image_path, exhibits, output_path):
+    """绘制 VLM 识别结果"""
     img = Image.open(image_path).convert("RGB")
-    from PIL import ImageDraw, ImageFont
     draw = ImageDraw.Draw(img)
 
     colors = [
         (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
         (255, 0, 255), (0, 255, 255), (255, 128, 0), (128, 0, 255),
-        (0, 128, 128), (128, 128, 0), (128, 0, 0), (0, 128, 0),
-        (0, 0, 128), (128, 128, 128), (255, 255, 255)
+        (0, 128, 128), (128, 128, 0)
     ]
 
-    for exhibit in exhibits:
-        idx = int(exhibit['id'].split('-')[1])
-        bbox = exhibit['bbox']
-        confidence = exhibit['confidence']
-        color = colors[idx % len(colors)]
-
+    for i, ex in enumerate(exhibits):
+        color = colors[i % len(colors)]
+        bbox = ex['bbox']
         x1, y1, x2, y2 = bbox
+
+        # 绘制边界框
         draw.rectangle([x1, y1, x2, y2], outline=color, width=3)
 
-        label = f"{exhibit['id']} ({confidence:.2f})"
+        # 绘制中心点
+        center_x = (x1 + x2) // 2
+        center_y = (y1 + y2) // 2
+        draw.ellipse([center_x-4, center_y-4, center_x+4, center_y+4],
+                     fill=color, outline='white')
+
+        # 绘制标签
+        label = f"{i+1}. {ex['name']}"
         draw.text((x1, y1 - 15), label, fill=color)
 
     img.save(output_path)
+    print(f"[*] 保存: {output_path}")
 
 
 # ============================================
-# Step 2: 眼动数据映射
+# 生成模拟眼动数据
 # ============================================
 
-def create_mock_gaze_data(exhibits, num_gazes=30):
-    """创建模拟眼动数据（实际使用时替换为真实数据）"""
+def generate_gaze_data(exhibits, num_records=25):
+    """
+    生成模拟眼动数据用于演示
+
+    在实际使用中，应该使用真实的眼动追踪数据
+    """
     print("\n" + "=" * 60)
-    print("[Step 2/5] 眼动数据映射")
+    print("[Step 2/5] 生成模拟眼动数据")
     print("=" * 60)
 
-    # 模拟用户按顺序观看展品
+    import random
+
     gaze_records = []
+    attention_levels = ['A', 'B', 'C', 'D', 'E']
+    durations = {'A': 120, 'B': 60, 'C': 30, 'D': 15, 'E': 5}
 
-    # 动态生成观看顺序（基于实际展品数量）
+    # 模拟真实观看顺序：有些展品看多次，有些只看一次
+    visit_pattern = []
     num_exhibits = len(exhibits)
-    visit_order = list(range(num_exhibits))
 
-    # 打乱顺序模拟真实观看
-    np.random.shuffle(visit_order)
+    # 添加一些重复观看（模拟回看）
+    for i in range(num_records):
+        if i < num_exhibits:
+            visit_pattern.append(i)
+        else:
+            # 随机选择之前的展品回看
+            visit_pattern.append(random.randint(0, min(i, num_exhibits - 1)))
 
-    for i in range(min(num_gazes, len(visit_order))):
-        exhibit_idx = visit_order[i]
+    for i, exhibit_idx in enumerate(visit_pattern):
         exhibit = exhibits[exhibit_idx]
-        center = exhibit['center']
+        bbox = exhibit['bbox']
+        center_x = (bbox[0] + bbox[2]) // 2
+        center_y = (bbox[1] + bbox[3]) // 2
 
         # 添加随机偏移
-        offset_x = np.random.randint(-20, 21)
-        offset_y = np.random.randint(-20, 21)
+        x = center_x + random.randint(-25, 25)
+        y = center_y + random.randint(-25, 25)
 
-        # 随机停留时间（5-60秒）
-        duration = np.random.choice([5, 15, 30, 60], p=[0.2, 0.4, 0.3, 0.1])
-
-        # 注意力等级
-        if duration >= 60:
-            level = 'A'
-        elif duration >= 30:
-            level = 'B'
-        elif duration >= 15:
-            level = 'C'
-        elif duration >= 5:
-            level = 'D'
-        else:
-            level = 'E'
+        level = random.choice(attention_levels)
+        duration = durations[level] * random.uniform(0.5, 1.5)
 
         gaze_records.append({
-            "x": center[0] + offset_x,
-            "y": center[1] + offset_y,
-            "exhibit_id": exhibit['id'],
-            "duration": duration,
-            "attention_level": level,
-            "timestamp": i * 1000
+            'x': x,
+            'y': y,
+            'duration': duration,
+            'exhibit_id': exhibit['id'],
+            'exhibit_name': exhibit['name'],
+            'attention_level': level,
+            'timestamp': datetime.now().isoformat(),
+            'sequence': i + 1
         })
 
     print(f"[*] 生成了 {len(gaze_records)} 条眼动记录")
@@ -268,302 +253,152 @@ def create_mock_gaze_data(exhibits, num_gazes=30):
     return gaze_records
 
 
-def map_gaze_to_exhibits(gaze_records, exhibits):
-    """将眼动点映射到展品"""
-    exhibit_map = {e['id']: e for e in exhibits}
-
-    mapped_records = []
-    for gaze in gaze_records:
-        exhibit_id = gaze.get('exhibit_id')
-        if exhibit_id in exhibit_map:
-            exhibit = exhibit_map[exhibit_id]
-            # 使用简化的记录格式（不需要完整的 GazeRecord）
-            from types import SimpleNamespace
-            record = SimpleNamespace(
-                exhibit_id=exhibit_id,
-                exhibit_name=exhibit.get('name', 'Unknown'),
-                x=gaze['x'],
-                y=gaze['y'],
-                duration=gaze['duration'],
-                attention_level=gaze['attention_level'],
-                timestamp=datetime.fromtimestamp(gaze['timestamp'] / 1000)
-            )
-            mapped_records.append(record)
-
-    print(f"[+] 成功映射 {len(mapped_records)} 条记录到 {len(exhibits)} 个展品")
-
-    return mapped_records
-
-
 # ============================================
-# Step 3: 记忆系统
+# 热力图可视化
 # ============================================
 
-def run_memory_system(gaze_records, exhibits, output_dir):
-    """运行记忆系统"""
+def create_heatmap_visualization(image_path, exhibits, gaze_records, output_dir):
+    """创建热力图可视化"""
     print("\n" + "=" * 60)
-    print("[Step 3/5] 记忆系统 - 短期/长期记忆")
+    print("[Step 3/5] 生成热力图")
     print("=" * 60)
 
-    memory = MemoryManager()
+    viz = GazeHeatmapVisualizer(image_path, sigma=50)
 
-    print("[*] 添加眼动记录到记忆...")
+    # 添加展品区域
+    for ex in exhibits:
+        region = GazeRegion(
+            id=ex['id'],
+            label=ex['name'],
+            type=ex['type'],
+            bbox=tuple(ex['bbox'])
+        )
+        viz.regions[region.id] = region
+
+    # 添加眼动记录
     for record in gaze_records:
-        memory.add_observation(
-            exhibit_id=record.exhibit_id,
-            exhibit_name=record.exhibit_name,
-            attention_level=record.attention_level,
-            estimated_duration=record.duration,
-            timestamp=record.timestamp
+        viz.add_gaze_record(
+            region_id=record['exhibit_id'],
+            duration=record['duration'],
+            x=record['x'],
+            y=record['y']
         )
 
-    # 获取统计信息
-    stats = memory.get_statistics()
-    print(f"[+] 短期记忆数: {stats['short_term_count']}")
-    print(f"[+] 长期记忆数: {stats['long_term_count']}")
-    print(f"[+] 唯一展品数: {stats['unique_exhibits']}")
-    print(f"[+] 平均停留时间: {stats['average_duration']:.1f}秒")
+    # 计算热力图
+    viz.calculate_heatmap()
 
-    # 最常访问的展品
-    most_visited = stats.get('most_visited', [])
-    if most_visited:
-        print(f"[+] 最常访问展品: {[e.get('exhibit_id', e) if isinstance(e, dict) else e for e in most_visited]}")
+    # 获取统计
+    stats = viz.get_region_statistics()
+    print(f"[*] 眼动统计: {len(stats)} 个区域有凝视数据")
+    for rid, rstat in stats.items():
+        print(f"    {rstat['label']}: {rstat['fixation_count']} 次凝视, {rstat['total_duration']:.1f}s")
 
-    # 保存记忆状态
-    memory_path = os.path.join(output_dir, "02_memory_state.json")
+    # 保存统计
+    stats_path = os.path.join(output_dir, "heatmap_statistics.json")
+    with open(stats_path, 'w', encoding='utf-8') as f:
+        json.dump(stats, f, indent=2, ensure_ascii=False)
 
-    # 转换 stats 为可 JSON 序列化的格式
-    serializable_stats = {}
-    for key, value in stats.items():
-        if isinstance(value, (np.integer, np.int64)):
-            serializable_stats[key] = int(value)
-        elif isinstance(value, (np.floating, np.float64)):
-            serializable_stats[key] = float(value)
-        elif isinstance(value, list):
-            serializable_stats[key] = [
-                {k: int(v) if isinstance(v, (np.integer, np.int64)) else v for k, v in item.items()}
-                if isinstance(item, dict) else item
-                for item in value
-            ]
-        else:
-            serializable_stats[key] = value
+    # 生成热力图
+    overlay_path = os.path.join(output_dir, "heatmap_overlay.png")
+    viz.visualize_overlay(overlay_path, alpha=0.6)
 
-    with open(memory_path, 'w', encoding='utf-8') as f:
-        json.dump(serializable_stats, f, indent=2, ensure_ascii=False)
+    comparison_path = os.path.join(output_dir, "heatmap_comparison.png")
+    viz.visualize_side_by_side(comparison_path)
 
-    return memory
+    return viz, stats
 
 
 # ============================================
-# Step 4: 预测引擎
+# 轨迹可视化
 # ============================================
 
-def run_prediction(memory, exhibits, output_dir):
-    """运行预测引擎"""
+def create_trajectory_visualization(image_path, exhibits, gaze_records, heatmap_data, output_dir):
+    """创建轨迹可视化"""
     print("\n" + "=" * 60)
-    print("[Step 4/5] 预测引擎 - 预测下一个观看位置")
+    print("[Step 4/5] 生成轨迹图")
     print("=" * 60)
 
-    # 创建预测引擎（使用简化版，不依赖 LLM）
-    print("[*] 初始化预测引擎...")
+    traj_viz = GazeTrajectoryVisualizer(image_path)
 
-    # 获取历史记录
-    history = memory.get_recent(n=50)
+    # 添加区域
+    for ex in exhibits:
+        traj_viz.add_region(
+            region_id=ex['id'],
+            label=ex['name'],
+            bbox=ex['bbox']
+        )
 
-    # 简单的基于频率的预测
-    from collections import Counter
-    exhibit_counts = Counter(r.exhibit_id for r in history)
+    # 添加轨迹点
+    for record in gaze_records:
+        traj_viz.add_trajectory_point(
+            x=record['x'],
+            y=record['y'],
+            duration=record['duration'],
+            region_id=record['exhibit_id']
+        )
 
-    # 找出未访问的展品
-    visited_ids = set(r.exhibit_id for r in history)
-    unvisited = [e for e in exhibits if e['id'] not in visited_ids]
+    # 生成轨迹图
+    trajectory_path = os.path.join(output_dir, "gaze_trajectory.png")
+    traj_viz.visualize(trajectory_path)
 
-    # 基于访问频率和位置预测下一个
-    predictions = []
+    # 生成轨迹+热力图叠加
+    combined_path = os.path.join(output_dir, "trajectory_heatmap_combined.png")
+    traj_viz.visualize_with_heatmap(
+        heatmap_data,
+        combined_path,
+        heatmap_alpha=0.5
+    )
 
-    # 1. 未访问的展品（优先）
-    for e in unvisited[:3]:
-        predictions.append({
-            "exhibit_id": e['id'],
-            "center": e['center'],
-            "reason": "未访问过的展品",
-            "confidence": 0.8
-        })
+    # 统计
+    traj_stats = traj_viz.get_statistics()
+    print(f"[*] 轨迹统计: {traj_stats['total_fixations']} 次凝视, "
+          f"{traj_stats['unique_regions']} 个区域, "
+          f"{traj_stats['region_transitions']} 次转换")
 
-    # 2. 高频访问展品（可能重新观看）
-    for exhibit_id, count in exhibit_counts.most_common(3):
-        if count > 1:
-            e = next(x for x in exhibits if x['id'] == exhibit_id)
-            predictions.append({
-                "exhibit_id": exhibit_id,
-                "center": e['center'],
-                "reason": f"已访问{count}次，可能重新观看",
-                "confidence": 0.5
-            })
+    # 保存统计
+    traj_stats_path = os.path.join(output_dir, "trajectory_statistics.json")
+    with open(traj_stats_path, 'w', encoding='utf-8') as f:
+        json.dump(traj_stats, f, indent=2, ensure_ascii=False)
 
-    print(f"[+] 生成 {len(predictions)} 个预测")
-
-    # 保存预测结果
-    pred_path = os.path.join(output_dir, "03_predictions.json")
-    with open(pred_path, 'w', encoding='utf-8') as f:
-        json.dump({"predictions": predictions}, f, indent=2, ensure_ascii=False)
-
-    return predictions
+    return traj_viz, traj_stats
 
 
 # ============================================
-# Step 5: 可视化
+# 生成综合报告
 # ============================================
 
-def run_visualization(image_path, gaze_records, exhibits, predictions, output_dir):
-    """运行可视化"""
-    print("\n" + "=" * 60)
-    print("[Step 5/5] 可视化 - 热力图 + 轨迹图 + 预测")
-    print("=" * 60)
-
-    img = Image.open(image_path)
-    width, height = img.size
-
-    # 1. 热力图
-    print("[*] 生成热力图...")
-    from scipy.ndimage import gaussian_filter
-
-    heatmap = np.zeros((height, width), dtype=np.float32)
-    for gaze in gaze_records:
-        x, y = int(gaze.x), int(gaze.y)
-        if 0 <= x < width and 0 <= y < height:
-            weight = gaze.duration / 60.0
-            heatmap[y, x] += weight
-
-    heatmap = gaussian_filter(heatmap, sigma=30)
-    if heatmap.max() > 0:
-        heatmap = heatmap / heatmap.max()
-
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-
-    plt.figure(figsize=(12, 6))
-    plt.imshow(img)
-    plt.imshow(heatmap, cmap='jet', alpha=0.5, interpolation='bilinear')
-    plt.colorbar(label='关注度')
-    plt.title('眼动热力图')
-    plt.axis('off')
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, "04_heatmap.png"), dpi=150, bbox_inches='tight')
-    plt.close()
-
-    # 2. 轨迹图
-    print("[*] 生成轨迹图...")
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.imshow(img)
-
-    # 绘制轨迹线
-    if len(gaze_records) > 1:
-        points = [(g.x, g.y) for g in gaze_records]
-        for i in range(len(points) - 1):
-            x1, y1 = points[i]
-            x2, y2 = points[i + 1]
-            alpha = 1 - (i / len(points)) * 0.7
-            ax.plot([x1, x2], [y1, y2], 'r-', linewidth=2, alpha=alpha)
-
-    # 绘制停留点
-    for i, gaze in enumerate(gaze_records):
-        size = gaze.duration / 2
-        alpha = 1 - (i / len(gaze_records)) * 0.5
-        ax.scatter(gaze.x, gaze.y, s=size, c='red', alpha=alpha, edgecolors='white')
-
-        # 每5个点标注序号
-        if i % 5 == 0:
-            ax.text(gaze.x + 15, gaze.y, str(i), color='white', fontsize=10,
-                   bbox=dict(boxstyle='round', facecolor='red', alpha=0.7))
-
-    ax.set_title('眼动轨迹图')
-    ax.axis('off')
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, "05_trajectory.png"), dpi=150, bbox_inches='tight')
-    plt.close()
-
-    # 3. 预测图
-    print("[*] 生成预测图...")
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.imshow(img)
-
-    # 绘制历史轨迹
-    if len(gaze_records) > 1:
-        points = [(g.x, g.y) for g in gaze_records]
-        for i in range(len(points) - 1):
-            x1, y1 = points[i]
-            x2, y2 = points[i + 1]
-            ax.plot([x1, x2], [y1, y2], 'b-', linewidth=1.5, alpha=0.5)
-
-    # 最后一个位置
-    if gaze_records:
-        last = gaze_records[-1]
-        ax.scatter(last.x, last.y, s=100, c='blue', marker='o', edgecolors='white',
-                  linewidths=2, label='当前位置', zorder=10)
-
-    # 绘制预测
-    colors = ['red', 'orange', 'yellow']
-    for i, pred in enumerate(predictions[:5]):
-        cx, cy = pred['center']
-        circle = plt.Circle((cx, cy), 30, fill=False, edgecolor=colors[i % len(colors)],
-                            linewidth=3, linestyle='--')
-        ax.add_patch(circle)
-        ax.scatter(cx, cy, s=50, c=colors[i % len(colors)], marker='*',
-                  edgecolors='white', linewidths=1, zorder=10)
-        ax.text(cx, cy - 40, f"#{i+1}", color=colors[i % len(colors)],
-               fontsize=12, ha='center', fontweight='bold')
-
-    ax.legend(loc='upper right')
-    ax.set_title('预测下一个观看位置')
-    ax.axis('off')
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, "06_prediction.png"), dpi=150, bbox_inches='tight')
-    plt.close()
-
-    print("[+] 所有可视化完成！")
-
-    # 4. 综合报告
-    generate_report(gaze_records, exhibits, predictions, output_dir)
-
-
-def generate_report(gaze_records, exhibits, predictions, output_dir):
+def generate_final_report(exhibits, gaze_records, heatmap_stats, traj_stats, output_dir):
     """生成综合报告"""
-    print("\n[*] 生成综合报告...")
+    print("\n" + "=" * 60)
+    print("[Step 5/5] 生成综合报告")
+    print("=" * 60)
 
-    # 转换数据为可序列化格式
-    exhibits_serializable = []
-    for e in exhibits:
-        e_copy = e.copy()
-        e_copy['bbox'] = tuple(int(x) if isinstance(x, (np.integer, np.int64)) else x for x in e['bbox'])
-        e_copy['center'] = tuple(int(x) if isinstance(x, (np.integer, np.int64)) else x for x in e['center'])
-        e_copy['area'] = int(e['area']) if isinstance(e['area'], (np.integer, np.int64)) else e['area']
-        exhibits_serializable.append(e_copy)
+    # 计算总统计
+    total_duration = sum(r['duration'] for r in gaze_records)
+    avg_duration = total_duration / len(gaze_records) if gaze_records else 0
 
-    gaze_records_serializable = []
-    for g in gaze_records:
-        gaze_records_serializable.append({
-            "exhibit_id": g.exhibit_id,
-            "x": int(g.x) if hasattr(g, 'x') else 0,
-            "y": int(g.y) if hasattr(g, 'y') else 0,
-            "duration": int(g.duration) if hasattr(g, 'duration') else 0,
-            "attention_level": g.attention_level if hasattr(g, 'attention_level') else 'C'
-        })
+    level_counts = {}
+    for r in gaze_records:
+        level = r['attention_level']
+        level_counts[level] = level_counts.get(level, 0) + 1
 
     report = {
         "timestamp": datetime.now().isoformat(),
         "summary": {
             "total_exhibits": len(exhibits),
-            "total_gazes": len(gaze_records),
-            "unique_exhibits_visited": len(set(g.exhibit_id for g in gaze_records)),
-            "average_duration": sum(int(g.duration) if hasattr(g, 'duration') else 0 for g in gaze_records) / len(gaze_records),
+            "total_gaze_records": len(gaze_records),
+            "unique_exhibits_visited": len(set(r['exhibit_id'] for r in gaze_records)),
+            "total_duration": round(total_duration, 1),
+            "average_duration": round(avg_duration, 1),
+            "attention_level_distribution": level_counts
         },
-        "exhibits": exhibits_serializable,
-        "gaze_records": gaze_records_serializable,
-        "predictions": predictions
+        "exhibits": exhibits,
+        "gaze_records": gaze_records,
+        "heatmap_statistics": heatmap_stats,
+        "trajectory_statistics": traj_stats
     }
 
+    # 保存报告
     report_path = os.path.join(output_dir, "FINAL_REPORT.json")
     with open(report_path, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
@@ -573,26 +408,135 @@ def generate_report(gaze_records, exhibits, predictions, output_dir):
     print("【最终报告】")
     print("=" * 60)
     print(f"检测展品数: {report['summary']['total_exhibits']}")
-    print(f"眼动记录数: {report['summary']['total_gazes']}")
+    print(f"眼动记录数: {report['summary']['total_gaze_records']}")
     print(f"访问展品数: {report['summary']['unique_exhibits_visited']}")
+    print(f"总观看时长: {report['summary']['total_duration']:.1f}秒")
     print(f"平均停留: {report['summary']['average_duration']:.1f}秒")
-    print(f"预测数: {len(predictions)}")
-    print(f"\n输出目录: {output_dir}")
+    print(f"注意力分布: {level_counts}")
+    print(f"\n输出目录: {output_dir}/")
     print("=" * 60)
+
+    return report
 
 
 # ============================================
 # Main Pipeline
 # ============================================
 
+def run_full_pipeline(image_path, vlm_result_path=None, output_dir=None, use_vlm=True):
+    """
+    运行完整可视化流程
+
+    Args:
+        image_path: 原始图片路径
+        vlm_result_path: VLM识别结果JSON路径（可选）
+        output_dir: 输出目录
+        use_vlm: 是否运行VLM识别（False时使用已有结果）
+    """
+    print("\n" + "=" * 60)
+    print("眼动可视化完整工作流")
+    print("=" * 60)
+    print(f"输入: {image_path}")
+
+    # 确定输出目录
+    if output_dir is None:
+        output_dir = f"data/outputs/pipeline_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+
+    os.makedirs(output_dir, exist_ok=True)
+    print(f"输出: {output_dir}")
+
+    # 步骤1: VLM展品识别（或加载已有结果）
+    exhibits = None
+
+    if vlm_result_path and os.path.exists(vlm_result_path):
+        # 加载已有结果
+        print(f"\n[*] 加载已有VLM识别结果: {vlm_result_path}")
+        with open(vlm_result_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        exhibits = data.get('exhibits', [])
+
+        # 为没有id的展品添加id
+        for i, ex in enumerate(exhibits):
+            if 'id' not in ex:
+                ex['id'] = f"EX-{i:03d}"
+
+        print(f"[+] 加载了 {len(exhibits)} 个展品")
+
+        # 复制识别图
+        import shutil
+        overlay_src = os.path.join(os.path.dirname(vlm_result_path), "vlm_overlay.png")
+        if os.path.exists(overlay_src):
+            shutil.copy(overlay_src, os.path.join(output_dir, "01_vlm_recognition.png"))
+
+    elif use_vlm:
+        # 运行VLM识别
+        exhibits = run_vlm_recognition(image_path)
+
+        if exhibits:
+            # 保存VLM结果
+            vlm_result = {
+                "image_path": image_path,
+                "num_exhibits": len(exhibits),
+                "exhibits": exhibits
+            }
+            vlm_path = os.path.join(output_dir, "vlm_result.json")
+            with open(vlm_path, 'w', encoding='utf-8') as f:
+                json.dump(vlm_result, f, indent=2, ensure_ascii=False)
+
+            # 绘制识别结果
+            draw_vlm_results(image_path, exhibits, os.path.join(output_dir, "01_vlm_recognition.png"))
+
+    if not exhibits:
+        print("[!] 错误: 没有可用的展品数据")
+        return None
+
+    # 步骤2: 生成眼动数据
+    gaze_records = generate_gaze_data(exhibits, num_records=25)
+
+    # 保存眼动数据
+    gaze_path = os.path.join(output_dir, "gaze_records.json")
+    with open(gaze_path, 'w', encoding='utf-8') as f:
+        json.dump(gaze_records, f, indent=2, ensure_ascii=False)
+
+    # 步骤3: 热力图可视化
+    heatmap_viz, heatmap_stats = create_heatmap_visualization(
+        image_path, exhibits, gaze_records, output_dir
+    )
+
+    # 步骤4: 轨迹可视化
+    traj_viz, traj_stats = create_trajectory_visualization(
+        image_path, exhibits, gaze_records,
+        heatmap_viz.heatmap_data, output_dir
+    )
+
+    # 步骤5: 综合报告
+    report = generate_final_report(
+        exhibits, gaze_records, heatmap_stats, traj_stats, output_dir
+    )
+
+    print("\n" + "=" * 60)
+    print("[完成] 所有可视化已生成!")
+    print(f"输出目录: {output_dir}/")
+    print("=" * 60)
+
+    return {
+        'output_dir': output_dir,
+        'exhibits': exhibits,
+        'gaze_records': gaze_records,
+        'report': report
+    }
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Eye-LLM 完整工作流")
-    parser.add_argument("--image", type=str, default="data/R.jpg", help="输入图片路径")
-    parser.add_argument("--output", type=str, default="data/outputs/full_pipeline", help="输出目录")
-    parser.add_argument("--model", type=str, default=None, help="SAM2 模型路径")
-    parser.add_argument("--config", type=str, default=None, help="SAM2 配置路径")
-    parser.add_argument("--use-existing-seg", type=str, default="data/outputs/sam2_small/segmentation_info.json",
-                       help="使用已有的分割结果（跳过 SAM2）")
+    parser = argparse.ArgumentParser(description="眼动可视化完整工作流")
+    parser.add_argument("--image", type=str, default="data/R.jpg",
+                       help="输入图片路径")
+    parser.add_argument("--vlm-result", type=str, default=None,
+                       help="VLM识别结果JSON路径（默认自动查找）")
+    parser.add_argument("--output", type=str, default=None,
+                       help="输出目录（默认自动生成）")
+    parser.add_argument("--no-vlm", action="store_true",
+                       help="不运行VLM识别，使用已有结果")
 
     args = parser.parse_args()
 
@@ -600,67 +544,25 @@ def main():
         print(f"[!] 错误: 图片不存在: {args.image}")
         return
 
-    print("\n" + "=" * 60)
-    print("Eye-LLM Spatial Intent Prediction - Full Pipeline")
-    print("=" * 60)
-    print(f"Input: {args.image}")
-    print(f"Output: {args.output}")
+    # 如果没有指定VLM结果路径，尝试自动查找
+    vlm_result_path = args.vlm_result
+    if vlm_result_path is None:
+        possible_paths = [
+            "data/outputs/vlm/vlm_result.json",
+            "data/outputs/vlm_sam2/vlm_sam2_result.json"
+        ]
+        for path in possible_paths:
+            if os.path.exists(path):
+                vlm_result_path = path
+                print(f"[*] 自动找到VLM结果: {path}")
+                break
 
-    try:
-        # Step 0/1: SAM2 分割（或使用已有结果）
-        if args.use_existing_seg and os.path.exists(args.use_existing_seg):
-            print(f"\n[*] Using existing segmentation: {args.use_existing_seg}")
-            with open(args.use_existing_seg, 'r') as f:
-                seg_data = json.load(f)
-
-            exhibits = []
-            for det in seg_data.get('detections', []):
-                exhibits.append({
-                    "id": f"EX-{det['id']:03d}",
-                    "name": f"展品_{det['id']+1}",
-                    "bbox": tuple(det['bbox']),
-                    "center": tuple(det['center']),
-                    "area": det.get('area', 0),
-                    "confidence": det.get('confidence', 0.0)
-                })
-
-            # 复制分割图
-            import shutil
-            overlay_src = os.path.dirname(args.use_existing_seg) + "/overlay.png"
-            if os.path.exists(overlay_src):
-                os.makedirs(args.output, exist_ok=True)
-                shutil.copy(overlay_src, os.path.join(args.output, "01_segmentation.png"))
-
-            image_shape = (600, 1100, 3)
-            print(f"[+] Loaded {len(exhibits)} detected regions")
-        else:
-            exhibits, image_shape = run_segmentation(args.image, args.output, args.model, args.config)
-
-        # Step 0: VLM 过滤
-        exhibits = filter_exhibits_with_vlm(args.image, exhibits, args.output)
-
-        # Step 2: 眼动数据映射
-        gaze_records_raw = create_mock_gaze_data(exhibits)
-        gaze_records = map_gaze_to_exhibits(gaze_records_raw, exhibits)
-
-        # Step 3: 记忆系统
-        memory = run_memory_system(gaze_records, exhibits, args.output)
-
-        # Step 4: 预测引擎
-        predictions = run_prediction(memory, exhibits, args.output)
-
-        # Step 5: 可视化
-        run_visualization(args.image, gaze_records, exhibits, predictions, args.output)
-
-        print("\n" + "=" * 60)
-        print("[OK] Pipeline completed!")
-        print(f"[Output] All results saved to: {args.output}/")
-        print("=" * 60)
-
-    except Exception as e:
-        print(f"\n[!] 错误: {e}")
-        import traceback
-        traceback.print_exc()
+    run_full_pipeline(
+        image_path=args.image,
+        vlm_result_path=vlm_result_path,
+        output_dir=args.output,
+        use_vlm=not args.no_vlm and vlm_result_path is None
+    )
 
 
 if __name__ == "__main__":
