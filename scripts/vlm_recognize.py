@@ -26,15 +26,17 @@ def call_qwen_vlm(image_path):
     print("=" * 60)
     print(f"图片: {image_path}")
 
-    # 获取 API 配置
-    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("QWEN_API_KEY")
+    # 获取 API 配置 - 优先使用 Qwen
+    api_key = os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
     if not api_key:
         print("[!] 错误: 未找到 API Key")
-        print("    请设置 OPENAI_API_KEY 或 QWEN_API_KEY 环境变量")
+        print("    请设置 QWEN_API_KEY 环境变量")
         return None
 
     base_url = os.getenv("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
     model = "qwen-vl-max-latest"
+
+    print(f"API Key: {api_key[:20]}..." if len(api_key) > 20 else f"API Key: {api_key}")
 
     print(f"API: {base_url}")
     print(f"Model: {model}")
@@ -207,13 +209,11 @@ def main():
 
     print("\n请确认:")
     print(f"  图片存在: {os.path.exists(args.image)}")
-    print(f"  API Key 已设置: {'Yes' if os.getenv('OPENAI_API_KEY') or os.getenv('QWEN_API_KEY') else 'No'}")
+    print(f"  QWEN_API_KEY 已设置: {'Yes' if os.getenv('QWEN_API_KEY') else 'No'}")
 
-    if not (os.getenv('OPENAI_API_KEY') or os.getenv('QWEN_API_KEY')):
-        print("\n[!] 请先设置 API Key:")
-        print("  export OPENAI_API_KEY=your_key_here")
-        print("  # 或")
-        print("  export QWEN_API_KEY=your_key_here")
+    if not os.getenv('QWEN_API_KEY'):
+        print("\n[!] 请先设置 QWEN_API_KEY:")
+        print("  export QWEN_API_KEY=你的Qwen_API密钥")
         return
 
     # 运行识别
