@@ -11,56 +11,39 @@ import json
 import argparse
 from pathlib import Path
 
-# Get project root directory (parent of scripts/)
+# Get project root directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
-sam2_path = os.path.join(project_root, 'sam2')
 
-# Add sam2 module path
-if sam2_path not in sys.path:
-    sys.path.insert(0, sam2_path)
-
+# Add sam2 module path (already installed via setup_sam2.py)
 import torch
 import numpy as np
 from PIL import Image, ImageDraw
+
+# Import from installed sam2 package
 from sam2.build_sam import build_sam2
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
-def load_sam2_small(model_path=None,
-                    config_path=None,
-                    device="auto"):
+def load_sam2_small(model_path=None, config_path=None, device="auto"):
     """
     Load SAM 2 Small model
 
     Args:
         model_path: Model file path (auto-search if None)
-        config_path: Config file path (auto-search if None)
+        config_path: Config file path for Hydra (use relative path like "configs/sam2/sam2_hiera_s.yaml")
         device: Device selection ("auto", "cuda", "cpu")
 
     Returns:
         SAM2ImagePredictor instance
     """
     # Get project root
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
-
-    # Default paths
     if model_path is None:
         model_path = os.path.join(project_root, "models/sam2/sam2_hiera_small.pt")
     if config_path is None:
-        config_path = os.path.join(project_root, "sam2/configs/sam2/sam2_hiera_s.yaml")
-    """
-    Load SAM 2 Small model
+        # Use relative path for Hydra (relative to sam2 package)
+        config_path = "configs/sam2/sam2_hiera_s.yaml"
 
-    Args:
-        model_path: Model file path
-        config_path: Config file path
-        device: Device selection ("auto", "cuda", "cpu")
-
-    Returns:
-        SAM2ImagePredictor instance
-    """
     print("=" * 60)
     print("SAM 2 Small Model Loading")
     print("=" * 60)
@@ -75,16 +58,14 @@ def load_sam2_small(model_path=None,
             device = "cpu"
             print("[Device] CPU")
 
-    # Check file existence
+    # Check model file existence
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model file not found: {model_path}")
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f"Config file not found: {config_path}")
 
     print(f"[Model] {model_path}")
-    print(f"[Config] {config_path}")
+    print(f"[Config] {config_path} (Hydra relative path)")
 
-    # Load model
+    # Load model using Hydra config path
     print("\nLoading model...")
     sam2_model = build_sam2(
         config_file=config_path,
@@ -102,29 +83,16 @@ def load_sam2_small(model_path=None,
 
 
 def segment_image(predictor, image_path, auto_segment=True):
-    """
-    Segment image
-
-    Args:
-        predictor: SAM2 predictor
-        image_path: Image path
-        auto_segment: Whether to use auto segmentation
-
-    Returns:
-        Segmentation result dict
-    """
+    """Segment image"""
     print(f"\n[Segment] Image: {image_path}")
 
-    # Load image
     image = np.array(Image.open(image_path))
     print(f"[Size] {image.shape}")
 
-    # Set image
     predictor.set_image(image)
     print("[+] Image set")
 
     if auto_segment:
-        # Auto segment
         print("[Mode] Auto segment")
         masks, scores, logits = predictor.predict(
             point_coords=None,
@@ -133,7 +101,6 @@ def segment_image(predictor, image_path, auto_segment=True):
             multimask_output=True,
         )
     else:
-        # Manual point segment
         print("[Mode] Manual point segment")
         h, w = image.shape[:2]
         point_coords = np.array([[w//2, h//2]])
@@ -148,7 +115,6 @@ def segment_image(predictor, image_path, auto_segment=True):
     print(f"[+] Segment done! Detected {len(masks)} masks")
     print(f"   Confidence range: {scores.min():.3f} ~ {scores.max():.3f}")
 
-    # Extract boxes and centers
     boxes, centers = extract_boxes_and_centers(masks)
 
     return {
@@ -173,7 +139,6 @@ def extract_boxes_and_centers(masks):
         else:
             mask_array = mask
 
-        # Calculate bbox
         rows = np.any(mask_array, axis=1)
         cols = np.any(mask_array, axis=0)
 
@@ -182,7 +147,6 @@ def extract_boxes_and_centers(masks):
             cmin, cmax = np.where(cols)[0][[0, -1]]
             boxes.append((int(cmin), int(rmin), int(cmax), int(rmax)))
 
-            # Calculate center
             center_x = int(np.mean([cmin, cmax]))
             center_y = int(np.mean([rmin, rmax]))
             centers.append((center_x, center_y))
@@ -195,9 +159,6 @@ def extract_boxes_and_centers(masks):
 
 def save_results(result, output_dir, show_overlay=True):
     """Save segmentation results to disk."""
-    import os
-    from PIL import Image
-
     os.makedirs(output_dir, exist_ok=True)
 
     # Save mask images
@@ -238,7 +199,6 @@ def save_results(result, output_dir, show_overlay=True):
         json.dump(info, f, indent=2, ensure_ascii=False)
     print(f"  [*] Info: {info_path}")
 
-    # Create overlay visualization
     if show_overlay and result.get('boxes'):
         create_overlay(result, output_dir)
 
@@ -247,8 +207,6 @@ def save_results(result, output_dir, show_overlay=True):
 
 def create_overlay(result, output_dir):
     """Create segmentation result overlay image"""
-    from PIL import Image
-
     image_path = result.get("image_path")
     if not os.path.exists(image_path):
         print("  [!] Original image not found, skip overlay")
@@ -257,13 +215,12 @@ def create_overlay(result, output_dir):
     image = Image.open(image_path).convert("RGBA")
     masks = result.get('masks', [])
 
-    # Assign colors for each mask
     colors = [
-        (255, 0, 0, 128),    # Red
-        (0, 255, 0, 128),    # Green
-        (0, 0, 255, 128),    # Blue
-        (255, 255, 0, 128),  # Yellow
-        (255, 0, 255, 128),  # Magenta
+        (255, 0, 0, 128),
+        (0, 255, 0, 128),
+        (0, 0, 255, 128),
+        (255, 255, 0, 128),
+        (255, 0, 255, 128),
     ]
 
     for i, mask in enumerate(masks[:len(colors)]):
@@ -273,64 +230,15 @@ def create_overlay(result, output_dir):
         else:
             mask_array = mask
 
-        # Create RGBA mask
         mask_rgba = np.zeros((*mask_array.shape, 4), dtype=np.uint8)
         mask_rgba[mask_array] = color
 
         mask_img = Image.fromarray(mask_rgba, 'RGBA')
-
-        # Composite onto original image
         image = Image.alpha_composite(image.convert('RGBA'), mask_img)
 
-    # Save overlay
     overlay_path = os.path.join(output_dir, "overlay.png")
     image.convert('RGB').save(overlay_path)
     print(f"  [*] Overlay: {overlay_path}")
-
-
-def find_model_and_config():
-    """Auto-find model and config files in common paths."""
-    # Get project root
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
-
-    # Possible model paths (try both underscore and hyphen naming)
-    model_candidates = [
-        os.path.join(project_root, "models/sam2/sam2_hiera_small.pt"),
-        os.path.join(project_root, "models/sam2/sam2-hiera-small.pt"),
-        os.path.join(project_root, "models/sam2_hiera_small.pt"),
-        "models/sam2/sam2_hiera_small.pt",
-        "models/sam2/sam2-hiera-small.pt",
-        "~/models/sam2_hiera_small.pt",
-        "/opt/models/sam2_hiera_small.pt",
-    ]
-
-    # Possible config paths
-    config_candidates = [
-        os.path.join(project_root, "sam2/configs/sam2/sam2_hiera_s.yaml"),
-        os.path.join(project_root, "sam2/configs/sam2-hiera-small.yaml"),
-        os.path.join(project_root, "sam2/configs/sam2_hiera_s.yaml"),
-        "sam2/configs/sam2/sam2_hiera_s.yaml",
-        "sam2/configs/sam2-hiera-small.yaml",
-        "sam2/configs/sam2_hiera_s.yaml",
-    ]
-
-    model_path = None
-    config_path = None
-
-    for candidate in model_candidates:
-        expanded = os.path.expanduser(candidate)
-        if os.path.exists(expanded):
-            model_path = expanded
-            break
-
-    for candidate in config_candidates:
-        expanded = os.path.expanduser(candidate)
-        if os.path.exists(expanded):
-            config_path = expanded
-            break
-
-    return model_path, config_path
 
 
 def main():
@@ -338,19 +246,11 @@ def main():
     parser.add_argument("--image", type=str, help="Input image path")
     parser.add_argument("--output", type=str, default="data/outputs/sam2_small", help="Output directory")
     parser.add_argument("--model", type=str, default=None, help="Model path (auto-search if not specified)")
-    parser.add_argument("--config", type=str, default=None, help="Config file path (auto-search if not specified)")
+    parser.add_argument("--config", type=str, default=None, help="Config path (default: configs/sam2/sam2_hiera_s.yaml)")
     parser.add_argument("--device", type=str, default="auto", choices=["auto", "cuda", "cpu"], help="Device selection")
     parser.add_argument("--manual", action="store_true", help="Use manual point segmentation mode")
 
     args = parser.parse_args()
-
-    # Auto-find model and config if not specified
-    if args.model is None or args.config is None:
-        found_model, found_config = find_model_and_config()
-        if args.model is None:
-            args.model = found_model if found_model else "models/sam2/sam2_hiera_small.pt"
-        if args.config is None:
-            args.config = found_config if found_config else "sam2/configs/sam2/sam2_hiera_s.yaml"
 
     # Check image
     if args.image:
@@ -359,7 +259,6 @@ def main():
             return
         image_path = args.image
     else:
-        # Use default test image
         image_path = "data/R.jpg"
         if not os.path.exists(image_path):
             print(f"[!] Default image not found: {image_path}")
@@ -371,12 +270,10 @@ def main():
         predictor = load_sam2_small(args.model, args.config, args.device)
     except Exception as e:
         print(f"[!] Model load failed: {e}")
-        print("\nPlease confirm these files exist:")
-        print(f"  - Model: {args.model}")
-        print(f"  - Config: {args.config}")
-        print("\nIf config is missing, run:")
-        print("  cd ~ && git clone https://github.com/facebookresearch/segment-anything-2.git sam2_repo")
-        print("  cp -r sam2_repo/sam2/configs ./sam2/")
+        print("\nTroubleshooting:")
+        print("1. Make sure sam2 is installed: python setup_sam2.py")
+        print("2. Check config file exists: sam2/configs/sam2/sam2_hiera_s.yaml")
+        print("3. Check model file exists: models/sam2/sam2_hiera_small.pt")
         return
 
     # Execute segmentation
