@@ -1,0 +1,94 @@
+# SAM 2 Hiera Small Configuration
+# Model: sam2-hiera-small
+# From: https://github.com/facebookresearch/segment-anything-2
+
+model:
+  _target_: sam2.modeling.sam.SAM2
+  image_encoder:
+    _target_: sam2.modeling.backbones.image_encoder.ImageEncoder
+    scalp: 1
+    trunk:
+      _target_: sam2.modeling.backbones.hieradet.Hiera
+      embed_dim: 96
+      num_heads: [1, 2, 4, 8]
+      stages: [1, 2, 7, 2]
+      global_att_blocks: [7, 15]
+      window_pos_embed_bkg_spatial: True
+      window_spec: [8, 8, 14, 14]
+    neck:
+      _target_: sam2.modeling.backbones.image_encoder.FpnNeck
+      position_encoding:
+        _target_: sam2.modeling.position_encoding.PositionEmbeddingSine
+        num_pos_feats: 64
+        scale: None
+        normalize: True
+      dim_feedforward: 2048
+      fpn_top_down_levels: [2, 3, 4]
+      fpn_interp_model: nearest
+  memory_encoder:
+    _target_: sam2.modeling.memory_encoder.MemoryEncoder
+    out_dim: 64
+    position_encoding:
+      _target_: sam2.modeling.position_encoding.PositionEmbeddingSine
+      num_pos_feats: 64
+      scale: None
+      normalize: True
+    num_maskmem: 7
+    image_size: 1024
+    backbone:
+      _target_: sam2.modeling.backbones.memory_encoder.MaskMemBackbone
+      d_model: 256
+      backbone:
+        _target_: sam2.modeling.backbones.image_encoder.Hiera
+        embed_dim: 96
+        num_heads: [1, 2, 4, 8]
+        stages: [1, 2, 7, 2]
+        global_att_blocks: [7, 15]
+        window_pos_embed_bkg_spatial: True
+        window_spec: [8, 8, 14, 14]
+      pos_enc:
+        _target_: sam2.modeling.position_encoding.PositionEmbeddingSine
+        num_pos_feats: 64
+        scale: None
+        normalize: True
+  memory_attention:
+    _target_: sam2.modeling.memory_attention.MemoryAttention
+    out_dim: 64
+    num_maskmem: 7
+    hidden_dim: 512
+    num_heads: 8
+    dropout: 0.1
+    layer_type: "TemporalLayerAttention"
+  num_maskmem: 7
+  image_size: 1024
+  backbone_shape:
+    shape: [1024, 1024]
+    stride: 16
+  pixel_mean: [123.675, 116.28, 103.53]
+  pixel_std: [58.395, 57.12, 57.375]
+  no_obj_embed_spatial: True
+
+train:
+  image_size: 1024
+  # Number of epochs for each batch
+  epochs_per_batch: 1
+  # Number of batches for training
+  num_train_batches: -1
+  # Number of batches for validation
+  num_val_batches: -1
+  # Batch size for training
+  batch_size: 8
+  # Batch size for validation
+  val_batch_size: 1
+  # Number of workers for data loading
+  num_workers: 4
+  # Learning rate
+  lr: 0.0001
+  # Weight decay
+  wd: 0.01
+  # Clip gradient norm
+  clip_grad: 10.0
+  # Deep supervision
+  deep_supervision: True
+  # Use bce loss for IOU confusion
+  use_bce_loss_for_iou_confusion: False
