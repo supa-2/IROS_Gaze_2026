@@ -22,7 +22,7 @@ from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
 def load_sam2_small(model_path="models/sam2/sam2_hiera_small.pt",
-                    config_path="sam2/configs/sam2-hiera-small.yaml",
+                    config_path="sam2/configs/sam2/sam2_hiera_s.yaml",
                     device="auto"):
     """
     Load SAM 2 Small model
@@ -280,10 +280,11 @@ def find_model_and_config():
 
     # Possible config paths
     config_candidates = [
+        "sam2/configs/sam2/sam2_hiera_s.yaml",
         "sam2/configs/sam2-hiera-small.yaml",
-        "sam2/configs/sam2_hiera_small.yaml",
-        "configs/sam2-hiera-small.yaml",
-        "../sam2_repo/sam2/configs/sam2-hiera-small.yaml",
+        "sam2/configs/sam2_hiera_s.yaml",
+        "sam2_hiera_s.yaml",
+        "configs/sam2/sam2_hiera_s.yaml",
     ]
 
     model_path = None
@@ -319,9 +320,9 @@ def main():
     if args.model is None or args.config is None:
         found_model, found_config = find_model_and_config()
         if args.model is None:
-            args.model = found_model if found_model else "models/sam2/sam2-hiera-small.pt"
+            args.model = found_model if found_model else "models/sam2/sam2_hiera_small.pt"
         if args.config is None:
-            args.config = found_config if found_config else "sam2/configs/sam2-hiera-small.yaml"
+            args.config = found_config if found_config else "sam2/configs/sam2/sam2_hiera_s.yaml"
 
     # Check image
     if args.image:
