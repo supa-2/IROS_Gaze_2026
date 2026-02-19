@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-SAM 2 Small 模型调用脚本
-适用于已部署 sam2-hiera-small 的服务器
+SAM 2 Small Model Calling Script
+For servers with sam2-hiera-small deployed
 """
 
 import os
@@ -11,7 +11,7 @@ import json
 import argparse
 from pathlib import Path
 
-# 添加 sam2 模块路径
+# Add sam2 module path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'sam2'))
 
 import torch
@@ -21,86 +21,85 @@ from sam2.build_sam import build_sam2
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
-def load_sam2_small(model_path: str = "models/sam2/sam2-hiera-small.pt",
-                    config_path: str = "sam2/configs/sam2-hiera-small.yaml",
-                    device: str = "auto") -> SAM2ImagePredictor:
+def load_sam2_small(model_path="models/sam2/sam2-hiera-small.pt",
+                    config_path="sam2/configs/sam2-hiera-small.yaml",
+                    device="auto"):
     """
-    加载 SAM 2 Small 模型
+    Load SAM 2 Small model
 
     Args:
-        model_path: 模型文件路径
-        config_path: 配置文件路径
-        device: 设备选择 ("auto", "cuda", "cpu")
+        model_path: Model file path
+        config_path: Config file path
+        device: Device selection ("auto", "cuda", "cpu")
 
     Returns:
-        SAM2ImagePredictor 预测器
+        SAM2ImagePredictor instance
     """
     print("=" * 60)
-    print("SAM 2 Small 模型加载")
+    print("SAM 2 Small Model Loading")
     print("=" * 60)
 
-    # 自动检测设备
+    # Auto detect device
     if device == "auto":
         if torch.cuda.is_available():
             device = "cuda"
-            print(f"[设备] CUDA - {torch.cuda.get_device_name(0)}")
-            print(f"[显存] {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+            print(f"[Device] CUDA - {torch.cuda.get_device_name(0)}")
+            print(f"[VRAM] {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
         else:
             device = "cpu"
-            print("[设备] CPU")
+            print("[Device] CPU")
 
-    # 检查文件存在性
+    # Check file existence
     if not os.path.exists(model_path):
-        raise FileNotFoundError(f"模型文件不存在: {model_path}")
+        raise FileNotFoundError(f"Model file not found: {model_path}")
     if not os.path.exists(config_path):
-        raise FileNotFoundError(f"配置文件不存在: {config_path}")
+        raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    print(f"[模型] {model_path}")
-    print(f"[配置] {config_path}")
+    print(f"[Model] {model_path}")
+    print(f"[Config] {config_path}")
 
-    # 加载模型
-    print("\n正在加载模型...")
+    # Load model
+    print("\nLoading model...")
     sam2_model = build_sam2(
         config_file=config_path,
         ckpt_path=model_path,
         device=device,
     )
 
-    print("✓ 模型加载成功!")
+    print("[+] Model loaded successfully!")
 
-    # 创建预测器
+    # Create predictor
     predictor = SAM2ImagePredictor(sam2_model)
-    print("✓ 预测器创建成功!")
+    print("[+] Predictor created successfully!")
 
     return predictor
 
 
-def segment_image(predictor: SAM2ImagePredictor, image_path: str,
-                  auto_segment: bool = True) -> dict:
+def segment_image(predictor, image_path, auto_segment=True):
     """
-    对图片进行分割
+    Segment image
 
     Args:
-        predictor: SAM2 预测器
-        image_path: 图片路径
-        auto_segment: 是否自动分割
+        predictor: SAM2 predictor
+        image_path: Image path
+        auto_segment: Whether to use auto segmentation
 
     Returns:
-        分割结果字典
+        Segmentation result dict
     """
-    print(f"\n[分割] 图片: {image_path}")
+    print(f"\n[Segment] Image: {image_path}")
 
-    # 加载图片
+    # Load image
     image = np.array(Image.open(image_path))
-    print(f"[尺寸] {image.shape}")
+    print(f"[Size] {image.shape}")
 
-    # 设置图片
+    # Set image
     predictor.set_image(image)
-    print("✓ 图片已设置")
+    print("[+] Image set")
 
     if auto_segment:
-        # 自动分割
-        print("[模式] 自动分割")
+        # Auto segment
+        print("[Mode] Auto segment")
         masks, scores, logits = predictor.predict(
             point_coords=None,
             point_labels=None,
@@ -108,9 +107,8 @@ def segment_image(predictor: SAM2ImagePredictor, image_path: str,
             multimask_output=True,
         )
     else:
-        # 手动指定点分割
-        print("[模式] 手动点分割")
-        # 示例：在图片中心指定一个点
+        # Manual point segment
+        print("[Mode] Manual point segment")
         h, w = image.shape[:2]
         point_coords = np.array([[w//2, h//2]])
         point_labels = np.array([1])
@@ -121,10 +119,10 @@ def segment_image(predictor: SAM2ImagePredictor, image_path: str,
             multimask_output=True,
         )
 
-    print(f"✓ 分割完成! 检测到 {len(masks)} 个掩码")
-    print(f"   置信度范围: {scores.min():.3f} ~ {scores.max():.3f}")
+    print(f"[+] Segment done! Detected {len(masks)} masks")
+    print(f"   Confidence range: {scores.min():.3f} ~ {scores.max():.3f}")
 
-    # 提取边界框和中心点
+    # Extract boxes and centers
     boxes, centers = extract_boxes_and_centers(masks)
 
     return {
@@ -139,7 +137,7 @@ def segment_image(predictor: SAM2ImagePredictor, image_path: str,
 
 
 def extract_boxes_and_centers(masks):
-    """从掩码提取边界框和中心点"""
+    """Extract boxes and centers from masks"""
     boxes = []
     centers = []
 
@@ -149,7 +147,7 @@ def extract_boxes_and_centers(masks):
         else:
             mask_array = mask
 
-        # 计算边界框
+        # Calculate bbox
         rows = np.any(mask_array, axis=1)
         cols = np.any(mask_array, axis=0)
 
@@ -158,7 +156,7 @@ def extract_boxes_and_centers(masks):
             cmin, cmax = np.where(cols)[0][[0, -1]]
             boxes.append((int(cmin), int(rmin), int(cmax), int(rmax)))
 
-            # 计算中心点
+            # Calculate center
             center_x = int(np.mean([cmin, cmax]))
             center_y = int(np.mean([rmin, rmax]))
             centers.append((center_x, center_y))
@@ -169,14 +167,14 @@ def extract_boxes_and_centers(masks):
     return boxes, centers
 
 
-def save_results(result: dict, output_dir: str, show_overlay: bool = True):
-    """保存分割结果"""
+def save_results(result, output_dir, show_overlay=True):
+    """Save segmentation results to disk."""
     import os
     from PIL import Image
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # 保存掩码图片
+    # Save mask images
     for i, mask in enumerate(result.get('masks', [])):
         if isinstance(mask, list):
             mask_array = np.array(mask, dtype=np.uint8) * 255
@@ -186,59 +184,60 @@ def save_results(result: dict, output_dir: str, show_overlay: bool = True):
         mask_img = Image.fromarray(mask_array, mode='L')
         mask_path = os.path.join(output_dir, f"mask_{i}.png")
         mask_img.save(mask_path)
-        print(f"  ✓ 掩码 {i}: {mask_path}")
+        print(f"  [*] Mask {i}: {mask_path}")
 
-    # 保存分割信息
+    # Save segmentation info
+    boxes = result.get('boxes', [])
+    centers = result.get('centers', [])
+    scores = result.get('scores', [])
+
+    detections = []
+    for i in range(len(boxes)):
+        detections.append({
+            "id": i,
+            "bbox": boxes[i] if i < len(boxes) else None,
+            "center": centers[i] if i < len(centers) else None,
+            "confidence": float(scores[i]) if i < len(scores) else None
+        })
+
     info = {
         "image_path": result.get("image_path"),
         "image_shape": result.get("image_shape"),
         "num_masks": len(result.get('masks', [])),
-        "detections": []
+        "detections": detections
     }
-
-    for i, (box, center, score) in enumerate(zip(
-        result.get('boxes', []),
-        result.get('centers', []),
-        result.get('scores', [])
-    ):
-        info["detections"].append({
-            "id": i,
-            "bbox": box,
-            "center": center,
-            "confidence": float(score)
-        })
 
     info_path = os.path.join(output_dir, "segmentation_info.json")
     with open(info_path, 'w', encoding='utf-8') as f:
         json.dump(info, f, indent=2, ensure_ascii=False)
-    print(f"  ✓ 信息: {info_path}")
+    print(f"  [*] Info: {info_path}")
 
-    # 创建叠加可视化
+    # Create overlay visualization
     if show_overlay and result.get('boxes'):
         create_overlay(result, output_dir)
 
     return output_dir
 
 
-def create_overlay(result: dict, output_dir: str):
-    """创建分割结果叠加图"""
+def create_overlay(result, output_dir):
+    """Create segmentation result overlay image"""
     from PIL import Image
 
     image_path = result.get("image_path")
     if not os.path.exists(image_path):
-        print("  ⚠️ 原图不存在，跳过叠加图生成")
+        print("  [!] Original image not found, skip overlay")
         return
 
     image = Image.open(image_path).convert("RGBA")
     masks = result.get('masks', [])
 
-    # 为每个掩码分配颜色
+    # Assign colors for each mask
     colors = [
-        (255, 0, 0, 128),    # 红色
-        (0, 255, 0, 128),    # 绿色
-        (0, 0, 255, 128),    # 蓝色
-        (255, 255, 0, 128), # 黄色
-        (255, 0, 255, 128), # 紫色
+        (255, 0, 0, 128),    # Red
+        (0, 255, 0, 128),    # Green
+        (0, 0, 255, 128),    # Blue
+        (255, 255, 0, 128),  # Yellow
+        (255, 0, 255, 128),  # Magenta
     ]
 
     for i, mask in enumerate(masks[:len(colors)]):
@@ -248,67 +247,67 @@ def create_overlay(result: dict, output_dir: str):
         else:
             mask_array = mask
 
-        # 创建 RGBA 掩码
+        # Create RGBA mask
         mask_rgba = np.zeros((*mask_array.shape, 4), dtype=np.uint8)
         mask_rgba[mask_array] = color
 
         mask_img = Image.fromarray(mask_rgba, 'RGBA')
 
-        # 叠加到原图上
+        # Composite onto original image
         image = Image.alpha_composite(image.convert('RGBA'), mask_img)
 
-    # 保存叠加图
+    # Save overlay
     overlay_path = os.path.join(output_dir, "overlay.png")
     image.convert('RGB').save(overlay_path)
-    print(f"  ✓ 叠加图: {overlay_path}")
+    print(f"  [*] Overlay: {overlay_path}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="SAM 2 Small 模型调用")
-    parser.add_argument("--image", type=str, help="输入图片路径")
-    parser.add_argument("--output", type=str, default="data/outputs/sam2_small", help="输出目录")
-    parser.add_argument("--model", type=str, default="models/sam2/sam2-hiera-small.pt", help="模型路径")
-    parser.add_argument("--config", type=str, default="sam2/configs/sam2-hiera-small.yaml", help="配置文件路径")
-    parser.add_argument("--device", type=str, default="auto", choices=["auto", "cuda", "cpu"], help="设备选择")
-    parser.add_argument("--manual", action="store_true", help="使用手动点分割模式")
+    parser = argparse.ArgumentParser(description="SAM 2 Small Model Calling")
+    parser.add_argument("--image", type=str, help="Input image path")
+    parser.add_argument("--output", type=str, default="data/outputs/sam2_small", help="Output directory")
+    parser.add_argument("--model", type=str, default="models/sam2/sam2-hiera-small.pt", help="Model path")
+    parser.add_argument("--config", type=str, default="sam2/configs/sam2-hiera-small.yaml", help="Config file path")
+    parser.add_argument("--device", type=str, default="auto", choices=["auto", "cuda", "cpu"], help="Device selection")
+    parser.add_argument("--manual", action="store_true", help="Use manual point segmentation mode")
 
     args = parser.parse_args()
 
-    # 检查图片
+    # Check image
     if args.image:
         if not os.path.exists(args.image):
-            print(f"❌ 错误: 图片不存在: {args.image}")
+            print(f"[!] Error: Image not found: {args.image}")
             return
         image_path = args.image
     else:
-        # 使用默认测试图片
+        # Use default test image
         image_path = "data/R.jpg"
         if not os.path.exists(image_path):
-            print(f"❌ 默认图片不存在: {image_path}")
-            print("请使用 --image 参数指定图片路径")
+            print(f"[!] Default image not found: {image_path}")
+            print("Please use --image to specify image path")
             return
 
-    # 加载模型
+    # Load model
     try:
         predictor = load_sam2_small(args.model, args.config, args.device)
     except Exception as e:
-        print(f"❌ 模型加载失败: {e}")
-        print("\n请确认以下文件存在:")
-        print(f"  - 模型: {args.model}")
-        print(f"  - 配置: {args.config}")
-        print("\n如果缺少配置文件，运行:")
+        print(f"[!] Model load failed: {e}")
+        print("\nPlease confirm these files exist:")
+        print(f"  - Model: {args.model}")
+        print(f"  - Config: {args.config}")
+        print("\nIf config is missing, run:")
         print("  cd ~ && git clone https://github.com/facebookresearch/segment-anything-2.git sam2_repo")
         print("  cp -r sam2_repo/sam2/configs ./sam2/")
         return
 
-    # 执行分割
+    # Execute segmentation
     result = segment_image(predictor, image_path, auto_segment=not args.manual)
 
-    # 保存结果
-    print(f"\n[保存结果]")
+    # Save results
+    print(f"\n[Save Results]")
     save_results(result, args.output)
 
-    print(f"\n✅ 完成! 结果保存在: {args.output}/")
+    print(f"\n[Done] Results saved to: {args.output}/")
 
 
 if __name__ == "__main__":
