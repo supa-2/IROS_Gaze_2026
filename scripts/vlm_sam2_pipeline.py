@@ -29,63 +29,26 @@ def ensure_sam2_installed():
         from sam2.build_sam import build_sam2
         return True
     except ImportError:
-        print("[*] sam2 模块未安装，正在安装...")
-        sam2_dir = os.path.join(project_root, "sam2")
-        setup_py = os.path.join(sam2_dir, "setup.py")
-
-        if not os.path.exists(setup_py):
-            print(f"[!] 创建 setup.py: {setup_py}")
-            setup_content = '''from setuptools import setup, find_packages
-setup(
-    name="sam2-local",
-    version="0.1.0",
-    packages=find_packages(),
-    include_package_data=True,
-    install_requires=[
-        "torch>=2.0.0",
-        "torchvision>=0.15.0",
-        "hydra-core>=1.3.0",
-        "iopath>=0.0.24",
-        "timm>=0.9.0",
-        "opencv-python>=4.0.0",
-        "matplotlib>=3.0.0",
-        "pillow>=9.0.0",
-        "numpy>=1.20.0",
-        "scipy>=1.10.0",
-    ],
-    python_requires=">=3.10",
-)
-'''
-            os.makedirs(sam2_dir, exist_ok=True)
-            with open(setup_py, 'w') as f:
-                f.write(setup_content)
-
-            # 创建 __init__.py
-            init_py = os.path.join(sam2_dir, "__init__.py")
-            if not os.path.exists(init_py):
-                with open(init_py, 'w') as f:
-                    f.write('"SAM2 module wrapper"\n')
-
-        # 安装
+        print("[*] sam2 未安装，正在从 GitHub 安装...")
         try:
+            # 安装官方 SAM2 包
             subprocess.run(
-                [sys.executable, "-m", "pip", "install", "-e", sam2_dir],
+                [sys.executable, "-m", "pip", "install",
+                 "git+https://github.com/facebookresearch/segment-anything-2.git"],
                 check=True,
                 capture_output=True
             )
-            print("[+] sam2 安装成功!")
-
-            # 重新导入
-            from sam2.build_sam import build_sam2
+            print("[+] SAM2 安装成功!")
             return True
         except subprocess.CalledProcessError as e:
-            print(f"[!] sam2 安装失败: {e}")
-            print("[*] 请手动运行: pip install -e sam2")
+            print(f"[!] SAM2 安装失败: {e}")
+            print("\n请手动运行:")
+            print("  pip install git+https://github.com/facebookresearch/segment-anything-2.git")
             return False
 
 # 尝试导入 sam2
 if not ensure_sam2_installed():
-    print("[!] 无法继续，请先安装 sam2")
+    print("[!] 无法继续，请先安装 SAM2")
     sys.exit(1)
 
 import torch
