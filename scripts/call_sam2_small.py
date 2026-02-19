@@ -262,16 +262,61 @@ def create_overlay(result, output_dir):
     print(f"  [*] Overlay: {overlay_path}")
 
 
+def find_model_and_config():
+    """Auto-find model and config files in common paths."""
+    # Possible model paths
+    model_candidates = [
+        "models/sam2/sam2-hiera-small.pt",
+        "models/sam2-hiera-small.pt",
+        "../models/sam2-hiera-small.pt",
+        "../../models/sam2-hiera-small.pt",
+        "~/models/sam2-hiera-small.pt",
+        "/opt/models/sam2-hiera-small.pt",
+    ]
+
+    # Possible config paths
+    config_candidates = [
+        "sam2/configs/sam2-hiera-small.yaml",
+        "configs/sam2-hiera-small.yaml",
+        "../sam2_repo/sam2/configs/sam2-hiera-small.yaml",
+    ]
+
+    model_path = None
+    config_path = None
+
+    for candidate in model_candidates:
+        expanded = os.path.expanduser(candidate)
+        if os.path.exists(expanded):
+            model_path = expanded
+            break
+
+    for candidate in config_candidates:
+        expanded = os.path.expanduser(candidate)
+        if os.path.exists(expanded):
+            config_path = expanded
+            break
+
+    return model_path, config_path
+
+
 def main():
     parser = argparse.ArgumentParser(description="SAM 2 Small Model Calling")
     parser.add_argument("--image", type=str, help="Input image path")
     parser.add_argument("--output", type=str, default="data/outputs/sam2_small", help="Output directory")
-    parser.add_argument("--model", type=str, default="models/sam2/sam2-hiera-small.pt", help="Model path")
-    parser.add_argument("--config", type=str, default="sam2/configs/sam2-hiera-small.yaml", help="Config file path")
+    parser.add_argument("--model", type=str, default=None, help="Model path (auto-search if not specified)")
+    parser.add_argument("--config", type=str, default=None, help="Config file path (auto-search if not specified)")
     parser.add_argument("--device", type=str, default="auto", choices=["auto", "cuda", "cpu"], help="Device selection")
     parser.add_argument("--manual", action="store_true", help="Use manual point segmentation mode")
 
     args = parser.parse_args()
+
+    # Auto-find model and config if not specified
+    if args.model is None or args.config is None:
+        found_model, found_config = find_model_and_config()
+        if args.model is None:
+            args.model = found_model if found_model else "models/sam2/sam2-hiera-small.pt"
+        if args.config is None:
+            args.config = found_config if found_config else "sam2/configs/sam2-hiera-small.yaml"
 
     # Check image
     if args.image:
