@@ -56,10 +56,10 @@ def load_sam2_small(model_path=None, config_path=None, device="auto"):
     # Create automatic mask generator
     mask_generator = SAM2AutomaticMaskGenerator(
         model=sam2_model,
-        points_per_side=32,          # More points = more detections
-        pred_iou_thresh=0.7,         # Only keep masks with IoU > 0.7
-        stability_score_thresh=0.85, # Only keep stable masks
-        min_mask_region_area=100,    # Filter small regions
+        points_per_side=32,
+        pred_iou_thresh=0.7,
+        stability_score_thresh=0.85,
+        min_mask_region_area=500,    # Filter small regions
         output_mode="binary_mask",
     )
 
@@ -81,9 +81,12 @@ def segment_image(mask_generator, image_path):
 
     print(f"[+] Done! Found {len(masks)} objects")
 
-    # Sort by area (largest first) and filter by confidence
+    # Sort by area and filter
     valid_masks = [m for m in masks if m.get('predicted_iou', 0) > 0.5]
     valid_masks.sort(key=lambda x: x['area'], reverse=True)
+
+    # Keep top 15 by area
+    valid_masks = valid_masks[:15]
 
     print(f"    Valid masks (IoU > 0.5): {len(valid_masks)}")
 
@@ -103,17 +106,14 @@ def extract_from_auto_masks(masks):
 
     for mask_data in masks:
         bbox = mask_data.get('bbox', [0, 0, 0, 0])  # [x, y, w, h]
-        # Convert to [x1, y1, x2, y2]
         x1, y1, w, h = bbox
         box = (int(x1), int(y1), int(x1 + w), int(y1 + h))
         boxes.append(box)
 
-        # Center
         center_x = int(x1 + w / 2)
         center_y = int(y1 + h / 2)
         centers.append((center_x, center_y))
 
-        # Score
         scores.append(mask_data.get('predicted_iou', 0.0))
 
     return boxes, centers, scores
@@ -131,13 +131,12 @@ def save_results(result, output_dir):
         return output_dir
 
     # Save individual masks
-    for i, mask_data in enumerate(masks[:20]):  # Max 20 masks
+    for i, mask_data in enumerate(masks):
         mask = mask_data['segmentation']
         mask_img = Image.fromarray((mask * 255).astype(np.uint8), mode='L')
         mask_path = os.path.join(output_dir, f"mask_{i}.png")
         mask_img.save(mask_path)
 
-        # Get bbox and score for display
         bbox = mask_data.get('bbox', [0, 0, 0, 0])
         score = mask_data.get('predicted_iou', 0.0)
         area = mask_data.get('area', 0)
@@ -172,42 +171,41 @@ def save_results(result, output_dir):
     # Create overlay
     create_overlay(image, masks, output_dir)
 
+    # Save centers for heatmap/trajectory
+    centers_path = os.path.join(output_dir, "centers.json")
+    with open(centers_path, 'w', encoding='utf-8') as f:
+        json.dump({"centers": centers}, f, indent=2)
+    print(f"  [*] Centers: {centers_path}")
+
     return output_dir
 
 
 def create_overlay(image, masks, output_dir):
-    """Create overlay visualization"""
+    """Create overlay visualization - only bounding boxes"""
+    # Use distinctive colors
     colors = [
-        (255, 0, 0), (0, 255, 0), (0, 0, 255),
-        (255, 255, 0), (255, 0, 255), (0, 255, 255),
-        (128, 0, 0), (0, 128, 0), (0, 0, 128),
+        (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
+        (255, 0, 255), (0, 255, 255), (255, 128, 0), (128, 0, 255),
+        (0, 128, 128), (128, 128, 0), (128, 0, 0), (0, 128, 0),
+        (0, 0, 128), (128, 128, 128), (255, 255, 255)
     ]
 
     img_rgb = Image.fromarray(image).convert("RGB")
     draw = ImageDraw.Draw(img_rgb)
 
-    for i, mask_data in enumerate(masks[:len(colors)]):
+    for i, mask_data in enumerate(masks):
         color = colors[i % len(colors)]
-        mask = mask_data['segmentation']
         bbox = mask_data.get('bbox', [0, 0, 0, 0])
 
-        # Draw bbox
+        # Draw bbox with thick outline
         x, y, w, h = bbox
-        draw.rectangle([x, y, x + w, y + h], outline=color, width=3)
+        draw.rectangle([x, y, x + w, y + h], outline=color, width=4)
 
-        # Draw mask (semi-transparent)
-        mask_img = Image.fromarray((mask * 128).astype(np.uint8), mode='L')
-        mask_rgba = Image.new("RGBA", mask_img.size, color + (128,))
-        mask_rgba = Image.alpha_composite(mask_rgba.convert("RGBA"), mask_img.convert("RGBA"))
-
-        # Blend with original
-        img_rgb_rgba = img_rgb.convert("RGBA")
-        img_rgb_rgba = Image.alpha_composite(img_rgb_rgba, mask_rgba)
-        img_rgb = img_rgb_rgba.convert("RGB")
-
-        # Draw label
-        label = f"{i} (IoU:{mask_data.get('predicted_iou', 0):.2f})"
-        draw.text((x, y - 15), label, fill=color)
+        # Draw label with background
+        label = f"#{i+1}"
+        text_bbox = draw.textbbox((x, y - 20), label)
+        draw.rectangle(text_bbox, fill=color)
+        draw.text((x, y - 20), label, fill=(0, 0, 0))
 
     # Save overlay
     overlay_path = os.path.join(output_dir, "overlay.png")
