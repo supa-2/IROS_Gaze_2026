@@ -5,6 +5,8 @@ VLM + SAM2 联合分割流程
 
 1. VLM (Qwen-VL) 识别展品及位置
 2. SAM2 基于位置进行精细分割
+
+使用前请先运行: python scripts/install_sam2.py
 """
 
 import os
@@ -14,8 +16,6 @@ import argparse
 import numpy as np
 from PIL import Image, ImageDraw
 import base64
-import subprocess
-import importlib
 
 # 获取项目根目录
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -25,42 +25,18 @@ sys.path.insert(0, project_root)
 # 导入配置
 from config import Config
 
-
-def check_and_install_sam2():
-    """检查并安装 SAM2"""
-    # 先尝试导入
-    try:
-        import sam2.build_sam
-        import sam2.sam2_image_predictor
-        print("[+] SAM2 已安装")
-        return True
-    except ImportError:
-        pass
-
-    # 需要安装
-    print("[*] SAM2 未安装，正在安装...")
-    print("    这可能需要 1-2 分钟...")
-
-    cmd = [sys.executable, "-m", "pip", "install", "-q",
-            "git+https://github.com/facebookresearch/segment-anything-2.git"]
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
-
-    if result.returncode != 0:
-        print(f"[!] 安装失败:")
-        print(result.stderr)
-        return False
-
-    print("[+] SAM2 安装成功!")
-
-    # 重新加载模块
-    import importlib
-    if 'sam2' in sys.modules:
-        del sys.modules['sam2']
+# 检查 SAM2
+try:
     import sam2.build_sam
     import sam2.sam2_image_predictor
-
-    return True
+    SAM2_AVAILABLE = True
+except ImportError as e:
+    print(f"[!] SAM2 未安装: {e}")
+    print("\n请先运行安装脚本:")
+    print("  python scripts/install_sam2.py")
+    print("\n或者手动安装:")
+    print("  pip install git+https://github.com/facebookresearch/segment-anything-2.git")
+    sys.exit(1)
 
 
 def call_qwen_vlm(image_path, api_key=None):
@@ -97,18 +73,31 @@ def call_qwen_vlm(image_path, api_key=None):
 - 边界框要紧凑地包围展品
 - 坐标范围：x: 0-1100, y: 0-600"""
 
-    print("[*] 调用 Qwen-VL API...")
+    print("[*] 调用 VLM API...")
 
     try:
         from openai import OpenAI
 
+        # 获取 API key
+        api_key_to_use = api_key or os.getenv("OPENAI_API_KEY") or os.getenv("QWEN_API_KEY")
+        if not api_key_to_use:
+            print("[!] 错误: 未找到 API Key")
+            print("    请设置 OPENAI_API_KEY 或 QWEN_API_KEY 环境变量")
+            return []
+
+        base_url = getattr(config, 'qwen_base_url', None) or os.getenv("OPENAI_BASE_URL")
+        if not base_url:
+            base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+        model = getattr(config, 'vlm_model', 'qwen-vl-max-latest')
+
         client = OpenAI(
-            api_key=api_key or getattr(config, 'qwen_api_key', None),
-            base_url=getattr(config, 'qwen_base_url', None)
+            api_key=api_key_to_use,
+            base_url=base_url
         )
 
         response = client.chat.completions.create(
-            model=getattr(config, 'vlm_model', 'gpt-4o'),
+            model=model,
             messages=[
                 {
                     "role": "user",
@@ -155,11 +144,12 @@ def call_qwen_vlm(image_path, api_key=None):
 
     except Exception as e:
         print(f"[!] VLM 调用失败: {e}")
-        print("[*] 检查 API 配置: OPENAI_API_KEY 或 QWEN_API_KEY")
+        import traceback
+        traceback.print_exc()
         return []
 
 
-def sam2_refine_segmentation(image_path, vlm_exhibits, output_dir, model_path=None, config_path=None):
+def sam2_refine_segmentation(image_path, vlm_exhibits, output_dir, model_path=None):
     """使用 SAM2 对 VLM 识别的区域进行精细分割"""
     print("\n" + "=" * 60)
     print("[Step 2/2] SAM2 精细分割")
@@ -167,27 +157,23 @@ def sam2_refine_segmentation(image_path, vlm_exhibits, output_dir, model_path=No
 
     if model_path is None:
         model_path = os.path.join(project_root, "models/sam2/sam2_hiera_small.pt")
-    if config_path is None:
-        config_path = "configs/sam2/sam2_hiera_s.yaml"
 
-    # 导入 SAM2
-    import sam2.build_sam
-    import sam2.sam2_image_predictor
-
-    # 加载模型
-    print("[*] 加载 SAM2 模型...")
-
+    # 导入 torch
+    import torch
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"    Device: {device}")
 
     # 检查模型文件
     if not os.path.exists(model_path):
         print(f"[!] 模型文件不存在: {model_path}")
-        print("[*] 跳过 SAM2 分割，使用 VLM 边界框")
-        return refine_with_vlm_only(vlm_exhibits)
+        print("[*] 使用 VLM 边界框作为最终结果")
+        return refine_with_vlm_only(vlm_exhibits, output_dir, image_path)
 
+    print(f"[*] 加载 SAM2 模型: {model_path}")
+
+    # 加载模型
     sam2_model = sam2.build_sam.build_sam2(
-        config_file=config_path,
+        config_file="sam2/configs/sam2/sam2_hiera_s.yaml",
         ckpt_path=model_path,
         device=device,
     )
@@ -262,8 +248,10 @@ def sam2_refine_segmentation(image_path, vlm_exhibits, output_dir, model_path=No
     return refined_exhibits
 
 
-def refine_with_vlm_only(vlm_exhibits):
+def refine_with_vlm_only(vlm_exhibits, output_dir, image_path):
     """仅使用 VLM 结果（没有 SAM2 时）"""
+    print("\n[*] 使用 VLM 边界框作为最终结果")
+
     refined_exhibits = []
     for i, exhibit in enumerate(vlm_exhibits):
         bbox = exhibit['bbox']
@@ -279,6 +267,8 @@ def refine_with_vlm_only(vlm_exhibits):
             "area": int((x2 - x1) * (y2 - y1)),
             "confidence": 0.8
         })
+
+    save_results(image_path, refined_exhibits, output_dir)
     return refined_exhibits
 
 
@@ -327,7 +317,6 @@ def main():
     parser.add_argument("--output", type=str, default="data/outputs/vlm_sam2", help="输出目录")
     parser.add_argument("--api-key", type=str, default=None, help="API Key")
     parser.add_argument("--model", type=str, default=None, help="SAM2 模型路径")
-    parser.add_argument("--config", type=str, default=None, help="SAM2 配置路径")
 
     args = parser.parse_args()
 
@@ -341,15 +330,7 @@ def main():
     print(f"输入: {args.image}")
     print(f"输出: {args.output}")
 
-    # 检查并安装 SAM2
-    if not check_and_install_sam2():
-        print("[!] SAM2 安装失败，无法继续")
-        return
-
     try:
-        # 导入 torch
-        import torch
-
         # Step 1: VLM 识别
         vlm_exhibits = call_qwen_vlm(args.image, args.api_key)
 
@@ -359,8 +340,7 @@ def main():
 
         # Step 2: SAM2 精细分割
         refined_exhibits = sam2_refine_segmentation(
-            args.image, vlm_exhibits, args.output,
-            args.model, args.config
+            args.image, vlm_exhibits, args.output, args.model
         )
 
         print(f"\n[OK] 完成!")
