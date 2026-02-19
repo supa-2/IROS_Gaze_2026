@@ -28,13 +28,14 @@ def call_qwen_vlm(image_path):
 
     # 获取 API 配置 - 优先使用 Qwen
     api_key = os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        print("[!] 错误: 未找到 API Key")
-        print("    请设置 QWEN_API_KEY 环境变量")
+    if not api_key or api_key == "your_api_key_here":
+        print("[!] 错误: 未找到有效的 API Key")
+        print("    请在 .env 文件中设置 QWEN_API_KEY")
+        print("    获取 API Key: https://bailian.console.aliyun.com/")
         return None
 
-    base_url = os.getenv("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
-    model = "qwen-vl-max-latest"
+    base_url = os.getenv("QWEN_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+    model = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
 
     print(f"API Key: {api_key[:20]}..." if len(api_key) > 20 else f"API Key: {api_key}")
 

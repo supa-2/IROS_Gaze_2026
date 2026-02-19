@@ -79,17 +79,18 @@ def call_qwen_vlm(image_path, api_key=None):
         from openai import OpenAI
 
         # 获取 API key
-        api_key_to_use = api_key or os.getenv("OPENAI_API_KEY") or os.getenv("QWEN_API_KEY")
-        if not api_key_to_use:
-            print("[!] 错误: 未找到 API Key")
-            print("    请设置 OPENAI_API_KEY 或 QWEN_API_KEY 环境变量")
+        api_key_to_use = api_key or os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
+        if not api_key_to_use or api_key_to_use == "your_api_key_here":
+            print("[!] 错误: 未找到有效的 API Key")
+            print("    请在 .env 文件中设置 QWEN_API_KEY")
+            print("    获取 API Key: https://bailian.console.aliyun.com/")
             return []
 
-        base_url = getattr(config, 'qwen_base_url', None) or os.getenv("OPENAI_BASE_URL")
+        base_url = os.getenv("QWEN_BASE_URL") or getattr(config, 'qwen_base_url', None) or os.getenv("OPENAI_BASE_URL")
         if not base_url:
             base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 
-        model = getattr(config, 'vlm_model', 'qwen-vl-max-latest')
+        model = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
 
         client = OpenAI(
             api_key=api_key_to_use,
