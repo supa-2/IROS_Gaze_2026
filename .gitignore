@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large model files
+models/**/*.pt
+models/**/*.pth
+models/**/*.onnx
+*.pt
+*.pth
+*.onnx
+
+# Large data files - Excel
+**/*.xlsx
+**/*.xls
+!**/*.gitkeep
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+temp_*.json
+temp_*.txt
+*.egg-info/
