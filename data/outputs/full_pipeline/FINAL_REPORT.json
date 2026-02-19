@@ -1,0 +1,387 @@
+{
+  "timestamp": "2026-02-19T21:52:26.389464",
+  "summary": {
+    "total_exhibits": 15,
+    "total_gazes": 15,
+    "unique_exhibits_visited": 15,
+    "average_duration": 22.333333333333332
+  },
+  "exhibits": [
+    {
+      "id": "EX-000",
+      "name": "展品_1",
+      "bbox": [
+        0,
+        0,
+        594,
+        599
+      ],
+      "center": [
+        297,
+        299
+      ],
+      "area": 178777,
+      "confidence": 0.9685676097869873
+    },
+    {
+      "id": "EX-001",
+      "name": "展品_2",
+      "bbox": [
+        0,
+        0,
+        917,
+        599
+      ],
+      "center": [
+        458,
+        299
+      ],
+      "area": 176939,
+      "confidence": 0.9637526273727417
+    },
+    {
+      "id": "EX-002",
+      "name": "展品_3",
+      "bbox": [
+        254,
+        0,
+        1099,
+        594
+      ],
+      "center": [
+        676,
+        297
+      ],
+      "area": 140316,
+      "confidence": 0.9628384709358215
+    },
+    {
+      "id": "EX-003",
+      "name": "展品_4",
+      "bbox": [
+        689,
+        0,
+        1099,
+        593
+      ],
+      "center": [
+        894,
+        296
+      ],
+      "area": 138776,
+      "confidence": 0.9712802767753601
+    },
+    {
+      "id": "EX-004",
+      "name": "展品_5",
+      "bbox": [
+        19,
+        204,
+        1006,
+        599
+      ],
+      "center": [
+        512,
+        401
+      ],
+      "area": 92897,
+      "confidence": 0.9785007834434509
+    },
+    {
+      "id": "EX-005",
+      "name": "展品_6",
+      "bbox": [
+        217,
+        238,
+        916,
+        599
+      ],
+      "center": [
+        566,
+        418
+      ],
+      "area": 92224,
+      "confidence": 0.9598934650421143
+    },
+    {
+      "id": "EX-006",
+      "name": "展品_7",
+      "bbox": [
+        231,
+        357,
+        916,
+        599
+      ],
+      "center": [
+        573,
+        478
+      ],
+      "area": 90773,
+      "confidence": 0.9905039668083191
+    },
+    {
+      "id": "EX-007",
+      "name": "展品_8",
+      "bbox": [
+        26,
+        214,
+        341,
+        438
+      ],
+      "center": [
+        183,
+        326
+      ],
+      "area": 38693,
+      "confidence": 0.969876229763031
+    },
+    {
+      "id": "EX-008",
+      "name": "展品_9",
+      "bbox": [
+        27,
+        215,
+        243,
+        438
+      ],
+      "center": [
+        135,
+        326
+      ],
+      "area": 38427,
+      "confidence": 0.9848809242248535
+    },
+    {
+      "id": "EX-009",
+      "name": "展品_10",
+      "bbox": [
+        771,
+        211,
+        1005,
+        423
+      ],
+      "center": [
+        888,
+        317
+      ],
+      "area": 37569,
+      "confidence": 0.977249026298523
+    },
+    {
+      "id": "EX-010",
+      "name": "展品_11",
+      "bbox": [
+        753,
+        31,
+        1003,
+        422
+      ],
+      "center": [
+        878,
+        226
+      ],
+      "area": 36583,
+      "confidence": 0.9031676054000854
+    },
+    {
+      "id": "EX-011",
+      "name": "展品_12",
+      "bbox": [
+        922,
+        477,
+        1099,
+        599
+      ],
+      "center": [
+        1010,
+        538
+      ],
+      "area": 20542,
+      "confidence": 0.9896886348724365
+    },
+    {
+      "id": "EX-012",
+      "name": "展品_13",
+      "bbox": [
+        410,
+        193,
+        598,
+        389
+      ],
+      "center": [
+        504,
+        291
+      ],
+      "area": 20489,
+      "confidence": 0.8240005970001221
+    },
+    {
+      "id": "EX-013",
+      "name": "展品_14",
+      "bbox": [
+        258,
+        225,
+        402,
+        401
+      ],
+      "center": [
+        330,
+        313
+      ],
+      "area": 13338,
+      "confidence": 0.9408310651779175
+    },
+    {
+      "id": "EX-014",
+      "name": "展品_15",
+      "bbox": [
+        259,
+        225,
+        345,
+        400
+      ],
+      "center": [
+        302,
+        312
+      ],
+      "area": 12949,
+      "confidence": 0.9668774008750916
+    }
+  ],
+  "gaze_records": [
+    {
+      "exhibit_id": "EX-000",
+      "x": 313,
+      "y": 279,
+      "duration": 5,
+      "attention_level": "D"
+    },
+    {
+      "exhibit_id": "EX-001",
+      "x": 444,
+      "y": 310,
+      "duration": 60,
+      "attention_level": "A"
+    },
+    {
+      "exhibit_id": "EX-007",
+      "x": 166,
+      "y": 342,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-008",
+      "x": 144,
+      "y": 310,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-013",
+      "x": 331,
+      "y": 303,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-014",
+      "x": 302,
+      "y": 323,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-002",
+      "x": 657,
+      "y": 308,
+      "duration": 5,
+      "attention_level": "D"
+    },
+    {
+      "exhibit_id": "EX-012",
+      "x": 494,
+      "y": 298,
+      "duration": 5,
+      "attention_level": "D"
+    },
+    {
+      "exhibit_id": "EX-004",
+      "x": 494,
+      "y": 418,
+      "duration": 30,
+      "attention_level": "B"
+    },
+    {
+      "exhibit_id": "EX-005",
+      "x": 558,
+      "y": 420,
+      "duration": 60,
+      "attention_level": "A"
+    },
+    {
+      "exhibit_id": "EX-006",
+      "x": 574,
+      "y": 497,
+      "duration": 5,
+      "attention_level": "D"
+    },
+    {
+      "exhibit_id": "EX-011",
+      "x": 1016,
+      "y": 549,
+      "duration": 60,
+      "attention_level": "A"
+    },
+    {
+      "exhibit_id": "EX-003",
+      "x": 895,
+      "y": 292,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-009",
+      "x": 894,
+      "y": 321,
+      "duration": 15,
+      "attention_level": "C"
+    },
+    {
+      "exhibit_id": "EX-010",
+      "x": 871,
+      "y": 219,
+      "duration": 15,
+      "attention_level": "C"
+    }
+  ],
+  "predictions": [
+    {
+      "exhibit_id": "EX-000",
+      "center": [
+        297,
+        299
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    },
+    {
+      "exhibit_id": "EX-001",
+      "center": [
+        458,
+        299
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    },
+    {
+      "exhibit_id": "EX-002",
+      "center": [
+        676,
+        297
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    }
+  ]
+}

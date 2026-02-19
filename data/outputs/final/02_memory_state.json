@@ -1,0 +1,29 @@
+{
+  "short_term_count": 5,
+  "long_term_count": 13,
+  "unique_exhibits": 13,
+  "most_visited": [
+    [
+      "EX-003",
+      1
+    ],
+    [
+      "EX-014",
+      1
+    ],
+    [
+      "EX-011",
+      1
+    ],
+    [
+      "EX-006",
+      1
+    ],
+    [
+      "EX-010",
+      1
+    ]
+  ],
+  "total_duration": 355,
+  "average_duration": 27.307692307692307
+}

@@ -1,0 +1,31 @@
+{
+  "predictions": [
+    {
+      "exhibit_id": "EX-003",
+      "center": [
+        894,
+        296
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    },
+    {
+      "exhibit_id": "EX-006",
+      "center": [
+        573,
+        478
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    },
+    {
+      "exhibit_id": "EX-008",
+      "center": [
+        135,
+        326
+      ],
+      "reason": "未访问过的展品",
+      "confidence": 0.8
+    }
+  ]
+}
