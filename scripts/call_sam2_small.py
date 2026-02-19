@@ -11,8 +11,14 @@ import json
 import argparse
 from pathlib import Path
 
+# Get project root directory (parent of scripts/)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+sam2_path = os.path.join(project_root, 'sam2')
+
 # Add sam2 module path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'sam2'))
+if sam2_path not in sys.path:
+    sys.path.insert(0, sam2_path)
 
 import torch
 import numpy as np
@@ -21,9 +27,29 @@ from sam2.build_sam import build_sam2
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
-def load_sam2_small(model_path="models/sam2/sam2_hiera_small.pt",
-                    config_path="sam2/configs/sam2/sam2_hiera_s.yaml",
+def load_sam2_small(model_path=None,
+                    config_path=None,
                     device="auto"):
+    """
+    Load SAM 2 Small model
+
+    Args:
+        model_path: Model file path (auto-search if None)
+        config_path: Config file path (auto-search if None)
+        device: Device selection ("auto", "cuda", "cpu")
+
+    Returns:
+        SAM2ImagePredictor instance
+    """
+    # Get project root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+
+    # Default paths
+    if model_path is None:
+        model_path = os.path.join(project_root, "models/sam2/sam2_hiera_small.pt")
+    if config_path is None:
+        config_path = os.path.join(project_root, "sam2/configs/sam2/sam2_hiera_s.yaml")
     """
     Load SAM 2 Small model
 
@@ -264,27 +290,29 @@ def create_overlay(result, output_dir):
 
 def find_model_and_config():
     """Auto-find model and config files in common paths."""
+    # Get project root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+
     # Possible model paths (try both underscore and hyphen naming)
     model_candidates = [
+        os.path.join(project_root, "models/sam2/sam2_hiera_small.pt"),
+        os.path.join(project_root, "models/sam2/sam2-hiera-small.pt"),
+        os.path.join(project_root, "models/sam2_hiera_small.pt"),
         "models/sam2/sam2_hiera_small.pt",
         "models/sam2/sam2-hiera-small.pt",
-        "models/sam2_hiera_small.pt",
-        "models/sam2-hiera-small.pt",
-        "../models/sam2_hiera_small.pt",
-        "../models/sam2-hiera-small.pt",
-        "../../models/sam2_hiera_small.pt",
         "~/models/sam2_hiera_small.pt",
-        "~/models/sam2-hiera-small.pt",
         "/opt/models/sam2_hiera_small.pt",
     ]
 
     # Possible config paths
     config_candidates = [
+        os.path.join(project_root, "sam2/configs/sam2/sam2_hiera_s.yaml"),
+        os.path.join(project_root, "sam2/configs/sam2-hiera-small.yaml"),
+        os.path.join(project_root, "sam2/configs/sam2_hiera_s.yaml"),
         "sam2/configs/sam2/sam2_hiera_s.yaml",
         "sam2/configs/sam2-hiera-small.yaml",
         "sam2/configs/sam2_hiera_s.yaml",
-        "sam2_hiera_s.yaml",
-        "configs/sam2/sam2_hiera_s.yaml",
     ]
 
     model_path = None
