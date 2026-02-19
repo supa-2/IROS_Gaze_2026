@@ -230,8 +230,11 @@ def create_overlay(result, output_dir):
         else:
             mask_array = mask
 
-        mask_rgba = np.zeros((*mask_array.shape, 4), dtype=np.uint8)
-        mask_rgba[mask_array] = color
+        # Convert to boolean mask
+        mask_bool = mask_array.astype(bool)
+
+        mask_rgba = np.zeros((*mask_bool.shape, 4), dtype=np.uint8)
+        mask_rgba[mask_bool] = color
 
         mask_img = Image.fromarray(mask_rgba, 'RGBA')
         image = Image.alpha_composite(image.convert('RGBA'), mask_img)
