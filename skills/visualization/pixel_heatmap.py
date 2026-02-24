@@ -25,13 +25,15 @@ class FixationPoint:
     y: int           # 像素 y 坐标
     duration: float  # 凝视时长(秒)
     timestamp: datetime
+    region_id: str = ''  # 所属区域ID（用于轨迹可视化）
 
     def to_dict(self) -> Dict:
         return {
             'x': self.x,
             'y': self.y,
             'duration': self.duration,
-            'timestamp': self.timestamp.isoformat()
+            'timestamp': self.timestamp.isoformat(),
+            'region_id': self.region_id
         }
 
 
@@ -135,7 +137,8 @@ class GazeHeatmapVisualizer:
             x=int(x),
             y=int(y),
             duration=duration,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
+            region_id=region_id
         )
         self.fixations.append(fixation)
         print(f"[GAZE] {region.label}: ({x},{y}) - {duration}s")

@@ -187,13 +187,19 @@ class EyeLLMAgent:
         self.trajectory_viz.plot_gaze_trajectory(history, output_path=output_path)
         print(f"✅ Trajectory visualization saved to: {output_path}")
 
-    def visualize_pixel_heatmap(self, image_path: str, output_dir: str = "data/outputs/heatmaps"):
+    def visualize_pixel_heatmap(
+        self,
+        image_path: str,
+        output_dir: str = "data/outputs/heatmaps",
+        use_side_by_side: bool = True
+    ):
         """
         在原图上绘制像素级热力图
 
         Args:
             image_path: 展厅照片路径
             output_dir: 输出目录
+            use_side_by_side: 是否生成并排对比图（默认True）
 
         Returns:
             保存的文件路径
@@ -202,6 +208,10 @@ class EyeLLMAgent:
             raise NotImplementedError("visualize_pixel_heatmap requires new architecture")
 
         from skills.visualization.pixel_heatmap import GazeHeatmapVisualizer
+        import os
+
+        # 确保输出目录存在
+        os.makedirs(output_dir, exist_ok=True)
 
         # 初始化像素热力图可视化器
         self.pixel_heatmap_viz = GazeHeatmapVisualizer(image_path)
@@ -211,19 +221,35 @@ class EyeLLMAgent:
 
         print(f"   Adding {len(gaze_data)} gaze records to heatmap...")
 
-        # 添加眼动数据（模拟的 x, y 坐标）
+        # 添加眼动数据（使用展品区域中心点）
         for record in gaze_data:
+            duration = record.actual_duration if record.actual_duration else record.estimated_duration
             self.pixel_heatmap_viz.add_gaze_record(
                 region_id=record.exhibit_id,
-                duration=record.actual_duration or record.estimated_duration,
-                pixel_x=None,  # 实际凝视坐标（如果有）
-                pixel_y=None
+                duration=duration,
+                x=None,  # 使用区域中心
+                y=None
             )
 
-        # 计算热力图并保存
-        output_path = self.pixel_heatmap_viz.visualize(
-            output_path=f"{output_dir}/pixel_heatmap_overlay.png"
-        )
+        # 计算热力图
+        self.pixel_heatmap_viz.calculate_heatmap()
+
+        # 保存可视化
+        if use_side_by_side:
+            output_path = self.pixel_heatmap_viz.visualize_side_by_side(
+                output_path=os.path.join(output_dir, "pixel_heatmap_comparison.png")
+            )
+        else:
+            output_path = self.pixel_heatmap_viz.visualize_overlay(
+                output_path=os.path.join(output_dir, "pixel_heatmap_overlay.png")
+            )
+
+        # 获取并打印统计信息
+        stats = self.pixel_heatmap_viz.get_region_statistics()
+        if stats:
+            print(f"   Heatmap statistics:")
+            for region_id, region_stat in stats.items():
+                print(f"      {region_stat['label']}: {region_stat['fixation_count']} fixations, {region_stat['total_duration']:.1f}s")
 
         return output_path
 

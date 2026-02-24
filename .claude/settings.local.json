@@ -23,7 +23,9 @@
       "Bash(\".venv/Scripts/python.exe\" -m pip list)",
       "Bash(git remote add:*)",
       "Bash(git push:*)",
-      "Bash(wsl:*)"
+      "Bash(wsl:*)",
+      "Bash(git -C /home/supa2/project/iros_agent status --short)",
+      "Bash(git -C /home/supa2/project/iros_agent add -A && git -C /home/supa2/project/iros_agent commit -m \"$\\(cat <<'EOF'\nfeat: 实现完整的 VLM + 眼动可视化系统，添加对比实验和演示流程\n\n主要更新：\n- 修复热力图和轨迹图可视化问题\n- 添加 region_id 属性支持数据共享\n- 创建统一可视化脚本 \\(unified_visualization.py\\)\n- 实现对比实验和消融实验框架 \\(comparative_experiments.py\\)\n- 添加完整演示流程和故事模式 \\(demo_pipeline.py\\)\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
