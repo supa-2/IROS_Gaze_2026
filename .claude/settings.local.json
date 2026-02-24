@@ -25,7 +25,11 @@
       "Bash(git push:*)",
       "Bash(wsl:*)",
       "Bash(git -C /home/supa2/project/iros_agent status --short)",
-      "Bash(git -C /home/supa2/project/iros_agent add -A && git -C /home/supa2/project/iros_agent commit -m \"$\\(cat <<'EOF'\nfeat: 实现完整的 VLM + 眼动可视化系统，添加对比实验和演示流程\n\n主要更新：\n- 修复热力图和轨迹图可视化问题\n- 添加 region_id 属性支持数据共享\n- 创建统一可视化脚本 \\(unified_visualization.py\\)\n- 实现对比实验和消融实验框架 \\(comparative_experiments.py\\)\n- 添加完整演示流程和故事模式 \\(demo_pipeline.py\\)\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -C /home/supa2/project/iros_agent add -A && git -C /home/supa2/project/iros_agent commit -m \"$\\(cat <<'EOF'\nfeat: 实现完整的 VLM + 眼动可视化系统，添加对比实验和演示流程\n\n主要更新：\n- 修复热力图和轨迹图可视化问题\n- 添加 region_id 属性支持数据共享\n- 创建统一可视化脚本 \\(unified_visualization.py\\)\n- 实现对比实验和消融实验框架 \\(comparative_experiments.py\\)\n- 添加完整演示流程和故事模式 \\(demo_pipeline.py\\)\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git clone --depth 1 https://github.com/facebookresearch/segment-anything-2.git /tmp/sam2_temp 2>&1 | head -20)",
+      "Bash(# 备份现有的 configs 目录\nmv /home/supa2/project/iros_agent/sam2/configs /tmp/sam2_configs_backup 2>/dev/null || true\n\n# 复制 SAM 2 代码\ncp -r /tmp/sam2_temp/sam2 /home/supa2/project/iros_agent/sam2/\n\n# 恢复 configs（如果需要）\n# cp -r /tmp/sam2_configs_backup /home/supa2/project/iros_agent/sam2/configs\n\nls -la /home/supa2/project/iros_agent/sam2/)",
+      "Bash(wget -q --show-progress -O sam2/checkpoints/sam2.1_hiera_small.pt https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt 2>&1)",
+      "Bash(find /home/supa2/project/iros_agent/sam2 -name \"*.yaml\" 2>/dev/null | head -20)"
     ]
   }
 }
