@@ -57,3 +57,5 @@ data/outputs/*/*
 temp_*.json
 temp_*.txt
 *.egg-info/
+# SAM 2 模型文件（太大，不上传到 GitHub）
+sam2/checkpoints/*.pt
