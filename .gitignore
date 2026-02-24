@@ -28,13 +28,22 @@ env/
 .DS_Store
 Thumbs.db
 
-# Large model files
+# Large model files (allow sam2 checkpoints)
 models/**/*.pt
 models/**/*.pth
 models/**/*.onnx
 *.pt
 *.pth
 *.onnx
+!sam2/checkpoints/*.pt
+
+# SAM 2 specific
+sam2/sam2_local.egg-info/
+*.egg-info/
+
+# Outputs (except gitkeep)
+data/outputs/*/*
+!data/outputs/*/.gitkeep
 
 # Large data files - Excel
 **/*.xlsx
