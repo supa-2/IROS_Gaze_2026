@@ -51,9 +51,11 @@ class TestSemanticSegmenter:
         segmenter = SemanticSegmenter(config)
         assert segmenter.client is None
 
-    def test_segment_image_without_client(self, model_config):
+    def test_segment_image_without_client(self):
         """Test segmentation without client (no API token)"""
-        segmenter = SemanticSegmenter(model_config)
+        # Create config without token
+        config = ModelConfig(replicate_api_token="")
+        segmenter = SemanticSegmenter(config)
 
         result = segmenter.segment_image("test.jpg")
 

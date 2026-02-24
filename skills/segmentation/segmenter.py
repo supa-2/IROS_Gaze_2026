@@ -162,6 +162,13 @@ class SemanticSegmenter:
             else:
                 mask_array = mask
 
+            # 确保是二维数组
+            if mask_array.ndim == 1:
+                # 如果是一维数组，跳过或返回默认值
+                boxes.append((0, 0, 0, 0))
+                centers.append((0, 0))
+                continue
+
             # 计算边界框
             rows = np.any(mask_array, axis=1)
             cols = np.any(mask_array, axis=0)

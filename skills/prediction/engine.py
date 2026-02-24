@@ -15,7 +15,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'topology'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from graph_engine import TopologyEngine
-from ..memory.manager import MemoryManager, GazeRecord
+from ..memory.manager import MemoryManager
+from ..memory.records import GazeRecord
 from .context_builder import ContextBuilder
 from .llm_reasoner import LLMReasoner
 from .sequence_predictor import SequencePredictor
@@ -303,6 +304,10 @@ class PredictionEngine:
 
         print(f"Predictions exported to: {output_path}")
         return output_path
+
+    def __len__(self) -> int:
+        """返回长期记忆中的记录总数"""
+        return len(self.memory)
 
     def __repr__(self) -> str:
         return (f"PredictionEngine(map={self.map_name}, "

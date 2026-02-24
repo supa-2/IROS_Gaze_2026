@@ -250,16 +250,52 @@ class TestSequencePredictor:
 
     @pytest.fixture
     def mock_reasoner(self):
-        """Create mock reasoner"""
+        """Create mock reasoner that returns different predictions"""
         reasoner = Mock()
-        reasoner.predict_next = Mock(return_value={
-            'prediction_id': 'TH-B02',
-            'prediction_name': 'He Zun',
-            'attention_level': 'B',
-            'estimated_duration': 60,
-            'confidence': 0.8,
-            'reasoning': 'Test reasoning'
-        })
+        # Create a side effect that returns different predictions each call
+        predictions = [
+            {
+                'prediction_id': 'TH-B02',
+                'prediction_name': 'He Zun',
+                'attention_level': 'B',
+                'estimated_duration': 60,
+                'confidence': 0.8,
+                'reasoning': 'Test reasoning 1'
+            },
+            {
+                'prediction_id': 'TH-C03',
+                'prediction_name': 'Exhibit 3',
+                'attention_level': 'C',
+                'estimated_duration': 30,
+                'confidence': 0.7,
+                'reasoning': 'Test reasoning 2'
+            },
+            {
+                'prediction_id': 'TH-D04',
+                'prediction_name': 'Exhibit 4',
+                'attention_level': 'D',
+                'estimated_duration': 15,
+                'confidence': 0.6,
+                'reasoning': 'Test reasoning 3'
+            },
+            {
+                'prediction_id': 'TH-E05',
+                'prediction_name': 'Exhibit 5',
+                'attention_level': 'E',
+                'estimated_duration': 5,
+                'confidence': 0.5,
+                'reasoning': 'Test reasoning 4'
+            },
+            {
+                'prediction_id': 'TH-F06',
+                'prediction_name': 'Exhibit 6',
+                'attention_level': 'A',
+                'estimated_duration': 120,
+                'confidence': 0.9,
+                'reasoning': 'Test reasoning 5'
+            },
+        ]
+        reasoner.predict_next = Mock(side_effect=predictions)
         return reasoner
 
     @pytest.fixture

@@ -48,9 +48,9 @@ class MemoryManager:
     def add_observation(
         self,
         exhibit_id: str,
-        exhibit_name: str,
-        attention_level: str,
-        estimated_duration: int,
+        exhibit_name: Optional[str] = None,
+        attention_level: str = 'C',
+        estimated_duration: Optional[int] = None,
         timestamp: Optional[datetime] = None
     ):
         """
@@ -58,19 +58,27 @@ class MemoryManager:
 
         Args:
             exhibit_id: 展品ID
-            exhibit_name: 展品名称
-            attention_level: 注意力等级 (A/B/C/D/E)
-            estimated_duration: 预计停留时间(秒)
+            exhibit_name: 展品名称 (可选)
+            attention_level: 注意力等级 (A/B/C/D/E，默认C)
+            estimated_duration: 预计停留时间(秒，可选)
             timestamp: 时间戳 (默认为当前时间)
         """
         if timestamp is None:
             timestamp = datetime.now()
 
+        # 如果没有指定持续时间，根据注意力等级推断
+        if estimated_duration is None:
+            from config import AttentionConfig
+            attention_config = AttentionConfig()
+            estimated_duration = attention_config.ATTENTION_DURATION.get(
+                attention_level.upper(), 30
+            )
+
         record = GazeRecord(
             exhibit_id=exhibit_id,
-            exhibit_name=exhibit_name,
+            exhibit_name=exhibit_name or exhibit_id,
             timestamp=timestamp,
-            attention_level=attention_level,
+            attention_level=attention_level.upper(),
             estimated_duration=estimated_duration
         )
 
