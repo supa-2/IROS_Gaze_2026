@@ -35,27 +35,32 @@ class SAM2LocalSegmenter:
     使用本地 SAM 2 模型进行图像分割
     """
 
-    # 模型配置
+    # 模型配置 - sam2.1 版本
+    # 支持两种路径：models/sam2/ (项目根目录) 和 sam2/checkpoints/ (本地)
     MODELS = {
         'tiny': {
             'config': 'sam2/configs/sam2.1/sam2.1_hiera_t.yaml',
-            'checkpoint': 'sam2/checkpoints/sam2.1_hiera_tiny.pt',
-            'size': 38.9  # MB
+            'checkpoint': 'models/sam2/sam2.1_hiera_tiny.pt',
+            'checkpoint_alt': 'sam2/checkpoints/sam2.1_hiera_tiny.pt',
+            'size': 39  # MB
         },
         'small': {
             'config': 'sam2/configs/sam2.1/sam2.1_hiera_s.yaml',
-            'checkpoint': 'sam2/checkpoints/sam2.1_hiera_small.pt',
-            'size': 46.0  # MB
+            'checkpoint': 'models/sam2/sam2.1_hiera_small.pt',
+            'checkpoint_alt': 'sam2/checkpoints/sam2.1_hiera_small.pt',
+            'size': 46  # MB
         },
         'base_plus': {
             'config': 'sam2/configs/sam2.1/sam2.1_hiera_b+.yaml',
-            'checkpoint': 'sam2/checkpoints/sam2.1_hiera_base_plus.pt',
-            'size': 80.8  # MB
+            'checkpoint': 'models/sam2/sam2.1_hiera_base_plus.pt',
+            'checkpoint_alt': 'sam2/checkpoints/sam2.1_hiera_base_plus.pt',
+            'size': 81  # MB
         },
         'large': {
             'config': 'sam2/configs/sam2.1/sam2.1_hiera_l.yaml',
-            'checkpoint': 'sam2/checkpoints/sam2.1_hiera_large.pt',
-            'size': 224.4  # MB
+            'checkpoint': 'models/sam2/sam2.1_hiera_large.pt',
+            'checkpoint_alt': 'sam2/checkpoints/sam2.1_hiera_large.pt',
+            'size': 224  # MB
         }
     }
 
@@ -83,15 +88,20 @@ class SAM2LocalSegmenter:
         # 获取模型配置
         model_config = self.MODELS.get(model_size, self.MODELS['small'])
 
-        # 构建完整路径
+        # 构建完整路径 - 尝试两个可能的位置
         checkpoint_path = os.path.join(project_root, model_config['checkpoint'])
-
-        # 检查模型文件
         if not os.path.exists(checkpoint_path):
-            raise FileNotFoundError(
-                f"Model checkpoint not found: {checkpoint_path}\n"
-                f"Please download it from: https://dl.fbaipublicfiles.com/segment_anything_2/092824/"
-            )
+            checkpoint_path_alt = os.path.join(project_root, model_config.get('checkpoint_alt', ''))
+            if os.path.exists(checkpoint_path_alt):
+                checkpoint_path = checkpoint_path_alt
+            else:
+                raise FileNotFoundError(
+                    f"Model checkpoint not found.\n"
+                    f"  Tried: {checkpoint_path}\n"
+                    f"  Tried: {checkpoint_path_alt}\n"
+                    f"Please download using: python scripts/download_sam2_models.py --model {model_size}\n"
+                    f"Or download from: https://dl.fbaipublicfiles.com/segment_anything_2/072824/"
+                )
 
         # 使用 build_sam2 直接加载
         from sam2.build_sam import build_sam2
