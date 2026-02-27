@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import time
+import numpy as np
 from typing import List, Dict, Optional
 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
