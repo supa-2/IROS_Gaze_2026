@@ -66,11 +66,15 @@ class VLLMAblationExperiment:
         self,
         model_path: str = "/home/g/models/qwen2.5-32b-int4",
         map_name: str = 'TH',
-        data_path: str = None
+        data_path: str = None,
+        gpu_memory_utilization: float = 0.5,
+        max_model_len: int = 1024
     ):
         self.model_path = model_path
         self.map_name = map_name
         self.data_path = data_path
+        self.gpu_memory_utilization = gpu_memory_utilization
+        self.max_model_len = max_model_len
 
         # 加载数据
         self.test_data = self._load_test_data()
@@ -86,12 +90,16 @@ class VLLMAblationExperiment:
             from vllm import LLM, SamplingParams
 
             print(f"[*] Loading vLLM model: {self.model_path}")
+            print(f"[*] GPU memory utilization: {self.gpu_memory_utilization:.0%}")
+            print(f"[*] Max model length: {self.max_model_len}")
+            print("[*] Using reduced memory settings for GPTQ model...")
             self.model = LLM(
                 model=self.model_path,
-                # quantization="int4",  # 移除：让vLLM自动检测（模型已是GPTQ格式）
-                gpu_memory_utilization=0.9,
-                max_model_len=2048,
-                trust_remote_code=True
+                gpu_memory_utilization=self.gpu_memory_utilization,
+                max_model_len=self.max_model_len,
+                trust_remote_code=True,
+                disable_log_stats=True,
+                enable_prefix_caching=False,
             )
             print("[+] vLLM model loaded successfully")
         except ImportError:
@@ -482,6 +490,18 @@ def main():
         default="TH",
         help="Map name (TH or OS)"
     )
+    parser.add_argument(
+        "--gpu-memory",
+        type=float,
+        default=0.5,
+        help="GPU memory utilization (default: 0.5 for GPTQ models)"
+    )
+    parser.add_argument(
+        "--max-len",
+        type=int,
+        default=1024,
+        help="Maximum model length (default: 1024)"
+    )
 
     args = parser.parse_args()
 
@@ -498,7 +518,9 @@ def main():
     experiment = VLLMAblationExperiment(
         model_path=args.model,
         data_path=args.data,
-        map_name=args.map
+        map_name=args.map,
+        gpu_memory_utilization=args.gpu_memory,
+        max_model_len=args.max_len
     )
 
     results = experiment.run_ablation_study()
