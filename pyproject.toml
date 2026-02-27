@@ -15,6 +15,7 @@ dependencies = [
 
     # LLM相关
     "python-dotenv>=1.0.0",
+    "vllm>=0.6.0",  # 本地模型推理（用于GPU服务器）
 
     # SAM 2 API（云端）
     "replicate>=0.31.0",
@@ -34,6 +35,7 @@ dependencies = [
     # 科学计算
     "numpy>=1.24.0",
     "scipy>=1.11.0",
+    "scikit-learn>=1.3.0",  # 用于baseline方法
 
     # 数据处理
     "openpyxl>=3.1.0",
