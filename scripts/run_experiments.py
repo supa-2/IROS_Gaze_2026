@@ -36,6 +36,15 @@ class UnifiedExperimentRunner:
         print(f"Map: {self.map_name}")
         print(f"Data: {self.data_path or 'Sample data'}")
         print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+        # 检查 API key
+        has_api_key = bool(os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY"))
+        if has_api_key:
+            print(f"API Key: ✓ Found (will run real GPT-4o calls)")
+        else:
+            print(f"API Key: ✗ Not found (GPT-4o will use placeholder values)")
+            print(f"         To enable: Add QWEN_API_KEY to .env file")
+
         print("="*70)
 
         # 1. 对照实验
@@ -82,6 +91,13 @@ class UnifiedExperimentRunner:
         latex = []
         latex.append("% Auto-generated LaTeX tables for IROS 2026")
         latex.append(f"% Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+        # 检查是否有 API key
+        has_api_key = bool(os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY"))
+        if not has_api_key:
+            latex.append("% NOTE: GPT-4o results are placeholder values (no API key provided)")
+            latex.append("%       Set QWEN_API_KEY in .env file to run real API calls")
+
         latex.append("")
 
         # Table 1: Baseline Comparison
