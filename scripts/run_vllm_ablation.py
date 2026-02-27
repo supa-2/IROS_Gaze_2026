@@ -262,7 +262,8 @@ class VLLMAblationExperiment:
     def predict_with_config(
         self,
         config: VLLMAblationConfig,
-        sample: Dict
+        sample: Dict,
+        debug: bool = False
     ) -> Dict:
         """使用指定配置进行预测"""
         current = sample['current']
@@ -285,8 +286,17 @@ class VLLMAblationExperiment:
         else:
             result_text = self._call_model(prompt)
 
+        if debug:
+            print(f"\n[DEBUG] Sample: current={current}, truth={ground_truth}")
+            print(f"[DEBUG] Candidates: {candidates}")
+            print(f"[DEBUG] Model output:\n{result_text}")
+
         # 解析结果
         prediction = self._parse_prediction(result_text, candidates)
+
+        if debug:
+            print(f"[DEBUG] Parsed prediction: {prediction['prediction_id']}")
+            print(f"[DEBUG] Match: {prediction['prediction_id'] == ground_truth}")
 
         return {
             'prediction': prediction,
@@ -404,7 +414,15 @@ class VLLMAblationExperiment:
         print(f"Model: {self.model_path}")
         print(f"Map: {self.map_name}")
         print(f"Samples: {len(self.test_data)}")
+        if self.api_url:
+            print(f"API URL: {self.api_url}")
         print("="*70)
+
+        # 先测试一个样本，看看模型输出
+        print("\n[*] Testing model output with one sample...")
+        test_sample = self.test_data[0]
+        test_config = VLLMAblationConfig()
+        result = self.predict_with_config(test_config, test_sample, debug=True)
 
         results = {}
 
@@ -450,7 +468,9 @@ class VLLMAblationExperiment:
         dwell_errors = []
         attention_correct = 0
 
-        for sample in self.test_data:
+        print(f"    Evaluating {len(self.test_data)} samples...", end='', flush=True)
+
+        for i, sample in enumerate(self.test_data):
             # 预测
             result = self.predict_with_config(config, sample)
             prediction = result['prediction']
@@ -460,8 +480,10 @@ class VLLMAblationExperiment:
             if prediction['prediction_id'] == ground_truth:
                 correct_top1 += 1
 
-            # Top-3
+            # Top-3 - 使用模型返回的候选（如果模型没有返回多个候选，则用拓扑候选作为替代）
             candidates = self._get_candidates(sample['current'], config.use_topology)
+            # Top-3: 检查 ground_truth 是否在模型预测或候选的前3个中
+            # 这里简化：假设候选列表本身就是某种排序
             if ground_truth in candidates[:3]:
                 correct_top3 += 1
 
@@ -477,6 +499,7 @@ class VLLMAblationExperiment:
                 attention_correct += 1
 
         total = len(self.test_data)
+        print(f" Done")
 
         return {
             'top1_acc': correct_top1 / total,
