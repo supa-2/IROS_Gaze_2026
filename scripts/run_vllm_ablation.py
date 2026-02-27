@@ -388,7 +388,7 @@ class VLLMAblationExperiment:
 
         # Full (Ours)
         full = results.get('Full', {})
-        print(f"Full (Ours) & {full['top1_acc']:.1%} & {full['top3_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} \\\\\")
+        print(f"Full (Ours) & {full['top1_acc']:.1%} & {full['top3_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} \\\\" + chr(92))
 
         # 其他变体
         for name, res in results.items():
@@ -401,10 +401,11 @@ class VLLMAblationExperiment:
             diff_mae = res['mae'] - full['mae']
             diff_attn = (full['attn_acc'] - res['attn_acc']) * 100
 
-            print(f"-{name} & {res['top1_acc']:.1%} ({diff_top1:+.1f}) & "
-                  f"{res['top3_acc']:.1%} ({diff_top3:+.1f}) & "
-                  f"{res['mae']:.1f}s ({diff_mae:+.1f}) & "
-                  f"{res['attn_acc']:.1%} ({diff_attn:+.1f}) \\\\"")
+            line = f"-{name} & {res['top1_acc']:.1%} ({diff_top1:+.1f}) & " \
+                   f"{res['top3_acc']:.1%} ({diff_top3:+.1f}) & " \
+                   f"{res['mae']:.1f}s ({diff_mae:+.1f}) & " \
+                   f"{res['attn_acc']:.1%} ({diff_attn:+.1f})"
+            print(line + " \\\\" + chr(92))
 
         print("\\hline")
         print("\\end{tabular}")
