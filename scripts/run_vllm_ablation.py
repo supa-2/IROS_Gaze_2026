@@ -4,13 +4,33 @@
 Ablation Study with vLLM - 使用本地微调模型的消融实验
 
 在有模型的机器上运行，测试各组件的贡献
+
+使用方式 1: 直接运行（需要足够显存）
+    python scripts/run_vllm_ablation.py --model /path/to/model
+
+使用方式 2: 使用 API server（推荐，显存不足时）
+    # 终端 1: 启动 server
+    PYTORCH_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 \
+    python -m vllm.entrypoints.openai.api_server \
+        --model /home/g/models/qwen2.5-32b-int4 \
+        --gpu-memory-utilization 0.6 \
+        --max-model-len 2048 \
+        --enforce-eager \
+        --port 8000
+
+    # 终端 2: 运行实验
+    python scripts/run_vllm_ablation.py --api-url http://localhost:8000
 """
 
 import os
 import sys
 import json
 import numpy as np
+import time
 from typing import List, Dict, Optional
+
+# 设置 PyTorch 显存环境变量（与您成功部署时一致）
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True,max_split_size_mb:128'
 
 # 设置项目根目录
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -67,22 +87,27 @@ class VLLMAblationExperiment:
         model_path: str = "/home/g/models/qwen2.5-32b-int4",
         map_name: str = 'TH',
         data_path: str = None,
-        gpu_memory_utilization: float = 0.5,
-        max_model_len: int = 1024
+        gpu_memory_utilization: float = 0.6,
+        max_model_len: int = 2048,
+        api_url: str = None
     ):
         self.model_path = model_path
         self.map_name = map_name
         self.data_path = data_path
         self.gpu_memory_utilization = gpu_memory_utilization
         self.max_model_len = max_model_len
+        self.api_url = api_url  # 如果提供，使用 API 而非直接加载模型
 
         # 加载数据
         self.test_data = self._load_test_data()
         self.exhibit_info = self._load_exhibit_info()
 
-        # 初始化 vLLM 模型
+        # 初始化 vLLM 模型或 API 客户端
         self.predictor = None
-        self._init_model()
+        if self.api_url:
+            self._init_api_client()
+        else:
+            self._init_model()
 
     def _init_model(self):
         """初始化 vLLM 模型"""
@@ -92,7 +117,8 @@ class VLLMAblationExperiment:
             print(f"[*] Loading vLLM model: {self.model_path}")
             print(f"[*] GPU memory utilization: {self.gpu_memory_utilization:.0%}")
             print(f"[*] Max model length: {self.max_model_len}")
-            print("[*] Using reduced memory settings for GPTQ model...")
+            print("[*] Using enforce_eager=True to save memory (same as your working setup)")
+
             self.model = LLM(
                 model=self.model_path,
                 gpu_memory_utilization=self.gpu_memory_utilization,
@@ -100,10 +126,41 @@ class VLLMAblationExperiment:
                 trust_remote_code=True,
                 disable_log_stats=True,
                 enable_prefix_caching=False,
+                enforce_eager=True,  # 关键！禁用 CUDA graph 节省显存
             )
             print("[+] vLLM model loaded successfully")
         except ImportError:
             raise RuntimeError("vLLM not installed. Run: pip install vllm")
+
+    def _init_api_client(self):
+        """初始化 API 客户端（连接到已启动的 vLLM server）"""
+        from openai import OpenAI
+
+        print(f"[*] Connecting to vLLM API server at: {self.api_url}")
+        self.client = OpenAI(
+            api_key="sk-YourCustomSecretKey123",  # 与 server 启动时一致
+            base_url=self.api_url
+        )
+
+        # 测试连接
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model_path,
+                messages=[{"role": "user", "content": "Hi"}],
+                max_tokens=10
+            )
+            print("[+] Connected to vLLM API server successfully")
+        except Exception as e:
+            print(f"[!] Failed to connect to API server: {e}")
+            print("[!] Make sure the server is running:")
+            print("    PYTORCH_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 \\")
+            print("    python -m vllm.entrypoints.openai.api_server \\")
+            print(f"        --model {self.model_path} \\")
+            print("        --gpu-memory-utilization 0.6 \\")
+            print("        --max-model-len 2048 \\")
+            print("        --enforce-eager \\")
+            print("        --port 8000")
+            raise
 
     def _load_test_data(self) -> List[Dict]:
         """加载测试数据"""
@@ -212,16 +269,11 @@ class VLLMAblationExperiment:
         # 构建提示词
         prompt = self._build_prompt(current, history, candidates, config)
 
-        # 调用模型
-        from vllm import SamplingParams
-        sampling_params = SamplingParams(
-            temperature=0.3,
-            top_p=0.9,
-            max_tokens=200
-        )
-
-        outputs = self.model.generate([prompt], sampling_params=sampling_params)
-        result_text = outputs[0].outputs[0].text.strip()
+        # 调用模型（直接模式或 API 模式）
+        if self.api_url:
+            result_text = self._call_api(prompt)
+        else:
+            result_text = self._call_model(prompt)
 
         # 解析结果
         prediction = self._parse_prediction(result_text, candidates)
@@ -230,6 +282,28 @@ class VLLMAblationExperiment:
             'prediction': prediction,
             'ground_truth': ground_truth
         }
+
+    def _call_model(self, prompt: str) -> str:
+        """直接调用 vLLM 模型"""
+        from vllm import SamplingParams
+        sampling_params = SamplingParams(
+            temperature=0.3,
+            top_p=0.9,
+            max_tokens=200
+        )
+        outputs = self.model.generate([prompt], sampling_params=sampling_params)
+        return outputs[0].outputs[0].text.strip()
+
+    def _call_api(self, prompt: str) -> str:
+        """通过 API 调用 vLLM server"""
+        response = self.client.chat.completions.create(
+            model=self.model_path,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            top_p=0.9,
+            max_tokens=200
+        )
+        return response.choices[0].message.content.strip()
 
     def _build_prompt(
         self,
@@ -471,12 +545,39 @@ def main():
     """主函数"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Run ablation study with vLLM")
+    parser = argparse.ArgumentParser(
+        description="Run ablation study with vLLM",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # 使用 API server 模式（推荐，显存不足时）
+  # 先在终端1启动 server:
+  PYTORCH_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 \\
+  python -m vllm.entrypoints.openai.api_server \\
+      --model /home/g/models/qwen2.5-32b-int4 \\
+      --gpu-memory-utilization 0.6 \\
+      --max-model-len 2048 \\
+      --enforce-eager \\
+      --port 8000
+
+  # 然后在终端2运行实验:
+  python scripts/run_vllm_ablation.py --api-url http://localhost:8000
+
+  # 直接运行模式（需要足够显存）
+  python scripts/run_vllm_ablation.py --model /home/g/models/qwen2.5-32b-int4
+        """
+    )
     parser.add_argument(
         "--model",
         type=str,
         default="/home/g/models/qwen2.5-32b-int4",
         help="Path to fine-tuned model"
+    )
+    parser.add_argument(
+        "--api-url",
+        type=str,
+        default=None,
+        help="Use API server instead of direct model (e.g., http://localhost:8000)"
     )
     parser.add_argument(
         "--data",
@@ -493,26 +594,26 @@ def main():
     parser.add_argument(
         "--gpu-memory",
         type=float,
-        default=0.5,
-        help="GPU memory utilization (default: 0.5 for GPTQ models)"
+        default=0.6,  # 与用户成功部署时的参数一致
+        help="GPU memory utilization (default: 0.6)"
     )
     parser.add_argument(
         "--max-len",
         type=int,
-        default=1024,
-        help="Maximum model length (default: 1024)"
+        default=2048,  # 与用户成功部署时的参数一致
+        help="Maximum model length (default: 2048)"
     )
 
     args = parser.parse_args()
 
-    # 检查 vLLM
-    try:
-        from vllm import LLM
-    except ImportError:
-        print("[!] vLLM is not installed!")
-        print("    Install with: pip install vllm")
-        print("    GPU version: pip install vllm-gp")
-        return
+    # API 模式不需要检查 vLLM
+    if not args.api_url:
+        try:
+            from vllm import LLM
+        except ImportError:
+            print("[!] vLLM is not installed!")
+            print("    Install with: pip install vllm")
+            return
 
     # 运行实验
     experiment = VLLMAblationExperiment(
@@ -520,7 +621,8 @@ def main():
         data_path=args.data,
         map_name=args.map,
         gpu_memory_utilization=args.gpu_memory,
-        max_model_len=args.max_len
+        max_model_len=args.max_len,
+        api_url=args.api_url
     )
 
     results = experiment.run_ablation_study()
