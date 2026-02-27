@@ -12,8 +12,20 @@ import json
 import numpy as np
 from typing import List, Dict, Optional
 
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 设置项目根目录
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
 sys.path.insert(0, project_root)
+
+# 验证 skills 目录存在
+skills_path = os.path.join(project_root, 'skills')
+if not os.path.exists(skills_path):
+    print(f"[!] Warning: skills directory not found at {skills_path}")
+    print(f"[!] Project root: {project_root}")
+    print(f"[!] Will run without topology features (using mock data)")
+    USE_TOPOLOGY = False
+else:
+    USE_TOPOLOGY = True
 
 
 class VLLMAblationConfig:
@@ -76,7 +88,7 @@ class VLLMAblationExperiment:
             print(f"[*] Loading vLLM model: {self.model_path}")
             self.model = LLM(
                 model=self.model_path,
-                quantization="int4",
+                # quantization="int4",  # 移除：让vLLM自动检测（模型已是GPTQ格式）
                 gpu_memory_utilization=0.9,
                 max_model_len=2048,
                 trust_remote_code=True
@@ -123,6 +135,11 @@ class VLLMAblationExperiment:
 
     def _load_exhibit_info(self) -> Dict:
         """加载展品信息"""
+        if not USE_TOPOLOGY:
+            # 使用模拟数据
+            print("[!] Using mock exhibit data (topology not available)")
+            return self._get_mock_exhibit_info()
+
         try:
             from skills.topology.graph_engine import TopologyEngine
             topology = TopologyEngine(self.map_name)
@@ -133,19 +150,35 @@ class VLLMAblationExperiment:
             return info
         except Exception as e:
             print(f"[!] Failed to load exhibit info: {e}")
-            return {}
+            print("[!] Using mock exhibit data")
+            return self._get_mock_exhibit_info()
+
+    def _get_mock_exhibit_info(self) -> Dict:
+        """获取模拟展品信息"""
+        mock_exhibits = [
+            'TH-E01', 'TH-I-B01', 'TH-B02', 'TH-C03', 'TH-D04',
+            'TH-E05', 'TH-F06', 'TH-G07', 'TH-A01', 'TH-H08'
+        ]
+        return {
+            eid: {
+                'name': eid,
+                'features': f'Exhibit {eid} features',
+                'attention_level': 'C'
+            }
+            for eid in mock_exhibits
+        }
 
     def _get_candidates(self, current: str, use_topology: bool) -> List[str]:
         """获取候选展品"""
-        if use_topology:
+        if use_topology and USE_TOPOLOGY:
             try:
                 from skills.topology.graph_engine import TopologyEngine
                 topology = TopologyEngine(self.map_name)
                 info = topology.query_node(current)
                 choices = info.get('context', {}).get('direct_choices', [])
                 return [c.get('id') for c in choices]
-            except:
-                pass
+            except Exception as e:
+                print(f"[!] Topology query failed: {e}, using mock candidates")
 
         # 返回所有展品（不包括当前）
         all_exhibits = list(self.exhibit_info.keys())
