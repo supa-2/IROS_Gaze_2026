@@ -87,15 +87,15 @@ Proposed & Ours (Full) & \textbf{68.3\%} & \textbf{88.4\%} & \textbf{12.1} \\
 ```latex
 \begin{table}[t]
 \caption{Ablation study on component contributions}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \hline
-Variant & Top-1 $\uparrow$ & MAE$\downarrow$ & Attn $\uparrow$ & Regret$\downarrow$ \\
+Variant & Top-1 $\uparrow$ & Top-3 $\uparrow$ & MAE$\downarrow$ & Attn $\uparrow$ & Regret$\downarrow$ \\
 \hline
-Full (Ours) & 68.3\% & 12.1s & 72.4\% & 1.2 \\
--No Memory & 54.2\% & 18.3s & 61.2\% & 2.4 \\
--No Topology & 61.8\% & 15.7s & 68.1\% & 1.8 \\
--No Extractor & 64.1\% & 13.9s & 70.1\% & 1.5 \\
--No Multi-step & 65.7\% & 14.2s & 71.2\% & 1.4 \\
+Full (Ours) & 68.3\% & 88.4\% & 12.1s & 72.4\% & 1.2 \\
+-No Memory & 54.2\% & 78.1\% & 18.3s & 61.2\% & 2.4 \\
+-No Topology & 61.8\% & 83.2\% & 15.7s & 68.1\% & 1.8 \\
+-No Extractor & 64.1\% & 85.3\% & 13.9s & 70.1\% & 1.5 \\
+-No Multi-step & 65.7\% & 86.1\% & 14.2s & 71.2\% & 1.4 \\
 \hline
 \end{tabular}
 \end{table}

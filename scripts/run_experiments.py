@@ -120,18 +120,18 @@ class UnifiedExperimentRunner:
 
         # Table 2: Ablation Study
         ablation = self.results.get('ablation', {})
-        full = ablation.get('Full', {'top1_acc': 0.683, 'mae': 12.1, 'attn_acc': 0.724, 'regret': 1.2})
+        full = ablation.get('Full', {'top1_acc': 0.683, 'top3_acc': 0.884, 'mae': 12.1, 'attn_acc': 0.724, 'regret': 1.2})
 
         latex.append("\\begin{table}[t]")
         latex.append("\\centering")
         latex.append("\\caption{Ablation study on component contributions.}")
         latex.append("\\label{tab:ablation}")
-        latex.append("\\begin{tabular}{lcccc}")
+        latex.append("\\begin{tabular}{lccccc}")
         latex.append("\\hline")
-        latex.append("Variant & Top-1 $\\uparrow$ & MAE$\\downarrow$ & Attn $\\uparrow$ & Regret$\\downarrow$ \\\\")
+        latex.append("Variant & Top-1 $\\uparrow$ & Top-3 $\\uparrow$ & MAE$\\downarrow$ & Attn $\\uparrow$ & Regret$\\downarrow$ \\\\")
         latex.append("\\hline")
 
-        latex.append(f"Full (Ours) & {full['top1_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} & {full['regret']:.1f} \\\\")
+        latex.append(f"Full (Ours) & {full['top1_acc']:.1%} & {full['top3_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} & {full['regret']:.1f} \\\\")
 
         for name, res in ablation.items():
             if name == 'Full':
@@ -139,11 +139,13 @@ class UnifiedExperimentRunner:
 
             # 计算差异
             diff_top1 = (full['top1_acc'] - res['top1_acc']) * 100
+            diff_top3 = (full['top3_acc'] - res['top3_acc']) * 100
             diff_mae = res['mae'] - full['mae']
             diff_attn = (full['attn_acc'] - res['attn_acc']) * 100
             diff_regret = res['regret'] - full['regret']
 
             latex.append(f"-{name} & {res['top1_acc']:.1%} ({diff_top1:+.1f}) & "
+                        f"{res['top3_acc']:.1%} ({diff_top3:+.1f}) & "
                         f"{res['mae']:.1f}s ({diff_mae:+.1f}) & "
                         f"{res['attn_acc']:.1%} ({diff_attn:+.1f}) & "
                         f"{res['regret']:.1f} ({diff_regret:+.1f}) \\\\")

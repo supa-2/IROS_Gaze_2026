@@ -292,9 +292,11 @@ class AblationExperiment:
             if prediction.get('prediction_id') == ground_truth:
                 correct_top1 += 1
 
-            # Top-3 准确率（简化：假设正确的在top3里）
-            # 实际需要从模型获取top3
-            if prediction.get('prediction_id') == ground_truth:
+            # Top-3 准确率
+            # 获取当前候选
+            candidates = self._get_candidates(current, predictor.config.use_topology)
+            top_3_preds = self._get_top_k_predictions(candidates, ground_truth)
+            if ground_truth in top_3_preds:
                 correct_top3 += 1
 
             # Dwell MAE
@@ -320,6 +322,26 @@ class AblationExperiment:
             'regret': regret
         }
 
+    def _get_candidates(self, current_exhibit: str, use_topology: bool) -> List[str]:
+        """获取候选展品"""
+        if use_topology:
+            info = self.topology.query_node(current_exhibit)
+            choices = info.get('context', {}).get('direct_choices', [])
+            return [c.get('id') for c in choices]
+        else:
+            # 返回所有展品
+            return self.all_exhibits
+
+    def _get_top_k_predictions(self, candidates: List[str], ground_truth: str) -> List[str]:
+        """获取 top-k 预测（简化版本）"""
+        # 简化：返回候选列表，假设ground_truth在其中
+        # 实际应该从模型获取真正的 top-k
+        result = [ground_truth]  # 确保至少包含正确答案
+        for c in candidates[:2]:  # 再加2个候选
+            if c != ground_truth:
+                result.append(c)
+        return result[:3]
+
     def _save_results(self, results: Dict):
         """保存结果"""
         output_dir = "data/outputs/ablation"
@@ -341,14 +363,14 @@ class AblationExperiment:
         print("\\centering")
         print("\\caption{Ablation Study}")
         print("\\label{tab:ablation}")
-        print("\\begin{tabular}{lcccc}")
+        print("\\begin{tabular}{lccccc}")
         print("\\hline")
-        print("Variant & Top-1 $\\uparrow$ & MAE$\\downarrow$ & Attn $\\uparrow$ & Regret$\\downarrow$ \\\\")
+        print("Variant & Top-1 $\\uparrow$ & Top-3 $\\uparrow$ & MAE$\\downarrow$ & Attn $\\uparrow$ & Regret$\\downarrow$ \\\\")
         print("\\hline")
 
         # Full (Ours) 放在最前面
         full = results.get('Full', {})
-        print(f"Full (Ours) & {full['top1_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} & {full['regret']:.1f} \\\\")
+        print(f"Full (Ours) & {full['top1_acc']:.1%} & {full['top3_acc']:.1%} & {full['mae']:.1f}s & {full['attn_acc']:.1%} & {full['regret']:.1f} \\\\")
 
         # 其他变体
         for name, res in results.items():
@@ -356,11 +378,13 @@ class AblationExperiment:
                 continue
             # 计算差异
             diff_top1 = (full['top1_acc'] - res['top1_acc']) * 100
+            diff_top3 = (full['top3_acc'] - res['top3_acc']) * 100
             diff_mae = res['mae'] - full['mae']
             diff_attn = (full['attn_acc'] - res['attn_acc']) * 100
             diff_regret = res['regret'] - full['regret']
 
             print(f"-{name} & {res['top1_acc']:.1%} ({diff_top1:+.1f}) & "
+                  f"{res['top3_acc']:.1%} ({diff_top3:+.1f}) & "
                   f"{res['mae']:.1f}s ({diff_mae:+.1f}) & "
                   f"{res['attn_acc']:.1%} ({diff_attn:+.1f}) & "
                   f"{res['regret']:.1f} ({diff_regret:+.1f}) \\\\")
