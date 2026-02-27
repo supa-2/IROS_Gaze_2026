@@ -136,26 +136,36 @@ class VLLMAblationExperiment:
         """初始化 API 客户端（连接到已启动的 vLLM server）"""
         from openai import OpenAI
 
-        print(f"[*] Connecting to vLLM API server at: {self.api_url}")
+        # 确保使用正确的 base URL（需要包含 /v1）
+        api_base = self.api_url.rstrip('/')
+        if not api_base.endswith('/v1'):
+            api_base = api_base + '/v1'
+
+        print(f"[*] Connecting to vLLM API server at: {api_base}")
         self.client = OpenAI(
             api_key="sk-YourCustomSecretKey123",  # 与 server 启动时一致
-            base_url=self.api_url
+            base_url=api_base
         )
+
+        # 使用服务端注册的模型名称（通过 --served-model-name 指定）
+        self.served_model_name = "Qwen"
 
         # 测试连接
         try:
             response = self.client.chat.completions.create(
-                model=self.model_path,
+                model=self.served_model_name,
                 messages=[{"role": "user", "content": "Hi"}],
                 max_tokens=10
             )
-            print("[+] Connected to vLLM API server successfully")
+            print(f"[+] Connected to vLLM API server successfully")
+            print(f"[*] Server model: {self.served_model_name}")
         except Exception as e:
             print(f"[!] Failed to connect to API server: {e}")
             print("[!] Make sure the server is running:")
             print("    PYTORCH_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 \\")
             print("    python -m vllm.entrypoints.openai.api_server \\")
             print(f"        --model {self.model_path} \\")
+            print("        --served-model-name Qwen \\")
             print("        --gpu-memory-utilization 0.6 \\")
             print("        --max-model-len 2048 \\")
             print("        --enforce-eager \\")
@@ -297,7 +307,7 @@ class VLLMAblationExperiment:
     def _call_api(self, prompt: str) -> str:
         """通过 API 调用 vLLM server"""
         response = self.client.chat.completions.create(
-            model=self.model_path,
+            model=self.served_model_name,  # 使用服务端注册的模型名
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
             top_p=0.9,
