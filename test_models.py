@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试最新模型 API 连接
+测试最新模型 API 连接 - 使用中转API (VectorEngine)
 """
 
 import os
@@ -10,89 +10,69 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 测试配置
+# 统一的中转API配置
+API_KEY = os.getenv("VECTOR_API_KEY", "")
+BASE_URL = os.getenv("VECTOR_BASE_URL", "https://api.vectorengine.ai") + "/v1"
+
+# 要测试的模型
 TEST_MODELS = [
-    {
-        "display": "GPT-5.2-pro",
-        "model": "gpt-5.2-pro",
-        "api_key": os.getenv("OPENAI_API_KEY"),
-        "base_url": os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
-    },
-    {
-        "display": "Claude-Sonnet-4-6",
-        "model": "claude-sonnet-4-6",
-        "api_key": os.getenv("ANTHROPIC_API_KEY"),
-        "base_url": os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com"),
-    },
-    {
-        "display": "Gemini-3.1-Pro-Preview-Thinking",
-        "model": "gemini-3.1-pro-preview-thinking",
-        "api_key": os.getenv("GEMINI_API_KEY"),
-        "base_url": os.getenv("GEMINI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta"),
-    },
+    "gpt-5.2-pro",
+    "claude-sonnet-4-6",
+    "gemini-3.1-pro-preview-thinking",
 ]
 
-def test_model(model_config):
+def test_model(model_name: str):
     """测试单个模型"""
     print(f"\n{'='*60}")
-    print(f"[*] 测试: {model_config['display']}")
-    print(f"    模型名称: {model_config['model']}")
-    print(f"    base_url: {model_config['base_url']}")
+    print(f"[*] 测试: {model_name}")
+    print(f"    base_url: {BASE_URL}")
 
-    if not model_config['api_key']:
-        print(f"    [!] 跳过: API key 未设置")
+    if not API_KEY:
+        print(f"    [!] 跳过: VECTOR_API_KEY 未设置")
         return False
 
     try:
-        client = OpenAI(
-            api_key=model_config['api_key'],
-            base_url=model_config['base_url']
-        )
+        client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
         response = client.chat.completions.create(
-            model=model_config['model'],
-            messages=[{"role": "user", "content": "你好，请简短回复OK"}],
-            max_tokens=10
+            model=model_name,
+            messages=[{"role": "user", "content": "你好，请简短回复OK和模型名称"}],
+            max_tokens=50
         )
 
-        result = response.choices[0].message.content.strip()
-        print(f"    [+] 成功!")
-        print(f"    响应: {result}")
-        return True
+        # 打印原始响应类型
+        print(f"    [DEBUG] response类型: {type(response)}")
+        print(f"    [DEBUG] response内容: {response}")
+
+        if hasattr(response, 'choices'):
+            result = response.choices[0].message.content.strip()
+            print(f"    [+] 成功!")
+            print(f"    响应: {result}")
+            return True
+        else:
+            print(f"    [!] 响应格式异常")
+            return False
 
     except Exception as e:
+        import traceback
         error_msg = str(e)
-        print(f"    [!] 失败: {error_msg[:200]}")
-
-        if "401" in error_msg or "Unauthorized" in error_msg:
-            print(f"    原因: API key 无效或未设置")
-        elif "404" in error_msg or "Not Found" in error_msg:
-            print(f"    原因: 模型名称不存在")
-        elif "400" in error_msg or "Invalid" in error_msg:
-            print(f"    原因: 请求参数无效")
+        print(f"    [!] 异常: {error_msg[:200]}")
+        print(f"    [DEBUG] traceback:\n{traceback.format_exc()}")
         return False
 
 
 def main():
     print("="*60)
-    print("测试最新模型 API")
+    print("测试最新模型 API (中转API)")
     print("="*60)
-
-    # 检查环境变量
-    print("\n[*] 环境变量状态:")
-    env_vars = {
-        "OPENAI_API_KEY": "GPT",
-        "ANTHROPIC_API_KEY": "Claude",
-        "GEMINI_API_KEY": "Gemini"
-    }
-    for var, name in env_vars.items():
-        status = "[已设置]" if os.getenv(var) else "[未设置]"
-        print(f"    {var} ({name}): {status}")
+    print(f"\n[*] API配置:")
+    print(f"    BASE_URL: {BASE_URL}")
+    print(f"    API_KEY: {'[已设置]' if API_KEY else '[未设置]'}")
 
     # 测试每个模型
     results = {}
     for model in TEST_MODELS:
-        results[model['display']] = test_model(model)
+        results[model] = test_model(model)
 
     # 总结
     print("\n" + "="*60)
@@ -107,7 +87,9 @@ def main():
     if available:
         print(f"\n[+] 可用模型: {', '.join(available)}")
     else:
-        print(f"\n[!] 没有可用的模型")
+        print(f"\n[!] 没有可用的模型，请检查:")
+        print(f"    1. VECTOR_API_KEY 是否正确")
+        print(f"    2. 模型名称是否被中转API支持")
 
 
 if __name__ == "__main__":
