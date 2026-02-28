@@ -10,6 +10,7 @@ Ablation Study with Distribution Matching and Attention Evaluation
 import os
 import sys
 import json
+import random
 import numpy as np
 from typing import List, Dict, Optional
 from collections import Counter, defaultdict
@@ -115,6 +116,14 @@ TOPOLOGY_ADJACENCY = {
 
 
 class AblationConfig:
+    """
+    消融实验配置
+
+    消融方式：
+    - No-Topology: 打乱 exhibits 顺序，消除空间位置暗示
+    - No-Feature: 将 features 字段设为空字符串
+    - No-Memory: 将 history 设为空数组
+    """
     def __init__(
         self,
         use_topology_preprocess: bool = True,
@@ -234,48 +243,48 @@ class DistributionAblation:
         candidates: List[str],
         config: AblationConfig
     ) -> Dict[str, float]:
-        """获取模型预测的分布 - 使用 ShareGPT 格式 + 多次采样"""
-        # 获取拓扑和特征信息
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
-        current_features = EXHIBIT_FEATURES.get(current, "")
-
-        # 构建候选展品列表（包含特征）
+        """获取模型预测的分布 - 使用与训练数据一致的 ShareGPT 格式"""
+        # 构建 exhibits 列表（第一个是当前位置，其余是候选）
+        # 空间顺序暗示拓扑关系
         exhibits_list = []
-        for candidate in candidates:
+
+        # 添加当前位置
+        current_features = EXHIBIT_FEATURES.get(current, "")
+        exhibits_list.append({
+            "name": current,
+            "features": current_features if config.use_feature_preprocess else ""
+        })
+
+        # 添加候选展品
+        candidates_for_order = list(candidates)
+
+        # 如果不使用拓扑，打乱候选顺序
+        if not config.use_topology_preprocess:
+            random.seed(42)  # 固定种子保证可复现
+            random.shuffle(candidates_for_order)
+
+        for candidate in candidates_for_order:
             feat = EXHIBIT_FEATURES.get(candidate, "")
             exhibits_list.append({
                 "name": candidate,
-                "features": feat
+                "features": feat if config.use_feature_preprocess else ""
             })
 
         # 构建历史记录（如果使用记忆）
         history = []
         if config.use_memory_in_llm:
-            # 模拟历史：假设之前访问过当前展品
+            # 模拟历史：假设之前访问过入口
             history.append({
-                "name": current,
-                "attention_level": "B"
+                "name": "入口",
+                "attention_level": "C"
             })
 
-        # 构建 ShareGPT 格式的 prompt
+        # 构建 ShareGPT 格式的 prompt（与训练数据一致）
         request_data = {
             "task": "predict_next",
-            "current": {
-                "name": current,
-                "features": current_features if config.use_feature_preprocess else ""
-            },
-            "candidates": exhibits_list,
+            "exhibits": exhibits_list,
+            "history": history
         }
-
-        # 添加拓扑信息（如果使用）
-        if config.use_topology_preprocess and neighbors:
-            request_data["topology"] = {
-                "neighbors": neighbors
-            }
-
-        # 添加历史（如果使用记忆）
-        if config.use_memory_in_llm and history:
-            request_data["history"] = history
 
         # 转换为 JSON 格式
         prompt = f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
@@ -288,7 +297,7 @@ class DistributionAblation:
                 response = self.client.chat.completions.create(
                     model=self.model_name,
                     messages=[{"role": "user", "content": prompt}],
-                    temperature=0.5,  # 稍微提高温度以获得多样性
+                    temperature=0.5,
                     max_tokens=300
                 )
                 result = response.choices[0].message.content.strip()
@@ -339,10 +348,19 @@ class DistributionAblation:
         next_exhibit: str,
         config: AblationConfig
     ) -> Dict[str, any]:
-        """预测注意力等级和停留时间 - 使用 ShareGPT 格式"""
+        """预测注意力等级和停留时间 - 使用与训练数据一致的 attribution 格式"""
         features = EXHIBIT_FEATURES.get(next_exhibit, "")
 
-        # 构建 ShareGPT 格式的 prompt
+        # 选择一个对比展品（用于 attribution 任务）
+        # 选择第一个不同于 next_exhibit 的展品
+        compare_exhibit = None
+        for name in EXHIBIT_FEATURES.keys():
+            if name != next_exhibit:
+                compare_exhibit = name
+                break
+
+        # 构建 attribution 任务格式（与训练数据一致）
+        # 训练数据中 attribution 是比较两个展品，选择更有吸引力的
         request_data = {
             "task": "attribution",
             "exhibits": [
@@ -352,6 +370,13 @@ class DistributionAblation:
                 }
             ]
         }
+
+        # 如果有对比展品，添加它（更接近训练格式）
+        if compare_exhibit:
+            request_data["exhibits"].append({
+                "name": compare_exhibit,
+                "features": EXHIBIT_FEATURES.get(compare_exhibit, "") if config.use_feature_preprocess else ""
+            })
 
         prompt = f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
 
