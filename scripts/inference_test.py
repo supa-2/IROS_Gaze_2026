@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试集推理脚本 - 生成标准格式预测结果
+测试集推理脚本 - 直接调用模型 API
 
-参考 ablation_study.py 的调用方式
-输出格式：
-- subject_id
-- episode_id
-- top1, top2, top3, top4, top5 (预测的下一展品)
-- p_top1 ... p_top5 (top_k对应概率)
-- dwell_sec_pred (预测停留时间)
+类似训练后的模型在测试集上推理，输出标准格式 predictions_test.csv
 """
 
 import os
@@ -17,7 +11,6 @@ import sys
 import json
 import csv
 import argparse
-import numpy as np
 from typing import List, Dict, Optional
 from collections import defaultdict, Counter
 
@@ -37,32 +30,23 @@ ATTENTION_DURATION = {
 }
 
 
-class TestSetInference:
-    """测试集推理器 - 使用与 ablation_study.py 相同的调用方式"""
+class SimpleTestInference:
+    """简单测试集推理器 - 直接调用 vLLM API"""
 
-    def __init__(self, map_name: str = "TH", api_url: str = None):
-        self.map_name = map_name
+    def __init__(self, api_url: str = "http://localhost:8000/v1", model_name: str = "Qwen"):
+        self.api_url = api_url
+        self.model_name = model_name
 
-        # 导入必要模块
-        from skills.topology.graph_engine import TopologyEngine
-        from skills.prediction.llm_reasoner import LLMReasoner
-        from config import Config, AttentionConfig
+        # 初始化 OpenAI 客户端
+        from openai import OpenAI
+        self.client = OpenAI(api_key="sk-YourCustomSecretKey123", base_url=api_url)
 
-        self.TopologyEngine = TopologyEngine
-        self.LLMReasoner = LLMReasoner
-        self.config_cls = Config
-        self.AttentionConfig = AttentionConfig
+        print(f"[+] 模型: {model_name}")
+        print(f"[+] API: {api_url}")
 
-        # 初始化拓扑引擎
-        self.topology = TopologyEngine(map_name)
-        self.all_exhibits = list(self.topology.graph.nodes())
-
-        print(f"[+] 拓扑引擎初始化完成: {map_name}")
-        print(f"[+] 展品数量: {len(self.all_exhibits)}")
-
-    def load_test_data_from_jsonl(self, jsonl_path: str) -> List[Dict]:
-        """从 JSONL 文件加载测试数据"""
-        test_data = []
+    def load_predict_next_tasks(self, jsonl_path: str, max_samples: int = None) -> List[Dict]:
+        """加载 predict_next 任务"""
+        tasks = []
 
         with open(jsonl_path, 'r', encoding='utf-8') as f:
             for line_no, line in enumerate(f):
@@ -72,7 +56,6 @@ class TestSetInference:
                         conv = item.get('conversations', [])
                         if len(conv) >= 2:
                             human_msg = conv[0].get('value', '')
-                            gpt_msg = conv[1].get('value', '')
 
                             # 只处理 predict_next 任务
                             if '"task": "predict_next"' in human_msg:
@@ -81,215 +64,152 @@ class TestSetInference:
                                 if json_match:
                                     try:
                                         request_data = json.loads(json_match.group(1))
-                                        exhibits = request_data.get('exhibits', [])
-                                        history = request_data.get('history', [])
-
-                                        # 从 exhibits 中获取当前展品（第一个）
-                                        if exhibits:
-                                            current_exhibit_name = exhibits[0].get('name', '')
-                                            # 查找对应的 exhibit_id
-                                            current_id = self._find_exhibit_id_by_name(current_exhibit_name)
-
-                                            if current_id:
-                                                # 获取候选展品（exhibits 除去第一个）
-                                                candidates = exhibits[1:] if len(exhibits) > 1 else []
-
-                                                subject_id = "val_subject"
-                                                episode_id = f"episode_{line_no}"
-
-                                                test_data.append({
-                                                    'subject_id': subject_id,
-                                                    'episode_id': episode_id,
-                                                    'current_id': current_id,
-                                                    'current_name': current_exhibit_name,
-                                                    'candidates': candidates,
-                                                    'history': history,
-                                                    'line_no': line_no
-                                                })
-                                    except Exception as e:
-                                        print(f"    [!] 解析错误 line {line_no}: {e}")
+                                        tasks.append({
+                                            'subject_id': 'val_subject',
+                                            'episode_id': f'episode_{line_no}',
+                                            'prompt_data': request_data,
+                                            'line_no': line_no
+                                        })
+                                    except:
                                         continue
-                    except Exception as e:
+
+                        if max_samples and len(tasks) >= max_samples:
+                            break
+                    except:
                         continue
 
-        print(f"[+] 加载了 {len(test_data)} 个 predict_next 测试样本")
-        return test_data
+        print(f"[+] 加载了 {len(tasks)} 个 predict_next 任务")
+        return tasks
 
-    def _find_exhibit_id_by_name(self, name: str) -> Optional[str]:
-        """根据名称查找展品 ID"""
-        # 精确匹配
-        for node_id in self.all_exhibits:
-            node_info = self.topology.query_node(node_id)
-            if node_info and node_info.get('info', {}).get('name') == name:
-                return node_id
+    def predict_single(self, prompt_data: Dict) -> Dict:
+        """单次预测"""
+        # 构建 ShareGPT 格式的 prompt
+        prompt = f"```json\n{json.dumps(prompt_data, ensure_ascii=False, indent=2)}\n```"
 
-        # 模糊匹配（包含）
-        for node_id in self.all_exhibits:
-            node_info = self.topology.query_node(node_id)
-            if node_info:
-                node_name = node_info.get('info', {}).get('name', '')
-                if name in node_name or node_name in name:
-                    return node_id
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=300
+            )
+            result = response.choices[0].message.content.strip()
 
-        return None
+            # 解析 JSON
+            depth = 0
+            start_idx = -1
+            parsed = None
+            for i, char in enumerate(result):
+                if char == '{':
+                    if depth == 0:
+                        start_idx = i
+                    depth += 1
+                elif char == '}':
+                    depth -= 1
+                    if depth == 0 and start_idx >= 0:
+                        json_str = result[start_idx:i+1]
+                        try:
+                            parsed = json.loads(json_str)
+                            break
+                        except:
+                            continue
 
-    def _get_candidate_ids(self, candidates: List[Dict]) -> List[str]:
-        """获取候选展品 ID 列表"""
-        candidate_ids = []
-        for cand in candidates:
-            name = cand.get('name', '')
-            cand_id = self._find_exhibit_id_by_name(name)
-            if cand_id:
-                candidate_ids.append(cand_id)
-        return candidate_ids
+            return parsed
+        except Exception as e:
+            return None
 
-    def predict_top_k(self, current_id: str, candidate_ids: List[str], k: int = 5) -> List[Dict]:
-        """预测 Top-K 展品及其概率"""
-        if not candidate_ids:
-            return []
-
-        # 获取当前展品信息
-        current_info = self.topology.query_node(current_id)
-
-        # 构建上下文
-        context = {
-            'current': {
-                'id': current_id,
-                'name': current_info['info']['name'],
-                'features': current_info['info'].get('features', ''),
-                'attention_level': 'C',
-                'estimated_duration': 30
-            },
-            'history': [],
-            'spatial': {
-                'previous_path': [],
-                'next_path': [],
-                'reachable_options': []
-            }
-        }
-
-        # 添加候选展品到空间上下文
-        for cand_id in candidate_ids:
-            cand_info = self.topology.query_node(cand_id)
-            if cand_info:
-                context['spatial']['reachable_options'].append({
-                    'id': cand_id,
-                    'relation': 'next',
-                    'name': cand_info['info']['name']
-                })
-
-        # 使用 LLMReasoner 进行预测
-        attention_config = self.AttentionConfig()
-        config = self.config_cls()
-
-        reasoner = self.LLMReasoner(config.model)
-
-        # 多次采样获取概率分布
+    def predict_top_k_with_sampling(self, prompt_data: Dict, k: int = 5) -> List[Dict]:
+        """多次采样获取 Top-K 预测"""
         num_samples = 5
         predictions_count = Counter()
+        attention_counts = Counter()
 
-        for _ in range(num_samples):
-            try:
-                prediction = reasoner.predict_next(context, attention_config)
-                pred_id = prediction.get('prediction_id')
-                if pred_id and pred_id in candidate_ids:
-                    predictions_count[pred_id] += 1
-            except Exception as e:
-                continue
+        # 获取候选展品列表
+        exhibits = prompt_data.get('exhibits', [])
+        candidate_names = [e['name'] for e in exhibits[1:]] if len(exhibits) > 1 else []
+
+        for sample_idx in range(num_samples):
+            parsed = self.predict_single(prompt_data)
+
+            if parsed and 'prediction' in parsed:
+                pred = parsed['prediction']
+                pred_name = pred.get('name', '')
+                pred_attention = pred.get('attention_level', 'C')
+
+                if pred_name:
+                    predictions_count[pred_name] += 1
+                    attention_counts[pred_name] += 1  # 累积注意力等级
 
         # 转换为概率分布
         total = sum(predictions_count.values())
         predictions_with_prob = []
-        for cand_id in candidate_ids:
-            count = predictions_count.get(cand_id, 0)
+
+        for name in candidate_names:
+            count = predictions_count.get(name, 0)
             prob = count / total if total > 0 else 0
-            cand_info = self.topology.query_node(cand_id)
-            name = cand_info['info']['name'] if cand_info else cand_id
-            predictions_with_prob.append({'id': cand_id, 'name': name, 'probability': prob})
+            predictions_with_prob.append({'name': name, 'probability': prob})
 
         # 按概率排序
         predictions_with_prob.sort(key=lambda x: -x['probability'])
 
-        return predictions_with_prob[:k]
+        # 获取预测最多的注意力等级
+        most_common_attention = 'C'
+        if attention_counts:
+            most_common_attention = attention_counts.most_common(1)[0][0]
 
-    def predict_dwell_time(self, exhibit_id: str, predicted_attention: str = None) -> int:
-        """预测停留时间"""
-        # 简化：返回默认的停留时间
-        # 可以扩展为使用 attribution 任务预测
-        if predicted_attention and predicted_attention in ATTENTION_DURATION:
-            return ATTENTION_DURATION[predicted_attention]
-        return ATTENTION_DURATION['C']  # 默认 30 秒
+        return predictions_with_prob[:k], most_common_attention
 
     def run_inference(self, test_path: str, output_path: str = None, max_samples: int = None) -> List[Dict]:
         """运行推理"""
         print("="*70)
-        print("测试集推理")
+        print("测试集推理 - 直接调用模型")
         print("="*70)
         print(f"测试集: {test_path}")
-        print(f"地图: {self.map_name}")
         print("="*70)
 
-        # 加载测试数据
-        test_data = self.load_test_data_from_jsonl(test_path)
+        # 加载任务
+        tasks = self.load_predict_next_tasks(test_path, max_samples)
 
-        if not test_data:
-            print("[!] 没有找到测试数据")
+        if not tasks:
+            print("[!] 没有找到任务")
             return []
-
-        if max_samples:
-            test_data = test_data[:max_samples]
-            print(f"[!] 限制样本数: {max_samples}")
 
         # 运行推理
         predictions = []
 
-        for i, item in enumerate(test_data):
-            subject_id = item['subject_id']
-            episode_id = item['episode_id']
-            current_id = item['current_id']
-            candidate_ids = self._get_candidate_ids(item['candidates'])
+        for i, task in enumerate(tasks):
+            subject_id = task['subject_id']
+            episode_id = task['episode_id']
+            prompt_data = task['prompt_data']
 
-            print(f"\n[{i+1}/{len(test_data)}] {subject_id} / {episode_id}")
-            print(f"    当前: {item['current_name']} ({current_id})")
-            print(f"    候选数: {len(candidate_ids)}")
-
-            if not candidate_ids:
-                print(f"    [!] 没有找到候选展品，跳过")
-                continue
+            print(f"\n[{i+1}/{len(tasks)}] {episode_id}")
 
             # 预测 Top-5
-            top_k = self.predict_top_k(current_id, candidate_ids, k=5)
-
-            if not top_k:
-                print(f"    [!] 预测失败，跳过")
-                continue
+            top_k, attention = self.predict_top_k_with_sampling(prompt_data, k=5)
 
             # 预测停留时间
-            dwell_sec_pred = self.predict_dwell_time(current_id)
-            if top_k:
-                # 使用 top1 的注意力等级
-                # 这里简化处理，实际可以调用 attribution
+            dwell_sec_pred = ATTENTION_DURATION.get(attention, ATTENTION_DURATION['C'])
 
-                # 构建预测结果
-                pred_row = {
-                    'subject_id': subject_id,
-                    'episode_id': episode_id,
-                    'dwell_sec_pred': dwell_sec_pred
-                }
+            # 构建预测结果
+            pred_row = {
+                'subject_id': subject_id,
+                'episode_id': episode_id,
+                'dwell_sec_pred': dwell_sec_pred
+            }
 
-                # 添加 Top-5 展品和概率
-                for j in range(5):
-                    if j < len(top_k):
-                        pred_row[f'top{j+1}'] = top_k[j]['name']
-                        pred_row[f'p_top{j+1}'] = top_k[j]['probability']
-                    else:
-                        pred_row[f'top{j+1}'] = ""
-                        pred_row[f'p_top{j+1}'] = 0.0
+            # 添加 Top-5 展品和概率
+            for j in range(5):
+                if j < len(top_k):
+                    pred_row[f'top{j+1}'] = top_k[j]['name']
+                    pred_row[f'p_top{j+1}'] = round(top_k[j]['probability'], 4)
+                else:
+                    pred_row[f'top{j+1}'] = ""
+                    pred_row[f'p_top{j+1}'] = 0.0
 
-                print(f"    Top-1: {pred_row['top1']} ({pred_row['p_top1']:.2f})")
-                print(f"    停留时间: {dwell_sec_pred}s")
+            print(f"    Top-1: {pred_row['top1']} ({pred_row['p_top1']:.4f})")
+            print(f"    注意力: {attention}, 停留: {dwell_sec_pred}s")
 
-                predictions.append(pred_row)
+            predictions.append(pred_row)
 
         # 保存结果
         if output_path is None:
@@ -327,10 +247,11 @@ class TestSetInference:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="测试集推理")
     parser.add_argument("--test-path", required=True, help="测试集路径 (jsonl)")
-    parser.add_argument("--map", default="TH", help="地图名称 (TH/OS)")
+    parser.add_argument("--api-url", default="http://localhost:8000/v1", help="vLLM API URL")
+    parser.add_argument("--model", default="Qwen", help="模型名称")
     parser.add_argument("--output", default=None, help="输出文件路径")
     parser.add_argument("--max-samples", type=int, default=None, help="最大样本数（用于测试）")
     args = parser.parse_args()
 
-    inferencer = TestSetInference(map_name=args.map)
+    inferencer = SimpleTestInference(args.api_url, args.model)
     inferencer.run_inference(args.test_path, args.output, args.max_samples)
