@@ -29,7 +29,8 @@
       "Bash(git clone --depth 1 https://github.com/facebookresearch/segment-anything-2.git /tmp/sam2_temp 2>&1 | head -20)",
       "Bash(# 备份现有的 configs 目录\nmv /home/supa2/project/iros_agent/sam2/configs /tmp/sam2_configs_backup 2>/dev/null || true\n\n# 复制 SAM 2 代码\ncp -r /tmp/sam2_temp/sam2 /home/supa2/project/iros_agent/sam2/\n\n# 恢复 configs（如果需要）\n# cp -r /tmp/sam2_configs_backup /home/supa2/project/iros_agent/sam2/configs\n\nls -la /home/supa2/project/iros_agent/sam2/)",
       "Bash(wget -q --show-progress -O sam2/checkpoints/sam2.1_hiera_small.pt https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt 2>&1)",
-      "Bash(find /home/supa2/project/iros_agent/sam2 -name \"*.yaml\" 2>/dev/null | head -20)"
+      "Bash(find /home/supa2/project/iros_agent/sam2 -name \"*.yaml\" 2>/dev/null | head -20)",
+      "Bash(python3 test_models.py)"
     ]
   }
 }
