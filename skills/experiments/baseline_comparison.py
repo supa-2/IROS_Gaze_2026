@@ -6,7 +6,7 @@ Baseline Comparison - 对照实验
 对比不同方法：
 1. Statistical: Markov Chain
 2. Deep Learning: LSTM/MLP
-3. Zero-Shot LLMs: GPT-4o, Claude-3.5-Sonnet, Qwen-Plus, Qwen-Turbo
+3. Zero-Shot LLMs: GPT-4o, Claude-3.7-Sonnet, Gemini-2.5-Pro, Qwen-Plus
 4. Open Source Base Model: 未训练的原始模型 (vLLM)
 5. Ours: 从消融实验结果文件读取
 
@@ -274,20 +274,26 @@ class ZeroShotLLMBaseline:
             "base_url_env": "OPENAI_BASE_URL",
             "default_base_url": "https://api.openai.com/v1"
         },
-        "Claude-3.5-Sonnet": {
-            "model_name": "claude-3-5-sonnet-20241022",
+        "GPT-4o-mini": {
+            "model_name": "gpt-4o-mini",
+            "api_key_env": "OPENAI_API_KEY",
+            "base_url_env": "OPENAI_BASE_URL",
+            "default_base_url": "https://api.openai.com/v1"
+        },
+        "Claude-3.7-Sonnet": {
+            "model_name": "claude-3-7-sonnet-20250219",
             "api_key_env": "ANTHROPIC_API_KEY",
             "base_url_env": "ANTHROPIC_BASE_URL",
             "default_base_url": "https://api.anthropic.com"
         },
+        "Gemini-2.5-Pro": {
+            "model_name": "gemini-2.5-pro-preview-03-25",
+            "api_key_env": "GEMINI_API_KEY",
+            "base_url_env": "GEMINI_BASE_URL",
+            "default_base_url": "https://generativelanguage.googleapis.com/v1beta"
+        },
         "Qwen-Plus": {
             "model_name": "qwen-plus",
-            "api_key_env": "QWEN_API_KEY",
-            "base_url_env": "QWEN_BASE_URL",
-            "default_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
-        },
-        "Qwen-Turbo": {
-            "model_name": "qwen-turbo",
             "api_key_env": "QWEN_API_KEY",
             "base_url_env": "QWEN_BASE_URL",
             "default_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
@@ -633,10 +639,10 @@ class BaselineComparison:
         运行对照实验
 
         Args:
-            zero_shot_models: 要测试的Zero-Shot模型列表，如 ["GPT-4o", "Claude-3.5-Sonnet", "Qwen-Plus"]
+            zero_shot_models: 要测试的Zero-Shot模型列表
         """
         if zero_shot_models is None:
-            zero_shot_models = ["GPT-4o", "Claude-3.5-Sonnet", "Qwen-Plus", "Qwen-Turbo"]
+            zero_shot_models = ["GPT-4o", "Claude-3.7-Sonnet", "Gemini-2.5-Pro", "Qwen-Plus"]
 
         print("="*90)
         print("Baseline Comparison Experiment - Distribution Matching")
@@ -825,8 +831,10 @@ class BaselineComparison:
 
         # 定义Zero-Shot模型列表
         zero_shot_models = [
-            "GPT-4o", "Claude-3.5-Sonnet", "Qwen-Plus", "Qwen-Turbo",
-            "GPT-4o-mini", "Claude-3-Haiku"
+            "GPT-4o", "GPT-4o-mini",
+            "Claude-3.7-Sonnet",
+            "Gemini-2.5-Pro",
+            "Qwen-Plus"
         ]
 
         print("\n\\begin{table}[t]")
@@ -882,7 +890,7 @@ if __name__ == "__main__":
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果文件路径 (默认: data/outputs/vllm_ablation/ablation_results.json)")
     parser.add_argument("--zero-shot", nargs='+',
-                        default=["GPT-4o", "Claude-3.5-Sonnet", "Qwen-Plus", "Qwen-Turbo"],
+                        default=["GPT-4o", "Claude-3.7-Sonnet", "Gemini-2.5-Pro", "Qwen-Plus"],
                         help="要测试的Zero-Shot模型列表")
     args = parser.parse_args()
 
