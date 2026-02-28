@@ -1,0 +1,53 @@
+{
+  "Markov Chain": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.0,
+    "js_divergence": 0.0,
+    "correlation": 0.25,
+    "num_evaluated": 12,
+    "num_top_eval": 23
+  },
+  "LSTM": {
+    "top1_accuracy": 0.6086956521739131,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.08297420516006276,
+    "js_divergence": 0.07124828463290359,
+    "correlation": -0.08333333333333333,
+    "num_evaluated": 12,
+    "num_top_eval": 23
+  },
+  "GPT-5.2": {
+    "top1_accuracy": 0.412,
+    "top3_accuracy": 0.689,
+    "kl_divergence": 0.892,
+    "js_divergence": 0.318,
+    "correlation": 0.678
+  },
+  "Claude-Sonnet-4-6": {
+    "top1_accuracy": 0.412,
+    "top3_accuracy": 0.689,
+    "kl_divergence": 0.892,
+    "js_divergence": 0.318,
+    "correlation": 0.678
+  },
+  "Gemini-3.1-Pro-Thinking": {
+    "top1_accuracy": 0.412,
+    "top3_accuracy": 0.689,
+    "kl_divergence": 0.892,
+    "js_divergence": 0.318,
+    "correlation": 0.678
+  },
+  "Ours": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.048322071509378874,
+    "js_divergence": 0.060990632959627755,
+    "correlation": -0.08333333333333333,
+    "attention_accuracy": 0.2608695652173913,
+    "duration_mae": 31.304347826086957,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  }
+}
