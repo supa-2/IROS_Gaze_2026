@@ -159,6 +159,7 @@ class DistributionAblation:
         self._init_client()
         self.preprocess_cache = {}
         self.num_samples = 5  # 每个预测采样5次来构建分布
+        self.laplace_alpha = 1.0  # Laplace平滑系数，避免零概率导致KL散度为Infinity
 
     def _init_client(self):
         from openai import OpenAI
@@ -320,13 +321,18 @@ class DistributionAblation:
             except Exception as e:
                 continue
 
-        # 转换为概率分布
+        # 转换为概率分布（使用 Laplace 平滑避免零概率）
         total = sum(predictions_count.values())
         if total > 0:
-            return {c: predictions_count[c] / total for c in candidates}
+            # 平滑后的概率: (count + alpha) / (total + alpha * num_classes)
+            smoothed = {
+                c: (predictions_count[c] + self.laplace_alpha) / (total + self.laplace_alpha * len(candidates))
+                for c in candidates
+            }
+            return smoothed
 
-        # 默认：均匀分布
-        return {c: 1.0/len(candidates) for c in candidates}
+        # 默认：均匀分布（也应用平滑）
+        return {c: (1 + self.laplace_alpha) / (len(candidates) + self.laplace_alpha * len(candidates)) for c in candidates}
 
     def predict_attention(
         self,
