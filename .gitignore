@@ -41,9 +41,6 @@ models/**/*.onnx
 sam2/sam2_local.egg-info/
 *.egg-info/
 
-# Outputs (except gitkeep)
-data/outputs/*/*
-!data/outputs/*/.gitkeep
 
 # Large data files - Excel
 **/*.xlsx

@@ -1,0 +1,50 @@
+{
+  "total_fixations": 25,
+  "total_duration": 796.6591586129715,
+  "unique_regions": 7,
+  "region_transitions": 20,
+  "region_stats": {
+    "EX-000": {
+      "count": 5,
+      "total_duration": 174.99016349854443,
+      "first_visit": 1,
+      "last_visit": 18
+    },
+    "EX-001": {
+      "count": 3,
+      "total_duration": 18.84429267456661,
+      "first_visit": 2,
+      "last_visit": 14
+    },
+    "EX-002": {
+      "count": 5,
+      "total_duration": 85.11902166643446,
+      "first_visit": 3,
+      "last_visit": 24
+    },
+    "EX-003": {
+      "count": 4,
+      "total_duration": 252.17904301995102,
+      "first_visit": 4,
+      "last_visit": 25
+    },
+    "EX-004": {
+      "count": 3,
+      "total_duration": 110.9944579420647,
+      "first_visit": 5,
+      "last_visit": 20
+    },
+    "EX-005": {
+      "count": 1,
+      "total_duration": 65.10701310217213,
+      "first_visit": 6,
+      "last_visit": 6
+    },
+    "EX-006": {
+      "count": 4,
+      "total_duration": 89.42516670923806,
+      "first_visit": 7,
+      "last_visit": 22
+    }
+  }
+}
