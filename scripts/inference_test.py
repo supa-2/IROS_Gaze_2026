@@ -131,14 +131,31 @@ class SimpleTestInference:
         for sample_idx in range(num_samples):
             parsed = self.predict_single(prompt_data)
 
-            if parsed and 'prediction' in parsed:
-                pred = parsed['prediction']
-                pred_name = pred.get('name', '')
-                pred_attention = pred.get('attention_level', 'C')
+            if parsed is None:
+                continue
 
-                if pred_name:
-                    predictions_count[pred_name] += 1
-                    attention_counts[pred_name] += 1  # 累积注意力等级
+            # 处理不同的返回格式
+            pred_name = None
+            pred_attention = 'C'
+
+            if isinstance(parsed, dict):
+                if 'prediction' in parsed:
+                    pred = parsed['prediction']
+                    if isinstance(pred, dict):
+                        pred_name = pred.get('name', '')
+                        pred_attention = pred.get('attention_level', 'C')
+                    elif isinstance(pred, str):
+                        pred_name = pred  # prediction 直接是字符串
+                elif 'name' in parsed:
+                    # 直接在根级别有 name 字段
+                    pred_name = parsed.get('name', '')
+                    pred_attention = parsed.get('attention_level', 'C')
+            elif isinstance(parsed, str):
+                pred_name = parsed  # 整个结果就是名称
+
+            if pred_name:
+                predictions_count[pred_name] += 1
+                attention_counts[pred_name] += 1
 
         # 转换为概率分布
         total = sum(predictions_count.values())
