@@ -23,6 +23,10 @@ from scipy.stats import entropy
 from scipy.spatial.distance import jensenshannon
 from datetime import datetime
 
+# 加载 .env 文件
+from dotenv import load_dotenv
+load_dotenv()
+
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, project_root)
 
@@ -305,8 +309,8 @@ class ZeroShotLLMBaseline:
         self.client = OpenAI(api_key=api_key, base_url=base_url)
 
     def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布 - 多次采样"""
-        num_samples = 5
+        """获取概率分布 - 单次采样（Zero-Shot LLM 较慢）"""
+        num_samples = 1  # Zero-Shot LLM API 较慢，只用 1 次采样
         predictions_count = {c: 0 for c in candidates}
 
         for _ in range(num_samples):
