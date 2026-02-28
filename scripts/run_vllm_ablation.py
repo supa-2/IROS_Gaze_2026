@@ -7,7 +7,7 @@ Ablation Study with vLLM - 三阶段架构
 阶段 1: 微调模型基于提取的信息预测
 阶段 2: Qwen LLM 用记忆优化最终输出
 
-在有模型的机器上运行，测试各组件的贡献
+使用真实展品名称（而非ID）
 """
 
 import os
@@ -22,7 +22,80 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(script_dir))
 sys.path.insert(0, project_root)
 
-USE_TOPOLOGY = os.path.exists(os.path.join(project_root, 'skills'))
+# 真实展品名称（从训练数据中提取）
+REAL_EXHIBIT_NAMES = [
+    "丁香花", "金鱼兰", "牡丹花", "说明文字-千岛湖", "玉兰花开",
+    "人物-祝大年创作", "自序", "松竹海", "西双版纳",
+    "北大简-仓颉篇", "文物展柜", "颜真卿楷书", "耕织图-多媒体装置",
+    "二十四节气圆盘", "鸡蛋花", "山茶花", "千岛湖", "说明文字", "入口",
+    "森林之歌", "漓江春色", "风筝", "鸢飞曲", "黄山松", "迎客松",
+    "三星堆展区", "殷墟展区", "良渚展区", "文字瀑布", "耕织图"
+]
+
+# 展品特征信息
+EXHIBIT_FEATURES = {
+    "丁香花": "一幅精美的艺术画作，描绘了白色圆盆栽开满白色小花，绿叶繁盛的场景",
+    "金鱼兰": "土红色盆子栽种着叶片细长、花朵呈金鱼状的植物",
+    "牡丹花": "色彩饱满，花瓣层次细腻，搭配翠绿的叶片",
+    "说明文字-千岛湖": "千岛湖 Qiandao Lake 1980s...",
+    "玉兰花开": "开满白色玉兰花的树，挂在黑墙上",
+    "人物-祝大年创作": "祝大年创作的西双版纳傣族生活主题工笔重彩人物组画",
+    "自序": "白墙上陈列着的自序节选文章",
+    "松竹海": "上面画着松树和竹子，挂在白墙中间",
+    "西双版纳": "描绘西双版纳热带雨林场景，有正在劳作的人",
+    "北大简-仓颉篇": "隶书-北大简《仓颉篇》，收藏于北京大学赛克勒考古与艺术博物馆",
+    "文物展柜": "天人合一部分文字文物展柜",
+    "颜真卿楷书": "楷书-颜真卿《明拓干禄字书册》，收藏于故宫博物院",
+    "耕织图-多媒体装置": "数字活化的中国古代耕织图，展示农耕文化",
+    "二十四节气圆盘": "融合虚拟现实技术的动态影像装置",
+    "鸡蛋花": "一盆花的画作展品，挂在墙上",
+    "山茶花": "一盆花的画作展品，在柱子上",
+    "千岛湖": "湖景主题艺术作品",
+    "说明文字": "展品说明介绍",
+    "入口": "展厅入口过渡空间",
+    "森林之歌": "九幅画位于展台上面，描绘森林场景",
+    "漓江春色": "祝大年1960年创作的漓江春色画作",
+    "风筝": "多幅风筝主题画作",
+    "鸢飞曲": "包含风筝和人的画作展品",
+    "黄山松": "迎客松主题画作",
+    "迎客松": "两幅画都是画的迎客松",
+    "三星堆展区": "三星堆文化主题展区",
+    "殷墟展区": "殷墟文化主题展区",
+    "良渚展区": "良渚文化主题展区",
+    "文字瀑布": "天地人自然气象等文字展示",
+    "耕织图": "中国古代耕织图主题",
+}
+
+# 模拟的拓扑关系（相邻展品）
+TOPOLOGY_ADJACENCY = {
+    "入口": ["丁香花", "说明文字"],
+    "丁香花": ["说明文字-千岛湖", "金鱼兰", "玉兰花开"],
+    "金鱼兰": ["牡丹花", "山茶花"],
+    "牡丹花": ["说明文字-千岛湖", "鸡蛋花"],
+    "说明文字-千岛湖": ["人物-祝大年创作", "自序"],
+    "玉兰花开": ["松竹海", "西双版纳"],
+    "人物-祝大年创作": ["自序", "文物展柜"],
+    "自序": ["松竹海", "北大简-仓颉篇"],
+    "松竹海": ["西双版纳", "漓江春色"],
+    "西双版纳": ["耕织图", "颜真卿楷书"],
+    "北大简-仓颉篇": ["文物展柜", "耕织图-多媒体装置"],
+    "文物展柜": ["颜真卿楷书", "二十四节气圆盘"],
+    "颜真卿楷书": ["耕织图-多媒体装置", "鸡蛋花"],
+    "耕织图-多媒体装置": ["二十四节气圆盘", "山茶花"],
+    "二十四节气圆盘": ["千岛湖", "森林之歌"],
+    "鸡蛋花": ["山茶花", "千岛湖"],
+    "山茶花": ["说明文字", "入口"],
+    "千岛湖": ["说明文字", "耕织图"],
+    "森林之歌": ["漓江春色", "风筝"],
+    "漓江春色": ["风筝", "鸢飞曲"],
+    "风筝": ["鸢飞曲", "黄山松"],
+    "鸢飞曲": ["黄山松", "迎客松"],
+    "黄山松": ["迎客松", "三星堆展区"],
+    "迎客松": ["三星堆展区", "殷墟展区"],
+    "三星堆展区": ["殷墟展区", "良渚展区"],
+    "殷墟展区": ["良渚展区", "文字瀑布"],
+    "良渚展区": ["文字瀑布", "耕织图"],
+}
 
 
 class AblationConfig:
@@ -30,16 +103,15 @@ class AblationConfig:
 
     def __init__(
         self,
-        use_topology_preprocess: bool = True,  # 阶段0: Qwen 是否处理拓扑
-        use_feature_preprocess: bool = True,   # 阶段0: Qwen 是否处理特征
-        use_memory_in_llm: bool = True,        # 阶段2: Qwen 是否用记忆优化
+        use_topology_preprocess: bool = True,
+        use_feature_preprocess: bool = True,
+        use_memory_in_llm: bool = True,
     ):
         self.use_topology_preprocess = use_topology_preprocess
         self.use_feature_preprocess = use_feature_preprocess
         self.use_memory_in_llm = use_memory_in_llm
 
     def get_name(self) -> str:
-        """获取配置名称"""
         parts = []
         if not self.use_topology_preprocess:
             parts.append("No-Topology")
@@ -58,28 +130,21 @@ class ThreeStageAblation:
         model_name: str = "Qwen",
         api_url: str = "http://localhost:8000/v1",
         api_key: str = "sk-YourCustomSecretKey123",
-        map_name: str = 'TH',
         data_path: str = None
     ):
         self.model_name = model_name
         self.api_url = api_url
         self.api_key = api_key
-        self.map_name = map_name
         self.data_path = data_path
 
         # 加载数据
         self.test_data = self._load_test_data()
-        self.exhibit_info = self._load_exhibit_info()
-        self.topology_data = self._load_topology_data() if USE_TOPOLOGY else {}
 
         # 初始化客户端
         self._init_client()
-
-        # 缓存预处理结果（避免重复调用）
         self.preprocess_cache = {}
 
     def _init_client(self):
-        """初始化 API 客户端"""
         from openai import OpenAI
         self.client = OpenAI(api_key=self.api_key, base_url=self.api_url)
         print(f"[+] Connected to vLLM API: {self.api_url}")
@@ -92,16 +157,17 @@ class ThreeStageAblation:
         return self._create_sample_data()
 
     def _create_sample_data(self) -> List[Dict]:
-        """创建模拟测试数据"""
+        """使用真实展品名称创建测试数据"""
+        # 基于真实参观模式创建序列
         sample_sequences = [
-            ['TH-E01', 'TH-I-B01', 'TH-B02', 'TH-C03', 'TH-D04'],
-            ['TH-E01', 'TH-B02', 'TH-C03', 'TH-E05', 'TH-F06'],
-            ['TH-A01', 'TH-B02', 'TH-D04', 'TH-E01', 'TH-I-B01'],
-            ['TH-C03', 'TH-D04', 'TH-E05', 'TH-F06', 'TH-G07'],
-            ['TH-B02', 'TH-C03', 'TH-D04', 'TH-E05', 'TH-F06'],
-            ['TH-E01', 'TH-I-B01', 'TH-B02', 'TH-C03'],
-            ['TH-A01', 'TH-B02', 'TH-D04', 'TH-E01'],
-            ['TH-C03', 'TH-D04', 'TH-E05', 'TH-F06'],
+            ["入口", "丁香花", "说明文字-千岛湖", "人物-祝大年创作", "自序"],
+            ["入口", "丁香花", "金鱼兰", "牡丹花", "鸡蛋花"],
+            ["入口", "说明文字", "金鱼兰", "山茶花", "说明文字-千岛湖"],
+            ["玉兰花开", "松竹海", "西双版纳", "耕织图", "颜真卿楷书"],
+            ["松竹海", "漓江春色", "风筝", "鸢飞曲", "黄山松"],
+            ["迎客松", "三星堆展区", "殷墟展区", "良渚展区", "文字瀑布"],
+            ["森林之歌", "风筝", "黄山松", "迎客松", "三星堆展区"],
+            ["千岛湖", "说明文字", "自序", "松竹海", "西双版纳"],
         ]
 
         test_data = []
@@ -111,76 +177,41 @@ class ThreeStageAblation:
                     'context': seq[:i+1],
                     'current': seq[i],
                     'next': seq[i + 1],
-                    'history': [{'id': seq[j], 'name': seq[j], 'duration': 60} for j in range(i)],
+                    'history': [
+                        {'name': seq[j], 'duration': 60, 'attention': 'A'}
+                        for j in range(i)
+                    ],
                     'dwell': 60,
                     'attention': 'A'
                 })
         return test_data
 
-    def _load_exhibit_info(self) -> Dict:
-        """加载展品信息"""
-        mock_exhibits = [
-            'TH-E01', 'TH-I-B01', 'TH-B02', 'TH-C03', 'TH-D04',
-            'TH-E05', 'TH-F06', 'TH-G07', 'TH-A01', 'TH-H08'
-        ]
-        return {
-            eid: {
-                'name': eid,
-                'type': np.random.choice(['Interactive', 'Static', 'Video']),
-                'popularity': np.random.randint(50, 100),
-                'zone': chr(65 + i % 5)  # A-E zone
-            }
-            for i, eid in enumerate(mock_exhibits)
-        }
-
-    def _load_topology_data(self) -> Dict:
-        """加载拓扑数据"""
-        try:
-            from skills.topology.graph_engine import TopologyEngine
-            topology = TopologyEngine(self.map_name)
-            data = {}
-            for node_id in topology.graph.nodes():
-                node_data = topology.query_node(node_id)
-                data[node_id] = {
-                    'neighbors': node_data.get('context', {}).get('direct_choices', []),
-                }
-            return data
-        except:
-            return {}
-
     def stage0_qwen_preprocess(
         self,
         current: str,
         config: AblationConfig
-    ) -> str:
-        """
-        阶段 0: Qwen LLM 处理拓扑和特征，提取关键信息
-        """
+    ) -> Dict:
+        """阶段 0: Qwen LLM 处理拓扑和特征"""
         cache_key = (current, config.use_topology_preprocess, config.use_feature_preprocess)
         if cache_key in self.preprocess_cache:
             return self.preprocess_cache[cache_key]
 
-        current_info = self.exhibit_info.get(current, {})
-
         # 构建预处理 prompt
-        prompt_parts = [f"Current location: {current}"]
+        prompt_parts = [f"当前位置: {current}"]
 
         # 拓扑信息
-        if config.use_topology_preprocess and USE_TOPOLOGY:
-            neighbors = self.topology_data.get(current, {}).get('neighbors', [])
+        if config.use_topology_preprocess:
+            neighbors = TOPOLOGY_ADJACENCY.get(current, [])
             if neighbors:
-                neighbor_ids = [n.get('id') for n in neighbors[:5]]
-                prompt_parts.append(f"Nearby exhibits: {', '.join(neighbor_ids)}")
-            else:
-                prompt_parts.append("Nearby exhibits: All connected exhibits")
+                prompt_parts.append(f"相邻展品: {', '.join(neighbors[:5])}")
 
         # 展品特征
         if config.use_feature_preprocess:
-            prompt_parts.append(f"Exhibit type: {current_info.get('type', 'Unknown')}")
-            prompt_parts.append(f"Popularity: {current_info.get('popularity', 50)}/100")
+            features = EXHIBIT_FEATURES.get(current, "普通展品")
+            prompt_parts.append(f"展品特征: {features}")
 
-        prompt_parts.append("\nExtract key information for trajectory prediction. Return JSON:")
-        prompt_parts.append('{"context": "brief description", "candidates": ["id1", "id2", "id3"]}')
+        prompt_parts.append("\n提取关键信息用于轨迹预测。返回JSON:")
+        prompt_parts.append('{"context": "简要描述", "candidates": ["展品名1", "展品名2", "展品名3"]}')
 
         prompt = "\n".join(prompt_parts)
 
@@ -189,41 +220,48 @@ class ThreeStageAblation:
                 model=self.model_name,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
-                max_tokens=200
+                max_tokens=300
             )
             result = response.choices[0].message.content.strip()
 
-            # 缓存结果
-            self.preprocess_cache[cache_key] = result
-            return result
+            # 解析并缓存
+            import re
+            json_match = re.search(r'\{.*\}', result, re.DOTALL)
+            if json_match:
+                parsed = json.loads(json_match.group())
+                self.preprocess_cache[cache_key] = parsed
+                return parsed
+
+            # 默认返回
+            return {"context": f"参观{current}", "candidates": []}
 
         except Exception as e:
-            # 默认返回
-            return '{"context": "standard visit", "candidates": []}'
+            return {"context": f"参观{current}", "candidates": []}
 
     def stage1_fine_tuned_predict(
         self,
         current: str,
-        processed_context: str,
+        processed_context: Dict,
         config: AblationConfig
     ) -> Dict:
-        """
-        阶段 1: 微调模型基于 Qwen 预处理的信息做预测
-        """
-        # 构建预测 prompt
-        history_str = ", ".join(self.test_data[0]['context'][:3]) if self.test_data else "TH-E01"
+        """阶段 1: 微调模型预测"""
+        context_desc = processed_context.get("context", "")
+        candidates = processed_context.get("candidates", [])
 
-        prompt = f"""You are a trajectory prediction model.
+        history_str = "、".join(self.test_data[0]['context'][:3]) if self.test_data else "入口"
 
-Current location: {current}
+        prompt = f"""你是轨迹预测模型。
 
-Processed context from spatial analysis:
-{processed_context}
+当前位置: {current}
 
-Previous locations: {history_str}
+环境分析:
+{context_desc}
+候选展品: {', '.join(candidates[:5]) if candidates else '所有展品'}
 
-Predict the next exhibit. Return JSON:
-{{"prediction_id": "exhibit_id", "confidence": 0.0-1.0}}"""
+之前参观: {history_str}
+
+预测下一个展品。返回JSON:
+{{"prediction_name": "展品名称", "confidence": 0.0-1.0}}"""
 
         try:
             response = self.client.chat.completions.create(
@@ -234,26 +272,24 @@ Predict the next exhibit. Return JSON:
             )
             result = response.choices[0].message.content.strip()
 
-            # 解析 JSON
             import re
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
             if json_match:
                 parsed = json.loads(json_match.group())
-                pred_id = parsed.get('prediction_id')
-                if pred_id:
+                pred_name = parsed.get("prediction_name") or parsed.get("prediction_id")
+                if pred_name and pred_name in REAL_EXHIBIT_NAMES:
                     return {
-                        'prediction_id': pred_id,
-                        'confidence': parsed.get('confidence', 0.8),
-                        'raw': result
+                        'prediction_name': pred_name,
+                        'confidence': parsed.get('confidence', 0.8)
                     }
-        except Exception as e:
+        except:
             pass
 
-        # 默认
+        # 默认：返回拓扑邻居
+        neighbors = TOPOLOGY_ADJACENCY.get(current, [REAL_EXHIBIT_NAMES[0]])
         return {
-            'prediction_id': current,
-            'confidence': 0.5,
-            'raw': ''
+            'prediction_name': neighbors[0] if neighbors else REAL_EXHIBIT_NAMES[0],
+            'confidence': 0.5
         }
 
     def stage2_qwen_refine(
@@ -263,28 +299,28 @@ Predict the next exhibit. Return JSON:
         initial_prediction: Dict,
         config: AblationConfig
     ) -> Dict:
-        """
-        阶段 2: Qwen LLM 用记忆优化预测
-        """
-        initial_pred = initial_prediction['prediction_id']
+        """阶段 2: Qwen 用记忆优化"""
+        initial_pred = initial_prediction['prediction_name']
 
-        # 构建记忆信息
         memory_info = ""
         if config.use_memory_in_llm and history:
-            visited = [h['id'] for h in history]
-            memory_info = f"Recently visited: {', '.join(visited[-5:])}\n"
+            visited = [h['name'] for h in history]
+            if visited:
+                memory_info = f"最近参观: {', '.join(visited[-5:])}\n"
+                if initial_pred in visited[-3:]:
+                    memory_info += f"注意: {initial_pred} 刚刚参观过，可能不适合\n"
 
-        prompt = f"""You are refining a trajectory prediction.
+        prompt = f"""优化轨迹预测
 
-Current: {current}
-Initial prediction: {initial_pred}
+当前位置: {current}
+初始预测: {initial_pred}
 
-{memory_info}Consider visitor patterns:
-- Don't predict recently visited exhibits
-- Consider exhibit popularity
+{memory_info}考虑参观规律:
+- 避免重复参观刚看过的展品
+- 考虑展品类型多样性
 
-Return the refined prediction as JSON:
-{{"prediction_id": "exhibit_id", "confidence": 0.0-1.0, "reasoning": "explanation"}}"""
+返回优化后的预测JSON:
+{{"prediction_name": "展品名称", "confidence": 0.0-1.0, "reasoning": "理由"}}"""
 
         try:
             response = self.client.chat.completions.create(
@@ -299,18 +335,16 @@ Return the refined prediction as JSON:
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
             if json_match:
                 parsed = json.loads(json_match.group())
-                pred_id = parsed.get('prediction_id')
-                if pred_id:
+                pred_name = parsed.get("prediction_name") or parsed.get("prediction_id")
+                if pred_name and pred_name in REAL_EXHIBIT_NAMES:
                     return {
-                        'prediction_id': pred_id,
+                        'prediction_name': pred_name,
                         'confidence': parsed.get('confidence', 0.85),
-                        'reasoning': parsed.get('reasoning', ''),
-                        'raw': result
+                        'reasoning': parsed.get('reasoning', '')
                     }
         except:
             pass
 
-        # 回退到初始预测
         return initial_prediction
 
     def predict_with_config(
@@ -334,11 +368,11 @@ Return the refined prediction as JSON:
         final_result = self.stage2_qwen_refine(current, history, stage1_result, config)
 
         if debug:
-            print(f"\n[DEBUG] Current: {current}, Truth: {ground_truth}")
-            print(f"[DEBUG] Stage0 (Qwen preprocess): {processed_context[:100]}...")
-            print(f"[DEBUG] Stage1 (Fine-tuned): {stage1_result['prediction_id']}")
-            print(f"[DEBUG] Stage2 (Qwen refine): {final_result['prediction_id']}")
-            print(f"[DEBUG] Match: {final_result['prediction_id'] == ground_truth}")
+            print(f"\n[DEBUG] 当前: {current}, 真实: {ground_truth}")
+            print(f"[DEBUG] 阶段0预处理: {processed_context.get('context', 'N/A')}")
+            print(f"[DEBUG] 阶段1预测: {stage1_result['prediction_name']}")
+            print(f"[DEBUG] 阶段2优化: {final_result['prediction_name']}")
+            print(f"[DEBUG] 匹配: {final_result['prediction_name'] == ground_truth}")
 
         return {
             'prediction': final_result,
@@ -347,41 +381,31 @@ Return the refined prediction as JSON:
         }
 
     def _evaluate_config(self, config: AblationConfig) -> Dict:
-        """评估单个配置"""
+        """评估配置"""
         correct_top1 = 0
+        correct_top3 = 0
         dwell_errors = []
-        all_candidates = []
 
-        print(f"    Evaluating {len(self.test_data)} samples...", end='', flush=True)
+        print(f"    评估 {len(self.test_data)} 个样本...", end='', flush=True)
 
         for sample in self.test_data:
             result = self.predict_with_config(config, sample)
             prediction = result['prediction']
             ground_truth = result['ground_truth']
 
-            # Top-1
-            if prediction['prediction_id'] == ground_truth:
+            if prediction['prediction_name'] == ground_truth:
                 correct_top1 += 1
 
-            # 收集候选用于 Top-3
-            current = sample['current']
-            all_candidates.append(self._get_candidates(current, config.use_topology_preprocess))
-
-            # Dwell MAE
-            pred_dwell = 120 * (1 - prediction.get('confidence', 0.5)) + 30
-            true_dwell = sample.get('dwell', 60)
-            dwell_errors.append(abs(pred_dwell - true_dwell))
-
-        total = len(self.test_data)
-
-        # Top-3: ground truth 是否在候选的前3个中
-        correct_top3 = 0
-        for i, sample in enumerate(self.test_data):
-            candidates = all_candidates[i]
-            if sample['next'] in candidates[:3]:
+            # Top-3
+            candidates = TOPOLOGY_ADJACENCY.get(sample['current'], REAL_EXHIBIT_NAMES)
+            if ground_truth in candidates[:3]:
                 correct_top3 += 1
 
-        print(f" Done")
+            pred_dwell = 120 * (1 - prediction.get('confidence', 0.5)) + 30
+            dwell_errors.append(abs(pred_dwell - sample.get('dwell', 60)))
+
+        total = len(self.test_data)
+        print(f" 完成")
 
         return {
             'top1_acc': correct_top1 / total,
@@ -389,48 +413,34 @@ Return the refined prediction as JSON:
             'mae': np.mean(dwell_errors) if dwell_errors else 0
         }
 
-    def _get_candidates(self, current: str, use_topology: bool) -> List[str]:
-        """获取候选展品"""
-        if use_topology and USE_TOPOLOGY and current in self.topology_data:
-            neighbors = self.topology_data[current].get('neighbors', [])
-            return [n.get('id') for n in neighbors]
-        # Mock: 返回所有其他展品
-        return [e for e in self.exhibit_info.keys() if e != current]
-
     def run_ablation_study(self) -> Dict:
-        """运行完整消融实验"""
+        """运行消融实验"""
         print("="*70)
-        print("Three-Stage Ablation Study")
+        print("三阶段消融实验（使用真实展品名称）")
         print("="*70)
-        print(f"Model: {self.model_name}")
-        print(f"Map: {self.map_name}")
-        print(f"Samples: {len(self.test_data)}")
+        print(f"模型: {self.model_name}")
+        print(f"样本数: {len(self.test_data)}")
+        print(f"展品数: {len(REAL_EXHIBIT_NAMES)}")
         print("="*70)
 
         # 测试一个样本
-        print("\n[*] Testing with one sample...")
+        print("\n[*] 测试一个样本...")
         test_config = AblationConfig()
-        test_result = self.predict_with_config(test_config, self.test_data[0], debug=True)
+        self.predict_with_config(test_config, self.test_data[0], debug=True)
 
         results = {}
 
-        # 定义消融配置
         configs = [
-            # Full: 三阶段完整
             AblationConfig(use_topology_preprocess=True, use_feature_preprocess=True, use_memory_in_llm=True),
-            # No-Topology: 阶段0 不处理拓扑
             AblationConfig(use_topology_preprocess=False, use_feature_preprocess=True, use_memory_in_llm=True),
-            # No-Feature: 阶段0 不处理特征
             AblationConfig(use_topology_preprocess=True, use_feature_preprocess=False, use_memory_in_llm=True),
-            # No-Memory: 阶段2 不用记忆
             AblationConfig(use_topology_preprocess=True, use_feature_preprocess=True, use_memory_in_llm=False),
-            # No-Preprocess: 跳过阶段0
             AblationConfig(use_topology_preprocess=False, use_feature_preprocess=False, use_memory_in_llm=True),
         ]
 
         for config in configs:
             config_name = config.get_name()
-            print(f"\n[*] Testing: {config_name}")
+            print(f"\n[*] 测试: {config_name}")
 
             config_results = self._evaluate_config(config)
             results[config_name] = config_results
@@ -450,14 +460,14 @@ Return the refined prediction as JSON:
         output_path = os.path.join(output_dir, "ablation_results.json")
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
-        print(f"\n[+] Results saved to {output_path}")
+        print(f"\n[+] 结果已保存: {output_path}")
 
     def _print_table(self, results: Dict):
-        """打印结果表格"""
+        """打印结果"""
         print("\n" + "="*70)
-        print("Results Summary")
+        print("结果汇总")
         print("="*70)
-        print(f"{'Variant':<20} {'Top-1':>12} {'Top-3':>12} {'MAE':>10}")
+        print(f"{'配置':<20} {'Top-1':>12} {'Top-3':>12} {'MAE':>10}")
         print("-" * 56)
 
         full = results.get('Full', {})
@@ -471,17 +481,15 @@ Return the refined prediction as JSON:
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Three-Stage Ablation Study")
-    parser.add_argument("--model", default="Qwen", help="Model name")
-    parser.add_argument("--api-url", default="http://localhost:8000/v1", help="API URL")
-    parser.add_argument("--map", default="TH", help="Map name")
-    parser.add_argument("--data", default=None, help="Test data path")
+    parser = argparse.ArgumentParser(description="三阶段消融实验")
+    parser.add_argument("--model", default="Qwen")
+    parser.add_argument("--api-url", default="http://localhost:8000/v1")
+    parser.add_argument("--data", default=None)
     args = parser.parse_args()
 
     experiment = ThreeStageAblation(
         model_name=args.model,
         api_url=args.api_url,
-        map_name=args.map,
         data_path=args.data
     )
     experiment.run_ablation_study()
