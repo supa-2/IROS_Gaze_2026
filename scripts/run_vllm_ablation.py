@@ -158,6 +158,7 @@ class DistributionAblation:
         # 初始化客户端
         self._init_client()
         self.preprocess_cache = {}
+        self.num_samples = 5  # 每个预测采样5次来构建分布
 
     def _init_client(self):
         from openai import OpenAI
@@ -232,53 +233,69 @@ class DistributionAblation:
         candidates: List[str],
         config: AblationConfig
     ) -> Dict[str, float]:
-        """获取模型预测的分布"""
+        """获取模型预测的分布 - 使用 ShareGPT 格式 + 多次采样"""
         # 获取拓扑和特征信息
         neighbors = TOPOLOGY_ADJACENCY.get(current, [])
-        features = EXHIBIT_FEATURES.get(current, "")
+        current_features = EXHIBIT_FEATURES.get(current, "")
 
-        # 构建prompt，要求模型返回概率分布
-        prompt_parts = [
-            f"当前位置: {current}",
-        ]
+        # 构建候选展品列表（包含特征）
+        exhibits_list = []
+        for candidate in candidates:
+            feat = EXHIBIT_FEATURES.get(candidate, "")
+            exhibits_list.append({
+                "name": candidate,
+                "features": feat
+            })
 
+        # 构建历史记录（如果使用记忆）
+        history = []
+        if config.use_memory_in_llm:
+            # 模拟历史：假设之前访问过当前展品
+            history.append({
+                "name": current,
+                "attention_level": "B"
+            })
+
+        # 构建 ShareGPT 格式的 prompt
+        request_data = {
+            "task": "predict_next",
+            "current": {
+                "name": current,
+                "features": current_features if config.use_feature_preprocess else ""
+            },
+            "candidates": exhibits_list,
+        }
+
+        # 添加拓扑信息（如果使用）
         if config.use_topology_preprocess and neighbors:
-            prompt_parts.append(f"相邻展品: {', '.join(neighbors)}")
+            request_data["topology"] = {
+                "neighbors": neighbors
+            }
 
-        if config.use_feature_preprocess:
-            prompt_parts.append(f"展品特征: {features}")
+        # 添加历史（如果使用记忆）
+        if config.use_memory_in_llm and history:
+            request_data["history"] = history
 
-        prompt_parts.append(f"""
-基于上述信息，预测从 {current} 出发，游客选择各个相邻展品的概率分布。
+        # 转换为 JSON 格式
+        prompt = f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
 
-候选展品: {', '.join(candidates)}
+        # 多次采样来构建分布
+        predictions_count = {c: 0 for c in candidates}
 
-返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
-{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
-""")
-
-        prompt = "\n".join(prompt_parts)
-
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=300
-            )
-            result = response.choices[0].message.content.strip()
-
-            # 解析 - 提取第一个完整的 JSON 对象
-            import re
+        for _ in range(self.num_samples):
             try:
-                # 方法1: 直接解析整个结果
-                parsed = json.loads(result)
-                preds = parsed.get('predictions', [])
-            except json.JSONDecodeError:
-                # 方法2: 查找 JSON 对象（处理多余的文本）
-                # 匹配从 { 到对应的 } 的完整 JSON
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.5,  # 稍微提高温度以获得多样性
+                    max_tokens=300
+                )
+                result = response.choices[0].message.content.strip()
+
+                # 解析 JSON
                 depth = 0
                 start_idx = -1
+                parsed = None
                 for i, char in enumerate(result):
                     if char == '{':
                         if depth == 0:
@@ -290,25 +307,23 @@ class DistributionAblation:
                             json_str = result[start_idx:i+1]
                             try:
                                 parsed = json.loads(json_str)
-                                preds = parsed.get('predictions', [])
                                 break
                             except:
                                 continue
 
-            if preds:
-                dist = {}
-                for p in preds:
-                    name = p.get('name')
-                    prob = p.get('probability', 0)
-                    if name and name in candidates:
-                        dist[name] = prob
-                # 归一化
-                total = sum(dist.values())
-                if total > 0:
-                    dist = {k: v/total for k, v in dist.items()}
-                return dist
-        except Exception as e:
-            print(f"[!] Prediction error: {e}")
+                # 提取预测结果
+                if parsed and 'prediction' in parsed:
+                    pred_name = parsed['prediction'].get('name')
+                    if pred_name and pred_name in candidates:
+                        predictions_count[pred_name] += 1
+
+            except Exception as e:
+                continue
+
+        # 转换为概率分布
+        total = sum(predictions_count.values())
+        if total > 0:
+            return {c: predictions_count[c] / total for c in candidates}
 
         # 默认：均匀分布
         return {c: 1.0/len(candidates) for c in candidates}
@@ -318,29 +333,21 @@ class DistributionAblation:
         next_exhibit: str,
         config: AblationConfig
     ) -> Dict[str, any]:
-        """预测注意力等级和停留时间"""
+        """预测注意力等级和停留时间 - 使用 ShareGPT 格式"""
         features = EXHIBIT_FEATURES.get(next_exhibit, "")
 
-        # 构建prompt
-        prompt_info = [f"下一个展品: {next_exhibit}"]
-        if config.use_feature_preprocess:
-            prompt_info.append(f"展品特征: {features}")
+        # 构建 ShareGPT 格式的 prompt
+        request_data = {
+            "task": "attribution",
+            "exhibits": [
+                {
+                    "name": next_exhibit,
+                    "features": features if config.use_feature_preprocess else ""
+                }
+            ]
+        }
 
-        prompt_info.append(f"""
-预测游客对这个展品的关注程度。
-
-注意力等级标准:
-- A: {ATTENTION_DESCRIPTION['A']} (约{ATTENTION_DURATION['A']}秒)
-- B: {ATTENTION_DESCRIPTION['B']} (约{ATTENTION_DURATION['B']}秒)
-- C: {ATTENTION_DESCRIPTION['C']} (约{ATTENTION_DURATION['C']}秒)
-- D: {ATTENTION_DESCRIPTION['D']} (约{ATTENTION_DURATION['D']}秒)
-- E: {ATTENTION_DESCRIPTION['E']} (约{ATTENTION_DURATION['E']}秒)
-
-返回JSON格式:
-{{"attention_level": "A/B/C/D/E", "estimated_duration": 秒数, "reasoning": "推理过程"}}
-""")
-
-        prompt = "\n".join(prompt_info)
+        prompt = f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
 
         try:
             response = self.client.chat.completions.create(
@@ -351,43 +358,38 @@ class DistributionAblation:
             )
             result = response.choices[0].message.content.strip()
 
-            # 解析 - 提取第一个完整的 JSON 对象
-            try:
-                # 方法1: 直接解析
-                parsed = json.loads(result)
-                attention = parsed.get('attention_level', 'C')
-                duration = parsed.get('estimated_duration', ATTENTION_DURATION['C'])
-            except json.JSONDecodeError:
-                # 方法2: 查找 JSON 对象（处理多余的文本）
-                depth = 0
-                start_idx = -1
-                for i, char in enumerate(result):
-                    if char == '{':
-                        if depth == 0:
-                            start_idx = i
-                        depth += 1
-                    elif char == '}':
-                        depth -= 1
-                        if depth == 0 and start_idx >= 0:
-                            json_str = result[start_idx:i+1]
-                            try:
-                                parsed = json.loads(json_str)
-                                attention = parsed.get('attention_level', 'C')
-                                duration = parsed.get('estimated_duration', ATTENTION_DURATION['C'])
-                                break
-                            except:
-                                continue
-                            else:
-                                break
+            # 解析 JSON
+            depth = 0
+            start_idx = -1
+            parsed = None
+            for i, char in enumerate(result):
+                if char == '{':
+                    if depth == 0:
+                        start_idx = i
+                    depth += 1
+                elif char == '}':
+                    depth -= 1
+                    if depth == 0 and start_idx >= 0:
+                        json_str = result[start_idx:i+1]
+                        try:
+                            parsed = json.loads(json_str)
+                            break
+                        except:
+                            continue
 
-            # 确保attention是有效的等级
-            if attention not in ATTENTION_DURATION:
-                attention = 'C'
-            return {
-                'attention_level': attention,
-                'estimated_duration': duration,
-                'reasoning': ''
-            }
+            if parsed and 'attribution' in parsed:
+                attr = parsed['attribution']
+                attention = attr.get('attention_level', 'C')
+                # 确保attention是有效的等级
+                if attention not in ATTENTION_DURATION:
+                    attention = 'C'
+                duration = ATTENTION_DURATION.get(attention, ATTENTION_DURATION['C'])
+                return {
+                    'attention_level': attention,
+                    'estimated_duration': duration,
+                    'reasoning': attr.get('reasoning', '')
+                }
+
         except Exception as e:
             print(f"[!] Attention prediction error: {e}")
 
