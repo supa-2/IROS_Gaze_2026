@@ -1,0 +1,50 @@
+{
+  "Full": {
+    "top1_accuracy": 0.6521739130434783,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.02350156426877231,
+    "js_divergence": 0.04174802566437632,
+    "correlation": 0.0,
+    "attention_accuracy": 0.43478260869565216,
+    "duration_mae": 36.52173913043478,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  },
+  "No-Topology": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.016196587179324814,
+    "js_divergence": 0.03179897670524728,
+    "correlation": 0.08333333333333333,
+    "attention_accuracy": 0.43478260869565216,
+    "duration_mae": 36.52173913043478,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  },
+  "No-Feature": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.019061885879782813,
+    "js_divergence": 0.0391766106372624,
+    "correlation": 0.07874259854358902,
+    "attention_accuracy": 0.4782608695652174,
+    "duration_mae": 33.91304347826087,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  },
+  "No-Memory": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.004491475105070193,
+    "js_divergence": 0.01727539165861416,
+    "correlation": 0.24540926521025566,
+    "attention_accuracy": 0.43478260869565216,
+    "duration_mae": 36.52173913043478,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  }
+}
