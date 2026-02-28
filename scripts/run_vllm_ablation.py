@@ -268,24 +268,45 @@ class DistributionAblation:
             )
             result = response.choices[0].message.content.strip()
 
-            # 解析
+            # 解析 - 提取第一个完整的 JSON 对象
             import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
+            try:
+                # 方法1: 直接解析整个结果
+                parsed = json.loads(result)
                 preds = parsed.get('predictions', [])
-                if preds:
-                    dist = {}
-                    for p in preds:
-                        name = p.get('name')
-                        prob = p.get('probability', 0)
-                        if name and name in candidates:
-                            dist[name] = prob
-                    # 归一化
-                    total = sum(dist.values())
-                    if total > 0:
-                        dist = {k: v/total for k, v in dist.items()}
-                    return dist
+            except json.JSONDecodeError:
+                # 方法2: 查找 JSON 对象（处理多余的文本）
+                # 匹配从 { 到对应的 } 的完整 JSON
+                depth = 0
+                start_idx = -1
+                for i, char in enumerate(result):
+                    if char == '{':
+                        if depth == 0:
+                            start_idx = i
+                        depth += 1
+                    elif char == '}':
+                        depth -= 1
+                        if depth == 0 and start_idx >= 0:
+                            json_str = result[start_idx:i+1]
+                            try:
+                                parsed = json.loads(json_str)
+                                preds = parsed.get('predictions', [])
+                                break
+                            except:
+                                continue
+
+            if preds:
+                dist = {}
+                for p in preds:
+                    name = p.get('name')
+                    prob = p.get('probability', 0)
+                    if name and name in candidates:
+                        dist[name] = prob
+                # 归一化
+                total = sum(dist.values())
+                if total > 0:
+                    dist = {k: v/total for k, v in dist.items()}
+                return dist
         except Exception as e:
             print(f"[!] Prediction error: {e}")
 
@@ -330,21 +351,43 @@ class DistributionAblation:
             )
             result = response.choices[0].message.content.strip()
 
-            # 解析
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
+            # 解析 - 提取第一个完整的 JSON 对象
+            try:
+                # 方法1: 直接解析
+                parsed = json.loads(result)
                 attention = parsed.get('attention_level', 'C')
                 duration = parsed.get('estimated_duration', ATTENTION_DURATION['C'])
-                # 确保attention是有效的等级
-                if attention not in ATTENTION_DURATION:
-                    attention = 'C'
-                return {
-                    'attention_level': attention,
-                    'estimated_duration': duration,
-                    'reasoning': parsed.get('reasoning', '')
-                }
+            except json.JSONDecodeError:
+                # 方法2: 查找 JSON 对象（处理多余的文本）
+                depth = 0
+                start_idx = -1
+                for i, char in enumerate(result):
+                    if char == '{':
+                        if depth == 0:
+                            start_idx = i
+                        depth += 1
+                    elif char == '}':
+                        depth -= 1
+                        if depth == 0 and start_idx >= 0:
+                            json_str = result[start_idx:i+1]
+                            try:
+                                parsed = json.loads(json_str)
+                                attention = parsed.get('attention_level', 'C')
+                                duration = parsed.get('estimated_duration', ATTENTION_DURATION['C'])
+                                break
+                            except:
+                                continue
+                            else:
+                                break
+
+            # 确保attention是有效的等级
+            if attention not in ATTENTION_DURATION:
+                attention = 'C'
+            return {
+                'attention_level': attention,
+                'estimated_duration': duration,
+                'reasoning': ''
+            }
         except Exception as e:
             print(f"[!] Attention prediction error: {e}")
 
