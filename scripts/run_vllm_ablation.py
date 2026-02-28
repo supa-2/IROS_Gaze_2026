@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Ablation Study with vLLM - 三阶段架构
+Ablation Study with Distribution Matching Evaluation
 
-阶段 0: Qwen LLM 处理拓扑和特征 → 提取关键信息
-阶段 1: 微调模型基于提取的信息预测
-阶段 2: Qwen LLM 用记忆优化最终输出
-
-使用真实展品名称（而非ID）
+使用分布匹配度评估，而非单一正确答案
 """
 
 import os
@@ -15,6 +11,9 @@ import sys
 import json
 import numpy as np
 from typing import List, Dict, Optional
+from collections import Counter, defaultdict
+from scipy.stats import entropy
+from scipy.spatial.distance import jensenshannon
 
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True,max_split_size_mb:128'
 
@@ -22,7 +21,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(script_dir))
 sys.path.insert(0, project_root)
 
-# 真实展品名称（从训练数据中提取）
+# 真实展品名称
 REAL_EXHIBIT_NAMES = [
     "丁香花", "金鱼兰", "牡丹花", "说明文字-千岛湖", "玉兰花开",
     "人物-祝大年创作", "自序", "松竹海", "西双版纳",
@@ -32,28 +31,27 @@ REAL_EXHIBIT_NAMES = [
     "三星堆展区", "殷墟展区", "良渚展区", "文字瀑布", "耕织图"
 ]
 
-# 展品特征信息
 EXHIBIT_FEATURES = {
-    "丁香花": "一幅精美的艺术画作，描绘了白色圆盆栽开满白色小花，绿叶繁盛的场景",
+    "丁香花": "一幅精美的艺术画作，描绘了白色圆盆栽开满白色小花",
     "金鱼兰": "土红色盆子栽种着叶片细长、花朵呈金鱼状的植物",
-    "牡丹花": "色彩饱满，花瓣层次细腻，搭配翠绿的叶片",
+    "牡丹花": "色彩饱满，花瓣层次细腻",
     "说明文字-千岛湖": "千岛湖 Qiandao Lake 1980s...",
     "玉兰花开": "开满白色玉兰花的树，挂在黑墙上",
     "人物-祝大年创作": "祝大年创作的西双版纳傣族生活主题工笔重彩人物组画",
     "自序": "白墙上陈列着的自序节选文章",
-    "松竹海": "上面画着松树和竹子，挂在白墙中间",
-    "西双版纳": "描绘西双版纳热带雨林场景，有正在劳作的人",
-    "北大简-仓颉篇": "隶书-北大简《仓颉篇》，收藏于北京大学赛克勒考古与艺术博物馆",
+    "松竹海": "上面画着松树和竹子",
+    "西双版纳": "描绘西双版纳热带雨林场景",
+    "北大简-仓颉篇": "隶书-北大简《仓颉篇》",
     "文物展柜": "天人合一部分文字文物展柜",
-    "颜真卿楷书": "楷书-颜真卿《明拓干禄字书册》，收藏于故宫博物院",
-    "耕织图-多媒体装置": "数字活化的中国古代耕织图，展示农耕文化",
+    "颜真卿楷书": "楷书-颜真卿《明拓干禄字书册》",
+    "耕织图-多媒体装置": "数字活化的中国古代耕织图",
     "二十四节气圆盘": "融合虚拟现实技术的动态影像装置",
-    "鸡蛋花": "一盆花的画作展品，挂在墙上",
+    "鸡蛋花": "一盆花的画作展品",
     "山茶花": "一盆花的画作展品，在柱子上",
     "千岛湖": "湖景主题艺术作品",
     "说明文字": "展品说明介绍",
     "入口": "展厅入口过渡空间",
-    "森林之歌": "九幅画位于展台上面，描绘森林场景",
+    "森林之歌": "九幅画位于展台上面",
     "漓江春色": "祝大年1960年创作的漓江春色画作",
     "风筝": "多幅风筝主题画作",
     "鸢飞曲": "包含风筝和人的画作展品",
@@ -66,10 +64,9 @@ EXHIBIT_FEATURES = {
     "耕织图": "中国古代耕织图主题",
 }
 
-# 模拟的拓扑关系（相邻展品）
 TOPOLOGY_ADJACENCY = {
-    "入口": ["丁香花"],  # 入口只能去第一个展品
-    "丁香花": ["金鱼兰", "说明文字-千岛湖"],  # 丁香花之后可以去看别的
+    "入口": ["丁香花"],
+    "丁香花": ["金鱼兰", "说明文字-千岛湖"],
     "金鱼兰": ["牡丹花", "山茶花"],
     "牡丹花": ["鸡蛋花", "说明文字-千岛湖"],
     "说明文字-千岛湖": ["人物-祝大年创作", "千岛湖"],
@@ -99,8 +96,6 @@ TOPOLOGY_ADJACENCY = {
 
 
 class AblationConfig:
-    """消融实验配置"""
-
     def __init__(
         self,
         use_topology_preprocess: bool = True,
@@ -122,8 +117,8 @@ class AblationConfig:
         return "-".join(parts) if parts else "Full"
 
 
-class ThreeStageAblation:
-    """三阶段消融实验"""
+class DistributionAblation:
+    """使用分布匹配度的消融实验"""
 
     def __init__(
         self,
@@ -137,8 +132,9 @@ class ThreeStageAblation:
         self.api_key = api_key
         self.data_path = data_path
 
-        # 加载数据
+        # 加载数据并构建真实分布
         self.test_data = self._load_test_data()
+        self.real_distributions = self._build_real_distributions()
 
         # 初始化客户端
         self._init_client()
@@ -150,65 +146,83 @@ class ThreeStageAblation:
         print(f"[+] Connected to vLLM API: {self.api_url}")
 
     def _load_test_data(self) -> List[Dict]:
-        """加载测试数据"""
         if self.data_path and os.path.exists(self.data_path):
             with open(self.data_path, 'r') as f:
                 return json.load(f)
         return self._create_sample_data()
 
     def _create_sample_data(self) -> List[Dict]:
-        """使用真实展品名称创建测试数据（减少样本量）"""
-        # 基于真实参观模式创建序列 - 更少样本用于快速测试
+        """创建测试数据"""
         sample_sequences = [
             ["入口", "丁香花", "金鱼兰", "牡丹花"],
+            ["入口", "丁香花", "金鱼兰", "山茶花"],
             ["入口", "丁香花", "说明文字-千岛湖", "人物-祝大年创作"],
+            ["入口", "说明文字-千岛湖", "千岛湖"],
+            ["入口", "金鱼兰", "牡丹花"],
             ["玉兰花开", "松竹海", "西双版纳", "耕织图"],
-            ["迎客松", "三星堆展区", "殷墟展区", "良渚展区"],
-            ["森林之歌", "漓江春色", "风筝", "黄山松"],
+            ["松竹海", "漓江春色", "风筝"],
+            ["迎客松", "三星堆展区", "殷墟展区"],
+            ["三星堆展区", "良渚展区"],
+            ["良渚展区", "文字瀑布", "耕织图"],
         ]
-
         test_data = []
         for seq in sample_sequences:
             for i in range(len(seq) - 1):
                 test_data.append({
-                    'context': seq[:i+1],
                     'current': seq[i],
                     'next': seq[i + 1],
-                    'history': [
-                        {'name': seq[j], 'duration': 60, 'attention': 'A'}
-                        for j in range(i)
-                    ],
-                    'dwell': 60,
-                    'attention': 'A'
                 })
         return test_data
 
-    def stage0_qwen_preprocess(
+    def _build_real_distributions(self) -> Dict[str, Dict[str, float]]:
+        """构建真实的转移分布"""
+        distributions = defaultdict(Counter)
+
+        for sample in self.test_data:
+            current = sample['current']
+            next_exhibit = sample['next']
+            distributions[current][next_exhibit] += 1
+
+        # 转换为概率分布
+        result = {}
+        for current, counter in distributions.items():
+            total = sum(counter.values())
+            result[current] = {
+                exhibit: count / total
+                for exhibit, count in counter.items()
+            }
+        return result
+
+    def get_model_distribution(
         self,
         current: str,
+        candidates: List[str],
         config: AblationConfig
-    ) -> Dict:
-        """阶段 0: Qwen LLM 处理拓扑和特征"""
-        cache_key = (current, config.use_topology_preprocess, config.use_feature_preprocess)
-        if cache_key in self.preprocess_cache:
-            return self.preprocess_cache[cache_key]
+    ) -> Dict[str, float]:
+        """获取模型预测的分布"""
+        # 获取拓扑和特征信息
+        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        features = EXHIBIT_FEATURES.get(current, "")
 
-        # 构建预处理 prompt
-        prompt_parts = [f"当前位置: {current}"]
+        # 构建prompt，要求模型返回概率分布
+        prompt_parts = [
+            f"当前位置: {current}",
+        ]
 
-        # 拓扑信息
-        if config.use_topology_preprocess:
-            neighbors = TOPOLOGY_ADJACENCY.get(current, [])
-            if neighbors:
-                prompt_parts.append(f"相邻展品: {', '.join(neighbors[:5])}")
+        if config.use_topology_preprocess and neighbors:
+            prompt_parts.append(f"相邻展品: {', '.join(neighbors)}")
 
-        # 展品特征
         if config.use_feature_preprocess:
-            features = EXHIBIT_FEATURES.get(current, "普通展品")
             prompt_parts.append(f"展品特征: {features}")
 
-        prompt_parts.append("\n提取关键信息用于轨迹预测。返回JSON:")
-        prompt_parts.append('{"context": "简要描述", "candidates": ["展品名1", "展品名2", "展品名3"]}')
+        prompt_parts.append(f"""
+基于上述信息，预测从 {current} 出发，游客选择各个相邻展品的概率分布。
+
+候选展品: {', '.join(candidates)}
+
+返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
+{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
+""")
 
         prompt = "\n".join(prompt_parts)
 
@@ -221,209 +235,113 @@ class ThreeStageAblation:
             )
             result = response.choices[0].message.content.strip()
 
-            # 解析并缓存
+            # 解析
             import re
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
             if json_match:
                 parsed = json.loads(json_match.group())
-                self.preprocess_cache[cache_key] = parsed
-                return parsed
-
-            # 默认返回
-            return {"context": f"参观{current}", "candidates": []}
-
+                preds = parsed.get('predictions', [])
+                if preds:
+                    dist = {}
+                    for p in preds:
+                        name = p.get('name')
+                        prob = p.get('probability', 0)
+                        if name and name in candidates:
+                            dist[name] = prob
+                    # 归一化
+                    total = sum(dist.values())
+                    if total > 0:
+                        dist = {k: v/total for k, v in dist.items()}
+                    return dist
         except Exception as e:
-            return {"context": f"参观{current}", "candidates": []}
+            print(f"[!] Prediction error: {e}")
 
-    def stage1_fine_tuned_predict(
-        self,
-        current: str,
-        processed_context: Dict,
-        config: AblationConfig
-    ) -> Dict:
-        """阶段 1: 微调模型预测"""
-        context_desc = processed_context.get("context", "")
-        candidates = processed_context.get("candidates", [])
+        # 默认：均匀分布
+        return {c: 1.0/len(candidates) for c in candidates}
 
-        history_str = "、".join(self.test_data[0]['context'][:3]) if self.test_data else "入口"
+    def kl_divergence(self, p: Dict[str, float], q: Dict[str, float]) -> float:
+        """计算 KL 散度"""
+        # 确保两个分布有相同的键
+        all_keys = set(p.keys()) | set(q.keys())
+        eps = 1e-10
 
-        prompt = f"""你是轨迹预测模型。
+        p_vec = np.array([p.get(k, eps) for k in all_keys])
+        q_vec = np.array([q.get(k, eps) for k in all_keys])
 
-当前位置: {current}
+        return entropy(p_vec, q_vec)
 
-环境分析:
-{context_desc}
-候选展品: {', '.join(candidates[:5]) if candidates else '所有展品'}
+    def js_divergence(self, p: Dict[str, float], q: Dict[str, float]) -> float:
+        """计算 JS 散度"""
+        all_keys = set(p.keys()) | set(q.keys())
+        eps = 1e-10
 
-之前参观: {history_str}
+        p_vec = np.array([p.get(k, eps) for k in all_keys])
+        q_vec = np.array([q.get(k, eps) for k in all_keys])
 
-预测下一个展品。返回JSON:
-{{"prediction_name": "展品名称", "confidence": 0.0-1.0}}"""
+        return jensenshannon(p_vec, q_vec)
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=150
-            )
-            result = response.choices[0].message.content.strip()
+    def correlation(self, p: Dict[str, float], q: Dict[str, float]) -> float:
+        """计算相关系数"""
+        all_keys = sorted(set(p.keys()) | set(q.keys()))
+        p_vec = np.array([p.get(k, 0) for k in all_keys])
+        q_vec = np.array([q.get(k, 0) for k in all_keys])
 
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                pred_name = parsed.get("prediction_name") or parsed.get("prediction_id")
-                if pred_name and pred_name in REAL_EXHIBIT_NAMES:
-                    return {
-                        'prediction_name': pred_name,
-                        'confidence': parsed.get('confidence', 0.8)
-                    }
-        except:
-            pass
+        if np.std(p_vec) == 0 or np.std(q_vec) == 0:
+            return 0.0
 
-        # 默认：返回拓扑邻居
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [REAL_EXHIBIT_NAMES[0]])
-        return {
-            'prediction_name': neighbors[0] if neighbors else REAL_EXHIBIT_NAMES[0],
-            'confidence': 0.5
-        }
+        return np.corrcoef(p_vec, q_vec)[0, 1]
 
-    def stage2_qwen_refine(
-        self,
-        current: str,
-        history: List[Dict],
-        initial_prediction: Dict,
-        config: AblationConfig
-    ) -> Dict:
-        """阶段 2: Qwen 用记忆优化"""
-        initial_pred = initial_prediction['prediction_name']
+    def evaluate_config(self, config: AblationConfig) -> Dict:
+        """评估单个配置"""
+        print(f"    评估中...", end='', flush=True)
 
-        memory_info = ""
-        if config.use_memory_in_llm and history:
-            visited = [h['name'] for h in history]
-            if visited:
-                memory_info = f"最近参观: {', '.join(visited[-5:])}\n"
-                if initial_pred in visited[-3:]:
-                    memory_info += f"注意: {initial_pred} 刚刚参观过，可能不适合\n"
+        kl_divs = []
+        js_divs = []
+        corrs = []
 
-        prompt = f"""优化轨迹预测
+        # 对每个有真实分布的起点进行评估
+        for current, real_dist in self.real_distributions.items():
+            candidates = list(real_dist.keys())
 
-当前位置: {current}
-初始预测: {initial_pred}
+            # 获取模型预测的分布
+            model_dist = self.get_model_distribution(current, candidates, config)
 
-{memory_info}考虑参观规律:
-- 避免重复参观刚看过的展品
-- 考虑展品类型多样性
+            # 计算指标
+            try:
+                kl = self.kl_divergence(real_dist, model_dist)
+                js = self.js_divergence(real_dist, model_dist)
+                corr = self.correlation(real_dist, model_dist)
 
-返回优化后的预测JSON:
-{{"prediction_name": "展品名称", "confidence": 0.0-1.0, "reasoning": "理由"}}"""
+                kl_divs.append(kl)
+                js_divs.append(js)
+                corrs.append(corr)
+            except:
+                continue
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=200
-            )
-            result = response.choices[0].message.content.strip()
-
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                pred_name = parsed.get("prediction_name") or parsed.get("prediction_id")
-                if pred_name and pred_name in REAL_EXHIBIT_NAMES:
-                    return {
-                        'prediction_name': pred_name,
-                        'confidence': parsed.get('confidence', 0.85),
-                        'reasoning': parsed.get('reasoning', '')
-                    }
-        except:
-            pass
-
-        return initial_prediction
-
-    def predict_with_config(
-        self,
-        config: AblationConfig,
-        sample: Dict,
-        debug: bool = False
-    ) -> Dict:
-        """三阶段预测"""
-        current = sample['current']
-        history = sample.get('history', [])
-        ground_truth = sample['next']
-
-        # 阶段 0: Qwen 预处理
-        processed_context = self.stage0_qwen_preprocess(current, config)
-
-        # 阶段 1: 微调模型预测
-        stage1_result = self.stage1_fine_tuned_predict(current, processed_context, config)
-
-        # 阶段 2: Qwen 用记忆优化
-        final_result = self.stage2_qwen_refine(current, history, stage1_result, config)
-
-        if debug:
-            print(f"\n[DEBUG] 当前: {current}, 真实: {ground_truth}")
-            print(f"[DEBUG] 阶段0预处理: {processed_context.get('context', 'N/A')}")
-            print(f"[DEBUG] 阶段1预测: {stage1_result['prediction_name']}")
-            print(f"[DEBUG] 阶段2优化: {final_result['prediction_name']}")
-            print(f"[DEBUG] 匹配: {final_result['prediction_name'] == ground_truth}")
+        print(f" 完成 ({len(kl_divs)} 个起点)")
 
         return {
-            'prediction': final_result,
-            'ground_truth': ground_truth,
-            'stage1': stage1_result
-        }
-
-    def _evaluate_config(self, config: AblationConfig) -> Dict:
-        """评估配置"""
-        correct_top1 = 0
-        correct_top3 = 0
-        dwell_errors = []
-
-        print(f"    评估 {len(self.test_data)} 个样本...", end='', flush=True)
-
-        for sample in self.test_data:
-            result = self.predict_with_config(config, sample)
-            prediction = result['prediction']
-            ground_truth = result['ground_truth']
-
-            if prediction['prediction_name'] == ground_truth:
-                correct_top1 += 1
-
-            # Top-3
-            candidates = TOPOLOGY_ADJACENCY.get(sample['current'], REAL_EXHIBIT_NAMES)
-            if ground_truth in candidates[:3]:
-                correct_top3 += 1
-
-            pred_dwell = 120 * (1 - prediction.get('confidence', 0.5)) + 30
-            dwell_errors.append(abs(pred_dwell - sample.get('dwell', 60)))
-
-        total = len(self.test_data)
-        print(f" 完成")
-
-        return {
-            'top1_acc': correct_top1 / total,
-            'top3_acc': correct_top3 / total,
-            'mae': np.mean(dwell_errors) if dwell_errors else 0
+            'kl_divergence': np.mean(kl_divs) if kl_divs else 0,
+            'js_divergence': np.mean(js_divs) if js_divs else 0,
+            'correlation': np.mean(corrs) if corrs else 0,
+            'num_evaluated': len(kl_divs)
         }
 
     def run_ablation_study(self) -> Dict:
         """运行消融实验"""
         print("="*70)
-        print("三阶段消融实验（使用真实展品名称）")
+        print("分布匹配度消融实验")
         print("="*70)
         print(f"模型: {self.model_name}")
-        print(f"样本数: {len(self.test_data)}")
-        print(f"展品数: {len(REAL_EXHIBIT_NAMES)}")
+        print(f"真实分布起点数: {len(self.real_distributions)}")
+        print(f"测试样本数: {len(self.test_data)}")
         print("="*70)
 
-        # 测试一个样本
-        print("\n[*] 测试一个样本...")
-        test_config = AblationConfig()
-        self.predict_with_config(test_config, self.test_data[0], debug=True)
+        # 显示真实分布
+        print("\n[*] 真实转移分布:")
+        for current, dist in self.real_distributions.items():
+            items = sorted(dist.items(), key=lambda x: -x[1])
+            print(f"  {current} → {', '.join([f'{k}({v:.0%})' for k, v in items[:3]])}")
 
         results = {}
 
@@ -432,19 +350,18 @@ class ThreeStageAblation:
             AblationConfig(use_topology_preprocess=False, use_feature_preprocess=True, use_memory_in_llm=True),
             AblationConfig(use_topology_preprocess=True, use_feature_preprocess=False, use_memory_in_llm=True),
             AblationConfig(use_topology_preprocess=True, use_feature_preprocess=True, use_memory_in_llm=False),
-            AblationConfig(use_topology_preprocess=False, use_feature_preprocess=False, use_memory_in_llm=True),
         ]
 
         for config in configs:
             config_name = config.get_name()
             print(f"\n[*] 测试: {config_name}")
 
-            config_results = self._evaluate_config(config)
+            config_results = self.evaluate_config(config)
             results[config_name] = config_results
 
-            print(f"    Top-1: {config_results['top1_acc']:.1%}")
-            print(f"    Top-3: {config_results['top3_acc']:.1%}")
-            print(f"    MAE:   {config_results['mae']:.1f}s")
+            print(f"    KL散度: {config_results['kl_divergence']:.4f} ↓ (越低越好)")
+            print(f"    JS散度: {config_results['js_divergence']:.4f} ↓ (越低越好)")
+            print(f"    相关系数: {config_results['correlation']:.4f} ↑ (越高越好)")
 
         self._save_results(results)
         self._print_table(results)
@@ -460,31 +377,35 @@ class ThreeStageAblation:
         print(f"\n[+] 结果已保存: {output_path}")
 
     def _print_table(self, results: Dict):
-        """打印结果"""
+        """打印结果表格"""
         print("\n" + "="*70)
-        print("结果汇总")
+        print("分布匹配度结果")
         print("="*70)
-        print(f"{'配置':<20} {'Top-1':>12} {'Top-3':>12} {'MAE':>10}")
-        print("-" * 56)
+        print(f"{'配置':<20} {'KL散度↓':>12} {'JS散度↓':>12} {'相关系数↑':>12}")
+        print("-" * 58)
 
         full = results.get('Full', {})
-        print(f"{'Full (Ours)':<20} {full['top1_acc']:>12.1%} {full['top3_acc']:>12.1%} {full['mae']:>10.1f}s")
+        print(f"{'Full (Ours)':<20} {full['kl_divergence']:>12.4f} {full['js_divergence']:>12.4f} {full['correlation']:>12.4f}")
 
         for name, res in results.items():
             if name == 'Full':
-                continue
-            print(f"{name:<20} {res['top1_acc']:>12.1%} {res['top3_acc']:>12.1%} {res['mae']:>10.1f}s")
+                diff_kl = res['kl_divergence'] - full['kl_divergence']
+                diff_js = res['js_divergence'] - full['js_divergence']
+                diff_corr = res['correlation'] - full['correlation']
+                print(f"{name:<20} {res['kl_divergence']:>12.4f} ({diff_kl:+.4f}) "
+                      f"{res['js_divergence']:>12.4f} ({diff_js:+.4f}) "
+                      f"{res['correlation']:>12.4f} ({diff_corr:+.4f})")
 
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="三阶段消融实验")
+    parser = argparse.ArgumentParser(description="分布匹配度消融实验")
     parser.add_argument("--model", default="Qwen")
     parser.add_argument("--api-url", default="http://localhost:8000/v1")
     parser.add_argument("--data", default=None)
     args = parser.parse_args()
 
-    experiment = ThreeStageAblation(
+    experiment = DistributionAblation(
         model_name=args.model,
         api_url=args.api_url,
         data_path=args.data
