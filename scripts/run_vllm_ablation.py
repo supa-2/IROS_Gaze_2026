@@ -395,6 +395,11 @@ class DistributionAblation:
         js_divs = []
         corrs = []
 
+        # Top-1/Top-3 准确率
+        top1_correct = 0
+        top3_correct = 0
+        top_total = 0
+
         # 注意力评估
         attention_correct = 0
         attention_total = 0
@@ -419,6 +424,33 @@ class DistributionAblation:
             except:
                 continue
 
+        # 对每个测试样本评估 Top-1/Top-3
+        for sample in self.test_data:
+            current = sample['current']
+            actual_next = sample['next']
+
+            # 获取当前展品的所有候选（从真实分布中获取）
+            if current not in self.real_distributions:
+                continue
+            candidates = list(self.real_distributions[current].keys())
+
+            # 获取模型预测的分布
+            model_dist = self.get_model_distribution(current, candidates, config)
+
+            # 按概率排序
+            sorted_preds = sorted(model_dist.items(), key=lambda x: -x[1])
+
+            # Top-1: 最高概率的是否匹配
+            if sorted_preds and sorted_preds[0][0] == actual_next:
+                top1_correct += 1
+
+            # Top-3: 前3最高概率中是否匹配
+            top_k_preds = [p[0] for p in sorted_preds[:3]]
+            if actual_next in top_k_preds:
+                top3_correct += 1
+
+            top_total += 1
+
         # 评估注意力预测
         for sample in self.test_data:
             next_exhibit = sample['next']
@@ -438,15 +470,18 @@ class DistributionAblation:
             # 停留时间误差
             duration_errors.append(abs(pred_duration - true_duration))
 
-        print(f" 完成 ({len(kl_divs)} 个起点, {attention_total} 个注意力预测)")
+        print(f" 完成 ({len(kl_divs)} 个起点, {top_total} 个预测, {attention_total} 个注意力预测)")
 
         return {
+            'top1_accuracy': top1_correct / max(top_total, 1),
+            'top3_accuracy': top3_correct / max(top_total, 1),
             'kl_divergence': np.mean(kl_divs) if kl_divs else 0,
             'js_divergence': np.mean(js_divs) if js_divs else 0,
             'correlation': np.mean(corrs) if corrs else 0,
             'attention_accuracy': attention_correct / max(attention_total, 1),
             'duration_mae': np.mean(duration_errors) if duration_errors else 0,
             'num_evaluated': len(kl_divs),
+            'num_top_eval': top_total,
             'num_attention_eval': attention_total
         }
 
@@ -482,6 +517,8 @@ class DistributionAblation:
             config_results = self.evaluate_config(config)
             results[config_name] = config_results
 
+            print(f"    Top-1: {config_results['top1_accuracy']:.2%} ↑ (越高越好)")
+            print(f"    Top-3: {config_results['top3_accuracy']:.2%} ↑ (越高越好)")
             print(f"    KL散度: {config_results['kl_divergence']:.4f} ↓ (越低越好)")
             print(f"    JS散度: {config_results['js_divergence']:.4f} ↓ (越低越好)")
             print(f"    相关系数: {config_results['correlation']:.4f} ↑ (越高越好)")
@@ -504,25 +541,30 @@ class DistributionAblation:
 
     def _print_table(self, results: Dict):
         """打印结果表格"""
-        print("\n" + "="*70)
-        print("分布匹配度 + 注意力预测结果")
-        print("="*70)
-        print(f"{'配置':<20} {'KL↓':>10} {'JS↓':>10} {'Corr↑':>10} {'Attn↑':>10} {'MAE↓':>10}")
-        print("-" * 70)
+        print("\n" + "="*90)
+        print("消融实验结果 - Top准确率 + 分布匹配度 + 注意力预测")
+        print("="*90)
+        print(f"{'配置':<20} {'Top-1↑':>10} {'Top-3↑':>10} {'KL↓':>10} {'JS↓':>10} {'Corr↑':>10} {'Attn↑':>10} {'MAE↓':>10}")
+        print("-" * 90)
 
         full = results.get('Full', {})
-        print(f"{'Full (Ours)':<20} {full['kl_divergence']:>10.4f} {full['js_divergence']:>10.4f} "
+        print(f"{'Full (Ours)':<20} {full['top1_accuracy']:>10.2%} {full['top3_accuracy']:>10.2%} "
+              f"{full['kl_divergence']:>10.4f} {full['js_divergence']:>10.4f} "
               f"{full['correlation']:>10.4f} {full['attention_accuracy']:>10.2%} {full['duration_mae']:>10.1f}s")
 
         for name, res in results.items():
             if name == 'Full':
                 continue
+            diff_top1 = full['top1_accuracy'] - res['top1_accuracy']
+            diff_top3 = full['top3_accuracy'] - res['top3_accuracy']
             diff_kl = res['kl_divergence'] - full['kl_divergence']
             diff_js = res['js_divergence'] - full['js_divergence']
             diff_corr = res['correlation'] - full['correlation']
             diff_attn = full['attention_accuracy'] - res['attention_accuracy']
             diff_mae = res['duration_mae'] - full['duration_mae']
-            print(f"{name:<20} {res['kl_divergence']:>10.4f} ({diff_kl:+.4f}) "
+            print(f"{name:<20} {res['top1_accuracy']:>10.2%} ({diff_top1:+.2%}) "
+                  f"{res['top3_accuracy']:>10.2%} ({diff_top3:+.2%}) "
+                  f"{res['kl_divergence']:>10.4f} ({diff_kl:+.4f}) "
                   f"{res['js_divergence']:>10.4f} ({diff_js:+.4f}) "
                   f"{res['correlation']:>10.4f} ({diff_corr:+.4f}) "
                   f"{res['attention_accuracy']:>10.2%} ({diff_attn:+.2%}) "
@@ -530,32 +572,37 @@ class DistributionAblation:
 
     def _print_latex_table(self, results: Dict):
         """打印LaTeX表格"""
-        print("\n" + "="*70)
+        print("\n" + "="*90)
         print("LaTeX Table for Ablation Study")
-        print("="*70)
+        print("="*90)
 
         print("\n\\begin{table}[t]")
         print("\\centering")
-        print("\\caption{Ablation study with distribution matching and attention prediction}")
+        print("\\caption{Ablation study results. We report both traditional Top-K accuracy and distribution matching metrics.}")
         print("\\label{tab:ablation}")
-        print("\\begin{tabular}{lccccc}")
+        print("\\begin{tabular}{lccccccc}")
         print("\\hline")
-        print("Variant & KL$\\downarrow$ & JS$\\downarrow$ & Corr$\\uparrow$ & Attn$\\uparrow$ & MAE$\\downarrow$ \\\\")
+        print("Variant & Top-1$\\uparrow$ & Top-3$\\uparrow$ & KL$\\downarrow$ & JS$\\downarrow$ & Corr$\\uparrow$ & Attn$\\uparrow$ & MAE$\\downarrow$ \\\\")
         print("\\hline")
 
         full = results.get('Full', {})
-        print(f"Full (Ours) & {full['kl_divergence']:.4f} & {full['js_divergence']:.4f} & "
+        print(f"Full (Ours) & {full['top1_accuracy']:.1%} & {full['top3_accuracy']:.1%} & "
+              f"{full['kl_divergence']:.4f} & {full['js_divergence']:.4f} & "
               f"{full['correlation']:.4f} & {full['attention_accuracy']:.2%} & {full['duration_mae']:.1f}s \\\\")
 
         for name, res in results.items():
             if name == 'Full':
                 continue
+            diff_top1 = full['top1_accuracy'] - res['top1_accuracy']
+            diff_top3 = full['top3_accuracy'] - res['top3_accuracy']
             diff_kl = res['kl_divergence'] - full['kl_divergence']
             diff_js = res['js_divergence'] - full['js_divergence']
             diff_corr = res['correlation'] - full['correlation']
             diff_attn = full['attention_accuracy'] - res['attention_accuracy']
             diff_mae = res['duration_mae'] - full['duration_mae']
-            print(f"-{name} & {res['kl_divergence']:.4f} ({diff_kl:+.4f}) & "
+            print(f"w/o {name} & {res['top1_accuracy']:.1%} ({diff_top1:+.1%}) & "
+                  f"{res['top3_accuracy']:.1%} ({diff_top3:+.1%}) & "
+                  f"{res['kl_divergence']:.4f} ({diff_kl:+.4f}) & "
                   f"{res['js_divergence']:.4f} ({diff_js:+.4f}) & "
                   f"{res['correlation']:.4f} ({diff_corr:+.4f}) & "
                   f"{res['attention_accuracy']:.2%} ({diff_attn:+.2%}) & "
