@@ -264,7 +264,7 @@ class LSTMBaseline:
 # ============================================
 
 class ZeroShotLLMBaseline:
-    """零样本LLM基线 - 支持多款模型"""
+    """零样本LLM基线 - 支持多款模型，使用 ShareGPT 格式"""
 
     # 支持的模型配置 - 使用中转API (VectorEngine)
     MODEL_CONFIGS = {
@@ -305,39 +305,54 @@ class ZeroShotLLMBaseline:
         self.client = OpenAI(api_key=api_key, base_url=base_url)
 
     def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布"""
-        prompt = self._build_prompt(current, candidates)
+        """获取概率分布 - 多次采样"""
+        num_samples = 5
+        predictions_count = {c: 0 for c in candidates}
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=300
-            )
+        for _ in range(num_samples):
+            prompt = self._build_prompt(current, candidates)
 
-            result = response.choices[0].message.content.strip()
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.5,
+                    max_tokens=300
+                )
 
-            # 解析JSON
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                preds = parsed.get('predictions', [])
-                if preds:
-                    dist = {}
-                    for p in preds:
-                        name = p.get('name')
-                        prob = p.get('probability', 0)
-                        if name and name in candidates:
-                            dist[name] = prob
-                    # 归一化
-                    total = sum(dist.values())
-                    if total > 0:
-                        dist = {k: v/total for k, v in dist.items()}
-                    return dist
-        except Exception as e:
-            print(f"    [!] {self.display_name} error: {e}")
+                result = response.choices[0].message.content.strip()
+
+                # 解析 JSON - 提取第一个完整对象
+                depth = 0
+                start_idx = -1
+                parsed = None
+                for i, char in enumerate(result):
+                    if char == '{':
+                        if depth == 0:
+                            start_idx = i
+                        depth += 1
+                    elif char == '}':
+                        depth -= 1
+                        if depth == 0 and start_idx >= 0:
+                            json_str = result[start_idx:i+1]
+                            try:
+                                parsed = json.loads(json_str)
+                                break
+                            except:
+                                continue
+
+                if parsed and 'prediction' in parsed:
+                    pred_name = parsed['prediction'].get('name')
+                    if pred_name and pred_name in candidates:
+                        predictions_count[pred_name] += 1
+
+            except Exception as e:
+                continue
+
+        # 转换为概率分布
+        total = sum(predictions_count.values())
+        if total > 0:
+            return {c: predictions_count[c] / total for c in candidates}
 
         # 默认：均匀分布
         return {c: 1.0/len(candidates) for c in candidates}
@@ -356,21 +371,40 @@ class ZeroShotLLMBaseline:
         return best[0], best[1]
 
     def _build_prompt(self, current: str, candidates: List[str]) -> str:
-        """构建prompt"""
-        features = EXHIBIT_FEATURES.get(current, "")
+        """构建 ShareGPT 格式的 prompt"""
+        # 构建 exhibits 列表（第一个是当前位置）
+        exhibits_list = []
+
+        # 添加当前位置
+        current_features = EXHIBIT_FEATURES.get(current, "")
+        exhibits_list.append({
+            "name": current,
+            "features": current_features
+        })
+
+        # 添加候选展品（按拓扑顺序）
         neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        # 先添加相邻的，再添加其他候选
+        added = set()
+        for neighbor in neighbors:
+            if neighbor in candidates:
+                feat = EXHIBIT_FEATURES.get(neighbor, "")
+                exhibits_list.append({"name": neighbor, "features": feat})
+                added.add(neighbor)
 
-        return f"""当前位置: {current}
-展品特征: {features}
-相邻展品: {', '.join(neighbors)}
+        for candidate in candidates:
+            if candidate not in added:
+                feat = EXHIBIT_FEATURES.get(candidate, "")
+                exhibits_list.append({"name": candidate, "features": feat})
 
-基于上述信息，预测从 {current} 出发，游客选择各个候选展品的概率分布。
+        # 构建 ShareGPT 格式
+        request_data = {
+            "task": "predict_next",
+            "exhibits": exhibits_list,
+            "history": []
+        }
 
-候选展品: {', '.join(candidates)}
-
-返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
-{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
-"""
+        return f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
 
 
 # ============================================
@@ -380,7 +414,7 @@ class ZeroShotLLMBaseline:
 class BaseModelBaseline:
     """
     原始基础模型 - 未经过微调的开源模型
-    通过vLLM API调用本地部署的base model
+    通过vLLM API调用本地部署的base model，使用 ShareGPT 格式
     """
 
     def __init__(self, api_url: str = "http://localhost:8000/v1",
@@ -394,52 +428,54 @@ class BaseModelBaseline:
         )
 
     def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布"""
-        features = EXHIBIT_FEATURES.get(current, "")
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        """获取概率分布 - 多次采样"""
+        num_samples = 5
+        predictions_count = {c: 0 for c in candidates}
 
-        prompt = f"""当前位置: {current}
-展品特征: {features}
-相邻展品: {', '.join(neighbors)}
+        for _ in range(num_samples):
+            prompt = self._build_prompt(current, candidates)
 
-基于上述信息，预测从 {current} 出发，游客选择各个候选展品的概率分布。
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.5,
+                    max_tokens=300
+                )
 
-候选展品: {', '.join(candidates)}
+                result = response.choices[0].message.content.strip()
 
-返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
-{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
-"""
+                # 解析 JSON
+                depth = 0
+                start_idx = -1
+                parsed = None
+                for i, char in enumerate(result):
+                    if char == '{':
+                        if depth == 0:
+                            start_idx = i
+                        depth += 1
+                    elif char == '}':
+                        depth -= 1
+                        if depth == 0 and start_idx >= 0:
+                            json_str = result[start_idx:i+1]
+                            try:
+                                parsed = json.loads(json_str)
+                                break
+                            except:
+                                continue
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=300
-            )
+                if parsed and 'prediction' in parsed:
+                    pred_name = parsed['prediction'].get('name')
+                    if pred_name and pred_name in candidates:
+                        predictions_count[pred_name] += 1
 
-            result = response.choices[0].message.content.strip()
+            except Exception as e:
+                continue
 
-            # 解析JSON
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                preds = parsed.get('predictions', [])
-                if preds:
-                    dist = {}
-                    for p in preds:
-                        name = p.get('name')
-                        prob = p.get('probability', 0)
-                        if name and name in candidates:
-                            dist[name] = prob
-                    # 归一化
-                    total = sum(dist.values())
-                    if total > 0:
-                        dist = {k: v/total for k, v in dist.items()}
-                    return dist
-        except Exception as e:
-            print(f"    [!] Base Model error: {e}")
+        # 转换为概率分布
+        total = sum(predictions_count.values())
+        if total > 0:
+            return {c: predictions_count[c] / total for c in candidates}
 
         # 默认：均匀分布
         return {c: 1.0/len(candidates) for c in candidates}
@@ -456,6 +492,41 @@ class BaseModelBaseline:
 
         best = max(distribution.items(), key=lambda x: x[1])
         return best[0], best[1]
+
+    def _build_prompt(self, current: str, candidates: List[str]) -> str:
+        """构建 ShareGPT 格式的 prompt"""
+        # 构建 exhibits 列表
+        exhibits_list = []
+
+        # 添加当前位置
+        current_features = EXHIBIT_FEATURES.get(current, "")
+        exhibits_list.append({
+            "name": current,
+            "features": current_features
+        })
+
+        # 添加候选展品（按拓扑顺序）
+        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        added = set()
+        for neighbor in neighbors:
+            if neighbor in candidates:
+                feat = EXHIBIT_FEATURES.get(neighbor, "")
+                exhibits_list.append({"name": neighbor, "features": feat})
+                added.add(neighbor)
+
+        for candidate in candidates:
+            if candidate not in added:
+                feat = EXHIBIT_FEATURES.get(candidate, "")
+                exhibits_list.append({"name": candidate, "features": feat})
+
+        # 构建 ShareGPT 格式
+        request_data = {
+            "task": "predict_next",
+            "exhibits": exhibits_list,
+            "history": []
+        }
+
+        return f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
 
 
 # ============================================
@@ -859,9 +930,6 @@ class BaselineComparison:
         print("\\hline")
         print("\\end{tabular}")
         print("\\end{table}")
-
-
-from datetime import datetime
 
 
 if __name__ == "__main__":
