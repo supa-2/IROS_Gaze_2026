@@ -408,128 +408,6 @@ class ZeroShotLLMBaseline:
 
 
 # ============================================
-# 4. Open Source Base Model (未训练的原始模型)
-# ============================================
-
-class BaseModelBaseline:
-    """
-    原始基础模型 - 未经过微调的开源模型
-    通过vLLM API调用本地部署的base model，使用 ShareGPT 格式
-    """
-
-    def __init__(self, api_url: str = "http://localhost:8000/v1",
-                 model_name: str = "Qwen"):
-        self.api_url = api_url
-        self.model_name = model_name
-        from openai import OpenAI
-        self.client = OpenAI(
-            api_key="sk-YourCustomSecretKey123",  # vLLM默认key
-            base_url=api_url
-        )
-
-    def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布 - 多次采样"""
-        num_samples = 5
-        predictions_count = {c: 0 for c in candidates}
-
-        for _ in range(num_samples):
-            prompt = self._build_prompt(current, candidates)
-
-            try:
-                response = self.client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.5,
-                    max_tokens=300
-                )
-
-                result = response.choices[0].message.content.strip()
-
-                # 解析 JSON
-                depth = 0
-                start_idx = -1
-                parsed = None
-                for i, char in enumerate(result):
-                    if char == '{':
-                        if depth == 0:
-                            start_idx = i
-                        depth += 1
-                    elif char == '}':
-                        depth -= 1
-                        if depth == 0 and start_idx >= 0:
-                            json_str = result[start_idx:i+1]
-                            try:
-                                parsed = json.loads(json_str)
-                                break
-                            except:
-                                continue
-
-                if parsed and 'prediction' in parsed:
-                    pred_name = parsed['prediction'].get('name')
-                    if pred_name and pred_name in candidates:
-                        predictions_count[pred_name] += 1
-
-            except Exception as e:
-                continue
-
-        # 转换为概率分布
-        total = sum(predictions_count.values())
-        if total > 0:
-            return {c: predictions_count[c] / total for c in candidates}
-
-        # 默认：均匀分布
-        return {c: 1.0/len(candidates) for c in candidates}
-
-    def predict(self, context: List[str], candidates: List[str] = None) -> Tuple[str, float]:
-        """预测"""
-        current = context[-1] if context else None
-        if not current or not candidates:
-            return None, 0.0
-
-        distribution = self.get_distribution(current, candidates)
-        if not distribution:
-            return None, 0.0
-
-        best = max(distribution.items(), key=lambda x: x[1])
-        return best[0], best[1]
-
-    def _build_prompt(self, current: str, candidates: List[str]) -> str:
-        """构建 ShareGPT 格式的 prompt"""
-        # 构建 exhibits 列表
-        exhibits_list = []
-
-        # 添加当前位置
-        current_features = EXHIBIT_FEATURES.get(current, "")
-        exhibits_list.append({
-            "name": current,
-            "features": current_features
-        })
-
-        # 添加候选展品（按拓扑顺序）
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
-        added = set()
-        for neighbor in neighbors:
-            if neighbor in candidates:
-                feat = EXHIBIT_FEATURES.get(neighbor, "")
-                exhibits_list.append({"name": neighbor, "features": feat})
-                added.add(neighbor)
-
-        for candidate in candidates:
-            if candidate not in added:
-                feat = EXHIBIT_FEATURES.get(candidate, "")
-                exhibits_list.append({"name": candidate, "features": feat})
-
-        # 构建 ShareGPT 格式
-        request_data = {
-            "task": "predict_next",
-            "exhibits": exhibits_list,
-            "history": []
-        }
-
-        return f"```json\n{json.dumps(request_data, ensure_ascii=False, indent=2)}\n```"
-
-
-# ============================================
 # 5. Ours - 从消融实验结果文件加载
 # ============================================
 
@@ -620,17 +498,13 @@ def correlation(p: Dict[str, float], q: Dict[str, float]) -> float:
 class BaselineComparison:
     """对照实验运行器"""
 
-    def __init__(self, data_path: str = None,
-                 api_url: str = "http://localhost:8000/v1",
-                 ablation_path: str = None):
+    def __init__(self, data_path: str = None, ablation_path: str = None):
         """
         Args:
             data_path: 测试数据路径
-            api_url: vLLM API URL (for Base Model)
             ablation_path: 消融实验结果文件路径 (for loading "Ours")
         """
         self.data_path = data_path
-        self.api_url = api_url
         self.ablation_path = ablation_path
         self.test_data = self._load_test_data()
         self.real_distributions = self._build_real_distributions()
@@ -747,18 +621,7 @@ class BaselineComparison:
                     'kl_divergence': 0.892, 'js_divergence': 0.318, 'correlation': 0.678
                 }
 
-        # 4. Base Model (未训练的原始模型)
-        print("\n[*] Testing: Base Model (未微调)...")
-        try:
-            base_model = BaseModelBaseline(api_url=self.api_url, model_name="Qwen")
-            results['Base Model'] = self._evaluate_distribution_method(base_model)
-            self._print_result('Base Model', results['Base Model'])
-        except Exception as e:
-            print(f"    [!] Base Model failed: {e}")
-            print(f"    [!] Make sure vLLM server is running at {self.api_url}")
-            results['Base Model'] = {'top1_accuracy': 0.445, 'top3_accuracy': 0.712, 'kl_divergence': 0.734, 'js_divergence': 0.291, 'correlation': 0.701}
-
-        # 5. Ours (从消融实验结果加载)
+        # 4. Ours (从消融实验结果加载)
         print("\n[*] Loading: Ours (Fine-tuned Model) from ablation results...")
         results['Ours'] = load_ours_results_from_ablation(self.ablation_path)
         self._print_result('Ours (Fine-tuned)', results['Ours'])
@@ -916,11 +779,6 @@ class BaselineComparison:
                 print(f"Zero-Shot LLM & {model_name} & {model_result['top1_accuracy']:.1%} & {model_result['top3_accuracy']:.1%} & "
                       f"{model_result['kl_divergence']:.3f} & {model_result['js_divergence']:.3f} & {model_result['correlation']:.3f} \\\\")
 
-        # Open Source Base Model
-        base = results.get('Base Model', {})
-        print(f"Open Source & Base Model & {base['top1_accuracy']:.1%} & {base['top3_accuracy']:.1%} & "
-              f"{base['kl_divergence']:.3f} & {base['js_divergence']:.3f} & {base['correlation']:.3f} \\\\")
-
         print("\\hline")
         # Proposed
         ours = results.get('Ours', {})
@@ -936,7 +794,6 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="对照实验 - Baseline Comparison")
     parser.add_argument("--data", default=None, help="测试数据路径")
-    parser.add_argument("--api-url", default="http://localhost:8000/v1", help="vLLM API URL (for Base Model)")
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果文件路径 (默认: data/outputs/vllm_ablation/ablation_results.json)")
     parser.add_argument("--zero-shot", nargs='+',
@@ -944,5 +801,5 @@ if __name__ == "__main__":
                         help="要测试的Zero-Shot模型列表")
     args = parser.parse_args()
 
-    experiment = BaselineComparison(args.data, args.api_url, args.ablation)
+    experiment = BaselineComparison(args.data, args.ablation)
     results = experiment.run_comparison(zero_shot_models=args.zero_shot)
