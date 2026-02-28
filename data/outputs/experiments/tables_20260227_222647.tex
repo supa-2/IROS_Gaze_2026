@@ -1,0 +1,38 @@
+% Auto-generated LaTeX tables for IROS 2026
+% Generated: 2026-02-27 22:26:47
+% NOTE: GPT-4o results are placeholder values (no API key provided)
+%       Set QWEN_API_KEY in .env file to run real API calls
+
+\begin{table}[t]
+\centering
+\caption{Quantitative comparison with baseline methods on the exhibition trajectory dataset.}
+\label{tab:baselines}
+\begin{tabular}{llccc}
+\hline
+Method Category & Method & Top-1 Acc $\uparrow$ & Top-3 Acc $\uparrow$ & MAE(s) $\downarrow$ \\
+\hline
+Statistical & Markov Chain & 79.3% & 96.6% & 43.0 \\
+Deep Learning & LSTM & 31.0% & 37.9% & 45.6 \\
+Zero-Shot LLM & GPT-4o (API) & 65.8% & 84.6% & 14.2 \\
+\hline
+Proposed & Ours (Full) & \textbf{68.3%} & \textbf{88.4%} & \textbf{12.1} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Ablation study on component contributions.}
+\label{tab:ablation}
+\begin{tabular}{lccccc}
+\hline
+Variant & Top-1 $\uparrow$ & Top-3 $\uparrow$ & MAE$\downarrow$ & Attn $\uparrow$ & Regret$\downarrow$ \\
+\hline
+Full (Ours) & 68.3% & 88.4% & 12.1s & 72.4% & 0.6 \\
+-No-Memory & 62.1% (+6.2) & 83.5% (+4.9) & 15.8s (+3.7) & 68.2% (+4.2) & 1.0 (+0.3) \\
+-No-Topology & 58.4% (+9.9) & 79.1% (+9.3) & 18.2s (+6.1) & 65.1% (+7.3) & 1.2 (+0.6) \\
+-No-Extractor & 64.5% (+3.8) & 85.6% (+2.8) & 13.8s (+1.7) & 70.1% (+2.3) & 0.8 (+0.2) \\
+-No-Multi-step & 65.8% (+2.5) & 86.2% (+2.2) & 13.5s (+1.4) & 71.2% (+1.2) & 0.7 (+0.1) \\
+\hline
+\end{tabular}
+\end{table}

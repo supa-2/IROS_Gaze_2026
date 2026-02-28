@@ -1,0 +1,37 @@
+{
+  "Full": {
+    "top1_acc": 0.683,
+    "top3_acc": 0.884,
+    "mae": 12.1,
+    "attn_acc": 0.724,
+    "regret": 0.63
+  },
+  "No-Memory": {
+    "top1_acc": 0.621,
+    "top3_acc": 0.835,
+    "mae": 15.8,
+    "attn_acc": 0.682,
+    "regret": 0.96
+  },
+  "No-Topology": {
+    "top1_acc": 0.584,
+    "top3_acc": 0.791,
+    "mae": 18.2,
+    "attn_acc": 0.651,
+    "regret": 1.23
+  },
+  "No-Extractor": {
+    "top1_acc": 0.645,
+    "top3_acc": 0.856,
+    "mae": 13.8,
+    "attn_acc": 0.701,
+    "regret": 0.78
+  },
+  "No-Multi-step": {
+    "top1_acc": 0.658,
+    "top3_acc": 0.862,
+    "mae": 13.5,
+    "attn_acc": 0.712,
+    "regret": 0.72
+  }
+}

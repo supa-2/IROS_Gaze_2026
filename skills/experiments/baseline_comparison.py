@@ -6,7 +6,7 @@ Baseline Comparison - 对照实验
 对比不同方法：
 1. Statistical: Markov Chain
 2. Deep Learning: LSTM/MLP
-3. Zero-Shot LLMs: Claude-Sonnet-4-6, Gemini-3.1-Pro-Thinking
+3. Zero-Shot LLMs: GPT-5.2, Claude-Sonnet-4-6, Gemini-3.1-Pro-Thinking
 4. Open Source Base Model: 未训练的原始模型 (vLLM)
 5. Ours: 从消融实验结果文件读取
 
@@ -268,6 +268,9 @@ class ZeroShotLLMBaseline:
 
     # 支持的模型配置 - 使用中转API (VectorEngine)
     MODEL_CONFIGS = {
+        "GPT-5.2": {
+            "model_name": "gpt-5.2",
+        },
         "Claude-Sonnet-4-6": {
             "model_name": "claude-sonnet-4-6",
         },
@@ -280,7 +283,7 @@ class ZeroShotLLMBaseline:
     UNIFIED_API_KEY = os.getenv("VECTOR_API_KEY")
     UNIFIED_BASE_URL = os.getenv("VECTOR_BASE_URL", "https://api.vectorengine.ai") + "/v1"
 
-    def __init__(self, model_display_name: str = "Claude-Sonnet-4-6"):
+    def __init__(self, model_display_name: str = "GPT-5.2"):
         """
         Args:
             model_display_name: 模型显示名称
@@ -622,7 +625,7 @@ class BaselineComparison:
             zero_shot_models: 要测试的Zero-Shot模型列表
         """
         if zero_shot_models is None:
-            zero_shot_models = ["Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
+            zero_shot_models = ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
 
         print("="*90)
         print("Baseline Comparison Experiment - Distribution Matching")
@@ -811,6 +814,7 @@ class BaselineComparison:
 
         # 定义Zero-Shot模型列表
         zero_shot_models = [
+            "GPT-5.2",
             "Claude-Sonnet-4-6",
             "Gemini-3.1-Pro-Thinking"
         ]
@@ -868,7 +872,7 @@ if __name__ == "__main__":
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果文件路径 (默认: data/outputs/vllm_ablation/ablation_results.json)")
     parser.add_argument("--zero-shot", nargs='+',
-                        default=["Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"],
+                        default=["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"],
                         help="要测试的Zero-Shot模型列表")
     args = parser.parse_args()
 
