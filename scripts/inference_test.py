@@ -153,9 +153,17 @@ class SimpleTestInference:
             elif isinstance(parsed, str):
                 pred_name = parsed  # 整个结果就是名称
 
-            if pred_name:
-                predictions_count[pred_name] += 1
-                attention_counts[pred_name] += 1
+            # 处理 pred_name 可能是列表的情况
+            final_pred_name = pred_name
+            if isinstance(pred_name, list):
+                if len(pred_name) > 0:
+                    final_pred_name = pred_name[0]  # 取第一个
+                else:
+                    continue  # 空列表，跳过
+
+            if final_pred_name:
+                predictions_count[final_pred_name] += 1
+                attention_counts[final_pred_name] += 1
 
         # 转换为概率分布
         total = sum(predictions_count.values())
