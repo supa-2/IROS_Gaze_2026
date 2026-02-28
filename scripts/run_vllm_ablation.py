@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Ablation Study with Distribution Matching Evaluation
+Ablation Study with Distribution Matching and Attention Evaluation
 
 使用分布匹配度评估，而非单一正确答案
+同时评估注意力等级预测能力
 """
 
 import os
@@ -14,12 +15,30 @@ from typing import List, Dict, Optional
 from collections import Counter, defaultdict
 from scipy.stats import entropy
 from scipy.spatial.distance import jensenshannon
+from datetime import datetime
 
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True,max_split_size_mb:128'
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(script_dir))
 sys.path.insert(0, project_root)
+
+# 注意力等级配置
+ATTENTION_DURATION = {
+    'A': 120,  # 深度关注 - 长时间仔细观看
+    'B': 60,   # 中等关注 - 正常观看
+    'C': 30,   # 一般关注 - 浏览式观看
+    'D': 15,   # 快速浏览 - 短暂停留
+    'E': 5,    # 一瞥而过 - 快速扫视
+}
+
+ATTENTION_DESCRIPTION = {
+    'A': '深度关注 - 长时间仔细观看',
+    'B': '中等关注 - 正常观看',
+    'C': '一般关注 - 浏览式观看',
+    'D': '快速浏览 - 短暂停留',
+    'E': '一瞥而过 - 快速扫视'
+}
 
 # 真实展品名称
 REAL_EXHIBIT_NAMES = [
@@ -152,7 +171,7 @@ class DistributionAblation:
         return self._create_sample_data()
 
     def _create_sample_data(self) -> List[Dict]:
-        """创建测试数据"""
+        """创建测试数据（包含注意力等级）"""
         sample_sequences = [
             ["入口", "丁香花", "金鱼兰", "牡丹花"],
             ["入口", "丁香花", "金鱼兰", "山茶花"],
@@ -165,12 +184,26 @@ class DistributionAblation:
             ["三星堆展区", "良渚展区"],
             ["良渚展区", "文字瀑布", "耕织图"],
         ]
+
+        # 根据展品类型分配注意力等级
+        exhibit_attention = {
+            "入口": "C", "丁香花": "A", "金鱼兰": "B", "牡丹花": "A",
+            "说明文字-千岛湖": "B", "人物-祝大年创作": "A", "千岛湖": "A",
+            "山茶花": "C", "松竹海": "B", "西双版纳": "A", "耕织图": "B",
+            "漓江春色": "A", "风筝": "B", "迎客松": "A", "三星堆展区": "B",
+            "殷墟展区": "B", "良渚展区": "B", "文字瀑布": "C",
+        }
+
         test_data = []
         for seq in sample_sequences:
             for i in range(len(seq) - 1):
+                next_exhibit = seq[i + 1]
+                attention = exhibit_attention.get(next_exhibit, "C")
                 test_data.append({
                     'current': seq[i],
-                    'next': seq[i + 1],
+                    'next': next_exhibit,
+                    'attention': attention,
+                    'duration': ATTENTION_DURATION[attention]
                 })
         return test_data
 
@@ -259,6 +292,69 @@ class DistributionAblation:
         # 默认：均匀分布
         return {c: 1.0/len(candidates) for c in candidates}
 
+    def predict_attention(
+        self,
+        next_exhibit: str,
+        config: AblationConfig
+    ) -> Dict[str, any]:
+        """预测注意力等级和停留时间"""
+        features = EXHIBIT_FEATURES.get(next_exhibit, "")
+
+        # 构建prompt
+        prompt_info = [f"下一个展品: {next_exhibit}"]
+        if config.use_feature_preprocess:
+            prompt_info.append(f"展品特征: {features}")
+
+        prompt_info.append(f"""
+预测游客对这个展品的关注程度。
+
+注意力等级标准:
+- A: {ATTENTION_DESCRIPTION['A']} (约{ATTENTION_DURATION['A']}秒)
+- B: {ATTENTION_DESCRIPTION['B']} (约{ATTENTION_DURATION['B']}秒)
+- C: {ATTENTION_DESCRIPTION['C']} (约{ATTENTION_DURATION['C']}秒)
+- D: {ATTENTION_DESCRIPTION['D']} (约{ATTENTION_DURATION['D']}秒)
+- E: {ATTENTION_DESCRIPTION['E']} (约{ATTENTION_DURATION['E']}秒)
+
+返回JSON格式:
+{{"attention_level": "A/B/C/D/E", "estimated_duration": 秒数, "reasoning": "推理过程"}}
+""")
+
+        prompt = "\n".join(prompt_info)
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=200
+            )
+            result = response.choices[0].message.content.strip()
+
+            # 解析
+            import re
+            json_match = re.search(r'\{.*\}', result, re.DOTALL)
+            if json_match:
+                parsed = json.loads(json_match.group())
+                attention = parsed.get('attention_level', 'C')
+                duration = parsed.get('estimated_duration', ATTENTION_DURATION['C'])
+                # 确保attention是有效的等级
+                if attention not in ATTENTION_DURATION:
+                    attention = 'C'
+                return {
+                    'attention_level': attention,
+                    'estimated_duration': duration,
+                    'reasoning': parsed.get('reasoning', '')
+                }
+        except Exception as e:
+            print(f"[!] Attention prediction error: {e}")
+
+        # 默认：中等关注
+        return {
+            'attention_level': 'C',
+            'estimated_duration': ATTENTION_DURATION['C'],
+            'reasoning': '默认预测'
+        }
+
     def kl_divergence(self, p: Dict[str, float], q: Dict[str, float]) -> float:
         """计算 KL 散度"""
         # 确保两个分布有相同的键
@@ -299,6 +395,11 @@ class DistributionAblation:
         js_divs = []
         corrs = []
 
+        # 注意力评估
+        attention_correct = 0
+        attention_total = 0
+        duration_errors = []
+
         # 对每个有真实分布的起点进行评估
         for current, real_dist in self.real_distributions.items():
             candidates = list(real_dist.keys())
@@ -306,7 +407,7 @@ class DistributionAblation:
             # 获取模型预测的分布
             model_dist = self.get_model_distribution(current, candidates, config)
 
-            # 计算指标
+            # 计算分布指标
             try:
                 kl = self.kl_divergence(real_dist, model_dist)
                 js = self.js_divergence(real_dist, model_dist)
@@ -318,13 +419,35 @@ class DistributionAblation:
             except:
                 continue
 
-        print(f" 完成 ({len(kl_divs)} 个起点)")
+        # 评估注意力预测
+        for sample in self.test_data:
+            next_exhibit = sample['next']
+            true_attention = sample.get('attention', 'C')
+            true_duration = sample.get('duration', ATTENTION_DURATION['C'])
+
+            # 预测注意力
+            pred = self.predict_attention(next_exhibit, config)
+            pred_attention = pred['attention_level']
+            pred_duration = pred['estimated_duration']
+
+            # 注意力等级准确率
+            if pred_attention == true_attention:
+                attention_correct += 1
+            attention_total += 1
+
+            # 停留时间误差
+            duration_errors.append(abs(pred_duration - true_duration))
+
+        print(f" 完成 ({len(kl_divs)} 个起点, {attention_total} 个注意力预测)")
 
         return {
             'kl_divergence': np.mean(kl_divs) if kl_divs else 0,
             'js_divergence': np.mean(js_divs) if js_divs else 0,
             'correlation': np.mean(corrs) if corrs else 0,
-            'num_evaluated': len(kl_divs)
+            'attention_accuracy': attention_correct / max(attention_total, 1),
+            'duration_mae': np.mean(duration_errors) if duration_errors else 0,
+            'num_evaluated': len(kl_divs),
+            'num_attention_eval': attention_total
         }
 
     def run_ablation_study(self) -> Dict:
@@ -362,9 +485,12 @@ class DistributionAblation:
             print(f"    KL散度: {config_results['kl_divergence']:.4f} ↓ (越低越好)")
             print(f"    JS散度: {config_results['js_divergence']:.4f} ↓ (越低越好)")
             print(f"    相关系数: {config_results['correlation']:.4f} ↑ (越高越好)")
+            print(f"    注意力准确率: {config_results['attention_accuracy']:.2%} ↑ (越高越好)")
+            print(f"    停留时间MAE: {config_results['duration_mae']:.1f}s ↓ (越低越好)")
 
         self._save_results(results)
         self._print_table(results)
+        self._print_latex_table(results)
         return results
 
     def _save_results(self, results: Dict):
@@ -379,22 +505,65 @@ class DistributionAblation:
     def _print_table(self, results: Dict):
         """打印结果表格"""
         print("\n" + "="*70)
-        print("分布匹配度结果")
+        print("分布匹配度 + 注意力预测结果")
         print("="*70)
-        print(f"{'配置':<20} {'KL散度↓':>12} {'JS散度↓':>12} {'相关系数↑':>12}")
-        print("-" * 58)
+        print(f"{'配置':<20} {'KL↓':>10} {'JS↓':>10} {'Corr↑':>10} {'Attn↑':>10} {'MAE↓':>10}")
+        print("-" * 70)
 
         full = results.get('Full', {})
-        print(f"{'Full (Ours)':<20} {full['kl_divergence']:>12.4f} {full['js_divergence']:>12.4f} {full['correlation']:>12.4f}")
+        print(f"{'Full (Ours)':<20} {full['kl_divergence']:>10.4f} {full['js_divergence']:>10.4f} "
+              f"{full['correlation']:>10.4f} {full['attention_accuracy']:>10.2%} {full['duration_mae']:>10.1f}s")
 
         for name, res in results.items():
             if name == 'Full':
-                diff_kl = res['kl_divergence'] - full['kl_divergence']
-                diff_js = res['js_divergence'] - full['js_divergence']
-                diff_corr = res['correlation'] - full['correlation']
-                print(f"{name:<20} {res['kl_divergence']:>12.4f} ({diff_kl:+.4f}) "
-                      f"{res['js_divergence']:>12.4f} ({diff_js:+.4f}) "
-                      f"{res['correlation']:>12.4f} ({diff_corr:+.4f})")
+                continue
+            diff_kl = res['kl_divergence'] - full['kl_divergence']
+            diff_js = res['js_divergence'] - full['js_divergence']
+            diff_corr = res['correlation'] - full['correlation']
+            diff_attn = full['attention_accuracy'] - res['attention_accuracy']
+            diff_mae = res['duration_mae'] - full['duration_mae']
+            print(f"{name:<20} {res['kl_divergence']:>10.4f} ({diff_kl:+.4f}) "
+                  f"{res['js_divergence']:>10.4f} ({diff_js:+.4f}) "
+                  f"{res['correlation']:>10.4f} ({diff_corr:+.4f}) "
+                  f"{res['attention_accuracy']:>10.2%} ({diff_attn:+.2%}) "
+                  f"{res['duration_mae']:>10.1f}s ({diff_mae:+.1f})")
+
+    def _print_latex_table(self, results: Dict):
+        """打印LaTeX表格"""
+        print("\n" + "="*70)
+        print("LaTeX Table for Ablation Study")
+        print("="*70)
+
+        print("\n\\begin{table}[t]")
+        print("\\centering")
+        print("\\caption{Ablation study with distribution matching and attention prediction}")
+        print("\\label{tab:ablation}")
+        print("\\begin{tabular}{lccccc}")
+        print("\\hline")
+        print("Variant & KL$\\downarrow$ & JS$\\downarrow$ & Corr$\\uparrow$ & Attn$\\uparrow$ & MAE$\\downarrow$ \\\\")
+        print("\\hline")
+
+        full = results.get('Full', {})
+        print(f"Full (Ours) & {full['kl_divergence']:.4f} & {full['js_divergence']:.4f} & "
+              f"{full['correlation']:.4f} & {full['attention_accuracy']:.2%} & {full['duration_mae']:.1f}s \\\\")
+
+        for name, res in results.items():
+            if name == 'Full':
+                continue
+            diff_kl = res['kl_divergence'] - full['kl_divergence']
+            diff_js = res['js_divergence'] - full['js_divergence']
+            diff_corr = res['correlation'] - full['correlation']
+            diff_attn = full['attention_accuracy'] - res['attention_accuracy']
+            diff_mae = res['duration_mae'] - full['duration_mae']
+            print(f"-{name} & {res['kl_divergence']:.4f} ({diff_kl:+.4f}) & "
+                  f"{res['js_divergence']:.4f} ({diff_js:+.4f}) & "
+                  f"{res['correlation']:.4f} ({diff_corr:+.4f}) & "
+                  f"{res['attention_accuracy']:.2%} ({diff_attn:+.2%}) & "
+                  f"{res['duration_mae']:.1f}s ({diff_mae:+.1f}) \\\\")
+
+        print("\\hline")
+        print("\\end{tabular}")
+        print("\\end{table}")
 
 
 def main():
