@@ -6,7 +6,7 @@ Baseline Comparison - 对照实验
 对比不同方法：
 1. Statistical: Markov Chain
 2. Deep Learning: LSTM/MLP
-3. Zero-Shot LLMs: GPT-5.2-pro, Claude-Sonnet-4-6, Gemini-3.1-Pro-Thinking
+3. Zero-Shot LLMs: Claude-Sonnet-4-6, Gemini-3.1-Pro-Thinking
 4. Open Source Base Model: 未训练的原始模型 (vLLM)
 5. Ours: 从消融实验结果文件读取
 
@@ -266,45 +266,37 @@ class LSTMBaseline:
 class ZeroShotLLMBaseline:
     """零样本LLM基线 - 支持多款模型"""
 
-    # 支持的模型配置
+    # 支持的模型配置 - 使用中转API (VectorEngine)
     MODEL_CONFIGS = {
-        "GPT-5.2-pro": {
-            "model_name": "gpt-5.2-pro",
-            "api_key_env": "OPENAI_API_KEY",
-            "base_url_env": "OPENAI_BASE_URL",
-            "default_base_url": "https://api.openai.com/v1"
-        },
         "Claude-Sonnet-4-6": {
             "model_name": "claude-sonnet-4-6",
-            "api_key_env": "ANTHROPIC_API_KEY",
-            "base_url_env": "ANTHROPIC_BASE_URL",
-            "default_base_url": "https://api.anthropic.com"
         },
         "Gemini-3.1-Pro-Thinking": {
             "model_name": "gemini-3.1-pro-preview-thinking",
-            "api_key_env": "GEMINI_API_KEY",
-            "base_url_env": "GEMINI_BASE_URL",
-            "default_base_url": "https://generativelanguage.googleapis.com/v1beta"
         },
     }
 
-    def __init__(self, model_display_name: str = "GPT-4o"):
+    # 统一的中转API配置
+    UNIFIED_API_KEY = os.getenv("VECTOR_API_KEY")
+    UNIFIED_BASE_URL = os.getenv("VECTOR_BASE_URL", "https://api.vectorengine.ai") + "/v1"
+
+    def __init__(self, model_display_name: str = "Claude-Sonnet-4-6"):
         """
         Args:
-            model_display_name: 模型显示名称 (如 "GPT-4o", "Claude-3.5-Sonnet", "Qwen-Plus")
+            model_display_name: 模型显示名称
         """
         if model_display_name not in self.MODEL_CONFIGS:
             raise ValueError(f"Unknown model: {model_display_name}. Available: {list(self.MODEL_CONFIGS.keys())}")
 
         self.display_name = model_display_name
-        config = self.MODEL_CONFIGS[model_display_name]
+        self.model_name = self.MODEL_CONFIGS[model_display_name]["model_name"]
 
-        self.model_name = config["model_name"]
-        api_key = os.getenv(config["api_key_env"])
-        base_url = os.getenv(config["base_url_env"], config["default_base_url"])
+        # 使用统一的中转API配置
+        api_key = self.UNIFIED_API_KEY
+        base_url = self.UNIFIED_BASE_URL
 
         if not api_key:
-            raise ValueError(f"API key not found for {model_display_name}. Set {config['api_key_env']} environment variable.")
+            raise ValueError(f"API key not found. Please set VECTOR_API_KEY in .env file")
 
         from openai import OpenAI
         self.client = OpenAI(api_key=api_key, base_url=base_url)
@@ -630,7 +622,7 @@ class BaselineComparison:
             zero_shot_models: 要测试的Zero-Shot模型列表
         """
         if zero_shot_models is None:
-            zero_shot_models = ["GPT-5.2-pro", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
+            zero_shot_models = ["Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
 
         print("="*90)
         print("Baseline Comparison Experiment - Distribution Matching")
@@ -819,7 +811,6 @@ class BaselineComparison:
 
         # 定义Zero-Shot模型列表
         zero_shot_models = [
-            "GPT-5.2-pro",
             "Claude-Sonnet-4-6",
             "Gemini-3.1-Pro-Thinking"
         ]
@@ -877,7 +868,7 @@ if __name__ == "__main__":
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果文件路径 (默认: data/outputs/vllm_ablation/ablation_results.json)")
     parser.add_argument("--zero-shot", nargs='+',
-                        default=["GPT-5.2-pro", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"],
+                        default=["Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"],
                         help="要测试的Zero-Shot模型列表")
     args = parser.parse_args()
 
