@@ -124,9 +124,9 @@ class SimpleTestInference:
         predictions_count = Counter()
         attention_counts = Counter()
 
-        # 获取候选展品列表
+        # 获取候选展品列表 - 所有 exhibits 都是候选
         exhibits = prompt_data.get('exhibits', [])
-        candidate_names = [e['name'] for e in exhibits[1:]] if len(exhibits) > 1 else []
+        candidate_names = [e['name'] for e in exhibits]
 
         for sample_idx in range(num_samples):
             parsed = self.predict_single(prompt_data)
