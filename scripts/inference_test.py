@@ -163,7 +163,8 @@ class SimpleTestInference:
 
             if final_pred_name:
                 predictions_count[final_pred_name] += 1
-                attention_counts[final_pred_name] += 1
+                # 记录注意力等级（不是展品名！）
+                attention_counts[pred_attention] += 1
 
         # 转换为概率分布
         total = sum(predictions_count.values())
