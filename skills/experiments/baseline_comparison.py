@@ -3,10 +3,18 @@
 """
 Baseline Comparison - 对照实验
 
-对比不同方法：
+对比不同方法（系统对照，而非单纯模型对照）：
+
+闭源模型使用与我们的系统完全相同的ShareGPT格式prompt，实现端到端的系统比较。
+即：闭源模型(prompt) vs 我们的系统(候选选择+prompt+微调模型)
+
+对比方法：
 1. Statistical: Markov Chain
 2. Deep Learning: LSTM/MLP
-3. Zero-Shot LLMs: GPT-5.2, Claude-Sonnet-4-6, Gemini-3.1-Pro-Thinking
+3. Zero-Shot LLMs (系统对照):
+   - GPT-4o: 直接接收ShareGPT prompt
+   - Claude-Sonnet-4: 直接接收ShareGPT prompt
+   - Gemini-2.5-Pro: 直接接收ShareGPT prompt
 4. Open Source Base Model: 未训练的原始模型 (vLLM)
 5. Ours: 从消融实验结果文件读取
 
@@ -264,30 +272,59 @@ class LSTMBaseline:
 
 
 # ============================================
-# 3. Zero-Shot LLM Baselines (多款模型)
+# 3. Zero-Shot LLM Baselines (系统对照 - 使用相同prompt)
 # ============================================
 
 class ZeroShotLLMBaseline:
-    """零样本LLM基线 - 支持多款模型，使用 ShareGPT 格式"""
+    """
+    零样本LLM基线 - 系统对照
 
-    # 支持的模型配置 - 使用中转API (VectorEngine)
+    关键设计：闭源模型使用与我们的微调模型完全相同的ShareGPT格式prompt。
+    这实现了"系统对照"而非"模型对照"：
+    - 我们的系统：候选展品选择 + ShareGPT prompt + 微调模型
+    - 闭源模型：相同的 ShareGPT prompt + 闭源模型
+
+    这样可以公平地比较整个系统端到端的性能。
+    """
+
+    # 支持的闭源模型配置 - 直接使用官方API
     MODEL_CONFIGS = {
-        "GPT-5.2": {
-            "model_name": "gpt-5.2",
+        # OpenAI 模型
+        "GPT-4o": {
+            "api_type": "openai",
+            "model_name": "gpt-4o",
+            "api_key_env": "OPENAI_API_KEY",
+            "base_url": None,  # 使用默认
         },
-        "Claude-Sonnet-4-6": {
-            "model_name": "claude-sonnet-4-6",
+        "GPT-4o-mini": {
+            "api_type": "openai",
+            "model_name": "gpt-4o-mini",
+            "api_key_env": "OPENAI_API_KEY",
+            "base_url": None,
         },
-        "Gemini-3.1-Pro-Thinking": {
-            "model_name": "gemini-3.1-pro-preview-thinking",
+        # Anthropic 模型
+        "Claude-Sonnet-4": {
+            "api_type": "anthropic",
+            "model_name": "claude-sonnet-4-20250514",
+            "api_key_env": "ANTHROPIC_API_KEY",
+            "base_url": None,
+        },
+        "Claude-Sonnet-3.5": {
+            "api_type": "anthropic",
+            "model_name": "claude-3-5-sonnet-20241022",
+            "api_key_env": "ANTHROPIC_API_KEY",
+            "base_url": None,
+        },
+        # Google Gemini 模型 (通过 OpenAI 兼容接口)
+        "Gemini-2.5-Pro": {
+            "api_type": "openai",
+            "model_name": "gemini-2.5-pro",
+            "api_key_env": "GOOGLE_API_KEY",
+            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
         },
     }
 
-    # 统一的中转API配置
-    UNIFIED_API_KEY = os.getenv("VECTOR_API_KEY")
-    UNIFIED_BASE_URL = os.getenv("VECTOR_BASE_URL", "https://api.vectorengine.ai") + "/v1"
-
-    def __init__(self, model_display_name: str = "GPT-5.2"):
+    def __init__(self, model_display_name: str = "GPT-4o"):
         """
         Args:
             model_display_name: 模型显示名称
@@ -296,20 +333,201 @@ class ZeroShotLLMBaseline:
             raise ValueError(f"Unknown model: {model_display_name}. Available: {list(self.MODEL_CONFIGS.keys())}")
 
         self.display_name = model_display_name
-        self.model_name = self.MODEL_CONFIGS[model_display_name]["model_name"]
+        config = self.MODEL_CONFIGS[model_display_name]
+        self.model_name = config["model_name"]
+        self.api_type = config["api_type"]
 
-        # 使用统一的中转API配置
-        api_key = self.UNIFIED_API_KEY
-        base_url = self.UNIFIED_BASE_URL
-
+        # 获取 API key
+        api_key = os.getenv(config["api_key_env"])
         if not api_key:
-            raise ValueError(f"API key not found. Please set VECTOR_API_KEY in .env file")
+            raise ValueError(f"API key not found. Please set {config['api_key_env']} in .env file")
 
+        # 获取 base_url (可选)
+        base_url = config.get("base_url")
+
+        # 初始化 OpenAI 客户端 (所有 API 都使用 OpenAI 兼容接口)
         from openai import OpenAI
         self.client = OpenAI(api_key=api_key, base_url=base_url)
 
+        print(f"[*] 初始化 ZeroShotLLMBaseline: {self.display_name} ({self.model_name})")
+
+        # 缓存加载的测试数据
+        self._test_data_cache = None
+        self._test_data_path = None
+
+    def load_test_data(self, jsonl_path: str) -> List[Dict]:
+        """
+        加载测试数据，提取 predict_next 任务的完整 ShareGPT prompt
+
+        Args:
+            jsonl_path: ShareGPT 格式的测试数据文件路径
+
+        Returns:
+            包含 prompt_data 和 ground_truth 的任务列表
+        """
+        if self._test_data_cache and self._test_data_path == jsonl_path:
+            return self._test_data_cache
+
+        tasks = []
+        import re
+
+        with open(jsonl_path, 'r', encoding='utf-8') as f:
+            for line_no, line in enumerate(f):
+                if line.strip():
+                    try:
+                        item = json.loads(line)
+                        conv = item.get('conversations', [])
+                        if len(conv) >= 2:
+                            human_msg = conv[0].get('value', '')
+                            gpt_msg = conv[1].get('value', '')
+
+                            # 只处理 predict_next 任务
+                            if '"task": "predict_next"' in human_msg:
+                                # 提取请求数据
+                                json_match = re.search(r'```json\n(.+?)\n```', human_msg, re.DOTALL)
+                                if json_match:
+                                    try:
+                                        request_data = json.loads(json_match.group(1))
+
+                                        # 提取 ground truth
+                                        gt_match = re.search(r'```json\n(.+?)\n```', gpt_msg, re.DOTALL)
+                                        ground_truth = None
+                                        if gt_match:
+                                            try:
+                                                gt_data = json.loads(gt_match.group(1))
+                                                if 'prediction' in gt_data:
+                                                    ground_truth = gt_data['prediction']
+                                            except:
+                                                pass
+
+                                        tasks.append({
+                                            'prompt_data': request_data,
+                                            'ground_truth': ground_truth,
+                                            'line_no': line_no,
+                                        })
+                                    except:
+                                        continue
+                    except:
+                        continue
+
+        self._test_data_cache = tasks
+        self._test_data_path = jsonl_path
+        print(f"    [*] 加载了 {len(tasks)} 个 predict_next 任务")
+        return tasks
+
+    def predict_from_prompt_data(self, prompt_data: Dict, num_samples: int = 5) -> Dict:
+        """
+        直接从完整的 ShareGPT prompt 预测（系统对照）
+
+        这是关键的改进：闭源模型接收与微调模型完全相同的 prompt，
+        实现"系统对照"而非"模型对照"。
+
+        Args:
+            prompt_data: ShareGPT 格式的请求数据（包含 task, exhibits, history）
+            num_samples: 采样次数，用于估计概率分布
+
+        Returns:
+            预测结果，包含：
+            - prediction: 预测的展品名称
+            - attention_level: 预测的注意等级
+            - confidence: 置信度（基于多采样的一致性）
+            - distribution: 候选展品的概率分布
+        """
+        # 构建 ShareGPT 格式的 prompt（与微调模型完全相同）
+        prompt = f"```json\n{json.dumps(prompt_data, ensure_ascii=False, indent=2)}\n```"
+
+        # 获取候选展品列表
+        exhibits = prompt_data.get('exhibits', [])
+        if len(exhibits) <= 1:
+            return {'prediction': None, 'attention_level': 'C', 'confidence': 0, 'distribution': {}}
+
+        current_exhibit = exhibits[0]['name']
+        candidates = [e['name'] for e in exhibits[1:]]
+
+        # 多次采样以获得概率分布
+        predictions_count = {c: 0 for c in candidates}
+        attention_levels = []
+
+        for i in range(num_samples):
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,  # 适中的温度以获得多样性
+                    max_tokens=300
+                )
+
+                result = response.choices[0].message.content.strip()
+
+                # 解析 JSON - 提取第一个完整对象
+                parsed = self._parse_json_response(result)
+                if parsed and 'prediction' in parsed:
+                    pred_name = parsed['prediction'].get('name')
+                    pred_attention = parsed['prediction'].get('attention_level', 'C')
+                    if pred_name and pred_name in candidates:
+                        predictions_count[pred_name] += 1
+                        attention_levels.append(pred_attention)
+
+            except Exception as e:
+                continue
+
+        # 转换为概率分布
+        total = sum(predictions_count.values())
+        if total > 0:
+            distribution = {c: predictions_count[c] / total for c in candidates}
+            best_prediction = max(predictions_count.items(), key=lambda x: x[1])[0]
+            confidence = predictions_count[best_prediction] / total
+
+            # 最常见的 attention_level
+            if attention_levels:
+                from collections import Counter
+                most_common_attention = Counter(attention_levels).most_common(1)[0][0]
+            else:
+                most_common_attention = 'C'
+
+            return {
+                'prediction': best_prediction,
+                'attention_level': most_common_attention,
+                'confidence': confidence,
+                'distribution': distribution
+            }
+
+        # 默认返回
+        return {
+            'prediction': candidates[0] if candidates else None,
+            'attention_level': 'C',
+            'confidence': 0,
+            'distribution': {c: 1.0/len(candidates) for c in candidates}
+        }
+
+    def _parse_json_response(self, response: str) -> Dict:
+        """解析模型返回的 JSON（处理各种格式）"""
+        # 尝试直接解析
+        try:
+            return json.loads(response)
+        except:
+            pass
+
+        # 提取第一个完整 JSON 对象
+        depth = 0
+        start_idx = -1
+        for i, char in enumerate(response):
+            if char == '{':
+                if depth == 0:
+                    start_idx = i
+                depth += 1
+            elif char == '}':
+                depth -= 1
+                if depth == 0 and start_idx >= 0:
+                    json_str = response[start_idx:i+1]
+                    try:
+                        return json.loads(json_str)
+                    except:
+                        continue
+        return None
+
     def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布 - 单次采样（Zero-Shot LLM 较慢）"""
+        """获取概率分布 - 单次采样（Zero-Shot LLM 较慢）- 兼容旧接口"""
         num_samples = 1  # Zero-Shot LLM API 较慢，只用 1 次采样
         predictions_count = {c: 0 for c in candidates}
 
@@ -568,16 +786,24 @@ class BaselineComparison:
 
     def run_comparison(self, zero_shot_models: List[str] = None) -> Dict:
         """
-        运行对照实验
+        运行对照实验（系统对照）
 
         Args:
             zero_shot_models: 要测试的Zero-Shot模型列表
+                            可选: "GPT-4o", "GPT-4o-mini", "Claude-Sonnet-4", "Claude-Sonnet-3.5", "Gemini-2.5-Pro"
         """
         if zero_shot_models is None:
-            zero_shot_models = ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
+            # 默认测试主流闭源模型
+            zero_shot_models = ["GPT-4o", "Claude-Sonnet-4", "Gemini-2.5-Pro"]
 
         print("="*90)
-        print("Baseline Comparison Experiment - Distribution Matching")
+        print("Baseline Comparison Experiment - System-Level Comparison")
+        print("="*90)
+        print(f"真实分布起点数: {len(self.real_distributions)}")
+        print(f"测试样本数: {len(self.test_data)}")
+        print(f"Zero-Shot模型: {', '.join(zero_shot_models)}")
+        print("\n[注] 闭源模型使用与我们的系统完全相同的 ShareGPT 格式 prompt")
+        print("     这是系统对照，而非单纯的模型对照")
         print("="*90)
         print(f"真实分布起点数: {len(self.real_distributions)}")
         print(f"测试样本数: {len(self.test_data)}")
@@ -747,19 +973,16 @@ class BaselineComparison:
     def _print_latex_table(self, results: Dict):
         """打印LaTeX表格"""
         print("\n" + "="*100)
-        print("LaTeX Table for Baseline Comparison")
+        print("LaTeX Table for Baseline Comparison (System-Level)")
         print("="*100)
 
-        # 定义Zero-Shot模型列表
-        zero_shot_models = [
-            "GPT-5.2",
-            "Claude-Sonnet-4-6",
-            "Gemini-3.1-Pro-Thinking"
-        ]
+        # 定义Zero-Shot模型列表（动态获取results中的）
+        zero_shot_models = [k for k in results.keys()
+                          if k in ["GPT-4o", "GPT-4o-mini", "Claude-Sonnet-4", "Claude-Sonnet-3.5", "Gemini-2.5-Pro"]]
 
         print("\n\\begin{table}[t]")
         print("\\centering")
-        print("\\caption{Quantitative comparison with baseline methods. We report both Top-K accuracy and distribution matching metrics.}")
+        print("\\caption{System-level comparison with baseline methods. Zero-shot LLMs use identical ShareGPT-format prompts as our system for fair comparison.}")
         print("\\label{tab:baselines}")
         print("\\begin{tabular}{llccccc}")
         print("\\hline")
@@ -796,13 +1019,13 @@ class BaselineComparison:
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="对照实验 - Baseline Comparison")
+    parser = argparse.ArgumentParser(description="对照实验 - Baseline Comparison (System-Level)")
     parser.add_argument("--data", default=None, help="测试数据路径")
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果文件路径 (默认: data/outputs/vllm_ablation/ablation_results.json)")
     parser.add_argument("--zero-shot", nargs='+',
-                        default=["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"],
-                        help="要测试的Zero-Shot模型列表")
+                        default=["GPT-4o", "Claude-Sonnet-4", "Gemini-2.5-Pro"],
+                        help="要测试的Zero-Shot模型列表 (可选: GPT-4o, GPT-4o-mini, Claude-Sonnet-4, Claude-Sonnet-3.5, Gemini-2.5-Pro)")
     args = parser.parse_args()
 
     experiment = BaselineComparison(args.data, args.ablation)
