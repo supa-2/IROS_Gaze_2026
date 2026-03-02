@@ -317,7 +317,9 @@ class SAM2Segmenter:
 
         for ex in exhibits:
             if ex.get('mask') is not None:
-                combined_mask = combined_mask | ex['mask']
+                # Convert mask to boolean
+                mask_bool = ex['mask'].astype(bool) if ex['mask'].dtype != bool else ex['mask']
+                combined_mask = combined_mask | mask_bool
             else:
                 x1, y1, x2, y2 = ex['bbox']
                 combined_mask[y1:y2, x1:x2] = True
