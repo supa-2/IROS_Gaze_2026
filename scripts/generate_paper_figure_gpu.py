@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 生成论文用图表 - IROS Gaze 系统 (GPU服务器版本)
+直接从checkpoint加载SAM2，不依赖hydra
 """
 
 import os
@@ -24,14 +25,13 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# 添加 sam2 路径
 sam2_path = os.path.join(project_root, 'sam2')
 if sam2_path not in sys.path:
     sys.path.insert(0, sam2_path)
 
 
 class SAM2Segmenter:
-    """SAM2 自动分割器"""
+    """SAM2 自动分割器 - 直接从 checkpoint 加载"""
 
     def __init__(self, model_path, device='cuda'):
         self.model_path = model_path
@@ -39,32 +39,43 @@ class SAM2Segmenter:
 
         print(f"[*] 初始化 SAM2...")
         print(f"    模型: {model_path}")
-        print(f"    设备: {device}")
 
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"模型文件不存在: {model_path}")
 
-        # 加载 checkpoint
-        checkpoint = torch.load(model_path, map_location=device)
-
-        # 获取配置
-        if 'cfg' in checkpoint:
-            cfg = checkpoint['cfg']
-        elif 'model_cfg' in checkpoint:
-            cfg_dict = checkpoint['model_cfg']
-            # 转换为 hydra config 格式
-            from omegaconf import OmegaConf
-            cfg = OmegaConf.create(cfg_dict)
-        else:
-            raise RuntimeError("无法从 checkpoint 中找到配置")
-
-        # 导入 SAM2 模块
+        # 使用SAM2的官方API - build_sam2
+        from sam2.build_sam import build_sam2
         from sam2.sam2_image_predictor import SAM2ImagePredictor
 
-        # 直接构建模型（绕过 hydra）
-        from sam2.sam2.build_sam import build_sam2_model
+        # 根据模型文件名确定配置
+        model_filename = os.path.basename(model_path)
+        if "sam2.1_hiera_small.pt" in model_filename or "sam2_hiera_small.pt" in model_filename:
+            config_name = "sam2.1_hiera_s"
+        elif "sam2.1_hiera_tiny.pt" in model_filename or "sam2_hiera_tiny.pt" in model_filename:
+            config_name = "sam2.1_hiera_t"
+        elif "sam2.1_hiera_large.pt" in model_filename or "sam2_hiera_large.pt" in model_filename:
+            config_name = "sam2.1_hiera_l"
+        elif "sam2.1_hiera_base_plus.pt" in model_filename or "sam2_hiera_base_plus.pt" in model_filename:
+            config_name = "sam2.1_hiera_b+"
+        elif "sam2_hiera_small.pt" in model_filename:
+            config_name = "sam2_hiera_s"
+        else:
+            # 默认使用 sam2.1_hiera_s
+            config_name = "sam2.1_hiera_s"
+            print(f"    [警告] 无法从文件名推断配置，使用默认: {config_name}")
 
-        model = build_sam2_model(cfg, checkpoint_path=model_path, device=device)
+        print(f"    配置: {config_name}")
+
+        # 使用 hydra_overrides 直接指定 checkpoint 路径
+        hydra_overrides = [f"+ckpt_path={os.path.abspath(model_path)}"]
+
+        # 构建模型
+        model = build_sam2(
+            config_file=config_name,
+            ckpt_path=os.path.abspath(model_path),
+            device=device,
+            hydra_overrides_extra=hydra_overrides
+        )
 
         self.predictor = SAM2ImagePredictor(model, device=device)
         print("[+] SAM2 加载成功")
@@ -256,7 +267,6 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
 
     print(f"\n[*] 预测扫描路径 ({num_fixations} 个注视点)...")
 
-    # 计算每个掩码的平均显著性
     mask_scores = []
     for i, mask_data in enumerate(masks_data):
         mask = mask_data.get('segmentation')
@@ -361,7 +371,6 @@ def create_paper_figure(image_path, output_path, sam2_model_path,
     print(f"\n[*] 处理图像: {image_path}")
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
 
-    # 读取原图
     original_img = Image.open(image_path).convert('RGB')
     img_array = np.array(original_img)
     width, height = original_img.size
