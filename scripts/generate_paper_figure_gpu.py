@@ -28,90 +28,6 @@ sam2_path = os.path.join(project_root, 'sam2')
 if sam2_path not in sys.path:
     sys.path.insert(0, sam2_path)
 
-# 设置 hydra 配置搜索路径
-os.environ['HYDRA_FULL_ERROR'] = '1'
-import hydra
-from hydra import initialize_config_module, compose
-from hydra.utils import instantiate
-from omegaconf import OmegaConf
-
-
-def build_sam2_from_checkpoint(ckpt_path, device='cuda'):
-    """直接从checkpoint加载SAM2模型，不依赖hydra配置"""
-    # 加载checkpoint
-    ckpt = torch.load(ckpt_path, map_location=device)
-
-    # 从checkpoint中获取配置（如果有的话）
-    if 'cfg' in ckpt:
-        cfg_dict = ckpt['cfg']
-    elif 'model_cfg' in ckpt:
-        cfg_dict = ckpt['model_cfg']
-    else:
-        # 使用默认配置（sam2.1_hiera_s）
-        cfg_dict = {
-            'model': {
-                'target': 'sam2.modeling.sam2_base.SAM2Base',
-                'image_encoder': {
-                    'target': 'sam2.modeling.image_encoder.ImageEncoder',
-                    'embed_dim': 96,
-                    'depth': 12,
-                    'num_heads': 6,
-                    'mlp_ratio': 2,
-                    'patch_size': 16,
-                    'qkv_bias': True,
-                    'norm_layer': 'layer',
-                    'use_abs_pos': True,
-                    'use_rel_pos': False,
-                    'window_size': 14,
-                    'window_spec': [[8, 8]] * 12,
-                },
-                'memory_encoder': {
-                    'target': 'sam2.modeling.memory_encoder.MemoryEncoder',
-                    'embed_dim': 96,
-                    'depth': 6,
-                    'num_heads': 6,
-                    'mlp_ratio': 2,
-                    'patch_size': 16,
-                    'qkv_bias': True,
-                    'norm_layer': 'layer',
-                },
-                'memory_attention': {
-                    'target': 'sam2.modeling.memory_attention.MemoryAttention',
-                    'd_model': 96,
-                    'num_heads': 6,
-                    'mlp_ratio': 2,
-                    'qkv_bias': True,
-                    'norm_layer': 'layer',
-                },
-                'mask_decoder': {
-                    'target': 'sam2.modeling.sam.SAMMaskDecoder',
-                    'num_multimask_outputs': 3,
-                    'iou_threshold': 0.88,
-                    'use_high_res_features': True,
-                    'iou_per_head': 1,
-                    'dynamic_multimask_via_stability': True,
-                    'dynamic_multimask_stability_delta': 0.05,
-                    'dynamic_multimask_stability_thresh': 0.98,
-                },
-                'image_size': 1024,
-                'pixtam_hiera_small': True,
-            }
-        }
-
-    # 创建配置对象
-    cfg = OmegaConf.create(cfg_dict)
-    OmegaConf.resolve(cfg)
-
-    # 实例化模型
-    model = instantiate(cfg.model, _recursive_=True)
-
-    # 加载权重
-    model.load_state_dict(ckpt['model_state_dict'] if 'model_state_dict' in ckpt else ckpt)
-    model = model.to(device)
-    model.eval()
-
-    return model
-
 
 class SAM2Segmenter:
     """SAM2 自动分割器"""
@@ -120,24 +36,26 @@ class SAM2Segmenter:
         self.model_path = model_path
         self.device = device
 
+        # 获取绝对路径（在切换目录之前）
+        if not os.path.isabs(model_path):
+            abs_model_path = os.path.join(project_root, model_path)
+        else:
+            abs_model_path = model_path
+
         print(f"[*] 初始化 SAM2...")
         print(f"    模型: {model_path}")
 
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"模型文件不存在: {model_path}")
+        if not os.path.exists(abs_model_path):
+            raise FileNotFoundError(f"模型文件不存在: {abs_model_path}")
 
         try:
-            # 方法1: 尝试使用配置文件
             from sam2.build_sam import build_sam2
             from sam2.sam2_image_predictor import SAM2ImagePredictor
 
             # 根据文件名确定配置
             model_filename = os.path.basename(model_path).lower()
             if 'hiera_small' in model_filename:
-                if 'sam2.1' in model_filename or 'sam2_1' in model_filename:
-                    config_name = "sam2.1_hiera_s"
-                else:
-                    config_name = "sam2_hiera_s"
+                config_name = "sam2.1_hiera_s"
             elif 'hiera_tiny' in model_filename:
                 config_name = "sam2.1_hiera_t"
             else:
@@ -145,27 +63,23 @@ class SAM2Segmenter:
 
             print(f"    配置: {config_name}")
 
-            # 设置工作目录为 sam2 目录
-            sam2_dir = os.path.join(project_root, 'sam2')
-            os.chdir(sam2_dir)
-
-            model = build_sam2(config_file=config_name, ckpt_path=os.path.abspath(model_path), device=device)
-
-            # 恢复工作目录
-            os.chdir(project_root)
+            # 直接调用 build_sam2，不切换目录
+            model = build_sam2(
+                config_file=config_name,
+                ckpt_path=abs_model_path,
+                device=device
+            )
 
             self.predictor = SAM2ImagePredictor(model, device=device)
             print("[+] SAM2 加载成功")
 
         except Exception as e:
-            print(f"[!] build_sam2 失败: {e}")
-            print("[*] 尝试直接从 checkpoint 加载...")
+            print(f"[!] SAM2 加载失败: {e}")
+            print("[*] 请检查:")
+            print("    1. 模型文件存在: ls -la models/sam2/")
+            print("    2. SAM2 已正确安装: cd sam2 && pip install -e .")
+            raise
 
-            # 方法2: 直接从 checkpoint 加载
-            model = build_sam2_from_checkpoint(model_path, device)
-            from sam2.sam2_image_predictor import SAM2ImagePredictor
-            self.predictor = SAM2ImagePredictor(model, device=device)
-            print("[+] SAM2 加载成功 (直接加载)")
 
     def auto_segment_all(self, image_path, points_per_side=32,
                         pred_iou_thresh=0.88, stability_score_thresh=0.95,
