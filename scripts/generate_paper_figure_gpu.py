@@ -53,13 +53,29 @@ class SAM2Segmenter:
             from sam2.sam2_image_predictor import SAM2ImagePredictor
 
             # 根据文件名确定配置
+            # 注意: sam2_hiera_small.pt 是 SAM2 v1，用 sam2_hiera_s
+            #       sam2.1_hiera_small.pt 是 SAM2 v2.1，用 sam2.1_hiera_s
             model_filename = os.path.basename(model_path).lower()
-            if 'hiera_small' in model_filename:
-                config_name = "sam2.1_hiera_s"
-            elif 'hiera_tiny' in model_filename:
-                config_name = "sam2.1_hiera_t"
+            if 'sam2.1' in model_filename:
+                # SAM2 v2.1 模型
+                if 'hiera_small' in model_filename:
+                    config_name = "sam2.1_hiera_s"
+                elif 'hiera_tiny' in model_filename:
+                    config_name = "sam2.1_hiera_t"
+                else:
+                    config_name = "sam2.1_hiera_s"
             else:
-                config_name = "sam2.1_hiera_s"
+                # SAM2 v1 模型 (默认)
+                if 'hiera_small' in model_filename or 'small' in model_filename:
+                    config_name = "sam2_hiera_s"
+                elif 'hiera_tiny' in model_filename or 'tiny' in model_filename:
+                    config_name = "sam2_hiera_t"
+                elif 'hiera_large' in model_filename or 'large' in model_filename:
+                    config_name = "sam2_hiera_l"
+                elif 'hiera_base+' in model_filename or 'b+' in model_filename:
+                    config_name = "sam2_hiera_b+"
+                else:
+                    config_name = "sam2_hiera_s"
 
             print(f"    配置: {config_name}")
 
