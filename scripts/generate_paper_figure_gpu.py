@@ -40,7 +40,7 @@ if project_root not in sys.path:
 
 # 配置 SAM2 模型路径
 SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', '/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt')
-SAM2_CONFIG_PATH = os.environ.get('SAM2_CONFIG_PATH', 'sam2/configs/sam2.1/sam2.1_hiera_s.yaml')
+SAM2_CONFIG_NAME = os.environ.get('SAM2_CONFIG_NAME', 'sam2.1_hiera_s')  # 配置名称，不是文件路径
 
 
 # ==================== SAM2 自动分割 ====================
@@ -48,14 +48,14 @@ SAM2_CONFIG_PATH = os.environ.get('SAM2_CONFIG_PATH', 'sam2/configs/sam2.1/sam2.
 class SAM2Segmenter:
     """SAM2 自动分割器 - 分割所有展品和展板"""
 
-    def __init__(self, model_path=None, config_path=None, device='cuda'):
+    def __init__(self, model_path=None, config_name=None, device='cuda'):
         self.model_path = model_path or SAM2_MODEL_PATH
-        self.config_path = config_path or SAM2_CONFIG_PATH
+        self.config_name = config_name or SAM2_CONFIG_NAME
         self.device = device
 
         print(f"[*] 初始化 SAM2...")
         print(f"    模型: {self.model_path}")
-        print(f"    配置: {self.config_path}")
+        print(f"    配置: {self.config_name}")
         print(f"    设备: {self.device}")
 
         if not os.path.exists(self.model_path):
@@ -69,9 +69,9 @@ class SAM2Segmenter:
         try:
             from sam2.build_sam import build_sam2
 
-            # 构建模型
+            # 构建模型 - config_name 只需要名称，不需要 .yaml 扩展
             model = build_sam2(
-                config_file=self.config_path,
+                config_file=self.config_name,
                 ckpt_path=self.model_path,
                 device=self.device
             )
@@ -473,7 +473,7 @@ def create_paper_figure(
     image_path,
     output_path,
     sam2_model_path=None,
-    sam2_config_path=None,
+    sam2_config_name=None,
     num_fixations=10,
     points_per_side=32
 ):
@@ -502,7 +502,7 @@ def create_paper_figure(
 
     segmenter = SAM2Segmenter(
         model_path=sam2_model_path,
-        config_path=sam2_config_path
+        config_name=sam2_config_name
     )
 
     masks_data, _ = segmenter.auto_segment_all(
@@ -630,7 +630,7 @@ def main():
         image_path=args.image,
         output_path=args.output,
         sam2_model_path=args.sam2_model,
-        sam2_config_path=args.sam2_config,
+        sam2_config_name=args.sam2_config,
         num_fixations=args.num_fixations,
         points_per_side=args.points_per_side
     )

@@ -4,7 +4,7 @@
 # 设置环境变量
 export CUDA_VISIBLE_DEVICES=0
 export SAM2_MODEL_PATH=/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt
-export SAM2_CONFIG_PATH=sam2/configs/sam2.1/sam2.1_hiera_s.yaml
+export SAM2_CONFIG_NAME=sam2.1_hiera_s  # 配置名称，不是文件路径
 
 echo "=================================================="
 echo "IROS Gaze 论文图表生成 (GPU服务器 - 模型预测版本)"
@@ -26,7 +26,7 @@ python scripts/generate_paper_figure_gpu.py \
     --image data/test1.jpg \
     --output data/outputs/test1/paper_figure.png \
     --sam2-model $SAM2_MODEL_PATH \
-    --sam2-config $SAM2_CONFIG_PATH \
+    --sam2-config $SAM2_CONFIG_NAME \
     --num-fixations 10 \
     --points-per-side 32
 
@@ -38,7 +38,7 @@ python scripts/generate_paper_figure_gpu.py \
     --image data/test2.jpg \
     --output data/outputs/test2/paper_figure.png \
     --sam2-model $SAM2_MODEL_PATH \
-    --sam2-config $SAM2_CONFIG_PATH \
+    --sam2-config $SAM2_CONFIG_NAME \
     --num-fixations 10 \
     --points-per-side 32
 
