@@ -20,15 +20,6 @@ sys.path.insert(0, project_root)
 from dotenv import load_dotenv
 load_dotenv()
 
-# 注意力等级对应停留时间
-ATTENTION_DURATION = {
-    'A': 120,
-    'B': 60,
-    'C': 30,
-    'D': 15,
-    'E': 5,
-}
-
 
 class SimpleTestInference:
     """简单测试集推理器 - 直接调用 vLLM API"""
@@ -163,7 +154,8 @@ class SimpleTestInference:
 
             if final_pred_name:
                 predictions_count[final_pred_name] += 1
-                attention_counts[final_pred_name] += 1
+                # 记录注意力等级（不是展品名！）
+                attention_counts[pred_attention] += 1
 
         # 转换为概率分布
         total = sum(predictions_count.values())
@@ -212,14 +204,11 @@ class SimpleTestInference:
             # 预测 Top-5
             top_k, attention = self.predict_top_k_with_sampling(prompt_data, k=5)
 
-            # 预测停留时间
-            dwell_sec_pred = ATTENTION_DURATION.get(attention, ATTENTION_DURATION['C'])
-
             # 构建预测结果
             pred_row = {
                 'subject_id': subject_id,
                 'episode_id': episode_id,
-                'dwell_sec_pred': dwell_sec_pred
+                'attention_level_pred': attention  # 直接输出等级，不转换成时间
             }
 
             # 添加 Top-5 展品和概率
@@ -232,7 +221,7 @@ class SimpleTestInference:
                     pred_row[f'p_top{j+1}'] = 0.0
 
             print(f"    Top-1: {pred_row['top1']} ({pred_row['p_top1']:.4f})")
-            print(f"    注意力: {attention}, 停留: {dwell_sec_pred}s")
+            print(f"    注意力: {attention}")
 
             predictions.append(pred_row)
 
@@ -257,7 +246,7 @@ class SimpleTestInference:
             'subject_id', 'episode_id',
             'top1', 'top2', 'top3', 'top4', 'top5',
             'p_top1', 'p_top2', 'p_top3', 'p_top4', 'p_top5',
-            'dwell_sec_pred'
+            'attention_level_pred'
         ]
 
         with open(output_path, 'w', newline='', encoding='utf-8') as f:
