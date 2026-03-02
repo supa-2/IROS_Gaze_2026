@@ -221,11 +221,18 @@ class BaseModelEvaluator:
                     total = sum(dist.values())
                     if total > 0:
                         dist = {k: v/total for k, v in dist.items()}
-                    return dist
+                        return dist
+                    else:
+                        print(f"    [DEBUG] {current} -> 概率和为0，原始预测: {preds}")
+                else:
+                    print(f"    [DEBUG] {current} -> 无predictions，原始返回: {result[:100]}")
+            else:
+                print(f"    [DEBUG] {current} -> JSON解析失败，原始返回: {result[:100]}")
         except Exception as e:
-            print(f"    [!] Base Model error: {e}")
+            print(f"    [!] Base Model error for {current}: {e}")
 
         # 默认：均匀分布
+        print(f"    [DEBUG] {current} -> 使用均匀分布")
         return {c: 1.0/len(candidates) for c in candidates}
 
     def get_efficiency_stats(self) -> Dict:
@@ -247,14 +254,73 @@ class BaseModelEvaluator:
 class FullComparisonRunner:
     """完整对比实验运行器"""
 
-    def __init__(self, base_url: str, ablation_path: str = None, baseline_path: str = None):
+    def __init__(self, base_url: str, ablation_path: str = None, baseline_path: str = None, test_data_path: str = None):
         self.base_url = base_url
         self.ablation_path = ablation_path or os.path.join(
             project_root, "data", "outputs", "vllm_ablation", "ablation_results.json"
         )
         self.baseline_path = baseline_path
-        self.test_data = self._create_sample_data()
+        self.test_data_path = test_data_path
+
+        # 加载测试数据
+        if test_data_path and os.path.exists(test_data_path):
+            self.test_data = self._load_test_data_from_jsonl(test_data_path)
+            print(f"    [*] 从 {test_data_path} 加载了 {len(self.test_data)} 个真实测试样本")
+        else:
+            self.test_data = self._create_sample_data()
+            print(f"    [*] 使用模拟测试数据 ({len(self.test_data)} 个样本)")
+
         self.real_distributions = self._build_real_distributions()
+
+    def _load_test_data_from_jsonl(self, jsonl_path: str) -> List[Dict]:
+        """从 ShareGPT JSONL 文件加载 predict_next 测试数据"""
+        test_data = []
+        import re
+
+        with open(jsonl_path, 'r', encoding='utf-8') as f:
+            for line_no, line in enumerate(f):
+                if line.strip():
+                    try:
+                        item = json.loads(line)
+                        conv = item.get('conversations', [])
+                        if len(conv) >= 2:
+                            human_msg = conv[0].get('value', '')
+                            gpt_msg = conv[1].get('value', '')
+
+                            # 只处理 predict_next 任务
+                            if '"task": "predict_next"' in human_msg:
+                                # 提取请求数据
+                                json_match = re.search(r'```json\n(.+?)\n```', human_msg, re.DOTALL)
+                                if json_match:
+                                    try:
+                                        request_data = json.loads(json_match.group(1))
+                                        exhibits = request_data.get('exhibits', [])
+                                        if len(exhibits) >= 2:
+                                            current = exhibits[0]['name']
+
+                                            # 提取 ground truth
+                                            gt_match = re.search(r'```json\n(.+?)\n```', gpt_msg, re.DOTALL)
+                                            next_exhibit = None
+                                            if gt_match:
+                                                try:
+                                                    gt_data = json.loads(gt_match.group(1))
+                                                    if 'prediction' in gt_data:
+                                                        next_exhibit = gt_data['prediction'].get('name')
+                                                except:
+                                                    pass
+
+                                            if next_exhibit:
+                                                test_data.append({
+                                                    'current': current,
+                                                    'next': next_exhibit,
+                                                    'line_no': line_no
+                                                })
+                                    except:
+                                        continue
+                    except:
+                        continue
+
+        return test_data
 
     def _create_sample_data(self) -> List[Dict]:
         """创建模拟测试数据"""
