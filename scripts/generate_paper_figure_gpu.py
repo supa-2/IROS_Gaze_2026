@@ -446,62 +446,59 @@ def generate_table_data(masks_data, fixations, image_path, output_dir):
         json.dump(summary, f, indent=2, ensure_ascii=False)
     print(f"[+] 保存表格数据: {json_path}")
 
-    # 打印论文格式表格 TABLE I
+    # 打印论文格式表格 - 合并版本
     print("\n" + "=" * 100)
-    print("TABLE I: Exhibit Gaze Statistics")
+    print("TABLE I: Gaze Statistics Summary")
     print("=" * 100)
 
     # 表头
-    header = f"{'Exhibit':<10} {'Area(%)':<10} {'Fixations':<12} {'Total(s)':<12} {'Avg(s)':<10} {'First#':<8}"
+    header = f"{'Exhibit':<10} {'Area(%)':<10} {'Fixations':<12} {'Total(s)':<12} {'Avg(s)':<10}"
     print(header)
-    print("-" * 80)
+    print("-" * 70)
 
     for e in exhibits:
         row = f"{e['id']:<10} {e['area_ratio']:<10.1f} {e['gaze_count']:<12} "
         row += f"{e['total_duration']:<12.1f} "
         if e['avg_duration'] > 0:
-            row += f"{e['avg_duration']:<10.1f} "
+            row += f"{e['avg_duration']:<10.1f}"
         else:
-            row += f"{'-':<10} "
-        row += f"{e['first_look']:<8}"
+            row += f"{'-':<10}"
         print(row)
 
-    # 打印论文格式表格 TABLE II
-    print("\n" + "=" * 100)
-    print("TABLE II: Scan Path Statistics")
-    print("=" * 100)
+    # 汇总行
+    print("-" * 70)
+    total_f = sum(e['gaze_count'] for e in exhibits)
+    total_d = sum(e['total_duration'] for e in exhibits)
+    avg_d = total_d / total_f if total_f > 0 else 0
+    print(f"{'TOTAL':<10} {'100':<10} {total_f:<12} {total_d:<12.1f} {avg_d:<10.1f}")
+    print("-" * 70)
 
-    stats = summary['table2_scanpath_stats']['rows']
-    for metric, value in stats:
-        print(f"{metric:<30} {value}")
+    # 打印额外的统计信息
+    print(f"\nTotal Exhibits: {len(masks_data)} | Gazed Exhibits: {gazed_count} | Gaze Coverage: {gazed_count/len(exhibits)*100:.1f}%")
 
-    # LaTeX 格式输出
+    # LaTeX 格式输出 - 合并版本
     latex_path = os.path.join(output_dir, 'table_latex.txt')
     with open(latex_path, 'w', encoding='utf-8') as f:
-        f.write("% TABLE I: Exhibit Gaze Statistics\\n")
-        f.write("\\begin{table}[htbp]\\n")
-        f.write("\\centering\\n")
-        f.write("\\caption{Exhibit Gaze Statistics}\\n")
-        f.write("\\label{tab:exhibit_stats}\\n")
-        f.write("\\begin{tabular}{lccccc}\\n")
-        f.write("\\hline\\n")
-        f.write("Exhibit & Area(\\%) & Fixations & Total(s) & Avg(s) & First\\# \\\\\\\\\n")
-        f.write("\\hline\\n")
+        f.write(r"% TABLE I: Gaze Statistics Summary" + "\n")
+        f.write(r"\begin{table}[htbp]" + "\n")
+        f.write(r"\centering" + "\n")
+        f.write(r"\caption{Gaze Statistics Summary}" + "\n")
+        f.write(r"\label{tab:gaze_stats}" + "\n")
+        f.write(r"\begin{tabular}{lcccc}" + "\n")
+        f.write(r"\hline" + "\n")
+        f.write(r"Exhibit & Area(\%) & Fixations & Total(s) & Avg(s) \\" + "\n")
+        f.write(r"\hline" + "\n")
         for e in exhibits:
             avg_str = f"{e['avg_duration']:.1f}" if e['avg_duration'] > 0 else "-"
             f.write(f"{e['id']} & {e['area_ratio']:.1f} & {e['gaze_count']} & "
-                   f"{e['total_duration']:.1f} & {avg_str} & {e['first_look']} \\\\\\\\\n")
-        f.write("\\hline\\n")
-        f.write("\\end{tabular}\\n")
-        f.write("\\end{table}\\n\\n")
+                   f"{e['total_duration']:.1f} & {avg_str} \\\\\\\\\n")
+        f.write(r"\hline" + "\n")
+        f.write(f"TOTAL & 100 & {total_f} & {total_d:.1f} & {avg_d:.1f} \\\\\\\\\n")
+        f.write(r"\hline" + "\n")
+        f.write(r"\end{tabular}" + "\n")
+        f.write(r"\end{table}" + "\n")
 
-        f.write("% TABLE II: Scan Path Statistics\\n")
-        f.write("\\begin{table}[htbp]\\n")
-        f.write("\\centering\\n")
-        f.write("\\caption{Scan Path Statistics}\\n")
-        f.write("\\label{tab:scanpath_stats}\\n")
-        f.write("\\begin{tabular}{ll}\\n")
-        f.write("\\hline\\n")
+    print(f"\n[+] 保存LaTeX表格: {latex_path}")
         f.write("Metric & Value \\\\\\\\\n")
         f.write("\\hline\\n")
         for metric, value in stats:
