@@ -381,6 +381,127 @@ app.post('/api/analyze', upload.single('image'), async (req, res) => {
   }
 });
 
+// ==================== IROS Gaze Processing API ====================
+
+// Full IROS Gaze analysis with SAM2 + VLM + Heatmap + Trajectory
+app.post('/api/iros-gaze/analyze', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image uploaded' });
+    }
+
+    const { 
+      maskPrompt = 'auto',
+      vlmPrompt = 'auto',
+      options = {}
+    } = req.body;
+
+    // Create output directory
+    const resultId = uuidv4();
+    const outputDir = join(__dirname, `../data/outputs/iros-gaze/${resultId}`);
+    fs.mkdirSync(outputDir, { recursive: true });
+
+    console.log(`[IROS Gaze] Processing image: ${req.file.path}`);
+    console.log(`[IROS Gaze] Output directory: ${outputDir}`);
+
+    // Call Python IROS Gaze Processor
+    const pythonScript = join(__dirname, '../scripts/iros_gaze_processor.py');
+    const configPath = join(__dirname, '../config.json');
+    
+    const args = [
+      pythonScript,
+      '--image', req.file.path,
+      '--output', outputDir,
+      '--mask-prompt', maskPrompt,
+      '--vlm-prompt', vlmPrompt,
+    ];
+
+    // Add config if exists
+    if (fs.existsSync(configPath)) {
+      args.push('--config', configPath);
+    }
+
+    console.log(`[IROS Gaze] Running: python ${args.join(' ')}`);
+
+    const result = await callPythonScript(args);
+    
+    // Parse the JSON result from stdout
+    let analysisResult;
+    try {
+      // Extract JSON from output (look for the last JSON block)
+      const jsonMatch = result.stdout.match(/\{[\s\S]*"outputs"[\s\S]*\}/);
+      if (jsonMatch) {
+        analysisResult = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('Could not parse Python output');
+      }
+    } catch (parseError) {
+      console.error('Failed to parse Python output:', parseError);
+      console.log('Raw output:', result.stdout);
+      throw new Error('Failed to parse analysis result');
+    }
+
+    // Convert file paths to URLs
+    const response = {
+      success: true,
+      id: resultId,
+      segmentation: analysisResult.segmentation,
+      topology: analysisResult.topology,
+      outputs: {
+        heatmap: analysisResult.outputs.heatmap 
+          ? `/outputs/iros-gaze/${resultId}/heatmap.png`
+          : null,
+        trajectory: analysisResult.outputs.trajectory
+          ? `/outputs/iros-gaze/${resultId}/trajectory.png`
+          : null,
+        original: `/uploads/${req.file.filename}`
+      },
+      message: 'IROS Gaze analysis completed successfully'
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('[IROS Gaze] Analysis error:', error);
+    res.status(500).json({ 
+      error: error.message,
+      details: error.stack
+    });
+  }
+});
+
+/**
+ * Helper function to call Python scripts
+ */
+function callPythonScript(args) {
+  return new Promise((resolve, reject) => {
+    const pythonProcess = spawn('python', args, {
+      cwd: join(__dirname, '..'),
+      env: { ...process.env, PYTHONUTF8: '1' }
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    pythonProcess.stdout.on('data', (data) => {
+      stdout += data.toString();
+      console.log('[Python]', data.toString().trim());
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+      stderr += data.toString();
+      console.error('[Python Error]', data.toString().trim());
+    });
+
+    pythonProcess.on('close', (code) => {
+      resolve({ stdout, stderr, code });
+    });
+
+    pythonProcess.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
 // Get prediction from gaze history (calls Python agent)
 app.post('/api/predict', async (req, res) => {
   try {
@@ -462,8 +583,8 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: error.message || 'Internal server error' });
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server with error handling for port conflicts
+const server = app.listen(PORT, () => {
   console.log(`\n${'='.repeat(60)}`);
   console.log(`🚀 IROS Gaze Server running on port ${PORT}`);
   console.log(`📡 API endpoint: http://localhost:${PORT}/api`);
@@ -471,4 +592,15 @@ app.listen(PORT, () => {
   console.log(`📁 Uploads directory: ${join(__dirname, 'data/uploads')}`);
   console.log(`📁 Outputs directory: ${join(__dirname, 'data/outputs')}`);
   console.log(`${'='.repeat(60)}\n`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use!`);
+    console.error(`   Please either:`);
+    console.error(`   1. Stop the process using port ${PORT}`);
+    console.error(`   2. Or change the PORT in .env file`);
+    process.exit(1);
+  }
+  throw err;
 });
