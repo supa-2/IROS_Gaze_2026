@@ -269,7 +269,7 @@ class LSTMBaseline:
 # ============================================
 
 class ZeroShotLLMBaseline:
-    """零样本LLM基线 - 支持多款模型"""
+    """零样本LLM基线 - 支持多款模型（保存原始输出，解析失败返回None）"""
 
     # 支持的模型配置 - 使用中转API (VectorEngine)
     MODEL_CONFIGS = {
@@ -315,53 +315,78 @@ class ZeroShotLLMBaseline:
         self.total_time = 0
         self.num_requests = 0
 
-    def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布"""
+        # 保存原始输出
+        self.raw_outputs = {}
+        self.failed_samples = []
+
+    def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Optional[Dict[str, float]]:
+        """
+        获取概率分布
+
+        Returns:
+            成功返回概率分布字典，失败返回 None（不使用默认值）
+        """
         prompt = self._build_prompt(current, candidates)
 
-        import time
-        start_time = time.time()
+        for retry in range(max_retries):
+            import time
+            start_time = time.time()
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=300
-            )
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.3,
+                    max_tokens=300
+                )
 
-            elapsed = time.time() - start_time
-            result = response.choices[0].message.content.strip()
+                elapsed = time.time() - start_time
+                result = response.choices[0].message.content.strip()
 
-            # 追踪 token 和时间
-            self.total_input_tokens += response.usage.prompt_tokens
-            self.total_output_tokens += response.usage.completion_tokens
-            self.total_time += elapsed
-            self.num_requests += 1
+                # 追踪 token 和时间（只在第一次调用时记录）
+                if current not in self.raw_outputs:
+                    self.total_input_tokens += response.usage.prompt_tokens
+                    self.total_output_tokens += response.usage.completion_tokens
+                    self.total_time += elapsed
 
-            # 解析JSON
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                preds = parsed.get('predictions', [])
-                if preds:
-                    dist = {}
-                    for p in preds:
-                        name = p.get('name')
-                        prob = p.get('probability', 0)
-                        if name and name in candidates:
-                            dist[name] = prob
-                    # 归一化
-                    total = sum(dist.values())
-                    if total > 0:
-                        dist = {k: v/total for k, v in dist.items()}
-                    return dist
-        except Exception as e:
-            print(f"    [!] {self.display_name} error: {e}")
+                # 保存原始输出
+                if current not in self.raw_outputs:
+                    self.raw_outputs[current] = {"raw": result, "candidates": candidates, "retries": retry}
 
-        # 默认：均匀分布
-        return {c: 1.0/len(candidates) for c in candidates}
+                # 解析JSON
+                import re
+                json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                if json_match:
+                    parsed = json.loads(json_match.group())
+                    preds = parsed.get('predictions', [])
+                    if preds:
+                        dist = {}
+                        for p in preds:
+                            name = p.get('name')
+                            prob = p.get('probability', 0)
+                            if name and name in candidates:
+                                dist[name] = prob
+                        # 归一化
+                        total = sum(dist.values())
+                        if total > 0:
+                            self.num_requests += 1
+                            self.raw_outputs[current]["parsed"] = dist
+                            self.raw_outputs[current]["success"] = True
+                            return {k: v/total for k, v in dist.items()}
+
+                # 重试
+                if retry < max_retries - 1:
+                    prompt += "\n\n请直接返回JSON格式，不要有其他文字说明。"
+
+            except Exception as e:
+                print(f"    [!] {self.display_name} error for {current}: {e}")
+
+        # 所有重试都失败
+        self.raw_outputs[current]["parsed"] = None
+        self.raw_outputs[current]["success"] = False
+        self.failed_samples.append(current)
+        print(f"    [FAILED] {self.display_name} {current} -> 解析失败（已重试{max_retries}次）")
+        return None  # 返回 None 而非默认值
 
     def get_efficiency_stats(self) -> Dict[str, float]:
         """获取效率统计"""
@@ -684,6 +709,8 @@ class BaselineComparison:
             print(f"  {current} → {', '.join([f'{k}({v:.0%})' for k, v in items[:3]])}")
 
         results = {}
+        all_raw_outputs = {}  # 保存所有模型的原始输出
+        all_raw_outputs = {}  # 保存所有模型的原始输出
 
         # 1. Markov Chain
         print("\n[*] Testing: Markov Chain...")
@@ -718,6 +745,15 @@ class BaselineComparison:
                 print(f"    平均响应时间: {stats['avg_time']:.2f}s")
                 print(f"    Token消耗: 输入={stats['total_input_tokens']}, 输出={stats['total_output_tokens']}, 总计={stats['total_tokens']}")
                 print(f"    平均Token: 输入={stats['avg_input_tokens']:.0f}, 输出={stats['avg_output_tokens']:.0f}")
+
+                # 保存原始输出
+                if hasattr(model, 'raw_outputs'):
+                    all_raw_outputs[model_name] = model.raw_outputs
+                # 打印失败率统计
+                if hasattr(model, 'failed_samples') and model.failed_samples:
+                    print(f"    [!] 解析失败样本: {len(model.failed_samples)} 个")
+                    print(f"    [!] 成功率: {results[model_name].get('success_rate', 0):.1%}")
+
             except Exception as e:
                 print(f"    [!] {model_name} failed: {e}")
                 # 使用默认值
@@ -742,8 +778,8 @@ class BaselineComparison:
         results['Ours'] = load_ours_results_from_ablation(self.ablation_path)
         self._print_result('Ours (Fine-tuned)', results['Ours'])
 
-        # 保存结果
-        self._save_results(results)
+        # 保存结果（包含原始输出）
+        self._save_results(results, all_raw_outputs if all_raw_outputs else None)
         self._print_latex_table(results)
         self._print_efficiency_table(results)
 
@@ -781,12 +817,18 @@ class BaselineComparison:
         top1_correct = 0
         top3_correct = 0
         top_total = 0
+        failed_count = 0  # 解析失败的样本数
 
         for current, real_dist in self.real_distributions.items():
             candidates = list(real_dist.keys())
 
             # 获取模型预测的分布
             model_dist = method.get_distribution(current, candidates)
+
+            # 如果返回 None，说明解析失败，跳过
+            if model_dist is None:
+                failed_count += 1
+                continue
 
             # 计算分布指标
             try:
@@ -813,6 +855,11 @@ class BaselineComparison:
             # 获取模型预测的分布
             model_dist = method.get_distribution(current, candidates)
 
+            # 如果返回 None，跳过此样本
+            if model_dist is None:
+                failed_count += 1
+                continue
+
             # 按概率排序
             sorted_preds = sorted(model_dist.items(), key=lambda x: -x[1])
 
@@ -834,6 +881,12 @@ class BaselineComparison:
             'js_divergence': np.mean(js_divs) if js_divs else 0,
             'correlation': np.mean(corrs) if corrs else 0,
             'num_evaluated': len(kl_divs),
+            'num_top_eval': top_total,
+            'failed_samples': failed_count,
+            'success_rate': (len(self.real_distributions) - failed_count) / len(self.real_distributions) if self.real_distributions else 0
+        }
+            'correlation': np.mean(corrs) if corrs else 0,
+            'num_evaluated': len(kl_divs),
             'num_top_eval': top_total
         }
 
@@ -845,15 +898,21 @@ class BaselineComparison:
         print(f"    JS散度: {result['js_divergence']:.4f} ↓ (越低越好)")
         print(f"    相关系数: {result['correlation']:.4f} ↑ (越高越好)")
 
-    def _save_results(self, results: Dict):
+    def _save_results(self, results: Dict, raw_outputs: Dict = None):
         """保存结果"""
         output_dir = "data/outputs/baselines"
         os.makedirs(output_dir, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_path = os.path.join(output_dir, f"baseline_results_{timestamp}.json")
+
+        # 如果有原始输出，一起保存
+        save_data = results.copy()
+        if raw_outputs:
+            save_data['raw_outputs'] = raw_outputs
+
         with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, ensure_ascii=False)
+            json.dump(save_data, f, indent=2, ensure_ascii=False)
 
         print(f"\n[+] Results saved to {output_path}")
 
