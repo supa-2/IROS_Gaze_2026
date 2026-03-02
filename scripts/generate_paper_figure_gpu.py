@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-生成论文用图表 - IROS Gaze 系统 (GPU服务器版本)
-集成 VLM + SAM2 + 热力图 + 扫描路径
+Generate Paper Figure - IROS Gaze System (GPU Server Version)
+Integrated VLM + SAM2 + Heatmap + Scan Path
 """
 
 import os
@@ -18,6 +18,20 @@ from matplotlib import rcParams
 from scipy.ndimage import gaussian_filter
 import torch
 import cv2
+
+# Load .env file
+try:
+    from dotenv import load_dotenv
+    # Try to load .env from project root
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+    if os.path.exists(env_path):
+        load_dotenv(env_path)
+        print(f"[*] Loaded .env from: {env_path}")
+    else:
+        # Try current directory
+        load_dotenv()
+except ImportError:
+    print("[!] python-dotenv not installed, using system env vars")
 
 rcParams['font.family'] = 'serif'
 rcParams['font.serif'] = ['Times New Roman', 'DejaVu Serif']
