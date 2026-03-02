@@ -39,36 +39,36 @@ from openai import OpenAI
 # ============================================
 
 EXHIBIT_FEATURES = {
-    "丁香花": "一幅精美的艺术画作，描绘了白色圆盆栽开满白色小花",
-    "金鱼兰": "土红色盆子栽种着叶片细长、花朵呈金鱼状的植物",
-    "牡丹花": "色彩饱满，花瓣层次细腻",
-    "说明文字-千岛湖": "千岛湖 Qiandao Lake 1980s...",
-    "玉兰花开": "开满白色玉兰花的树，挂在黑墙上",
-    "人物-祝大年创作": "祝大年创作的西双版纳傣族生活主题工笔重彩人物组画",
-    "自序": "白墙上陈列着的自序节选文章",
-    "松竹海": "上面画着松树和竹子",
-    "西双版纳": "描绘西双版纳热带雨林场景",
-    "北大简-仓颉篇": "隶书-北大简《仓颉篇》",
-    "文物展柜": "天人合一部分文字文物展柜",
-    "颜真卿楷书": "楷书-颜真卿《明拓干禄字书册》",
-    "耕织图-多媒体装置": "数字活化的中国古代耕织图",
-    "二十四节气圆盘": "融合虚拟现实技术的动态影像装置",
-    "鸡蛋花": "一盆花的画作展品",
-    "山茶花": "一盆花的画作展品，在柱子上",
-    "千岛湖": "湖景主题艺术作品",
-    "说明文字": "展品说明介绍",
-    "入口": "展厅入口过渡空间",
-    "森林之歌": "九幅画位于展台上面",
-    "漓江春色": "祝大年1960年创作的漓江春色画作",
-    "风筝": "多幅风筝主题画作",
-    "鸢飞曲": "包含风筝和人的画作展品",
-    "黄山松": "迎客松主题画作",
-    "迎客松": "两幅画都是画的迎客松",
-    "三星堆展区": "三星堆文化主题展区",
-    "殷墟展区": "殷墟文化主题展区",
-    "良渚展区": "良渚文化主题展区",
-    "文字瀑布": "天地人自然气象等文字展示",
-    "耕织图": "中国古代耕织图主题",
+    "丁香花": "这是一幅精美的艺术画作，描绘了由白色圆盆栽开满白色小花，并且绿叶繁盛的场景。直立挂起来，背景为黑色。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "金鱼兰": "这是一幅精美的艺术画作，描绘了土红色盆子载种着一支叶片细长，花朵呈金鱼状的场景。该画挂在展厅中央。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "牡丹花": "这是一幅精美的艺术画作，描绘了牡丹花的场景。色彩饱满，花瓣层次细腻；搭配翠绿的叶片，与带有花纹的青花瓷瓶、红色纹样衬布形成鲜明色彩对比，该画挂在展厅中间。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "说明文字-千岛湖": "千岛湖 Qiandao Lake 1980s。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "玉兰花开": "这是一幅精美的艺术画作，描绘了开满白色玉兰花的树的场景。挂在黑墙上。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "人物-祝大年创作": "祝大年创作的西双版纳傣族生活主题工笔重彩人物组画（写生稿/成品稿）。展现了当地人民的生活状态和精神风貌。",
+    "自序": "自序节选，Preface excerpt。我自幼喜爱艺术，是怀着一颗朴素的心。白墙上陈列着多篇祝大年的自序节选文章。",
+    "松竹海": "这是一幅艺术绘画作品，主题为上面画着松树和竹子。挂在白墙中间。画作通过细腻的笔触和丰富的色彩，营造出独特的艺术氛围和视觉体验。",
+    "西双版纳": "这是一幅精美的艺术画作，描绘了西双版纳热带雨林的场景。上面有正在劳作的人，画位于墙面靠右。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "北大简-仓颉篇": "隶书-北大简《仓颉篇》收藏于北京大学赛克勒考古与艺术博物馆。这是重要的古代文字文献，展示了汉字的演变历史。",
+    "文物展柜": "天人合一部分文字文物展柜。展示了重要的古代文字文物，包括甲骨文、金文、篆书等各种字体的珍贵文献。",
+    "颜真卿楷书": "楷书-颜真卿《明拓干禄字书册》收藏于故宫博物院。造纸术插图选自《天工开物》。展现了唐代书法大家的楷书艺术成就。",
+    "耕织图-多媒体装置": "在此展项中，通过对中国古代耕织图的数字活化，展示中国农耕文化的丰富多彩，反映出古代人民在农耕和织布中的勤劳与智慧。融合了传统艺术与现代科技。",
+    "二十四节气圆盘": "融合虚拟现实技术的动态影像装置。结合传统二十四节气文化与现代展示技术，创造沉浸式的视觉体验。",
+    "鸡蛋花": "一盆花的画作展品画挂在墙上。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "山茶花": "一盆花的画作展品画，在柱子上。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "千岛湖": "长江三峡的山水国画，描绘的是三峡如瞿塘峡、巫峡一带的壮丽风光。画面里的险峻山峦、碧绿水道，搭配江上的游船，正是三峡两岸连山、江中行舟的经典景致。",
+    "说明文字": "千岛湖 Qiandao Lake 1980s。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "入口": "下一展厅入口作为展厅的重要过渡空间，设计简洁而富有艺术感。入口区域引导观众逐步进入展览主题，营造出期待和探索的氛围。",
+    "森林之歌": "这是一幅精美的艺术画作，描绘了高耸树木，树枝交织在一起，小河上面有一只坐着人的游船的场景。该画挂在白墙中间。作品采用传统绘画技法，色彩丰富，构图精巧，展现了艺术家深厚的功底和独特的审美视角。",
+    "漓江春色": "祝大年1960年创作的漓江春色纸本重彩。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "风筝": "祝大年创作的风筝主题大型装饰艺术长卷。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "鸢飞曲": "鸢飞曲画作展品，在桌子上。包含风筝和人的画作展品。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "黄山松": "黄山松的展品画放在地面。这件作品通过独特的艺术表现形式，展现了深厚的文化底蕴和艺术家的创作理念，为观众提供了丰富的视觉体验和审美享受。",
+    "迎客松": "两幅画都是画的迎客松，左边一幅是彩色的，右侧一幅是黑白色，位于展厅的台面。",
+    "三星堆展区": "商青铜神树代表了中华上古先民天人合一的理念，达到与自然界和谐共生境界的传统文化。展示了古蜀文明的辉煌成就。",
+    "殷墟展区": "殷墟是中国商朝后期都城遗址，位于河南省安阳市西北郊的洹河南北两岸，以小屯村为中心，面积约30平方千米。展示了商代晚期的文明成就。",
+    "良渚展区": "通过三大玉器，展示新石器晚期良渚文明的发展水平、尊敬自然的治理观念。选取玉琮、玉璧、玉钺三种礼制等级最高的器物进行展示。",
+    "文字瀑布": "天地人自然气象等文字。文字长河地面诗词，与文字瀑布内容完全一致，由上及下流淌到地面。古诗词汇总的页面按照天地人的顺序错落蜿蜒列出。",
+    "耕织图": "在此展项中，通过对中国古代耕织图的数字活化，展示中国农耕文化的丰富多彩，反映出古代人民在农耕和织布中的勤劳与智慧。",
 }
 
 TOPOLOGY_ADJACENCY = {
@@ -153,7 +153,7 @@ def correlation(p: Dict, q: Dict) -> float:
 # ============================================
 
 class BaseModelEvaluator:
-    """Base Model (Qwen2.5-32B 4bit) 评估器"""
+    """Base Model (Qwen2.5-32B 4bit) 评估器（使用拓扑候选选择）"""
 
     def __init__(self, api_url: str, model_name: str = "Qwen"):
         self.api_url = api_url
@@ -173,27 +173,99 @@ class BaseModelEvaluator:
         self.raw_outputs = {}  # {current: {"raw": str, "parsed": dict or None, "success": bool}}
         self.failed_samples = []  # 解析失败的样本列表
 
+    def _get_topology_ordered_candidates(self, current: str, available_exhibits: List[str]) -> List[str]:
+        """
+        基于拓扑关系获取候选展品
+
+        规则：
+        - 获取当前展品的前2个（拓扑关系上指向当前的那些）
+        - 获取当前展品的后2个（拓扑关系上当前指向的那些）
+        - 如果前2个不够，从后2个补充；如果后2个不够，从前2个补充
+        - 最多返回5个候选（当前 + 最多4个邻居）
+        """
+        candidates = []
+
+        # 总是包含当前展品（表示从当前展品出发）
+        if current in available_exhibits:
+            candidates.append(current)
+
+        # 获取后继展品（当前指向哪些）
+        successors = TOPOLOGY_ADJACENCY.get(current, [])
+        available_successors = [s for s in successors if s in available_exhibits]
+
+        # 获取前序展品（哪些指向当前）
+        predecessors = []
+        for exhibit in available_exhibits:
+            if exhibit != current:
+                exhibit_neighbors = TOPOLOGY_ADJACENCY.get(exhibit, [])
+                if current in exhibit_neighbors:
+                    predecessors.append(exhibit)
+
+        # 目标：当前 + 最多2个前驱 + 最多2个后继
+        target_predecessors = predecessors[:2]  # 前2个
+        target_successors = available_successors[:2]  # 后2个
+
+        # 先添加前驱
+        for pred in target_predecessors:
+            if pred not in candidates:
+                candidates.append(pred)
+
+        # 再添加后继
+        for succ in target_successors:
+            if succ not in candidates:
+                candidates.append(succ)
+
+        # 如果少于3个，尝试从剩余的邻居中补充
+        if len(candidates) < 3:
+            remaining = predecessors[2:] + available_successors[2:]
+            for item in remaining:
+                if item not in candidates and len(candidates) < 5:
+                    candidates.append(item)
+
+        return candidates
+
+    def _build_prompt_with_exhibits(self, current: str, exhibits: List[str]) -> str:
+        """构建包含多个展品的prompt（ShareGPT 格式）"""
+        # 构建 exhibits 列表
+        exhibits_list = []
+        for exhibit in exhibits:
+            features = EXHIBIT_FEATURES.get(exhibit, f"{exhibit}展品")
+            exhibits_list.append({
+                "name": exhibit,
+                "features": features
+            })
+
+        # 使用 ShareGPT 格式
+        return f"""```json
+{{
+  "task": "predict_next",
+  "exhibits": {json.dumps(exhibits_list, ensure_ascii=False)},
+  "history": []
+}}
+```
+
+当前场景中有{len(exhibits)}个展品，游客正在观看展品，请预测游客下一个最可能前往的展品是哪个，并给出每个候选展品的被选择概率。
+
+返回JSON格式（注意：只需要预测下一个展品，不是规划完整路径）:
+{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}"""
+
     def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Optional[Dict[str, float]]:
         """
-        获取概率分布
+        获取概率分布（使用拓扑候选选择）
 
         Returns:
             成功返回概率分布字典，失败返回 None（不使用默认值）
         """
-        features = EXHIBIT_FEATURES.get(current, "")
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        # 基于拓扑获取候选（按拓扑顺序）
+        topo_candidates = self._get_topology_ordered_candidates(current, candidates)
 
-        prompt = f"""当前位置: {current}
-展品特征: {features}
-相邻展品: {', '.join(neighbors)}
+        # 打乱顺序提供（不让模型看出规律）
+        import random
+        shuffled_candidates = topo_candidates.copy()
+        random.shuffle(shuffled_candidates)
 
-基于上述信息，预测从 {current} 出发，游客选择各个候选展品的概率分布。
-
-候选展品: {', '.join(candidates)}
-
-返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
-{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
-"""
+        # 构建prompt，按打乱顺序提供
+        prompt = self._build_prompt_with_exhibits(current, shuffled_candidates)
 
         for retry in range(max_retries):
             start_time = time.time()
@@ -216,7 +288,12 @@ class BaseModelEvaluator:
 
                 # 保存原始输出
                 if current not in self.raw_outputs:
-                    self.raw_outputs[current] = {"raw": result, "candidates": candidates, "retries": retry}
+                    self.raw_outputs[current] = {
+                        "raw": result,
+                        "topo_candidates": topo_candidates,
+                        "shuffled_candidates": shuffled_candidates,
+                        "retries": retry
+                    }
 
                 # 解析JSON
                 import re
@@ -229,7 +306,8 @@ class BaseModelEvaluator:
                         for p in preds:
                             name = p.get('name')
                             prob = p.get('probability', 0)
-                            if name and name in candidates:
+                            # 只保留原始拓扑候选中的
+                            if name and name in topo_candidates:
                                 dist[name] = prob
                         # 归一化
                         total = sum(dist.values())
@@ -247,6 +325,8 @@ class BaseModelEvaluator:
                 print(f"    [ERROR] {current} -> {e}")
 
         # 所有重试都失败
+        if current not in self.raw_outputs:
+            self.raw_outputs[current] = {"success": False, "retries": max_retries}
         self.raw_outputs[current]["parsed"] = None
         self.raw_outputs[current]["success"] = False
         self.failed_samples.append(current)
@@ -341,10 +421,11 @@ class FullComparisonRunner:
         return test_data
 
     def _create_sample_data(self) -> List[Dict]:
-        """创建模拟测试数据"""
+        """创建模拟测试数据（基于拓扑关系的转移）"""
+        # 只包含在拓扑中存在的转移
         return [
             {"current": "入口", "next": "丁香花"},
-            {"current": "入口", "next": "说明文字-千岛湖"},
+            {"current": "入口", "next": "丁香花"},
             {"current": "入口", "next": "丁香花"},
             {"current": "丁香花", "next": "金鱼兰"},
             {"current": "丁香花", "next": "金鱼兰"},
@@ -356,15 +437,24 @@ class FullComparisonRunner:
             {"current": "说明文字-千岛湖", "next": "人物-祝大年创作"},
             {"current": "说明文字-千岛湖", "next": "千岛湖"},
             {"current": "玉兰花开", "next": "松竹海"},
+            {"current": "玉兰花开", "next": "西双版纳"},
             {"current": "松竹海", "next": "西双版纳"},
             {"current": "松竹海", "next": "漓江春色"},
+            {"current": "松竹海", "next": "西双版纳"},
             {"current": "西双版纳", "next": "耕织图"},
+            {"current": "西双版纳", "next": "颜真卿楷书"},
             {"current": "漓江春色", "next": "风筝"},
+            {"current": "漓江春色", "next": "鸢飞曲"},
+            {"current": "风筝", "next": "鸢飞曲"},
+            {"current": "风筝", "next": "黄山松"},
             {"current": "迎客松", "next": "三星堆展区"},
             {"current": "三星堆展区", "next": "殷墟展区"},
-            {"current": "三星堆展区", "next": "良渚展区"},
+            {"current": "三星堆展区", "next": "殷墟展区"},
+            {"current": "殷墟展区", "next": "良渚展区"},
             {"current": "殷墟展区", "next": "良渚展区"},
             {"current": "良渚展区", "next": "文字瀑布"},
+            {"current": "良渚展区", "next": "文字瀑布"},
+            {"current": "文字瀑布", "next": "耕织图"},
             {"current": "文字瀑布", "next": "耕织图"},
         ]
 
