@@ -2,145 +2,86 @@
 # -*- coding: utf-8 -*-
 """
 生成论文用图表 - IROS Gaze 系统 (GPU服务器版本)
-
-生成四宫格图表：
-- (a) 原图
-- (b) SAM2 自动分割掩码（精细分割所有展品和展板）
-- (c) 热力图（基于视觉显著性模型预测）
-- (d) 轨迹图（基于扫描路径模型预测）
-
-依赖:
-- SAM2 模型
-- CUDA GPU
 """
 
 import os
 import sys
-import json
 import argparse
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
-from datetime import datetime
+from PIL import Image
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle as MplCircle, Rectangle
+from matplotlib.patches import Circle
 from matplotlib import rcParams
 from scipy.ndimage import gaussian_filter
 import torch
 import cv2
 
-# Times New Roman 字体
 rcParams['font.family'] = 'serif'
 rcParams['font.serif'] = ['Times New Roman', 'DejaVu Serif']
 rcParams['axes.unicode_minus'] = False
 
-# 添加项目根目录到 Python 路径
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# 配置 SAM2 模型路径
-SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', 'models/sam2/sam2_hiera_small.pt')
+# 添加 sam2 路径
+sam2_path = os.path.join(project_root, 'sam2')
+if sam2_path not in sys.path:
+    sys.path.insert(0, sam2_path)
 
-
-# ==================== SAM2 自动分割 ====================
 
 class SAM2Segmenter:
-    """SAM2 自动分割器 - 分割所有展品和展板"""
+    """SAM2 自动分割器"""
 
-    def __init__(self, model_path=None, device='cuda'):
-        self.model_path = model_path or SAM2_MODEL_PATH
+    def __init__(self, model_path, device='cuda'):
+        self.model_path = model_path
         self.device = device
 
         print(f"[*] 初始化 SAM2...")
-        print(f"    模型: {self.model_path}")
-        print(f"    设备: {self.device}")
+        print(f"    模型: {model_path}")
+        print(f"    设备: {device}")
 
-        if not os.path.exists(self.model_path):
-            raise FileNotFoundError(f"模型文件不存在: {self.model_path}")
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"模型文件不存在: {model_path}")
 
-        # 添加 SAM2 路径
-        sam2_path = os.path.join(project_root, 'sam2')
-        if sam2_path not in sys.path:
-            sys.path.insert(0, sam2_path)
+        # 加载 checkpoint
+        checkpoint = torch.load(model_path, map_location=device)
 
-        try:
-            from sam2.sam2_image_predictor import SAM2ImagePredictor
+        # 获取配置
+        if 'cfg' in checkpoint:
+            cfg = checkpoint['cfg']
+        elif 'model_cfg' in checkpoint:
+            cfg_dict = checkpoint['model_cfg']
+            # 转换为 hydra config 格式
+            from omegaconf import OmegaConf
+            cfg = OmegaConf.create(cfg_dict)
+        else:
+            raise RuntimeError("无法从 checkpoint 中找到配置")
 
-            # 直接从 checkpoint 加载模型
-            checkpoint = torch.load(self.model_path, map_location=self.device)
+        # 导入 SAM2 模块
+        from sam2.sam2_image_predictor import SAM2ImagePredictor
 
-            # 获取模型配置
-            if 'model_cfg' in checkpoint:
-                model_cfg = checkpoint['model_cfg']
-            else:
-                # 使用默认配置
-                model_cfg = {
-                    'image_encoder': dict(
-                        embed_dim=96,
-                        depth=12,
-                        num_heads=6,
-                        mlp_ratio=2,
-                        patch_size=16,
-                        qkv_bias=True,
-                        norm_layer='ln',
-                        # small model config
-                    ),
-                    'memory_encoder': dict(
-                        embed_dim=96,
-                        depth=6,
-                        num_heads=6,
-                        mlp_ratio=2,
-                        patch_size=16,
-                        qkv_bias=True,
-                        norm_layer='ln',
-                    ),
-                    'memory_attention': dict(
-                        depth=6,
-                        num_heads=6,
-                        mlp_ratio=2,
-                        qkv_bias=True,
-                        norm_layer='ln',
-                    ),
-                }
+        # 直接构建模型（绕过 hydra）
+        from sam2.sam2.build_sam import build_sam2_model
 
-            # 创建预测器
-            self.predictor = SAM2ImagePredictor(model_cfg, self.device)
-            self.predictor.model.load_state_dict(checkpoint['model_state_dict'])
-            print("[+] SAM2 加载成功")
+        model = build_sam2_model(cfg, checkpoint_path=model_path, device=device)
 
-        except Exception as e:
-            print(f"[!] SAM2 加载失败: {e}")
-            # 尝试使用 build_sam2 作为备选
-            try:
-                from sam2.build_sam import build_sam2
-                model = build_sam2("sam2.1_hiera_s", ckpt_path=self.model_path, device=self.device)
-                from sam2.sam2_image_predictor import SAM2ImagePredictor
-                self.predictor = SAM2ImagePredictor(model, device=self.device)
-                print("[+] SAM2 加载成功 (使用 build_sam2)")
-            except Exception as e2:
-                raise RuntimeError(f"SAM2 加载完全失败: {e}, {e2}")
+        self.predictor = SAM2ImagePredictor(model, device=device)
+        print("[+] SAM2 加载成功")
 
-    def auto_segment_all(self, image_path,
-                        points_per_side=32,
-                        pred_iou_thresh=0.88,
-                        stability_score_thresh=0.95,
-                        min_mask_region_area=500,
-                        max_mask_region_area=500000):
-        """
-        自动分割图像中的所有区域（展品、展板等）
-        """
+    def auto_segment_all(self, image_path, points_per_side=32,
+                        pred_iou_thresh=0.88, stability_score_thresh=0.95,
+                        min_mask_region_area=500, max_mask_region_area=500000):
+        """自动分割图像中的所有区域"""
         from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
 
-        # 读取图像
         image = Image.open(image_path).convert('RGB')
         image_np = np.array(image)
         height, width = image_np.shape[:2]
 
         print(f"\n[*] 运行 SAM2 自动分割...")
         print(f"    图像尺寸: {width}x{height}")
-        print(f"    采样密度: {points_per_side}")
 
-        # 创建自动分割器
         mask_generator = SAM2AutomaticMaskGenerator(
             model=self.predictor.model,
             points_per_side=points_per_side,
@@ -151,11 +92,9 @@ class SAM2Segmenter:
             output_mode='binary_mask'
         )
 
-        # 生成掩码
         masks = mask_generator.generate(image_np)
         print(f"[+] 发现 {len(masks)} 个区域")
 
-        # 过滤和排序（按面积排序，大的在前）
         valid_masks = []
         for mask_data in masks:
             area = mask_data.get('area', 0)
@@ -164,37 +103,29 @@ class SAM2Segmenter:
                 if score > pred_iou_thresh:
                     valid_masks.append(mask_data)
 
-        # 按面积降序排序
         valid_masks.sort(key=lambda x: x.get('area', 0), reverse=True)
         print(f"[+] 过滤后有效区域: {len(valid_masks)}")
 
         return valid_masks, image_np
 
     def create_segmentation_visualization(self, image_np, masks_data, output_path):
-        """创建分割掩码可视化 - 黑色背景 + 彩色掩码"""
+        """创建分割掩码可视化"""
         height, width = image_np.shape[:2]
 
-        # 创建黑色背景
+        # 黑色背景版本
         fig, ax = plt.subplots(figsize=(width/100, height/100))
         ax.set_facecolor('black')
 
-        # 使用tab10配色方案
         colors = plt.cm.tab10(np.linspace(0, 1, max(10, len(masks_data))))
 
-        # 绘制每个掩码
         for i, mask_data in enumerate(masks_data):
             mask = mask_data.get('segmentation')
+            color = colors[i % 10]
 
-            # 选择颜色
-            color_idx = i % 10
-            color = colors[color_idx]
-
-            # 创建彩色掩码（带透明度）
             colored_mask = np.zeros((*mask.shape, 4))
             colored_mask[mask] = [*color[:3], 0.85]
             ax.imshow(colored_mask, interpolation='none')
 
-            # 获取边界框
             bbox = mask_data.get('bbox', [])
             if len(bbox) == 4:
                 x, y, w, h = bbox
@@ -209,7 +140,6 @@ class SAM2Segmenter:
         ax.axis('off')
         plt.tight_layout()
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-
         plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='black', pad_inches=0)
         plt.close()
         print(f"[+] 保存 SAM2 分割图: {output_path}")
@@ -229,7 +159,6 @@ class SAM2Segmenter:
             for contour in contours:
                 epsilon = 0.002 * cv2.arcLength(contour, True)
                 approx = cv2.approxPolyDP(contour, epsilon, True)
-
                 for j in range(len(approx)):
                     pt1 = tuple(approx[j][0].tolist())
                     pt2 = tuple(approx[(j+1) % len(approx)][0].tolist())
@@ -243,8 +172,6 @@ class SAM2Segmenter:
         print(f"[+] 保存轮廓图: {output_outline}")
 
 
-# ==================== 视觉显著性预测 ====================
-
 def predict_saliency_heatmap(image_path, output_path, sigma=30):
     """基于视觉显著性模型预测热力图"""
     image = cv2.imread(image_path)
@@ -253,36 +180,34 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
 
     print("\n[*] 计算视觉显著性...")
 
-    # 1. Lab颜色空间
+    # Lab 颜色空间
     lab = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
     l_channel = lab[:, :, 0].astype(np.float32)
     a_channel = lab[:, :, 1].astype(np.float32)
     b_channel = lab[:, :, 2].astype(np.float32)
 
-    # 2. 亮度对比
+    # 亮度对比
     g1 = cv2.GaussianBlur(l_channel, (0, 0), 5)
     g2 = cv2.GaussianBlur(l_channel, (0, 0), 20)
     brightness_contrast = np.abs(g1 - g2)
 
-    # 3. 颜色对比
+    # 颜色对比
     a_blur = cv2.GaussianBlur(a_channel, (0, 0), 10)
     b_blur = cv2.GaussianBlur(b_channel, (0, 0), 10)
-    color_contrast = np.sqrt(
-        (a_channel - a_blur) ** 2 + (b_channel - b_blur) ** 2
-    )
+    color_contrast = np.sqrt((a_channel - a_blur) ** 2 + (b_channel - b_blur) ** 2)
 
-    # 4. 边缘密度
+    # 边缘密度
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     edges = cv2.Canny(gray, 50, 150)
     edges = cv2.GaussianBlur(edges.astype(np.float32), (0, 0), 5)
     edges = edges / edges.max() if edges.max() > 0 else edges
 
-    # 5. 中心偏置
+    # 中心偏置
     cy, cx = height // 2, width // 2
     y, x = np.mgrid[:height, :width]
     center_bias = np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * (min(height, width) / 3) ** 2))
 
-    # 6. 组合
+    # 组合
     saliency = (
         brightness_contrast * 0.3 +
         color_contrast * 0.3 +
@@ -290,14 +215,11 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
         center_bias * 0.2
     )
 
-    # 7. 高斯模糊
     saliency = gaussian_filter(saliency, sigma=sigma)
-
-    # 8. 归一化
     if saliency.max() > 0:
         saliency = saliency / saliency.max()
 
-    # 9. 叠加到原图
+    # 叠加到原图
     img_pil = Image.open(image_path).convert('RGB')
     img_array = np.array(img_pil)
 
@@ -326,13 +248,11 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
     return saliency
 
 
-# ==================== 扫描路径预测 ====================
-
 def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fixations=10):
     """基于显著性和分割结果预测扫描路径"""
     image = Image.open(image_path).convert('RGB')
     img_array = np.array(image)
-    height, width = image.shape[:2]
+    height, width = img_array.shape[:2]
 
     print(f"\n[*] 预测扫描路径 ({num_fixations} 个注视点)...")
 
@@ -360,13 +280,9 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
             'area': mask_data.get('area', 0)
         })
 
-    # 按分数排序
     mask_scores.sort(key=lambda x: x['score'], reverse=True)
-
-    # 选择前 N 个
     fixations = mask_scores[:num_fixations]
 
-    # 按扫描顺序排序
     def scan_order_key(fix):
         cx, cy = fix['center']
         return cx * 0.7 + cy * 0.3
@@ -413,12 +329,12 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
 
         radius = max(15, min(45, int(duration / 4)))
 
-        circle = MplCircle((cx, cy), radius, facecolor='orange',
-                          edgecolor='white', linewidth=3, alpha=0.95, zorder=3)
+        circle = Circle((cx, cy), radius, facecolor='orange',
+                       edgecolor='white', linewidth=3, alpha=0.95, zorder=3)
         ax.add_patch(circle)
 
         ax.text(cx, cy, str(seq), color='black', fontsize=12, fontweight='bold',
-                ha='center', va='center', zorder=4)
+               ha='center', va='center', zorder=4)
 
     ax.text(10, 20, f'Predicted Scan Path ({len(fixations)} fixations)',
            color='white', fontsize=14, fontweight='bold',
@@ -434,15 +350,8 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     return fixations
 
 
-# ==================== 四宫格图表生成 ====================
-
-def create_paper_figure(
-    image_path,
-    output_path,
-    sam2_model_path=None,
-    num_fixations=10,
-    points_per_side=32
-):
+def create_paper_figure(image_path, output_path, sam2_model_path,
+                       num_fixations=10, points_per_side=32):
     """生成论文用四宫格图表"""
 
     if not torch.cuda.is_available():
@@ -450,32 +359,27 @@ def create_paper_figure(
         return False
 
     print(f"\n[*] 处理图像: {image_path}")
-
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
 
-    # ========== 1. 读取原图 ==========
+    # 读取原图
     original_img = Image.open(image_path).convert('RGB')
     img_array = np.array(original_img)
     width, height = original_img.size
     print(f"    尺寸: {width}x{height}")
 
-    # ========== 2. SAM2 自动分割 ==========
+    # SAM2 自动分割
     print("\n" + "="*60)
     print("步骤 (b): SAM2 自动分割")
     print("="*60)
 
-    segmenter = SAM2Segmenter(model_path=sam2_model_path)
-
-    masks_data, _ = segmenter.auto_segment_all(
-        image_path,
-        points_per_side=points_per_side
-    )
+    segmenter = SAM2Segmenter(sam2_model_path)
+    masks_data, _ = segmenter.auto_segment_all(image_path, points_per_side)
 
     mask_path = output_path.replace('.png', '_mask.png')
     segmenter.create_segmentation_visualization(img_array, masks_data, mask_path)
     mask_img = Image.open(mask_path)
 
-    # ========== 3. 预测热力图 ==========
+    # 预测热力图
     print("\n" + "="*60)
     print("步骤 (c): 视觉显著性预测热力图")
     print("="*60)
@@ -484,16 +388,16 @@ def create_paper_figure(
     saliency_map = predict_saliency_heatmap(image_path, heatmap_path)
     heatmap_img = Image.open(heatmap_path)
 
-    # ========== 4. 预测扫描路径 ==========
+    # 预测扫描路径
     print("\n" + "="*60)
     print("步骤 (d): 扫描路径预测")
     print("="*60)
 
     trajectory_path = output_path.replace('.png', '_trajectory.png')
-    fixations = predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
+    predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
     trajectory_img = Image.open(trajectory_path)
 
-    # ========== 5. 创建四宫格图表 ==========
+    # 创建四宫格图表
     print("\n" + "="*60)
     print("生成四宫格图表")
     print("="*60)
@@ -518,7 +422,6 @@ def create_paper_figure(
 
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.02)
-
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"\n[+] 保存四宫格图表: {output_path}")
 
@@ -531,29 +434,19 @@ def create_paper_figure(
         area = mask_data.get('area', 0)
         score = mask_data.get('predicted_iou', 0)
         print(f"{i+1:<5} {area:<10} {score:.3f}")
-
     print(f"\n共发现 {len(masks_data)} 个区域")
 
     plt.close()
-
     return True
 
 
-# ==================== 主函数 ====================
-
 def main():
-    parser = argparse.ArgumentParser(description='生成论文用图表 (GPU服务器版本 - 基于模型预测)')
-    parser.add_argument('--image', type=str, required=True, help='原图路径')
-    parser.add_argument('--output', type=str,
-                       default='data/outputs/paper_figure_predicted.png',
-                       help='输出路径')
-    parser.add_argument('--sam2-model', type=str,
-                       default='models/sam2/sam2_hiera_small.pt',
-                       help='SAM2 模型路径')
-    parser.add_argument('--num-fixations', type=int, default=10,
-                       help='预测注视点数量')
-    parser.add_argument('--points-per-side', type=int, default=32,
-                       help='SAM2 采样密度 (越高越精细，但越慢)')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--image', type=str, required=True)
+    parser.add_argument('--output', type=str, default='data/outputs/paper_figure.png')
+    parser.add_argument('--sam2-model', type=str, default='models/sam2/sam2_hiera_small.pt')
+    parser.add_argument('--num-fixations', type=int, default=10)
+    parser.add_argument('--points-per-side', type=int, default=32)
 
     args = parser.parse_args()
 
@@ -565,24 +458,18 @@ def main():
         print(f"[+] CUDA 可用: {torch.cuda.get_device_name(0)}")
         print(f"    显存: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
     else:
-        print("[!] CUDA 不可用，无法运行")
+        print("[!] CUDA 不可用")
         return
 
     print("=" * 60)
-    print("IROS Gaze 论文图表生成 (GPU服务器 - 模型预测版本)")
+    print("IROS Gaze 论文图表生成")
     print("=" * 60)
     print(f"原图: {args.image}")
-    print(f"输出: {args.output}")
     print(f"模型: {args.sam2_model}")
-    print(f"注视点数: {args.num_fixations}")
-    print(f"采样密度: {args.points_per_side}")
 
     create_paper_figure(
-        image_path=args.image,
-        output_path=args.output,
-        sam2_model_path=args.sam2_model,
-        num_fixations=args.num_fixations,
-        points_per_side=args.points_per_side
+        args.image, args.output, args.sam2_model,
+        args.num_fixations, args.points_per_side
     )
 
     print("\n[OK] 完成!")
