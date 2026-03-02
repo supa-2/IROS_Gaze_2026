@@ -1,0 +1,316 @@
+{
+  "GPT-5.2": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.017159618703735533,
+    "js_divergence": 0.03945598385210932,
+    "correlation": 0.08333333333333333,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "avg_time": 1.4484347752162388,
+    "total_input_tokens": 5187,
+    "total_output_tokens": 1599,
+    "total_tokens": 6786,
+    "avg_input_tokens": 148.2,
+    "avg_output_tokens": 45.68571428571428,
+    "num_requests": 35
+  },
+  "Claude-Sonnet-4-6": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.026521423678950534,
+    "js_divergence": 0.04063830100311886,
+    "correlation": 0.0,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "avg_time": 4.866499042510986,
+    "total_input_tokens": 6427,
+    "total_output_tokens": 8557,
+    "total_tokens": 14984,
+    "avg_input_tokens": 183.62857142857143,
+    "avg_output_tokens": 244.4857142857143,
+    "num_requests": 35
+  },
+  "Gemini-3.1-Pro-Thinking": {
+    "top1_accuracy": 0.782608695652174,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.06996603262711958,
+    "js_divergence": 0.07832339006747242,
+    "correlation": 0.08333333333333331,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "avg_time": 6.616682304654803,
+    "total_input_tokens": 4576,
+    "total_output_tokens": 6506,
+    "total_tokens": 11082,
+    "avg_input_tokens": 130.74285714285713,
+    "avg_output_tokens": 185.88571428571427,
+    "num_requests": 35
+  },
+  "Markov Chain": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.0,
+    "js_divergence": 0.0,
+    "correlation": 0.25,
+    "num_evaluated": 12,
+    "num_top_eval": 23
+  },
+  "LSTM": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": Infinity,
+    "js_divergence": 0.1084929505218577,
+    "correlation": 0.08333333333333333,
+    "num_evaluated": 12,
+    "num_top_eval": 23
+  },
+  "Base Model (4bit)": {
+    "top1_accuracy": 0.6666666666666666,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.040104981579993336,
+    "js_divergence": 0.07723421633782074,
+    "correlation": -0.09090909090909091,
+    "num_evaluated": 11,
+    "num_top_eval": 27,
+    "failed_samples": 8,
+    "success_rate": 0.42857142857142855,
+    "avg_time": 0.5235010950188888,
+    "total_input_tokens": 2956,
+    "total_output_tokens": 784,
+    "total_tokens": 3740,
+    "avg_input_tokens": 77.78947368421052,
+    "avg_output_tokens": 20.63157894736842,
+    "num_requests": 38
+  },
+  "Ours (Fine-tuned)": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.048322071509378874,
+    "js_divergence": 0.060990632959627755,
+    "correlation": -0.08333333333333333,
+    "attention_accuracy": 0.2608695652173913,
+    "duration_mae": 31.304347826086957,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  },
+  "raw_outputs": {
+    "入口": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"展品1\", \"probability\": 0.5},\n    {\"name\": \"展品2\", \"probability\": 0.3},\n    {\"name\": \"展品3\", \"probability\": 0.2}\n  ]\n}\n```",
+      "topo_candidates": [
+        "丁香花"
+      ],
+      "shuffled_candidates": [
+        "丁香花"
+      ],
+      "retries": 0,
+      "parsed": null,
+      "success": false
+    },
+    "丁香花": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"金鱼兰\", \"probability\": 0.6},\n    {\"name\": \"说明文字-千岛湖\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "金鱼兰",
+        "说明文字-千岛湖"
+      ],
+      "shuffled_candidates": [
+        "说明文字-千岛湖",
+        "金鱼兰"
+      ],
+      "retries": 0,
+      "parsed": {
+        "金鱼兰": 0.6,
+        "说明文字-千岛湖": 0.4
+      },
+      "success": true
+    },
+    "金鱼兰": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"山茶花\", \"probability\": 0.6},\n    {\"name\": \"牡丹花\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "牡丹花",
+        "山茶花"
+      ],
+      "shuffled_candidates": [
+        "牡丹花",
+        "山茶花"
+      ],
+      "retries": 0,
+      "parsed": {
+        "牡丹花": 0.6,
+        "山茶花": 0.4
+      },
+      "success": true
+    },
+    "说明文字-千岛湖": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"千岛湖\", \"probability\": 0.6},\n    {\"name\": \"人物-祝大年创作\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "人物-祝大年创作",
+        "千岛湖"
+      ],
+      "shuffled_candidates": [
+        "千岛湖",
+        "人物-祝大年创作"
+      ],
+      "retries": 0,
+      "parsed": {
+        "千岛湖": 0.6,
+        "人物-祝大年创作": 0.4
+      },
+      "success": true
+    },
+    "玉兰花开": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"西双版纳\", \"probability\": 0.6},\n    {\"name\": \"松竹海\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "松竹海",
+        "西双版纳"
+      ],
+      "shuffled_candidates": [
+        "西双版纳",
+        "松竹海"
+      ],
+      "retries": 0,
+      "parsed": {
+        "西双版纳": 0.7,
+        "松竹海": 0.3
+      },
+      "success": true
+    },
+    "松竹海": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"漓江春色\", \"probability\": 0.6},\n    {\"name\": \"西双版纳\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "西双版纳",
+        "漓江春色"
+      ],
+      "shuffled_candidates": [
+        "漓江春色",
+        "西双版纳"
+      ],
+      "retries": 0,
+      "parsed": {
+        "西双版纳": 0.5,
+        "漓江春色": 0.5
+      },
+      "success": true
+    },
+    "西双版纳": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"颜真卿楷书\", \"probability\": 0.6},\n    {\"name\": \"耕织图\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "耕织图",
+        "颜真卿楷书"
+      ],
+      "shuffled_candidates": [
+        "颜真卿楷书",
+        "耕织图"
+      ],
+      "retries": 0,
+      "parsed": {
+        "颜真卿楷书": 0.6,
+        "耕织图": 0.4
+      },
+      "success": true
+    },
+    "漓江春色": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"鸢飞曲\", \"probability\": 0.6},\n    {\"name\": \"风筝\", \"probability\": 0.4}\n  ]\n}\n```",
+      "topo_candidates": [
+        "风筝",
+        "鸢飞曲"
+      ],
+      "shuffled_candidates": [
+        "鸢飞曲",
+        "风筝"
+      ],
+      "retries": 0,
+      "parsed": {
+        "风筝": 0.6,
+        "鸢飞曲": 0.4
+      },
+      "success": true
+    },
+    "风筝": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"黄山松\", \"probability\": 0.4},\n    {\"name\": \"鸢飞曲\", \"probability\": 0.6}\n  ]\n}\n```",
+      "topo_candidates": [
+        "鸢飞曲",
+        "黄山松"
+      ],
+      "shuffled_candidates": [
+        "黄山松",
+        "鸢飞曲"
+      ],
+      "retries": 0,
+      "parsed": {
+        "黄山松": 0.6,
+        "鸢飞曲": 0.4
+      },
+      "success": true
+    },
+    "迎客松": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"三星堆展区\", \"probability\": 1.0}\n  ]\n}\n```",
+      "topo_candidates": [
+        "三星堆展区"
+      ],
+      "shuffled_candidates": [
+        "三星堆展区"
+      ],
+      "retries": 0,
+      "parsed": {
+        "三星堆展区": 1.0
+      },
+      "success": true
+    },
+    "三星堆展区": {
+      "raw": "由于当前场景中只有一个展品，即“殷墟展区”，且没有历史数据可供参考，因此无法准确预测游客下一个最可能前往的展品。在这种情况下，我们只能假设游客可能会选择其他展品，但没有具体的概率分布。\n\n如果需要提供一个示例，可以假设存在其他展品，并给出一个假设的概率分布。例如：\n\n```json\n{\n  \"predictions\": [\n    {\"name\": \"殷墟展区\", \"probability\": 0.0},\n    {\"name\": \"其他展品1\", \"probability\": 0.5},\n    {\"name\": \"其他展品2\", \"probability\": 0.3},\n    {\"name\": \"其他展品3\", \"probability\": 0.2}\n  ]\n}\n```\n\n请注意，这个示例是假设性的，实际情况下需要更多的信息和数据来做出准确的预测。",
+      "topo_candidates": [
+        "殷墟展区"
+      ],
+      "shuffled_candidates": [
+        "殷墟展区"
+      ],
+      "retries": 0,
+      "parsed": {
+        "殷墟展区": 1.0
+      },
+      "success": true
+    },
+    "殷墟展区": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"良渚展区\", \"probability\": 1.0}\n  ]\n}\n```",
+      "topo_candidates": [
+        "良渚展区"
+      ],
+      "shuffled_candidates": [
+        "良渚展区"
+      ],
+      "retries": 0,
+      "parsed": {
+        "良渚展区": 1.0
+      },
+      "success": true
+    },
+    "良渚展区": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"文字瀑布\", \"probability\": 1.0}\n  ]\n}\n```",
+      "topo_candidates": [
+        "文字瀑布"
+      ],
+      "shuffled_candidates": [
+        "文字瀑布"
+      ],
+      "retries": 0,
+      "parsed": {
+        "文字瀑布": 0.5
+      },
+      "success": true
+    },
+    "文字瀑布": {
+      "raw": "```json\n{\n  \"predictions\": [\n    {\"name\": \"展品1\", \"probability\": 0.5},\n    {\"name\": \"展品2\", \"probability\": 0.3},\n    {\"name\": \"展品3\", \"probability\": 0.2}\n  ]\n}\n```",
+      "topo_candidates": [
+        "耕织图"
+      ],
+      "shuffled_candidates": [
+        "耕织图"
+      ],
+      "retries": 0,
+      "parsed": null,
+      "success": false
+    }
+  }
+}
