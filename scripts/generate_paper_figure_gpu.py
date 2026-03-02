@@ -38,8 +38,8 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# 配置 SAM2 模型路径
-SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', '/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt')
+# 配置 SAM2 模型路径（相对路径）
+SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', 'models/sam2/sam2_hiera_small.pt')
 SAM2_CONFIG_NAME = os.environ.get('SAM2_CONFIG_NAME', 'sam2.1_hiera_s')  # 配置名称，不是文件路径
 
 

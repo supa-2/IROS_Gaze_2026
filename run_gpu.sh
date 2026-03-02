@@ -1,9 +1,9 @@
 #!/bin/bash
 # GPU服务器上运行论文图表生成脚本 (模型预测版本)
 
-# 设置环境变量
+# 设置环境变量（使用相对路径）
 export CUDA_VISIBLE_DEVICES=0
-export SAM2_MODEL_PATH=/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt
+export SAM2_MODEL_PATH=models/sam2/sam2_hiera_small.pt
 export SAM2_CONFIG_NAME=sam2.1_hiera_s  # 配置名称，不是文件路径
 
 echo "=================================================="
