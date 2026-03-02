@@ -153,7 +153,7 @@ def correlation(p: Dict, q: Dict) -> float:
 # ============================================
 
 class BaseModelEvaluator:
-    """Base Model (Qwen2.5-32B 4bit) 评估器"""
+    """Base Model (Qwen2.5-32B 4bit) 评估器（使用拓扑候选选择）"""
 
     def __init__(self, api_url: str, model_name: str = "Qwen"):
         self.api_url = api_url
@@ -173,27 +173,99 @@ class BaseModelEvaluator:
         self.raw_outputs = {}  # {current: {"raw": str, "parsed": dict or None, "success": bool}}
         self.failed_samples = []  # 解析失败的样本列表
 
+    def _get_topology_ordered_candidates(self, current: str, available_exhibits: List[str]) -> List[str]:
+        """
+        基于拓扑关系获取候选展品
+
+        规则：
+        - 获取当前展品的前2个（拓扑关系上指向当前的那些）
+        - 获取当前展品的后2个（拓扑关系上当前指向的那些）
+        - 如果前2个不够，从后2个补充；如果后2个不够，从前2个补充
+        - 最多返回5个候选（当前 + 最多4个邻居）
+        """
+        candidates = []
+
+        # 总是包含当前展品（表示从当前展品出发）
+        if current in available_exhibits:
+            candidates.append(current)
+
+        # 获取后继展品（当前指向哪些）
+        successors = TOPOLOGY_ADJACENCY.get(current, [])
+        available_successors = [s for s in successors if s in available_exhibits]
+
+        # 获取前序展品（哪些指向当前）
+        predecessors = []
+        for exhibit in available_exhibits:
+            if exhibit != current:
+                exhibit_neighbors = TOPOLOGY_ADJACENCY.get(exhibit, [])
+                if current in exhibit_neighbors:
+                    predecessors.append(exhibit)
+
+        # 目标：当前 + 最多2个前驱 + 最多2个后继
+        target_predecessors = predecessors[:2]  # 前2个
+        target_successors = available_successors[:2]  # 后2个
+
+        # 先添加前驱
+        for pred in target_predecessors:
+            if pred not in candidates:
+                candidates.append(pred)
+
+        # 再添加后继
+        for succ in target_successors:
+            if succ not in candidates:
+                candidates.append(succ)
+
+        # 如果少于3个，尝试从剩余的邻居中补充
+        if len(candidates) < 3:
+            remaining = predecessors[2:] + available_successors[2:]
+            for item in remaining:
+                if item not in candidates and len(candidates) < 5:
+                    candidates.append(item)
+
+        return candidates
+
+    def _build_prompt_with_exhibits(self, current: str, exhibits: List[str]) -> str:
+        """构建包含多个展品的prompt（ShareGPT 格式）"""
+        # 构建 exhibits 列表
+        exhibits_list = []
+        for exhibit in exhibits:
+            features = EXHIBIT_FEATURES.get(exhibit, f"{exhibit}展品")
+            exhibits_list.append({
+                "name": exhibit,
+                "features": features
+            })
+
+        # 使用 ShareGPT 格式
+        return f"""```json
+{{
+  "task": "predict_next",
+  "exhibits": {json.dumps(exhibits_list, ensure_ascii=False)},
+  "history": []
+}}
+```
+
+当前场景中有{len(exhibits)}个展品，游客正在观看展品，请预测游客下一个最可能前往的展品是哪个，并给出每个候选展品的被选择概率。
+
+返回JSON格式（注意：只需要预测下一个展品，不是规划完整路径）:
+{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}"""
+
     def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Optional[Dict[str, float]]:
         """
-        获取概率分布
+        获取概率分布（使用拓扑候选选择）
 
         Returns:
             成功返回概率分布字典，失败返回 None（不使用默认值）
         """
-        features = EXHIBIT_FEATURES.get(current, "")
-        neighbors = TOPOLOGY_ADJACENCY.get(current, [])
+        # 基于拓扑获取候选（按拓扑顺序）
+        topo_candidates = self._get_topology_ordered_candidates(current, candidates)
 
-        prompt = f"""当前位置: {current}
-展品特征: {features}
-相邻展品: {', '.join(neighbors)}
+        # 打乱顺序提供（不让模型看出规律）
+        import random
+        shuffled_candidates = topo_candidates.copy()
+        random.shuffle(shuffled_candidates)
 
-基于上述信息，预测从 {current} 出发，游客选择各个候选展品的概率分布。
-
-候选展品: {', '.join(candidates)}
-
-返回JSON格式，包含每个候选展品的预测概率（概率和为1）:
-{{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
-"""
+        # 构建prompt，按打乱顺序提供
+        prompt = self._build_prompt_with_exhibits(current, shuffled_candidates)
 
         for retry in range(max_retries):
             start_time = time.time()
@@ -216,7 +288,12 @@ class BaseModelEvaluator:
 
                 # 保存原始输出
                 if current not in self.raw_outputs:
-                    self.raw_outputs[current] = {"raw": result, "candidates": candidates, "retries": retry}
+                    self.raw_outputs[current] = {
+                        "raw": result,
+                        "topo_candidates": topo_candidates,
+                        "shuffled_candidates": shuffled_candidates,
+                        "retries": retry
+                    }
 
                 # 解析JSON
                 import re
@@ -229,7 +306,8 @@ class BaseModelEvaluator:
                         for p in preds:
                             name = p.get('name')
                             prob = p.get('probability', 0)
-                            if name and name in candidates:
+                            # 只保留原始拓扑候选中的
+                            if name and name in topo_candidates:
                                 dist[name] = prob
                         # 归一化
                         total = sum(dist.values())
@@ -247,6 +325,8 @@ class BaseModelEvaluator:
                 print(f"    [ERROR] {current} -> {e}")
 
         # 所有重试都失败
+        if current not in self.raw_outputs:
+            self.raw_outputs[current] = {"success": False, "retries": max_retries}
         self.raw_outputs[current]["parsed"] = None
         self.raw_outputs[current]["success"] = False
         self.failed_samples.append(current)
@@ -341,10 +421,11 @@ class FullComparisonRunner:
         return test_data
 
     def _create_sample_data(self) -> List[Dict]:
-        """创建模拟测试数据"""
+        """创建模拟测试数据（基于拓扑关系的转移）"""
+        # 只包含在拓扑中存在的转移
         return [
             {"current": "入口", "next": "丁香花"},
-            {"current": "入口", "next": "说明文字-千岛湖"},
+            {"current": "入口", "next": "丁香花"},
             {"current": "入口", "next": "丁香花"},
             {"current": "丁香花", "next": "金鱼兰"},
             {"current": "丁香花", "next": "金鱼兰"},
@@ -356,15 +437,24 @@ class FullComparisonRunner:
             {"current": "说明文字-千岛湖", "next": "人物-祝大年创作"},
             {"current": "说明文字-千岛湖", "next": "千岛湖"},
             {"current": "玉兰花开", "next": "松竹海"},
+            {"current": "玉兰花开", "next": "西双版纳"},
             {"current": "松竹海", "next": "西双版纳"},
             {"current": "松竹海", "next": "漓江春色"},
+            {"current": "松竹海", "next": "西双版纳"},
             {"current": "西双版纳", "next": "耕织图"},
+            {"current": "西双版纳", "next": "颜真卿楷书"},
             {"current": "漓江春色", "next": "风筝"},
+            {"current": "漓江春色", "next": "鸢飞曲"},
+            {"current": "风筝", "next": "鸢飞曲"},
+            {"current": "风筝", "next": "黄山松"},
             {"current": "迎客松", "next": "三星堆展区"},
             {"current": "三星堆展区", "next": "殷墟展区"},
-            {"current": "三星堆展区", "next": "良渚展区"},
+            {"current": "三星堆展区", "next": "殷墟展区"},
+            {"current": "殷墟展区", "next": "良渚展区"},
             {"current": "殷墟展区", "next": "良渚展区"},
             {"current": "良渚展区", "next": "文字瀑布"},
+            {"current": "良渚展区", "next": "文字瀑布"},
+            {"current": "文字瀑布", "next": "耕织图"},
             {"current": "文字瀑布", "next": "耕织图"},
         ]
 

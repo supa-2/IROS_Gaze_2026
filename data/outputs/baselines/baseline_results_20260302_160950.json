@@ -1,0 +1,213 @@
+{
+  "Markov Chain": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.0,
+    "js_divergence": 0.0,
+    "correlation": 0.25,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "failed_samples": 0,
+    "success_rate": 1.0
+  },
+  "LSTM": {
+    "top1_accuracy": 0.6521739130434783,
+    "top3_accuracy": 1.0,
+    "kl_divergence": Infinity,
+    "js_divergence": 0.10326531492005643,
+    "correlation": 0.08333333333333333,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "failed_samples": 0,
+    "success_rate": 1.0
+  },
+  "GPT-5.2": {
+    "top1_accuracy": 0.6956521739130435,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.02024079262088482,
+    "js_divergence": 0.040959211950313906,
+    "correlation": 0.25,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "failed_samples": 0,
+    "success_rate": 1.0,
+    "avg_time": 0.41718924386160716,
+    "total_input_tokens": 1768,
+    "total_output_tokens": 476,
+    "total_tokens": 2244,
+    "avg_input_tokens": 50.51428571428571,
+    "avg_output_tokens": 13.6,
+    "num_requests": 35
+  },
+  "Base Model": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.026521423678950534,
+    "js_divergence": 0.04063830100311886,
+    "correlation": 0.0,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "failed_samples": 0,
+    "success_rate": 1.0
+  },
+  "Ours": {
+    "top1_accuracy": 0.7391304347826086,
+    "top3_accuracy": 1.0,
+    "kl_divergence": 0.048322071509378874,
+    "js_divergence": 0.060990632959627755,
+    "correlation": -0.08333333333333333,
+    "attention_accuracy": 0.2608695652173913,
+    "duration_mae": 31.304347826086957,
+    "num_evaluated": 12,
+    "num_top_eval": 23,
+    "num_attention_eval": 23
+  },
+  "raw_outputs": {
+    "GPT-5.2": {
+      "入口": {
+        "raw": "{\n  \"predictions\": [\n    {\n      \"name\": \"丁香花\",\n      \"probability\": 0.72\n    },\n    {\n      \"name\": \"说明文字-千岛湖\",\n      \"probability\": 0.28\n    }\n  ]\n}",
+        "candidates": [
+          "丁香花",
+          "说明文字-千岛湖"
+        ],
+        "retries": 0,
+        "parsed": {
+          "丁香花": 0.7,
+          "说明文字-千岛湖": 0.3
+        },
+        "success": true
+      },
+      "丁香花": {
+        "raw": "{\n  \"predictions\": [\n    { \"name\": \"金鱼兰\", \"probability\": 0.62 },\n    { \"name\": \"说明文字-千岛湖\", \"probability\": 0.38 }\n  ]\n}",
+        "candidates": [
+          "金鱼兰",
+          "说明文字-千岛湖"
+        ],
+        "retries": 0,
+        "parsed": {
+          "金鱼兰": 0.6,
+          "说明文字-千岛湖": 0.4
+        },
+        "success": true
+      },
+      "金鱼兰": {
+        "raw": "{\n  \"predictions\": [\n    { \"name\": \"牡丹花\", \"probability\": 0.55 },\n    { \"name\": \"山茶花\", \"probability\": 0.45 }\n  ]\n}",
+        "candidates": [
+          "牡丹花",
+          "山茶花"
+        ],
+        "retries": 0,
+        "parsed": {
+          "牡丹花": 0.52,
+          "山茶花": 0.48
+        },
+        "success": true
+      },
+      "说明文字-千岛湖": {
+        "raw": "{\"predictions\":[{\"name\":\"人物-祝大年创作\",\"probability\":0.62},{\"name\":\"千岛湖\",\"probability\":0.38}]}",
+        "candidates": [
+          "人物-祝大年创作",
+          "千岛湖"
+        ],
+        "retries": 0,
+        "parsed": {
+          "人物-祝大年创作": 0.62,
+          "千岛湖": 0.38
+        },
+        "success": true
+      },
+      "玉兰花开": {
+        "raw": "{\"predictions\":[{\"name\":\"松竹海\",\"probability\":1.0}]}",
+        "candidates": [
+          "松竹海"
+        ],
+        "retries": 0,
+        "parsed": {
+          "松竹海": 1.0
+        },
+        "success": true
+      },
+      "松竹海": {
+        "raw": "{\n  \"predictions\": [\n    { \"name\": \"西双版纳\", \"probability\": 0.48 },\n    { \"name\": \"漓江春色\", \"probability\": 0.52 }\n  ]\n}",
+        "candidates": [
+          "西双版纳",
+          "漓江春色"
+        ],
+        "retries": 0,
+        "parsed": {
+          "西双版纳": 0.48,
+          "漓江春色": 0.52
+        },
+        "success": true
+      },
+      "西双版纳": {
+        "raw": "{\"predictions\":[{\"name\":\"耕织图\",\"probability\":1.0}]}",
+        "candidates": [
+          "耕织图"
+        ],
+        "retries": 0,
+        "parsed": {
+          "耕织图": 1.0
+        },
+        "success": true
+      },
+      "漓江春色": {
+        "raw": "{\n  \"predictions\": [\n    {\n      \"name\": \"风筝\",\n      \"probability\": 1.0\n    }\n  ]\n}",
+        "candidates": [
+          "风筝"
+        ],
+        "retries": 0,
+        "parsed": {
+          "风筝": 1.0
+        },
+        "success": true
+      },
+      "迎客松": {
+        "raw": "{\"predictions\":[{\"name\":\"三星堆展区\",\"probability\":1.0}]}",
+        "candidates": [
+          "三星堆展区"
+        ],
+        "retries": 0,
+        "parsed": {
+          "三星堆展区": 1.0
+        },
+        "success": true
+      },
+      "三星堆展区": {
+        "raw": "{\"predictions\":[{\"name\":\"殷墟展区\",\"probability\":0.75},{\"name\":\"良渚展区\",\"probability\":0.25}]}",
+        "candidates": [
+          "殷墟展区",
+          "良渚展区"
+        ],
+        "retries": 0,
+        "parsed": {
+          "殷墟展区": 0.7,
+          "良渚展区": 0.3
+        },
+        "success": true
+      },
+      "良渚展区": {
+        "raw": "{\n  \"predictions\": [\n    {\n      \"name\": \"文字瀑布\",\n      \"probability\": 1.0\n    }\n  ]\n}",
+        "candidates": [
+          "文字瀑布"
+        ],
+        "retries": 0,
+        "parsed": {
+          "文字瀑布": 1.0
+        },
+        "success": true
+      },
+      "文字瀑布": {
+        "raw": "{\"predictions\":[{\"name\":\"耕织图\",\"probability\":1.0}]}",
+        "candidates": [
+          "耕织图"
+        ],
+        "retries": 0,
+        "parsed": {
+          "耕织图": 1.0
+        },
+        "success": true
+      }
+    }
+  }
+}
