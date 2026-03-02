@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-03-02T22:00:00.000000",
+  "summary": {
+    "total_exhibits": 7,
+    "total_gaze_records": 25,
+    "unique_exhibits_visited": 7,
+    "total_duration": 989.6,
+    "average_duration": 39.6
+  },
+  "exhibits": [
+    {
+      "name": "绿韵静思图",
+      "type": "画作",
+      "bbox": [55, 235, 277, 480],
+      "description": "一幅抽象风格的画作，以深色背景和绿色渐变为主色调，营造出宁静的氛围。",
+      "id": "EX-000"
+    },
+    {
+      "name": "几何拼贴肖像",
+      "type": "画作",
+      "bbox": [295, 260, 379, 425],
+      "description": "一幅带有几何拼贴元素的画作，中央有一张人物肖像，整体风格现代而富有层次感。",
+      "id": "EX-001"
+    },
+    {
+      "name": "山水画",
+      "type": "画作",
+      "bbox": [410, 285, 465, 465],
+      "description": "一幅较小的画作，画面内容较为模糊，但可见自然或风景主题的轮廓。",
+      "id": "EX-002"
+    },
+    {
+      "name": "抽象画",
+      "type": "画作",
+      "bbox": [475, 295, 515, 400],
+      "description": "一幅竖向排列的画作，画面细节不清晰，可能为抽象或极简风格作品。",
+      "id": "EX-003"
+    },
+    {
+      "name": "森林建筑图",
+      "type": "画作",
+      "bbox": [540, 310, 740, 590],
+      "description": "一幅横向的画作，描绘了类似森林或建筑结构的暗色图像，具有神秘感。",
+      "id": "EX-004"
+    },
+    {
+      "name": "生物形态抽象雕塑",
+      "type": "雕塑",
+      "bbox": [750, 410, 845, 520],
+      "description": "一件置于白色展台上的抽象雕塑，外形独特，带有动物或生物形态的特征。",
+      "id": "EX-005"
+    },
+    {
+      "name": "剪影人物图",
+      "type": "画作",
+      "bbox": [890, 250, 1250, 620],
+      "description": "一幅大型摄影作品，展示了一个剪影人物站在草地上，背景是蓝色天空，充满诗意。",
+      "id": "EX-006"
+    }
+  ],
+  "gaze_records": [
+    {"x": 166, "y": 357, "duration": 48.66, "exhibit_id": "EX-000", "exhibit_name": "绿韵静思图", "attention_level": "B", "sequence": 1},
+    {"x": 337, "y": 342, "duration": 70.23, "exhibit_id": "EX-001", "exhibit_name": "几何拼贴肖像", "attention_level": "A", "sequence": 2},
+    {"x": 437, "y": 375, "duration": 7.12, "exhibit_id": "EX-002", "exhibit_name": "山水画", "attention_level": "E", "sequence": 3},
+    {"x": 495, "y": 347, "duration": 62.93, "exhibit_id": "EX-003", "exhibit_name": "抽象画", "attention_level": "B", "sequence": 4},
+    {"x": 640, "y": 450, "duration": 13.09, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "D", "sequence": 5},
+    {"x": 797, "y": 465, "duration": 3.09, "exhibit_id": "EX-005", "exhibit_name": "生物形态抽象雕塑", "attention_level": "E", "sequence": 6},
+    {"x": 1070, "y": 435, "duration": 7.48, "exhibit_id": "EX-006", "exhibit_name": "剪影人物图", "attention_level": "E", "sequence": 7},
+    {"x": 815, "y": 480, "duration": 48.12, "exhibit_id": "EX-005", "exhibit_name": "生物形态抽象雕塑", "attention_level": "B", "sequence": 8},
+    {"x": 1150, "y": 400, "duration": 11.54, "exhibit_id": "EX-006", "exhibit_name": "剪影人物图", "attention_level": "D", "sequence": 9},
+    {"x": 780, "y": 500, "duration": 43.91, "exhibit_id": "EX-005", "exhibit_name": "生物形态抽象雕塑", "attention_level": "B", "sequence": 10},
+    {"x": 437, "y": 375, "duration": 59.72, "exhibit_id": "EX-002", "exhibit_name": "山水画", "attention_level": "B", "sequence": 11},
+    {"x": 790, "y": 470, "duration": 7.31, "exhibit_id": "EX-005", "exhibit_name": "生物形态抽象雕塑", "attention_level": "E", "sequence": 12},
+    {"x": 825, "y": 515, "duration": 59.39, "exhibit_id": "EX-005", "exhibit_name": "生物形态抽象雕塑", "attention_level": "B", "sequence": 13},
+    {"x": 640, "y": 450, "duration": 79.10, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "B", "sequence": 14},
+    {"x": 495, "y": 347, "duration": 41.21, "exhibit_id": "EX-003", "exhibit_name": "抽象画", "attention_level": "C", "sequence": 15},
+    {"x": 620, "y": 420, "duration": 45.64, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "B", "sequence": 16},
+    {"x": 166, "y": 357, "duration": 6.14, "exhibit_id": "EX-000", "exhibit_name": "绿韵静思图", "attention_level": "E", "sequence": 17},
+    {"x": 640, "y": 450, "duration": 19.67, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "D", "sequence": 18},
+    {"x": 640, "y": 450, "duration": 149.31, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "A", "sequence": 19},
+    {"x": 166, "y": 357, "duration": 21.93, "exhibit_id": "EX-000", "exhibit_name": "绿韵静思图", "attention_level": "D", "sequence": 20},
+    {"x": 337, "y": 342, "duration": 12.08, "exhibit_id": "EX-001", "exhibit_name": "几何拼贴肖像", "attention_level": "D", "sequence": 21},
+    {"x": 495, "y": 347, "duration": 18.68, "exhibit_id": "EX-003", "exhibit_name": "抽象画", "attention_level": "D", "sequence": 22},
+    {"x": 495, "y": 347, "duration": 15.86, "exhibit_id": "EX-003", "exhibit_name": "抽象画", "attention_level": "D", "sequence": 23},
+    {"x": 640, "y": 450, "duration": 72.96, "exhibit_id": "EX-004", "exhibit_name": "森林建筑图", "attention_level": "B", "sequence": 24},
+    {"x": 495, "y": 347, "duration": 64.38, "exhibit_id": "EX-003", "exhibit_name": "抽象画", "attention_level": "B", "sequence": 25}
+  ],
+  "heatmap_statistics": {},
+  "trajectory_statistics": {}
+}

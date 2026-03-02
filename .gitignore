@@ -60,3 +60,14 @@ sam2/checkpoints/*.pt
 # Environment variables - already in .gitignore
 .env
 
+# Web / Node.js
+web/node_modules/
+web/dist/
+web/.vite/
+web/build/
+web/.cache/
+web/data/uploads/*
+web/data/outputs/*
+!web/data/uploads/.gitkeep
+!web/data/outputs/.gitkeep
+
