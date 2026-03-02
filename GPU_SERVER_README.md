@@ -21,11 +21,26 @@
 ## 安装依赖
 
 ```bash
-# 安装 SAM2
-pip install git+https://github.com/facebookresearch/segment-anything-2.git
+# 克隆 SAM2 仓库 (如果还没有)
+git clone https://github.com/facebookresearch/segment-anything-2.git sam2
 
-# 安装其他依赖
-pip install numpy matplotlib pillow scipy torch opencv-python
+# 安装 SAM2 及其依赖
+pip install -e segment-anything-2
+
+# 或者手动安装所有依赖
+pip install git+https://github.com/facebookresearch/segment-anything-2.git
+pip install opencv-python matplotlib pillow scipy torch
+```
+
+**必需的依赖包**：
+```
+sam2 (from segment-anything-2)
+opencv-python
+matplotlib
+pillow
+scipy
+torch
+numpy
 ```
 
 ## SAM2 模型
@@ -40,6 +55,21 @@ pip install numpy matplotlib pillow scipy torch opencv-python
 mkdir -p /home/g/models/iros_agent/models/sam2/
 wget https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2.1_hiera_small.pt \
      -O /home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt
+```
+
+## 项目结构
+
+```
+/path/to/iros_agent/
+├── sam2/                    # SAM2 代码库
+│   ├── configs/
+│   └── sam2/
+├── scripts/
+│   └── generate_paper_figure_gpu.py
+├── data/
+│   ├── test1.jpg
+│   └── test2.jpg
+└── run_gpu.sh
 ```
 
 ## 运行方式
@@ -57,7 +87,7 @@ chmod +x run_gpu.sh
 # 基本用法
 python scripts/generate_paper_figure_gpu.py \
     --image data/test1.jpg \
-    --output data/outputs/paper_figure_test1.png
+    --output data/outputs/test1/paper_figure.png
 
 # 自定义参数
 python scripts/generate_paper_figure_gpu.py \
@@ -83,11 +113,14 @@ python scripts/generate_paper_figure_gpu.py \
 
 ```
 data/outputs/
-├── paper_figure_XXX.png           # 四宫格图表
-├── paper_figure_XXX_mask.png      # SAM2 分割掩码 (黑色背景)
-├── paper_figure_XXX_mask_outline.png  # 分割轮廓 (叠加原图)
-├── paper_figure_XXX_heatmap.png   # 预测热力图
-└── paper_figure_XXX_trajectory.png # 预测轨迹图
+├── test1/
+│   ├── paper_figure.png           # 四宫格图表
+│   ├── paper_figure_mask.png      # SAM2 分割掩码 (黑色背景)
+│   ├── paper_figure_mask_outline.png  # 分割轮廓 (叠加原图)
+│   ├── paper_figure_heatmap.png   # 预测热力图
+│   └── paper_figure_trajectory.png # 预测轨迹图
+└── test2/
+    └── ...
 ```
 
 ## 模型说明
@@ -119,3 +152,28 @@ data/outputs/
 2. 考虑中心偏置奖励
 3. 按空间位置排序（从左到右，从上到下）
 4. 预测注视时长（基于显著性和区域大小）
+
+## 故障排查
+
+### ModuleNotFoundError: No module named 'hydra'
+
+```bash
+pip install hydra-core
+pip install -e segment-anything-2
+```
+
+### CUDA out of memory
+
+降低 `points_per_side` 参数：
+```bash
+python scripts/generate_paper_figure_gpu.py \
+    --image data/test1.jpg \
+    --points-per-side 16  # 降低采样密度
+```
+
+### SAM2 模型未找到
+
+检查模型路径：
+```bash
+ls -lh /home/g/models/iros_agent/models/sam2/
+```
