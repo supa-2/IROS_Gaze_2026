@@ -169,8 +169,17 @@ class BaseModelEvaluator:
         self.total_time = 0
         self.num_requests = 0
 
-    def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Dict[str, float]:
-        """获取概率分布（支持重试）"""
+        # 保存原始输出
+        self.raw_outputs = {}  # {current: {"raw": str, "parsed": dict or None, "success": bool}}
+        self.failed_samples = []  # 解析失败的样本列表
+
+    def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Optional[Dict[str, float]]:
+        """
+        获取概率分布
+
+        Returns:
+            成功返回概率分布字典，失败返回 None（不使用默认值）
+        """
         features = EXHIBIT_FEATURES.get(current, "")
         neighbors = TOPOLOGY_ADJACENCY.get(current, [])
 
@@ -199,11 +208,15 @@ class BaseModelEvaluator:
                 elapsed = time.time() - start_time
                 result = response.choices[0].message.content.strip()
 
-                # 追踪 token 和时间（只在第一次成功时记录）
-                if retry == 0:
+                # 追踪 token 和时间（只在第一次调用时记录）
+                if current not in self.raw_outputs:
                     self.total_input_tokens += response.usage.prompt_tokens
                     self.total_output_tokens += response.usage.completion_tokens
                     self.total_time += elapsed
+
+                # 保存原始输出
+                if current not in self.raw_outputs:
+                    self.raw_outputs[current] = {"raw": result, "candidates": candidates, "retries": retry}
 
                 # 解析JSON
                 import re
@@ -222,24 +235,23 @@ class BaseModelEvaluator:
                         total = sum(dist.values())
                         if total > 0:
                             self.num_requests += 1
+                            self.raw_outputs[current]["parsed"] = dist
+                            self.raw_outputs[current]["success"] = True
                             return {k: v/total for k, v in dist.items()}
-                        else:
-                            print(f"    [RETRY {retry+1}] {current} -> 概率和为0")
-                    else:
-                        print(f"    [RETRY {retry+1}] {current} -> 无predictions，返回: {result[:80]}")
-                else:
-                    print(f"    [RETRY {retry+1}] {current} -> JSON解析失败，返回: {result[:80]}")
 
-                # 重试：调整 prompt
+                # 重试
                 if retry < max_retries - 1:
                     prompt += "\n\n请直接返回JSON格式，不要有其他文字说明。"
 
             except Exception as e:
-                print(f"    [RETRY {retry+1}] {current} -> 错误: {e}")
+                print(f"    [ERROR] {current} -> {e}")
 
-        # 所有重试都失败，使用均匀分布
-        print(f"    [FAILED] {current} -> 使用均匀分布（已重试{max_retries}次）")
-        return {c: 1.0/len(candidates) for c in candidates}
+        # 所有重试都失败
+        self.raw_outputs[current]["parsed"] = None
+        self.raw_outputs[current]["success"] = False
+        self.failed_samples.append(current)
+        print(f"    [FAILED] {current} -> 解析失败（已重试{max_retries}次）")
+        return None  # 返回 None 而非默认值
 
     def get_efficiency_stats(self) -> Dict:
         return {
@@ -381,10 +393,16 @@ class FullComparisonRunner:
         top1_correct = 0
         top3_correct = 0
         top_total = 0
+        failed_count = 0  # 解析失败的样本数
 
         for current, real_dist in self.real_distributions.items():
             candidates = list(real_dist.keys())
             model_dist = method.get_distribution(current, candidates)
+
+            # 如果返回 None，说明解析失败，跳过
+            if model_dist is None:
+                failed_count += 1
+                continue
 
             try:
                 kl = kl_divergence(real_dist, model_dist)
@@ -405,6 +423,12 @@ class FullComparisonRunner:
             candidates = list(self.real_distributions[current].keys())
 
             model_dist = method.get_distribution(current, candidates)
+
+            # 如果返回 None，跳过此样本
+            if model_dist is None:
+                failed_count += 1
+                continue
+
             sorted_preds = sorted(model_dist.items(), key=lambda x: -x[1])
 
             if sorted_preds and sorted_preds[0][0] == actual_next:
@@ -423,7 +447,9 @@ class FullComparisonRunner:
             'js_divergence': np.mean(js_divs) if js_divs else 0,
             'correlation': np.mean(corrs) if corrs else 0,
             'num_evaluated': len(kl_divs),
-            'num_top_eval': top_total
+            'num_top_eval': top_total,
+            'failed_samples': failed_count,
+            'success_rate': (len(self.real_distributions) - failed_count) / len(self.real_distributions) if self.real_distributions else 0
         }
 
     def load_ablation_results(self) -> Dict:
@@ -512,6 +538,7 @@ class FullComparisonRunner:
         print(f"测试样本数: {len(self.test_data)}")
 
         results = {}
+        raw_outputs = None
 
         # 1. 加载已有的闭源模型结果
         print("\n[*] Loading: 已有对照实验结果...")
@@ -525,15 +552,21 @@ class FullComparisonRunner:
         base_model = BaseModelEvaluator(self.base_url)
         results['Base Model (4bit)'] = self.evaluate_method(base_model)
         results['Base Model (4bit)'].update(base_model.get_efficiency_stats())
+        raw_outputs = base_model.raw_outputs
         self._print_result('Base Model (4bit)', results['Base Model (4bit)'])
+
+        # 打印解析失败统计
+        if hasattr(base_model, 'failed_samples') and base_model.failed_samples:
+            print(f"    [!] 解析失败的样本: {len(base_model.failed_samples)} 个")
+            print(f"    [!] 成功率: {results['Base Model (4bit)'].get('success_rate', 0):.1%}")
 
         # 3. Ours (消融实验结果)
         print("\n[*] Loading: Ours (Fine-tuned) from ablation results...")
         results['Ours (Fine-tuned)'] = self.load_ablation_results()
         self._print_result('Ours (Fine-tuned)', results['Ours (Fine-tuned)'])
 
-        # 保存结果
-        self._save_results(results)
+        # 保存结果（包含原始输出）
+        self._save_results(results, raw_outputs)
         self._print_comparison_table(results)
 
         return results
@@ -550,7 +583,7 @@ class FullComparisonRunner:
             print(f"    平均响应时间: {result['avg_time']:.2f}s")
             print(f"    Token消耗: {result['total_tokens']} (输入={result['total_input_tokens']}, 输出={result['total_output_tokens']})")
 
-    def _save_results(self, results: Dict):
+    def _save_results(self, results: Dict, raw_outputs: Dict = None):
         """保存结果"""
         output_dir = Path(project_root) / "data" / "outputs" / "baselines"
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -558,8 +591,13 @@ class FullComparisonRunner:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_path = output_dir / f"full_comparison_{timestamp}.json"
 
+        # 如果有原始输出，一起保存
+        save_data = results.copy()
+        if raw_outputs:
+            save_data['raw_outputs'] = raw_outputs
+
         with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, ensure_ascii=False)
+            json.dump(save_data, f, indent=2, ensure_ascii=False)
 
         print(f"\n[+] Results saved to {output_path}")
 
