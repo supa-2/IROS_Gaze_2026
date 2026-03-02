@@ -38,9 +38,8 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# 配置 SAM2 模型路径（相对路径）
+# 配置 SAM2 模型路径
 SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', 'models/sam2/sam2_hiera_small.pt')
-SAM2_CONFIG_NAME = os.environ.get('SAM2_CONFIG_NAME', 'sam2.1_hiera_s')  # 配置名称，不是文件路径
 
 
 # ==================== SAM2 自动分割 ====================
@@ -48,14 +47,12 @@ SAM2_CONFIG_NAME = os.environ.get('SAM2_CONFIG_NAME', 'sam2.1_hiera_s')  # 配�
 class SAM2Segmenter:
     """SAM2 自动分割器 - 分割所有展品和展板"""
 
-    def __init__(self, model_path=None, config_name=None, device='cuda'):
+    def __init__(self, model_path=None, device='cuda'):
         self.model_path = model_path or SAM2_MODEL_PATH
-        self.config_name = config_name or SAM2_CONFIG_NAME
         self.device = device
 
         print(f"[*] 初始化 SAM2...")
         print(f"    模型: {self.model_path}")
-        print(f"    配置: {self.config_name}")
         print(f"    设备: {self.device}")
 
         if not os.path.exists(self.model_path):
@@ -67,19 +64,61 @@ class SAM2Segmenter:
             sys.path.insert(0, sam2_path)
 
         try:
-            from sam2.build_sam import build_sam2
+            from sam2.sam2_image_predictor import SAM2ImagePredictor
 
-            # 构建模型 - config_name 只需要名称，不需要 .yaml 扩展
-            model = build_sam2(
-                config_file=self.config_name,
-                ckpt_path=self.model_path,
-                device=self.device
-            )
-            self.model = model
+            # 直接从 checkpoint 加载模型
+            checkpoint = torch.load(self.model_path, map_location=self.device)
+
+            # 获取模型配置
+            if 'model_cfg' in checkpoint:
+                model_cfg = checkpoint['model_cfg']
+            else:
+                # 使用默认配置
+                model_cfg = {
+                    'image_encoder': dict(
+                        embed_dim=96,
+                        depth=12,
+                        num_heads=6,
+                        mlp_ratio=2,
+                        patch_size=16,
+                        qkv_bias=True,
+                        norm_layer='ln',
+                        # small model config
+                    ),
+                    'memory_encoder': dict(
+                        embed_dim=96,
+                        depth=6,
+                        num_heads=6,
+                        mlp_ratio=2,
+                        patch_size=16,
+                        qkv_bias=True,
+                        norm_layer='ln',
+                    ),
+                    'memory_attention': dict(
+                        depth=6,
+                        num_heads=6,
+                        mlp_ratio=2,
+                        qkv_bias=True,
+                        norm_layer='ln',
+                    ),
+                }
+
+            # 创建预测器
+            self.predictor = SAM2ImagePredictor(model_cfg, self.device)
+            self.predictor.model.load_state_dict(checkpoint['model_state_dict'])
             print("[+] SAM2 加载成功")
 
-        except ImportError as e:
-            raise RuntimeError(f"SAM2 导入失败: {e}")
+        except Exception as e:
+            print(f"[!] SAM2 加载失败: {e}")
+            # 尝试使用 build_sam2 作为备选
+            try:
+                from sam2.build_sam import build_sam2
+                model = build_sam2("sam2.1_hiera_s", ckpt_path=self.model_path, device=self.device)
+                from sam2.sam2_image_predictor import SAM2ImagePredictor
+                self.predictor = SAM2ImagePredictor(model, device=self.device)
+                print("[+] SAM2 加载成功 (使用 build_sam2)")
+            except Exception as e2:
+                raise RuntimeError(f"SAM2 加载完全失败: {e}, {e2}")
 
     def auto_segment_all(self, image_path,
                         points_per_side=32,
@@ -89,17 +128,6 @@ class SAM2Segmenter:
                         max_mask_region_area=500000):
         """
         自动分割图像中的所有区域（展品、展板等）
-
-        Args:
-            image_path: 图像路径
-            points_per_side: 采样点密度，越高越精细
-            pred_iou_thresh: 预测IoU阈值
-            stability_score_thresh: 稳定性分数阈值
-            min_mask_region_area: 最小区域面积
-            max_mask_region_area: 最大区域面积
-
-        Returns:
-            masks_data: 掩码数据列表
         """
         from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
 
@@ -114,7 +142,7 @@ class SAM2Segmenter:
 
         # 创建自动分割器
         mask_generator = SAM2AutomaticMaskGenerator(
-            model=self.model,
+            model=self.predictor.model,
             points_per_side=points_per_side,
             pred_iou_thresh=pred_iou_thresh,
             stability_score_thresh=stability_score_thresh,
@@ -132,7 +160,6 @@ class SAM2Segmenter:
         for mask_data in masks:
             area = mask_data.get('area', 0)
             if min_mask_region_area <= area <= max_mask_region_area:
-                # 检查掩码质量
                 score = mask_data.get('predicted_iou', 0)
                 if score > pred_iou_thresh:
                     valid_masks.append(mask_data)
@@ -144,14 +171,7 @@ class SAM2Segmenter:
         return valid_masks, image_np
 
     def create_segmentation_visualization(self, image_np, masks_data, output_path):
-        """
-        创建分割掩码可视化 - 黑色背景 + 彩色掩码
-
-        Args:
-            image_np: 原图numpy数组
-            masks_data: SAM2 分割掩码数据
-            output_path: 输出路径
-        """
+        """创建分割掩码可视化 - 黑色背景 + 彩色掩码"""
         height, width = image_np.shape[:2]
 
         # 创建黑色背景
@@ -164,8 +184,6 @@ class SAM2Segmenter:
         # 绘制每个掩码
         for i, mask_data in enumerate(masks_data):
             mask = mask_data.get('segmentation')
-            area = mask_data.get('area', 0)
-            score = mask_data.get('predicted_iou', 0)
 
             # 选择颜色
             color_idx = i % 10
@@ -173,14 +191,13 @@ class SAM2Segmenter:
 
             # 创建彩色掩码（带透明度）
             colored_mask = np.zeros((*mask.shape, 4))
-            colored_mask[mask] = [*color[:3], 0.85]  # 高透明度
+            colored_mask[mask] = [*color[:3], 0.85]
             ax.imshow(colored_mask, interpolation='none')
 
             # 获取边界框
-            bbox = mask_data.get('bbox', [])  # [x, y, w, h]
+            bbox = mask_data.get('bbox', [])
             if len(bbox) == 4:
                 x, y, w, h = bbox
-                # 添加编号标签
                 ax.text(x, y-10 if y > 20 else y+h+20, str(i+1),
                        color='white', fontsize=max(8, min(12, w//5)),
                        fontweight='bold',
@@ -188,7 +205,7 @@ class SAM2Segmenter:
                                 facecolor='black', edgecolor='white', alpha=0.8))
 
         ax.set_xlim(0, width)
-        ax.set_ylim(height, 0)  # 反转y轴
+        ax.set_ylim(height, 0)
         ax.axis('off')
         plt.tight_layout()
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -197,27 +214,22 @@ class SAM2Segmenter:
         plt.close()
         print(f"[+] 保存 SAM2 分割图: {output_path}")
 
-        # 同时创建带轮廓的版本（叠加在原图上）
+        # 轮廓版本
         output_outline = output_path.replace('.png', '_outline.png')
         fig, ax = plt.subplots(figsize=(width/100, height/100))
         ax.imshow(image_np)
 
         for i, mask_data in enumerate(masks_data):
             mask = mask_data.get('segmentation')
-            color_idx = i % 10
-            color = colors[color_idx]
+            color = colors[i % 10]
 
-            # 只绘制轮廓
-            import cv2
             mask_uint8 = mask.astype(np.uint8) * 255
             contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             for contour in contours:
-                # 简化轮廓
                 epsilon = 0.002 * cv2.arcLength(contour, True)
                 approx = cv2.approxPolyDP(contour, epsilon, True)
 
-                # 绘制轮廓
                 for j in range(len(approx)):
                     pt1 = tuple(approx[j][0].tolist())
                     pt2 = tuple(approx[(j+1) % len(approx)][0].tolist())
@@ -234,56 +246,43 @@ class SAM2Segmenter:
 # ==================== 视觉显著性预测 ====================
 
 def predict_saliency_heatmap(image_path, output_path, sigma=30):
-    """
-    基于视觉显著性模型预测热力图
-
-    使用多种视觉特征：
-    - 亮度对比
-    - 颜色对比
-    - 边缘密度
-    - 中心偏置（center bias）
-
-    Args:
-        image_path: 图像路径
-        output_path: 输出路径
-        sigma: 高斯模糊标准差
-    """
+    """基于视觉显著性模型预测热力图"""
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     height, width = image.shape[:2]
 
     print("\n[*] 计算视觉显著性...")
 
-    # 1. 转换到Lab颜色空间
+    # 1. Lab颜色空间
     lab = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
     l_channel = lab[:, :, 0].astype(np.float32)
     a_channel = lab[:, :, 1].astype(np.float32)
     b_channel = lab[:, :, 2].astype(np.float32)
 
-    # 2. 计算亮度对比（使用高斯差分）
+    # 2. 亮度对比
     g1 = cv2.GaussianBlur(l_channel, (0, 0), 5)
     g2 = cv2.GaussianBlur(l_channel, (0, 0), 20)
     brightness_contrast = np.abs(g1 - g2)
 
-    # 3. 计算颜色对比
+    # 3. 颜色对比
     a_blur = cv2.GaussianBlur(a_channel, (0, 0), 10)
     b_blur = cv2.GaussianBlur(b_channel, (0, 0), 10)
     color_contrast = np.sqrt(
         (a_channel - a_blur) ** 2 + (b_channel - b_blur) ** 2
     )
 
-    # 4. 计算边缘密度
+    # 4. 边缘密度
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     edges = cv2.Canny(gray, 50, 150)
     edges = cv2.GaussianBlur(edges.astype(np.float32), (0, 0), 5)
     edges = edges / edges.max() if edges.max() > 0 else edges
 
-    # 5. 中心偏置（人们倾向于看图像中心）
+    # 5. 中心偏置
     cy, cx = height // 2, width // 2
     y, x = np.mgrid[:height, :width]
     center_bias = np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * (min(height, width) / 3) ** 2))
 
-    # 6. 组合所有特征
+    # 6. 组合
     saliency = (
         brightness_contrast * 0.3 +
         color_contrast * 0.3 +
@@ -291,7 +290,7 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
         center_bias * 0.2
     )
 
-    # 7. 高斯模糊平滑
+    # 7. 高斯模糊
     saliency = gaussian_filter(saliency, sigma=sigma)
 
     # 8. 归一化
@@ -302,18 +301,14 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
     img_pil = Image.open(image_path).convert('RGB')
     img_array = np.array(img_pil)
 
-    # 创建热力图颜色
     colormap = plt.get_cmap('jet')
     colored_heatmap = colormap(saliency)
 
-    # 叠加
     alpha = 0.6
     result_array = img_array * (1 - alpha) + colored_heatmap[:, :, :3] * 255 * alpha
     result_array = np.clip(result_array, 0, 255).astype(np.uint8)
 
     # 保存
-    result_img = Image.fromarray(result_array)
-
     fig, axes = plt.subplots(1, 2, figsize=(width/100 + 3, height/100))
     axes[0].imshow(img_array)
     axes[0].set_title('Original', fontsize=12, fontweight='bold')
@@ -334,21 +329,7 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
 # ==================== 扫描路径预测 ====================
 
 def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fixations=10):
-    """
-    基于显著性和分割结果预测扫描路径
-
-    策略：
-    1. 从最显著的非重叠区域开始
-    2. 依次选择下一个最显著的区域
-    3. 考虑中心偏置和距离惩罚
-
-    Args:
-        image_path: 图像路径
-        saliency_map: 显著性图
-        masks_data: SAM2 分割掩码
-        output_path: 输出路径
-        num_fixations: 预测的注视点数量
-    """
+    """基于显著性和分割结果预测扫描路径"""
     image = Image.open(image_path).convert('RGB')
     img_array = np.array(image)
     height, width = image.shape[:2]
@@ -359,19 +340,16 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     mask_scores = []
     for i, mask_data in enumerate(masks_data):
         mask = mask_data.get('segmentation')
-        bbox = mask_data.get('bbox', [])  # [x, y, w, h]
+        bbox = mask_data.get('bbox', [])
 
-        # 计算掩码区域内的平均显著性
         mean_saliency = saliency_map[mask].mean()
 
-        # 计算中心偏置奖励
         x, y, w, h = bbox
         cx, cy = x + w/2, y + h/2
         img_cx, img_cy = width/2, height/2
         dist_to_center = np.sqrt((cx - img_cx)**2 + (cy - img_cy)**2)
         center_bias = np.exp(-dist_to_center / (min(width, height) / 2))
 
-        # 综合分数
         score = mean_saliency * 0.7 + center_bias * 0.3
 
         mask_scores.append({
@@ -385,37 +363,32 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     # 按分数排序
     mask_scores.sort(key=lambda x: x['score'], reverse=True)
 
-    # 选择前 N 个作为注视点
+    # 选择前 N 个
     fixations = mask_scores[:num_fixations]
 
-    # 按照合理的扫描顺序重新排序（从左到右，从上到下，有一定的跳跃）
-    # 这里使用简化的扫描策略：基于x坐标和y坐标的加权排序
+    # 按扫描顺序排序
     def scan_order_key(fix):
         cx, cy = fix['center']
-        # 优先考虑从左到右，同时考虑从上到下
         return cx * 0.7 + cy * 0.3
 
     fixations.sort(key=scan_order_key)
 
-    # 重新分配序列号
     for i, fix in enumerate(fixations):
         fix['sequence'] = i + 1
-        # 预测注视时长（基于显著性和面积）
-        base_duration = 30  # 基础时长
+        base_duration = 30
         duration = base_duration * (0.5 + fix['score']) * (1 + np.log(fix['area'] / 1000 + 1) * 0.2)
-        fix['duration'] = min(duration, 200)  # 最大200秒
+        fix['duration'] = min(duration, 200)
 
-    # 绘制轨迹图
+    # 绘制
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(img_array)
 
-    # 绘制所有分割区域的轮廓（淡色）
+    # 绘制轮廓
     colors = plt.cm.tab10(np.linspace(0, 1, len(masks_data)))
-    for i, mask_data in enumerate(masks_data[:15]):  # 只显示前15个
+    for i, mask_data in enumerate(masks_data[:15]):
         mask = mask_data.get('segmentation')
         color = colors[i % 10]
 
-        # 简化轮廓绘制
         mask_uint8 = mask.astype(np.uint8) * 255
         contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for contour in contours:
@@ -428,31 +401,25 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
 
     # 绘制扫描路径
     if len(fixations) > 1:
-        # 连线
         path_x = [f['center'][0] for f in fixations]
         path_y = [f['center'][1] for f in fixations]
         ax.plot(path_x, path_y, color='yellow', linewidth=3, alpha=0.9,
                linestyle='-', marker='', zorder=2)
 
-    # 绘制注视点
     for fix in fixations:
         cx, cy = fix['center']
         duration = fix['duration']
         seq = fix['sequence']
 
-        # 根据时长确定大小
         radius = max(15, min(45, int(duration / 4)))
 
-        # 绘制圆点
         circle = MplCircle((cx, cy), radius, facecolor='orange',
                           edgecolor='white', linewidth=3, alpha=0.95, zorder=3)
         ax.add_patch(circle)
 
-        # 绘制编号
         ax.text(cx, cy, str(seq), color='black', fontsize=12, fontweight='bold',
                 ha='center', va='center', zorder=4)
 
-    # 添加标题
     ax.text(10, 20, f'Predicted Scan Path ({len(fixations)} fixations)',
            color='white', fontsize=14, fontweight='bold',
            bbox=dict(boxstyle='round,pad=0.5', facecolor='black', alpha=0.7))
@@ -473,20 +440,17 @@ def create_paper_figure(
     image_path,
     output_path,
     sam2_model_path=None,
-    sam2_config_name=None,
     num_fixations=10,
     points_per_side=32
 ):
     """生成论文用四宫格图表"""
 
-    # 检查 CUDA
     if not torch.cuda.is_available():
         print("[!] CUDA 不可用")
         return False
 
     print(f"\n[*] 处理图像: {image_path}")
 
-    # 创建输出目录
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
 
     # ========== 1. 读取原图 ==========
@@ -500,10 +464,7 @@ def create_paper_figure(
     print("步骤 (b): SAM2 自动分割")
     print("="*60)
 
-    segmenter = SAM2Segmenter(
-        model_path=sam2_model_path,
-        config_name=sam2_config_name
-    )
+    segmenter = SAM2Segmenter(model_path=sam2_model_path)
 
     masks_data, _ = segmenter.auto_segment_all(
         image_path,
@@ -539,22 +500,18 @@ def create_paper_figure(
 
     fig, axes = plt.subplots(1, 4, figsize=(14, 3.5))
 
-    # (a) 原图
     axes[0].imshow(original_img)
     axes[0].set_title('(a)', fontsize=14, fontweight='bold')
     axes[0].axis('off')
 
-    # (b) 分割掩码图
     axes[1].imshow(mask_img)
     axes[1].set_title('(b)', fontsize=14, fontweight='bold')
     axes[1].axis('off')
 
-    # (c) 热力图
     axes[2].imshow(heatmap_img)
     axes[2].set_title('(c)', fontsize=14, fontweight='bold')
     axes[2].axis('off')
 
-    # (d) 轨迹图
     axes[3].imshow(trajectory_img)
     axes[3].set_title('(d)', fontsize=14, fontweight='bold')
     axes[3].axis('off')
@@ -562,17 +519,15 @@ def create_paper_figure(
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.02)
 
-    # 保存
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"\n[+] 保存四宫格图表: {output_path}")
 
-    # 打印分割结果统计
     print("\n" + "=" * 80)
     print("分割区域统计")
     print("=" * 80)
     print(f"{'ID':<5} {'Area':<10} {'Score':<10}")
     print("-" * 80)
-    for i, mask_data in enumerate(masks_data[:15]):  # 只显示前15个
+    for i, mask_data in enumerate(masks_data[:15]):
         area = mask_data.get('area', 0)
         score = mask_data.get('predicted_iou', 0)
         print(f"{i+1:<5} {area:<10} {score:.3f}")
@@ -593,11 +548,8 @@ def main():
                        default='data/outputs/paper_figure_predicted.png',
                        help='输出路径')
     parser.add_argument('--sam2-model', type=str,
-                       default='/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt',
+                       default='models/sam2/sam2_hiera_small.pt',
                        help='SAM2 模型路径')
-    parser.add_argument('--sam2-config', type=str,
-                       default='sam2/configs/sam2.1/sam2.1_hiera_s.yaml',
-                       help='SAM2 配置路径')
     parser.add_argument('--num-fixations', type=int, default=10,
                        help='预测注视点数量')
     parser.add_argument('--points-per-side', type=int, default=32,
@@ -609,7 +561,6 @@ def main():
         print(f"[!] 图像不存在: {args.image}")
         return
 
-    # 检查 CUDA
     if torch.cuda.is_available():
         print(f"[+] CUDA 可用: {torch.cuda.get_device_name(0)}")
         print(f"    显存: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
@@ -630,7 +581,6 @@ def main():
         image_path=args.image,
         output_path=args.output,
         sam2_model_path=args.sam2_model,
-        sam2_config_name=args.sam2_config,
         num_fixations=args.num_fixations,
         points_per_side=args.points_per_side
     )
