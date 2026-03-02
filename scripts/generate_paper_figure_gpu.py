@@ -5,9 +5,9 @@
 
 生成四宫格图表：
 - (a) 原图
-- (b) SAM2 分割掩码（精细分割）
-- (c) 热力图（基于眼动数据）
-- (d) 轨迹图（基于眼动数据）
+- (b) SAM2 自动分割掩码（精细分割所有展品和展板）
+- (c) 热力图（基于视觉显著性模型预测）
+- (d) 轨迹图（基于扫描路径模型预测）
 
 依赖:
 - SAM2 模型
@@ -26,6 +26,7 @@ from matplotlib.patches import Circle as MplCircle, Rectangle
 from matplotlib import rcParams
 from scipy.ndimage import gaussian_filter
 import torch
+import cv2
 
 # Times New Roman 字体
 rcParams['font.family'] = 'serif'
@@ -42,10 +43,10 @@ SAM2_MODEL_PATH = os.environ.get('SAM2_MODEL_PATH', '/home/g/models/iros_agent/m
 SAM2_CONFIG_PATH = os.environ.get('SAM2_CONFIG_PATH', 'sam2/configs/sam2.1/sam2.1_hiera_s.yaml')
 
 
-# ==================== SAM2 分割 ====================
+# ==================== SAM2 自动分割 ====================
 
 class SAM2Segmenter:
-    """SAM2 分割器"""
+    """SAM2 自动分割器 - 分割所有展品和展板"""
 
     def __init__(self, model_path=None, config_path=None, device='cuda'):
         self.model_path = model_path or SAM2_MODEL_PATH
@@ -67,7 +68,6 @@ class SAM2Segmenter:
 
         try:
             from sam2.build_sam import build_sam2
-            from sam2.sam2_image_predictor import SAM2ImagePredictor
 
             # 构建模型
             model = build_sam2(
@@ -75,313 +75,468 @@ class SAM2Segmenter:
                 ckpt_path=self.model_path,
                 device=self.device
             )
-            self.predictor = SAM2ImagePredictor(model, device=self.device)
+            self.model = model
             print("[+] SAM2 加载成功")
 
         except ImportError as e:
-            raise RuntimeError(f"SAM2 导入失败: {e}. 请确保已安装 SAM2: pip install git+https://github.com/facebookresearch/segment-anything-2.git")
+            raise RuntimeError(f"SAM2 导入失败: {e}")
 
-    def segment_exhibits(self, image, bboxes):
+    def auto_segment_all(self, image_path,
+                        points_per_side=32,
+                        pred_iou_thresh=0.88,
+                        stability_score_thresh=0.95,
+                        min_mask_region_area=500,
+                        max_mask_region_area=500000):
         """
-        使用 bbox prompt 分割展品
+        自动分割图像中的所有区域（展品、展板等）
 
         Args:
-            image: PIL Image 或 numpy array
-            bboxes: 展品 bbox 列表 [[x1, y1, x2, y2], ...]
+            image_path: 图像路径
+            points_per_side: 采样点密度，越高越精细
+            pred_iou_thresh: 预测IoU阈值
+            stability_score_thresh: 稳定性分数阈值
+            min_mask_region_area: 最小区域面积
+            max_mask_region_area: 最大区域面积
 
         Returns:
-            分割掩码列表
+            masks_data: 掩码数据列表
         """
-        if isinstance(image, Image.Image):
-            image = np.array(image)
+        from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
 
-        self.predictor.set_image(image)
+        # 读取图像
+        image = Image.open(image_path).convert('RGB')
+        image_np = np.array(image)
+        height, width = image_np.shape[:2]
 
-        masks = []
-        for i, bbox in enumerate(bboxes):
-            x1, y1, x2, y2 = bbox
+        print(f"\n[*] 运行 SAM2 自动分割...")
+        print(f"    图像尺寸: {width}x{height}")
+        print(f"    采样密度: {points_per_side}")
 
-            # 使用 bbox prompt 进行预测
-            pred_masks, scores, _ = self.predictor.predict(
-                box=np.array([x1, y1, x2, y2]),
-                multimask_output=True
-            )
+        # 创建自动分割器
+        mask_generator = SAM2AutomaticMaskGenerator(
+            model=self.model,
+            points_per_side=points_per_side,
+            pred_iou_thresh=pred_iou_thresh,
+            stability_score_thresh=stability_score_thresh,
+            min_mask_region_area=min_mask_region_area,
+            max_mask_region_area=max_mask_region_area,
+            output_mode='binary_mask'
+        )
 
-            # 选择最佳掩码（分数最高的）
-            if len(scores) > 0:
-                best_idx = np.argmax(scores)
-                masks.append({
-                    'mask': pred_masks[best_idx],
-                    'score': float(scores[best_idx]),
-                    'bbox': bbox
-                })
-                print(f"    展品 {i+1}: IoU={scores[best_idx]:.3f}")
+        # 生成掩码
+        masks = mask_generator.generate(image_np)
+        print(f"[+] 发现 {len(masks)} 个区域")
 
-        return masks
+        # 过滤和排序（按面积排序，大的在前）
+        valid_masks = []
+        for mask_data in masks:
+            area = mask_data.get('area', 0)
+            if min_mask_region_area <= area <= max_mask_region_area:
+                # 检查掩码质量
+                score = mask_data.get('predicted_iou', 0)
+                if score > pred_iou_thresh:
+                    valid_masks.append(mask_data)
 
-    def create_segmentation_visualization(self, image, masks, exhibits, output_path):
+        # 按面积降序排序
+        valid_masks.sort(key=lambda x: x.get('area', 0), reverse=True)
+        print(f"[+] 过滤后有效区域: {len(valid_masks)}")
+
+        return valid_masks, image_np
+
+    def create_segmentation_visualization(self, image_np, masks_data, output_path):
         """
-        创建分割掩码可视化
+        创建分割掩码可视化 - 黑色背景 + 彩色掩码
 
         Args:
-            image: 原图
-            masks: SAM2 分割掩码列表
-            exhibits: 展品信息
+            image_np: 原图numpy数组
+            masks_data: SAM2 分割掩码数据
             output_path: 输出路径
         """
-        if isinstance(image, Image.Image):
-            image = np.array(image)
+        height, width = image_np.shape[:2]
 
-        fig, ax = plt.subplots(figsize=(image.shape[1]/100, image.shape[0]/100))
+        # 创建黑色背景
+        fig, ax = plt.subplots(figsize=(width/100, height/100))
+        ax.set_facecolor('black')
 
-        # 显示原图作为背景（灰度）
-        gray_bg = np.mean(image, axis=2)
-        ax.imshow(gray_bg, cmap='gray', alpha=0.3)
+        # 使用tab10配色方案
+        colors = plt.cm.tab10(np.linspace(0, 1, max(10, len(masks_data))))
 
-        # 为每个掩码使用不同颜色
-        colors = plt.cm.tab10(np.linspace(0, 1, len(masks)))
+        # 绘制每个掩码
+        for i, mask_data in enumerate(masks_data):
+            mask = mask_data.get('segmentation')
+            area = mask_data.get('area', 0)
+            score = mask_data.get('predicted_iou', 0)
 
-        for i, (mask_data, ex) in enumerate(zip(masks, exhibits)):
-            mask = mask_data['mask']
+            # 选择颜色
+            color_idx = i % 10
+            color = colors[color_idx]
 
-            # 创建彩色掩码
+            # 创建彩色掩码（带透明度）
             colored_mask = np.zeros((*mask.shape, 4))
-            colored_mask[mask] = [*colors[i][:3], 0.7]  # 半透明
+            colored_mask[mask] = [*color[:3], 0.85]  # 高透明度
+            ax.imshow(colored_mask, interpolation='none')
 
-            ax.imshow(colored_mask)
+            # 获取边界框
+            bbox = mask_data.get('bbox', [])  # [x, y, w, h]
+            if len(bbox) == 4:
+                x, y, w, h = bbox
+                # 添加编号标签
+                ax.text(x, y-10 if y > 20 else y+h+20, str(i+1),
+                       color='white', fontsize=max(8, min(12, w//5)),
+                       fontweight='bold',
+                       bbox=dict(boxstyle='round,pad=0.3',
+                                facecolor='black', edgecolor='white', alpha=0.8))
 
-            # 添加展品ID标签
-            bbox = ex.get('bbox', mask_data['bbox'])
-            x1, y1 = bbox[0], bbox[1]
-            ax.text(x1, y1-15, ex.get('id', f'{i+1}'),
-                   color='white', fontsize=12, fontweight='bold',
-                   bbox=dict(boxstyle='round,pad=0.3', facecolor='black', alpha=0.7))
-
-        ax.set_title('(b)', fontsize=14, fontweight='bold')
+        ax.set_xlim(0, width)
+        ax.set_ylim(height, 0)  # 反转y轴
         ax.axis('off')
         plt.tight_layout()
-        plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+
+        plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='black', pad_inches=0)
         plt.close()
         print(f"[+] 保存 SAM2 分割图: {output_path}")
 
+        # 同时创建带轮廓的版本（叠加在原图上）
+        output_outline = output_path.replace('.png', '_outline.png')
+        fig, ax = plt.subplots(figsize=(width/100, height/100))
+        ax.imshow(image_np)
 
-# ==================== 热力图生成 ====================
+        for i, mask_data in enumerate(masks_data):
+            mask = mask_data.get('segmentation')
+            color_idx = i % 10
+            color = colors[color_idx]
 
-def create_heatmap_on_image(image_path, gaze_records, exhibits, output_path, sigma=50):
-    """在原图上生成热力图"""
-    img = Image.open(image_path).convert("RGB")
-    img_array = np.array(img)
-    height, width = img_array.shape[:2]
+            # 只绘制轮廓
+            import cv2
+            mask_uint8 = mask.astype(np.uint8) * 255
+            contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # 创建热力图数组
-    heatmap = np.zeros((height, width))
+            for contour in contours:
+                # 简化轮廓
+                epsilon = 0.002 * cv2.arcLength(contour, True)
+                approx = cv2.approxPolyDP(contour, epsilon, True)
 
-    # 添加每个注视点的贡献
-    for record in gaze_records:
-        x = int(record.get('x', 0))
-        y = int(record.get('y', 0))
-        duration = record.get('duration', 0)
+                # 绘制轮廓
+                for j in range(len(approx)):
+                    pt1 = tuple(approx[j][0].tolist())
+                    pt2 = tuple(approx[(j+1) % len(approx)][0].tolist())
+                    ax.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]],
+                           color=color, linewidth=2, alpha=0.8)
 
-        if 0 <= x < width and 0 <= y < height:
-            point_heatmap = np.zeros((height, width))
-            point_heatmap[y, x] = duration
-            blurred = gaussian_filter(point_heatmap, sigma=sigma)
-            heatmap += blurred
+        ax.axis('off')
+        plt.tight_layout()
+        plt.savefig(output_outline, dpi=300, bbox_inches='tight', facecolor='white')
+        plt.close()
+        print(f"[+] 保存轮廓图: {output_outline}")
 
-    # 归一化
-    if heatmap.max() > 0:
-        heatmap = heatmap / heatmap.max()
 
-    # 创建颜色映射
+# ==================== 视觉显著性预测 ====================
+
+def predict_saliency_heatmap(image_path, output_path, sigma=30):
+    """
+    基于视觉显著性模型预测热力图
+
+    使用多种视觉特征：
+    - 亮度对比
+    - 颜色对比
+    - 边缘密度
+    - 中心偏置（center bias）
+
+    Args:
+        image_path: 图像路径
+        output_path: 输出路径
+        sigma: 高斯模糊标准差
+    """
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    height, width = image.shape[:2]
+
+    print("\n[*] 计算视觉显著性...")
+
+    # 1. 转换到Lab颜色空间
+    lab = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
+    l_channel = lab[:, :, 0].astype(np.float32)
+    a_channel = lab[:, :, 1].astype(np.float32)
+    b_channel = lab[:, :, 2].astype(np.float32)
+
+    # 2. 计算亮度对比（使用高斯差分）
+    g1 = cv2.GaussianBlur(l_channel, (0, 0), 5)
+    g2 = cv2.GaussianBlur(l_channel, (0, 0), 20)
+    brightness_contrast = np.abs(g1 - g2)
+
+    # 3. 计算颜色对比
+    a_blur = cv2.GaussianBlur(a_channel, (0, 0), 10)
+    b_blur = cv2.GaussianBlur(b_channel, (0, 0), 10)
+    color_contrast = np.sqrt(
+        (a_channel - a_blur) ** 2 + (b_channel - b_blur) ** 2
+    )
+
+    # 4. 计算边缘密度
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    edges = cv2.Canny(gray, 50, 150)
+    edges = cv2.GaussianBlur(edges.astype(np.float32), (0, 0), 5)
+    edges = edges / edges.max() if edges.max() > 0 else edges
+
+    # 5. 中心偏置（人们倾向于看图像中心）
+    cy, cx = height // 2, width // 2
+    y, x = np.mgrid[:height, :width]
+    center_bias = np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * (min(height, width) / 3) ** 2))
+
+    # 6. 组合所有特征
+    saliency = (
+        brightness_contrast * 0.3 +
+        color_contrast * 0.3 +
+        edges * 0.2 +
+        center_bias * 0.2
+    )
+
+    # 7. 高斯模糊平滑
+    saliency = gaussian_filter(saliency, sigma=sigma)
+
+    # 8. 归一化
+    if saliency.max() > 0:
+        saliency = saliency / saliency.max()
+
+    # 9. 叠加到原图
+    img_pil = Image.open(image_path).convert('RGB')
+    img_array = np.array(img_pil)
+
+    # 创建热力图颜色
     colormap = plt.get_cmap('jet')
-    colored_heatmap = colormap(heatmap)
+    colored_heatmap = colormap(saliency)
 
-    # 叠加到原图
+    # 叠加
     alpha = 0.6
     result_array = img_array * (1 - alpha) + colored_heatmap[:, :, :3] * 255 * alpha
     result_array = np.clip(result_array, 0, 255).astype(np.uint8)
 
-    # 绘制带标记的热力图
-    fig, ax = plt.subplots(figsize=(width/100, height/100))
-    ax.imshow(result_array)
+    # 保存
+    result_img = Image.fromarray(result_array)
 
-    # 在每个展品中心画点
-    for ex in exhibits:
-        bbox = ex.get('bbox', [])
-        if len(bbox) == 4:
-            x1, y1, x2, y2 = bbox
-            center_x = (x1 + x2) // 2
-            center_y = (y1 + y2) // 2
-            ax.plot(center_x, center_y, 'ro', markersize=8,
-                   markeredgecolor='white', markeredgewidth=2)
+    fig, axes = plt.subplots(1, 2, figsize=(width/100 + 3, height/100))
+    axes[0].imshow(img_array)
+    axes[0].set_title('Original', fontsize=12, fontweight='bold')
+    axes[0].axis('off')
 
-    ax.axis('off')
+    axes[1].imshow(result_array)
+    axes[1].set_title('Predicted Heatmap', fontsize=12, fontweight='bold')
+    axes[1].axis('off')
+
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
-    print(f"[+] 保存热力图: {output_path}")
+    print(f"[+] 保存预测热力图: {output_path}")
 
-    return heatmap
+    return saliency
 
 
-# ==================== 轨迹图生成 ====================
+# ==================== 扫描路径预测 ====================
 
-def create_trajectory_on_image(image_path, gaze_records, exhibits, output_path):
-    """在原图上生成轨迹图"""
-    img = Image.open(image_path).convert("RGB")
-    img_array = np.array(img)
-    width, height = img.size
+def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fixations=10):
+    """
+    基于显著性和分割结果预测扫描路径
 
-    # 按序列排序
-    sorted_records = sorted(gaze_records, key=lambda x: x.get('sequence', 0))
+    策略：
+    1. 从最显著的非重叠区域开始
+    2. 依次选择下一个最显著的区域
+    3. 考虑中心偏置和距离惩罚
 
-    # 使用 matplotlib 绘制轨迹
+    Args:
+        image_path: 图像路径
+        saliency_map: 显著性图
+        masks_data: SAM2 分割掩码
+        output_path: 输出路径
+        num_fixations: 预测的注视点数量
+    """
+    image = Image.open(image_path).convert('RGB')
+    img_array = np.array(image)
+    height, width = image.shape[:2]
+
+    print(f"\n[*] 预测扫描路径 ({num_fixations} 个注视点)...")
+
+    # 计算每个掩码的平均显著性
+    mask_scores = []
+    for i, mask_data in enumerate(masks_data):
+        mask = mask_data.get('segmentation')
+        bbox = mask_data.get('bbox', [])  # [x, y, w, h]
+
+        # 计算掩码区域内的平均显著性
+        mean_saliency = saliency_map[mask].mean()
+
+        # 计算中心偏置奖励
+        x, y, w, h = bbox
+        cx, cy = x + w/2, y + h/2
+        img_cx, img_cy = width/2, height/2
+        dist_to_center = np.sqrt((cx - img_cx)**2 + (cy - img_cy)**2)
+        center_bias = np.exp(-dist_to_center / (min(width, height) / 2))
+
+        # 综合分数
+        score = mean_saliency * 0.7 + center_bias * 0.3
+
+        mask_scores.append({
+            'index': i,
+            'bbox': bbox,
+            'center': (int(cx), int(cy)),
+            'score': score,
+            'area': mask_data.get('area', 0)
+        })
+
+    # 按分数排序
+    mask_scores.sort(key=lambda x: x['score'], reverse=True)
+
+    # 选择前 N 个作为注视点
+    fixations = mask_scores[:num_fixations]
+
+    # 按照合理的扫描顺序重新排序（从左到右，从上到下，有一定的跳跃）
+    # 这里使用简化的扫描策略：基于x坐标和y坐标的加权排序
+    def scan_order_key(fix):
+        cx, cy = fix['center']
+        # 优先考虑从左到右，同时考虑从上到下
+        return cx * 0.7 + cy * 0.3
+
+    fixations.sort(key=scan_order_key)
+
+    # 重新分配序列号
+    for i, fix in enumerate(fixations):
+        fix['sequence'] = i + 1
+        # 预测注视时长（基于显著性和面积）
+        base_duration = 30  # 基础时长
+        duration = base_duration * (0.5 + fix['score']) * (1 + np.log(fix['area'] / 1000 + 1) * 0.2)
+        fix['duration'] = min(duration, 200)  # 最大200秒
+
+    # 绘制轨迹图
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(img_array)
 
-    # 绘制连线
-    if len(sorted_records) > 1:
-        x_coords = [r.get('x', 0) for r in sorted_records]
-        y_coords = [r.get('y', 0) for r in sorted_records]
-        ax.plot(x_coords, y_coords, color='yellow', linewidth=2.5, alpha=0.9, zorder=1)
+    # 绘制所有分割区域的轮廓（淡色）
+    colors = plt.cm.tab10(np.linspace(0, 1, len(masks_data)))
+    for i, mask_data in enumerate(masks_data[:15]):  # 只显示前15个
+        mask = mask_data.get('segmentation')
+        color = colors[i % 10]
 
-    # 绘制点和编号
-    for r in sorted_records:
-        x, y = r.get('x', 0), r.get('y', 0)
-        duration = r.get('duration', 0)
-        seq = r.get('sequence', 0)
+        # 简化轮廓绘制
+        mask_uint8 = mask.astype(np.uint8) * 255
+        contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for contour in contours:
+            epsilon = 0.003 * cv2.arcLength(contour, True)
+            approx = cv2.approxPolyDP(contour, epsilon, True)
+            if len(approx) > 2:
+                pts = approx.squeeze()
+                if len(pts.shape) == 2:
+                    ax.plot(pts[:, 0], pts[:, 1], color=color, linewidth=1, alpha=0.4)
 
-        # 根据时长确定圆点大小
-        radius = max(15, min(40, int(duration / 3)))
+    # 绘制扫描路径
+    if len(fixations) > 1:
+        # 连线
+        path_x = [f['center'][0] for f in fixations]
+        path_y = [f['center'][1] for f in fixations]
+        ax.plot(path_x, path_y, color='yellow', linewidth=3, alpha=0.9,
+               linestyle='-', marker='', zorder=2)
+
+    # 绘制注视点
+    for fix in fixations:
+        cx, cy = fix['center']
+        duration = fix['duration']
+        seq = fix['sequence']
+
+        # 根据时长确定大小
+        radius = max(15, min(45, int(duration / 4)))
 
         # 绘制圆点
-        circle = MplCircle((x, y), radius, facecolor='orange',
-                          edgecolor='white', linewidth=2, alpha=0.9, zorder=2)
+        circle = MplCircle((cx, cy), radius, facecolor='orange',
+                          edgecolor='white', linewidth=3, alpha=0.95, zorder=3)
         ax.add_patch(circle)
 
         # 绘制编号
-        ax.text(x, y, str(seq), color='black', fontsize=11, fontweight='bold',
-                ha='center', va='center', zorder=3)
+        ax.text(cx, cy, str(seq), color='black', fontsize=12, fontweight='bold',
+                ha='center', va='center', zorder=4)
 
-    # 绘制展品边界框
-    for ex in exhibits:
-        bbox = ex.get('bbox', [])
-        if len(bbox) == 4:
-            x1, y1, x2, y2 = bbox
-            rect = Rectangle((x1, y1), x2-x1, y2-y1,
-                           linewidth=2, edgecolor='cyan', facecolor='none', alpha=0.5, zorder=0)
-            ax.add_patch(rect)
+    # 添加标题
+    ax.text(10, 20, f'Predicted Scan Path ({len(fixations)} fixations)',
+           color='white', fontsize=14, fontweight='bold',
+           bbox=dict(boxstyle='round,pad=0.5', facecolor='black', alpha=0.7))
 
     ax.axis('off')
     plt.tight_layout()
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
-    print(f"[+] 保存轨迹图: {output_path}")
     plt.close()
+    print(f"[+] 保存预测轨迹图: {output_path}")
+
+    return fixations
 
 
 # ==================== 四宫格图表生成 ====================
 
 def create_paper_figure(
-    original_image_path,
-    json_path,
+    image_path,
     output_path,
-    use_sam2=True,
     sam2_model_path=None,
-    sam2_config_path=None
+    sam2_config_path=None,
+    num_fixations=10,
+    points_per_side=32
 ):
     """生成论文用四宫格图表"""
 
     # 检查 CUDA
-    if use_sam2 and not torch.cuda.is_available():
-        print("[!] CUDA 不可用，将使用圆形掩码代替 SAM2")
-        use_sam2 = False
+    if not torch.cuda.is_available():
+        print("[!] CUDA 不可用")
+        return False
 
-    # 读取数据
-    with open(json_path, 'r', encoding='utf-8') as f:
-        json_data = json.load(f)
-
-    exhibits = json_data.get('exhibits', [])
-    gaze_records = json_data.get('gaze_records', [])
-
-    # 读取图片
-    original_img = Image.open(original_image_path).convert("RGB")
-    img_array = np.array(original_img)
-    width, height = original_img.size
-
-    print(f"\n[*] 处理图像: {original_image_path}")
-    print(f"    尺寸: {width}x{height}")
-    print(f"    展品数: {len(exhibits)}")
-    print(f"    眼动记录: {len(gaze_records)}")
+    print(f"\n[*] 处理图像: {image_path}")
 
     # 创建输出目录
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
 
-    # ========== 生成分割掩码图 ==========
-    print("\n[*] 生成分割掩码图...")
+    # ========== 1. 读取原图 ==========
+    original_img = Image.open(image_path).convert('RGB')
+    img_array = np.array(original_img)
+    width, height = original_img.size
+    print(f"    尺寸: {width}x{height}")
+
+    # ========== 2. SAM2 自动分割 ==========
+    print("\n" + "="*60)
+    print("步骤 (b): SAM2 自动分割")
+    print("="*60)
+
+    segmenter = SAM2Segmenter(
+        model_path=sam2_model_path,
+        config_path=sam2_config_path
+    )
+
+    masks_data, _ = segmenter.auto_segment_all(
+        image_path,
+        points_per_side=points_per_side
+    )
+
     mask_path = output_path.replace('.png', '_mask.png')
+    segmenter.create_segmentation_visualization(img_array, masks_data, mask_path)
+    mask_img = Image.open(mask_path)
 
-    if use_sam2:
-        try:
-            segmenter = SAM2Segmenter(
-                model_path=sam2_model_path,
-                config_path=sam2_config_path
-            )
+    # ========== 3. 预测热力图 ==========
+    print("\n" + "="*60)
+    print("步骤 (c): 视觉显著性预测热力图")
+    print("="*60)
 
-            # 获取所有 bbox
-            bboxes = [ex['bbox'] for ex in exhibits]
-
-            # 分割
-            print("[*] 运行 SAM2 分割...")
-            masks = segmenter.segment_exhibits(original_img, bboxes)
-
-            # 创建可视化
-            segmenter.create_segmentation_visualization(
-                original_img, masks, exhibits, mask_path
-            )
-            mask_img = Image.open(mask_path)
-
-        except Exception as e:
-            print(f"[!] SAM2 分割失败: {e}")
-            print("[*] 使用圆形掩码代替")
-            use_sam2 = False
-
-    if not use_sam2:
-        # 使用圆形掩码
-        mask_img = Image.new("RGB", (width, height), (0, 0, 0))
-        draw = ImageDraw.Draw(mask_img)
-
-        for i, ex in enumerate(exhibits):
-            bbox = ex.get('bbox', [])
-            if len(bbox) == 4:
-                x1, y1, x2, y2 = bbox
-                center_x = (x1 + x2) // 2
-                center_y = (y1 + y2) // 2
-                radius = min((x2 - x1) // 2, (y2 - y1) // 2)
-
-                # 使用不同灰度值
-                gray_value = 80 + (i * 30) % 150
-                draw.ellipse([center_x - radius, center_y - radius,
-                             center_x + radius, center_y + radius],
-                            fill=(gray_value, gray_value, gray_value),
-                            outline=(150, 150, 150), width=2)
-
-        mask_img.save(mask_path)
-        print(f"[+] 保存圆形掩码图: {mask_path}")
-
-    # ========== 生成热力图 ==========
-    print("\n[*] 生成热力图...")
     heatmap_path = output_path.replace('.png', '_heatmap.png')
-    create_heatmap_on_image(original_image_path, gaze_records, exhibits, heatmap_path)
+    saliency_map = predict_saliency_heatmap(image_path, heatmap_path)
     heatmap_img = Image.open(heatmap_path)
 
-    # ========== 生成轨迹图 ==========
-    print("\n[*] 生成轨迹图...")
+    # ========== 4. 预测扫描路径 ==========
+    print("\n" + "="*60)
+    print("步骤 (d): 扫描路径预测")
+    print("="*60)
+
     trajectory_path = output_path.replace('.png', '_trajectory.png')
-    create_trajectory_on_image(original_image_path, gaze_records, exhibits, trajectory_path)
+    fixations = predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
     trajectory_img = Image.open(trajectory_path)
 
-    # ========== 创建四宫格图表 ==========
-    print("\n[*] 生成四宫格图表...")
+    # ========== 5. 创建四宫格图表 ==========
+    print("\n" + "="*60)
+    print("生成四宫格图表")
+    print("="*60)
+
     fig, axes = plt.subplots(1, 4, figsize=(14, 3.5))
 
     # (a) 原图
@@ -409,30 +564,33 @@ def create_paper_figure(
 
     # 保存
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
-    print(f"[+] 保存四宫格图表: {output_path}")
+    print(f"\n[+] 保存四宫格图表: {output_path}")
 
-    # 打印展品统计
+    # 打印分割结果统计
     print("\n" + "=" * 80)
-    print("展品列表")
+    print("分割区域统计")
     print("=" * 80)
-    print(f"{'ID':<10} {'Name':<25} {'Type':<10}")
+    print(f"{'ID':<5} {'Area':<10} {'Score':<10}")
     print("-" * 80)
-    for ex in exhibits:
-        print(f"{ex.get('id', ''):<10} {ex.get('name', ''):<25} {ex.get('type', ''):<10}")
+    for i, mask_data in enumerate(masks_data[:15]):  # 只显示前15个
+        area = mask_data.get('area', 0)
+        score = mask_data.get('predicted_iou', 0)
+        print(f"{i+1:<5} {area:<10} {score:.3f}")
+
+    print(f"\n共发现 {len(masks_data)} 个区域")
 
     plt.close()
+
+    return True
 
 
 # ==================== 主函数 ====================
 
 def main():
-    parser = argparse.ArgumentParser(description='生成论文用图表 (GPU服务器版本)')
+    parser = argparse.ArgumentParser(description='生成论文用图表 (GPU服务器版本 - 基于模型预测)')
     parser.add_argument('--image', type=str, required=True, help='原图路径')
-    parser.add_argument('--json', type=str,
-                       default='data/outputs/pipeline_vlm/FINAL_REPORT_TEST1.json',
-                       help='眼动数据JSON路径')
     parser.add_argument('--output', type=str,
-                       default='data/outputs/paper_figure_gpu.png',
+                       default='data/outputs/paper_figure_predicted.png',
                        help='输出路径')
     parser.add_argument('--sam2-model', type=str,
                        default='/home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt',
@@ -440,8 +598,10 @@ def main():
     parser.add_argument('--sam2-config', type=str,
                        default='sam2/configs/sam2.1/sam2.1_hiera_s.yaml',
                        help='SAM2 配置路径')
-    parser.add_argument('--no-sam2', action='store_true',
-                       help='禁用 SAM2，使用圆形掩码')
+    parser.add_argument('--num-fixations', type=int, default=10,
+                       help='预测注视点数量')
+    parser.add_argument('--points-per-side', type=int, default=32,
+                       help='SAM2 采样密度 (越高越精细，但越慢)')
 
     args = parser.parse_args()
 
@@ -449,34 +609,30 @@ def main():
         print(f"[!] 图像不存在: {args.image}")
         return
 
-    if not os.path.exists(args.json):
-        print(f"[!] JSON 不存在: {args.json}")
-        return
-
     # 检查 CUDA
     if torch.cuda.is_available():
         print(f"[+] CUDA 可用: {torch.cuda.get_device_name(0)}")
         print(f"    显存: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
     else:
-        print("[!] CUDA 不可用，SAM2 分割将被禁用")
+        print("[!] CUDA 不可用，无法运行")
+        return
 
     print("=" * 60)
-    print("IROS Gaze 论文图表生成 (GPU服务器版本)")
+    print("IROS Gaze 论文图表生成 (GPU服务器 - 模型预测版本)")
     print("=" * 60)
     print(f"原图: {args.image}")
-    print(f"JSON: {args.json}")
     print(f"输出: {args.output}")
-    print(f"SAM2: {'否' if args.no_sam2 else '是'}")
-    if not args.no_sam2:
-        print(f"模型: {args.sam2_model}")
+    print(f"模型: {args.sam2_model}")
+    print(f"注视点数: {args.num_fixations}")
+    print(f"采样密度: {args.points_per_side}")
 
     create_paper_figure(
-        original_image_path=args.image,
-        json_path=args.json,
+        image_path=args.image,
         output_path=args.output,
-        use_sam2=not args.no_sam2,
         sam2_model_path=args.sam2_model,
-        sam2_config_path=args.sam2_config
+        sam2_config_path=args.sam2_config_path,
+        num_fixations=args.num_fixations,
+        points_per_side=args.points_per_side
     )
 
     print("\n[OK] 完成!")
