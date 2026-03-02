@@ -53,9 +53,20 @@ numpy
 如果没有，请下载：
 ```bash
 mkdir -p /home/g/models/iros_agent/models/sam2/
-wget https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2.1_hiera_small.pt \
+# SAM2 v1 模型
+wget https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_small.pt \
      -O /home/g/models/iros_agent/models/sam2/sam2_hiera_small.pt
+
+# 或 SAM2 v2.1 模型 (更新)
+wget https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2.1_hiera_small.pt \
+     -O /home/g/models/iros_agent/models/sam2/sam2.1_hiera_small.pt
 ```
+
+**注意**：模型文件名必须与配置版本匹配：
+- `sam2_hiera_small.pt` → SAM2 v1 → 配置 `sam2_hiera_s`
+- `sam2.1_hiera_small.pt` → SAM2 v2.1 → 配置 `sam2.1_hiera_s`
+
+脚本会根据模型文件名自动选择正确的配置。
 
 ## 项目结构
 
@@ -105,7 +116,7 @@ python scripts/generate_paper_figure_gpu.py \
 | `--image` | 必填 | 输入图像路径 |
 | `--output` | `data/outputs/paper_figure_predicted.png` | 输出路径 |
 | `--sam2-model` | `/home/g/models/.../sam2_hiera_small.pt` | SAM2 模型路径 |
-| `--sam2-config` | `sam2/configs/sam2.1/sam2.1_hiera_s.yaml` | SAM2 配置路径 |
+| `--sam2-config` | 自动检测 | SAM2 配置 (根据模型文件名自动选择) |
 | `--num-fixations` | 10 | 预测注视点数量 |
 | `--points-per-side` | 32 | SAM2 采样密度 (越大越精细，但越慢) |
 
