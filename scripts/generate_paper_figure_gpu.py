@@ -7,6 +7,7 @@
 import os
 import sys
 import argparse
+import json
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -137,33 +138,24 @@ class SAM2Segmenter:
         return valid_masks, image_np
 
     def create_segmentation_visualization(self, image_np, masks_data, output_path):
-        """创建分割掩码可视化"""
+        """创建分割掩码可视化 - 分割区域显示原图，其他区域黑色"""
         height, width = image_np.shape[:2]
 
-        fig, ax = plt.subplots(figsize=(width/100, height/100))
-        ax.set_facecolor('black')
+        # 创建黑色背景
+        result = np.zeros_like(image_np)
 
-        colors = plt.cm.tab10(np.linspace(0, 1, max(10, len(masks_data))))
+        # 创建统一的掩码（所有分割区域）
+        combined_mask = np.zeros((height, width), dtype=bool)
 
-        for i, mask_data in enumerate(masks_data):
+        for mask_data in masks_data:
             mask = mask_data.get('segmentation')
-            color = colors[i % 10]
+            combined_mask = combined_mask | mask
 
-            colored_mask = np.zeros((*mask.shape, 4))
-            colored_mask[mask] = [*color[:3], 0.85]
-            ax.imshow(colored_mask, interpolation='none')
+        # 只在掩码区域显示原图
+        result[combined_mask] = image_np[combined_mask]
 
-            bbox = mask_data.get('bbox', [])
-            if len(bbox) == 4:
-                x, y, w, h = bbox
-                ax.text(x, y-10 if y > 20 else y+h+20, str(i+1),
-                       color='white', fontsize=max(8, min(12, w//5)),
-                       fontweight='bold',
-                       bbox=dict(boxstyle='round,pad=0.3',
-                                facecolor='black', edgecolor='white', alpha=0.8))
-
-        ax.set_xlim(0, width)
-        ax.set_ylim(height, 0)
+        fig, ax = plt.subplots(figsize=(width/100, height/100))
+        ax.imshow(result)
         ax.axis('off')
         plt.tight_layout()
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -171,35 +163,11 @@ class SAM2Segmenter:
         plt.close()
         print(f"[+] 保存 SAM2 分割图: {output_path}")
 
-        output_outline = output_path.replace('.png', '_outline.png')
-        fig, ax = plt.subplots(figsize=(width/100, height/100))
-        ax.imshow(image_np)
-
-        for i, mask_data in enumerate(masks_data):
-            mask = mask_data.get('segmentation')
-            color = colors[i % 10]
-
-            mask_uint8 = mask.astype(np.uint8) * 255
-            contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-            for contour in contours:
-                epsilon = 0.002 * cv2.arcLength(contour, True)
-                approx = cv2.approxPolyDP(contour, epsilon, True)
-                for j in range(len(approx)):
-                    pt1 = tuple(approx[j][0].tolist())
-                    pt2 = tuple(approx[(j+1) % len(approx)][0].tolist())
-                    ax.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]],
-                           color=color, linewidth=2, alpha=0.8)
-
-        ax.axis('off')
-        plt.tight_layout()
-        plt.savefig(output_outline, dpi=300, bbox_inches='tight', facecolor='white')
-        plt.close()
-        print(f"[+] 保存轮廓图: {output_outline}")
+        return result
 
 
-def predict_saliency_heatmap(image_path, output_path, sigma=30):
-    """基于视觉显著性模型预测热力图"""
+def predict_saliency_heatmap(image_path, masks_data, output_path, sigma=20):
+    """基于视觉显著性模型预测热力图 - 只在分割区域显示热度"""
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     height, width = image.shape[:2]
@@ -239,31 +207,49 @@ def predict_saliency_heatmap(image_path, output_path, sigma=30):
     if saliency.max() > 0:
         saliency = saliency / saliency.max()
 
-    img_pil = Image.open(image_path).convert('RGB')
-    img_array = np.array(img_pil)
+    # 创建统一掩码
+    combined_mask = np.zeros((height, width), dtype=bool)
+    for mask_data in masks_data:
+        mask = mask_data.get('segmentation')
+        combined_mask = combined_mask | mask
 
-    colormap = plt.get_cmap('jet')
-    colored_heatmap = colormap(saliency)
+    # 只在分割区域保留显著性
+    saliency_masked = saliency.copy()
+    saliency_masked[~combined_mask] = 0
 
-    alpha = 0.6
-    result_array = img_array * (1 - alpha) + colored_heatmap[:, :, :3] * 255 * alpha
+    # 重新归一化（只在分割区域内）
+    if saliency_masked.max() > 0:
+        saliency_masked = saliency_masked / saliency_masked.max()
+
+    # 使用 'hot' 色图（红黄色，适合热力图）
+    colormap = plt.get_cmap('hot')
+    colored_heatmap = colormap(saliency_masked)
+
+    # 叠加到原图
+    alpha = 0.7  # 热力图透明度
+    result_array = image.copy().astype(np.float32)
+
+    # 只在有显著性的区域叠加
+    mask = saliency_masked > 0.1
+    for c in range(3):
+        result_array[:, :, c] = (
+            image[:, :, c] * (1 - alpha * saliency_masked) +
+            colored_heatmap[:, :, c] * 255 * alpha * saliency_masked
+        )
+
     result_array = np.clip(result_array, 0, 255).astype(np.uint8)
 
-    fig, axes = plt.subplots(1, 2, figsize=(width/100 + 3, height/100))
-    axes[0].imshow(img_array)
-    axes[0].set_title('Original', fontsize=12, fontweight='bold')
-    axes[0].axis('off')
-
-    axes[1].imshow(result_array)
-    axes[1].set_title('Predicted Heatmap', fontsize=12, fontweight='bold')
-    axes[1].axis('off')
-
+    # 单图显示
+    fig, ax = plt.subplots(figsize=(width/100, height/100))
+    ax.imshow(result_array)
+    ax.axis('off')
     plt.tight_layout()
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
     print(f"[+] 保存预测热力图: {output_path}")
 
-    return saliency
+    return saliency_masked
 
 
 def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fixations=10):
@@ -315,27 +301,18 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(img_array)
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(masks_data)))
-    for i, mask_data in enumerate(masks_data[:15]):
-        mask = mask_data.get('segmentation')
-        color = colors[i % 10]
-
-        mask_uint8 = mask.astype(np.uint8) * 255
-        contours, _ = cv2.findContours(mask_uint8, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        for contour in contours:
-            epsilon = 0.003 * cv2.arcLength(contour, True)
-            approx = cv2.approxPolyDP(contour, epsilon, True)
-            if len(approx) > 2:
-                pts = approx.squeeze()
-                if len(pts.shape) == 2:
-                    ax.plot(pts[:, 0], pts[:, 1], color=color, linewidth=1, alpha=0.4)
-
+    # 白色路径线
     if len(fixations) > 1:
         path_x = [f['center'][0] for f in fixations]
         path_y = [f['center'][1] for f in fixations]
-        ax.plot(path_x, path_y, color='yellow', linewidth=3, alpha=0.9,
+        # 外层黑色轮廓（增加对比度）
+        ax.plot(path_x, path_y, color='black', linewidth=5, alpha=0.8,
                linestyle='-', marker='', zorder=2)
+        # 内层白色
+        ax.plot(path_x, path_y, color='white', linewidth=3, alpha=1.0,
+               linestyle='-', marker='', zorder=3)
 
+    # 注视点圆圈
     for fix in fixations:
         cx, cy = fix['center']
         duration = fix['duration']
@@ -343,16 +320,18 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
 
         radius = max(15, min(45, int(duration / 4)))
 
-        circle = Circle((cx, cy), radius, facecolor='orange',
-                       edgecolor='white', linewidth=3, alpha=0.95, zorder=3)
+        # 黑色轮廓
+        circle = Circle((cx, cy), radius, facecolor='white',
+                       edgecolor='black', linewidth=4, alpha=0.95, zorder=4)
         ax.add_patch(circle)
+        # 白色填充
+        circle_inner = Circle((cx, cy), radius - 2, facecolor='white',
+                       edgecolor='white', linewidth=2, alpha=0.9, zorder=5)
+        ax.add_patch(circle_inner)
 
-        ax.text(cx, cy, str(seq), color='black', fontsize=12, fontweight='bold',
-               ha='center', va='center', zorder=4)
-
-    ax.text(10, 20, f'Predicted Scan Path ({len(fixations)} fixations)',
-           color='white', fontsize=14, fontweight='bold',
-           bbox=dict(boxstyle='round,pad=0.5', facecolor='black', alpha=0.7))
+        # 序号
+        ax.text(cx, cy, str(seq), color='black', fontsize=14, fontweight='bold',
+               ha='center', va='center', zorder=6)
 
     ax.axis('off')
     plt.tight_layout()
@@ -364,6 +343,95 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     return fixations
 
 
+def generate_table_data(masks_data, fixations, image_path, output_dir):
+    """生成用于论文表格的统计数据"""
+    img = Image.open(image_path)
+    width, height = img.size
+
+    # 计算统计数据
+    exhibits = []
+    for i, mask_data in enumerate(masks_data[:15]):  # 最多15个展品
+        bbox = mask_data.get('bbox', [])
+        area = mask_data.get('area', 0)
+        score = mask_data.get('predicted_iou', 0)
+
+        x, y, w, h = bbox
+        cx, cy = int(x + w/2), int(y + h/2)
+
+        # 计算该展品的注视次数和总时长
+        gaze_count = 0
+        total_duration = 0
+        first_fixation = None
+        last_fixation = None
+
+        for fix in fixations:
+            if fix['index'] == i:
+                gaze_count += 1
+                total_duration += fix['duration']
+                if first_fixation is None:
+                    first_fixation = fix['sequence']
+                last_fixation = fix['sequence']
+
+        exhibits.append({
+            'id': f'EX-{i:03d}',
+            'bbox': [int(x) for x in bbox],
+            'center': [cx, cy],
+            'area_pixels': area,
+            'area_ratio': f'{area / (width * height) * 100:.2f}%',
+            'sam_score': f'{score:.3f}',
+            'gaze_count': gaze_count,
+            'total_duration': f'{total_duration:.1f}',
+            'avg_duration': f'{total_duration / gaze_count:.1f}' if gaze_count > 0 else '0',
+            'first_look': first_fixation,
+            'last_look': last_fixation
+        })
+
+    summary = {
+        'timestamp': '2026-03-02T00:00:00',
+        'image_info': {
+            'path': image_path,
+            'width': width,
+            'height': height,
+            'total_pixels': width * height
+        },
+        'summary': {
+            'total_exhibits': len(masks_data),
+            'analyzed_exhibits': len(exhibits),
+            'total_fixations': len(fixations),
+            'gazed_exhibits': sum(1 for e in exhibits if e['gaze_count'] > 0)
+        },
+        'exhibits': exhibits,
+        'fixations': [
+            {
+                'sequence': f['sequence'],
+                'exhibit_id': f"EX-{f['index']:03d}",
+                'center': f['center'],
+                'duration': f'{f["duration"]:.1f}',
+                'score': f'{f["score"]:.3f}'
+            }
+            for f in fixations
+        ]
+    }
+
+    # 保存JSON
+    json_path = os.path.join(output_dir, 'table_data.json')
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+    print(f"[+] 保存表格数据: {json_path}")
+
+    # 打印Markdown表格
+    print("\n" + "=" * 100)
+    print("论文表格数据 (Markdown格式)")
+    print("=" * 100)
+    print("| 展品ID | 边界框 | 面积占比 | SAM分数 | 注视次数 | 总时长(ms) | 平均时长 | 首次注视 |")
+    print("|--------|--------|----------|---------|----------|------------|----------|----------|")
+    for e in exhibits:
+        bbox_str = f"({e['bbox'][0]},{e['bbox'][1]},{e['bbox'][2]},{e['bbox'][3]})"
+        print(f"| {e['id']} | {bbox_str} | {e['area_ratio']} | {e['sam_score']} | {e['gaze_count']} | {e['total_duration']} | {e['avg_duration']} | {e['first_look'] or '-'} |")
+
+    return summary
+
+
 def create_paper_figure(image_path, output_path, sam2_model_path,
                        num_fixations=10, points_per_side=32):
     """生成论文用四宫格图表"""
@@ -373,7 +441,8 @@ def create_paper_figure(image_path, output_path, sam2_model_path,
         return False
 
     print(f"\n[*] 处理图像: {image_path}")
-    os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
+    output_dir = os.path.dirname(output_path) or '.'
+    os.makedirs(output_dir, exist_ok=True)
 
     original_img = Image.open(image_path).convert('RGB')
     img_array = np.array(original_img)
@@ -388,45 +457,53 @@ def create_paper_figure(image_path, output_path, sam2_model_path,
     masks_data, _ = segmenter.auto_segment_all(image_path, points_per_side)
 
     mask_path = output_path.replace('.png', '_mask.png')
-    segmenter.create_segmentation_visualization(img_array, masks_data, mask_path)
-    mask_img = Image.open(mask_path)
+    mask_result = segmenter.create_segmentation_visualization(img_array, masks_data, mask_path)
 
     print("\n" + "="*60)
     print("步骤 (c): 视觉显著性预测热力图")
     print("="*60)
 
     heatmap_path = output_path.replace('.png', '_heatmap.png')
-    saliency_map = predict_saliency_heatmap(image_path, heatmap_path)
-    heatmap_img = Image.open(heatmap_path)
+    saliency_map = predict_saliency_heatmap(image_path, masks_data, heatmap_path)
 
     print("\n" + "="*60)
     print("步骤 (d): 扫描路径预测")
     print("="*60)
 
     trajectory_path = output_path.replace('.png', '_trajectory.png')
-    predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
-    trajectory_img = Image.open(trajectory_path)
+    fixations = predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
+
+    print("\n" + "="*60)
+    print("生成表格数据")
+    print("="*60)
+
+    generate_table_data(masks_data, fixations, image_path, output_dir)
 
     print("\n" + "="*60)
     print("生成四宫格图表")
     print("="*60)
 
+    # 读取生成的图片
+    mask_img = Image.open(mask_path)
+    heatmap_img = Image.open(heatmap_path)
+    trajectory_img = Image.open(trajectory_path)
+
     fig, axes = plt.subplots(1, 4, figsize=(14, 3.5))
 
     axes[0].imshow(original_img)
-    axes[0].set_title('(a)', fontsize=14, fontweight='bold')
+    axes[0].set_title('(a) Original', fontsize=12, fontweight='bold')
     axes[0].axis('off')
 
     axes[1].imshow(mask_img)
-    axes[1].set_title('(b)', fontsize=14, fontweight='bold')
+    axes[1].set_title('(b) Segmentation', fontsize=12, fontweight='bold')
     axes[1].axis('off')
 
     axes[2].imshow(heatmap_img)
-    axes[2].set_title('(c)', fontsize=14, fontweight='bold')
+    axes[2].set_title('(c) Heatmap', fontsize=12, fontweight='bold')
     axes[2].axis('off')
 
     axes[3].imshow(trajectory_img)
-    axes[3].set_title('(d)', fontsize=14, fontweight='bold')
+    axes[3].set_title('(d) Scan Path', fontsize=12, fontweight='bold')
     axes[3].axis('off')
 
     plt.tight_layout()
