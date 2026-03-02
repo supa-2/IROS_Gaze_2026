@@ -247,11 +247,12 @@ class BaseModelEvaluator:
 class FullComparisonRunner:
     """完整对比实验运行器"""
 
-    def __init__(self, base_url: str, ablation_path: str = None):
+    def __init__(self, base_url: str, ablation_path: str = None, baseline_path: str = None):
         self.base_url = base_url
         self.ablation_path = ablation_path or os.path.join(
             project_root, "data", "outputs", "vllm_ablation", "ablation_results.json"
         )
+        self.baseline_path = baseline_path
         self.test_data = self._create_sample_data()
         self.real_distributions = self._build_real_distributions()
 
@@ -376,37 +377,58 @@ class FullComparisonRunner:
 
     def load_existing_baseline_results(self) -> Dict:
         """加载已有的闭源模型对照实验结果"""
-        baseline_dir = Path(project_root) / "data" / "outputs" / "baselines"
-        baseline_files = list(baseline_dir.glob("baseline_results_*.json"))
+        # 如果指定了路径，直接使用
+        if self.baseline_path:
+            print(f"    [*] 加载已有对照实验结果: {self.baseline_path}")
+            try:
+                with open(self.baseline_path, 'r', encoding='utf-8') as f:
+                    all_results = json.load(f)
+            except Exception as e:
+                print(f"    [!] 加载已有结果失败: {e}")
+                return {}
+        else:
+            # 尝试多个可能的路径
+            possible_paths = [
+                Path(project_root) / "data" / "outputs" / "baselines",
+                Path(project_root) / "data" / "outputs" / "baselines",
+                Path.cwd() / "data" / "outputs" / "baselines",
+                Path.cwd() / "data" / "baselines",
+                Path("/home/supa_2/Projects/IROS_Gaze/IROS_Gaze_2026/data/outputs/baselines"),
+            ]
 
-        if not baseline_files:
-            print("    [!] 未找到已有的对照实验结果")
-            return {}
+            baseline_files = []
+            for base_dir in possible_paths:
+                if base_dir.exists():
+                    baseline_files.extend(list(base_dir.glob("baseline_results_*.json")))
 
-        # 使用最新的结果文件
-        latest_file = max(baseline_files, key=lambda p: p.stat().st_mtime)
-        print(f"    [*] 加载已有对照实验结果: {latest_file.name}")
+            if not baseline_files:
+                print("    [!] 未找到已有的对照实验结果，请使用 --baseline 参数指定")
+                return {}
 
-        try:
-            with open(latest_file, 'r', encoding='utf-8') as f:
-                all_results = json.load(f)
+            # 使用最新的结果文件
+            latest_file = max(baseline_files, key=lambda p: p.stat().st_mtime)
+            print(f"    [*] 加载已有对照实验结果: {latest_file}")
 
-            # 提取闭源模型结果
-            zero_shot_results = {}
-            for key in ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]:
-                if key in all_results:
-                    zero_shot_results[key] = all_results[key]
+            try:
+                with open(latest_file, 'r', encoding='utf-8') as f:
+                    all_results = json.load(f)
+            except Exception as e:
+                print(f"    [!] 加载已有结果失败: {e}")
+                return {}
 
-            # 也加载 Markov Chain 和 LSTM
-            if "Markov Chain" in all_results:
-                zero_shot_results["Markov Chain"] = all_results["Markov Chain"]
-            if "LSTM" in all_results:
-                zero_shot_results["LSTM"] = all_results["LSTM"]
+        # 提取闭源模型结果
+        zero_shot_results = {}
+        for key in ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]:
+            if key in all_results:
+                zero_shot_results[key] = all_results[key]
 
-            return zero_shot_results
-        except Exception as e:
-            print(f"    [!] 加载已有结果失败: {e}")
-            return {}
+        # 也加载 Markov Chain 和 LSTM
+        if "Markov Chain" in all_results:
+            zero_shot_results["Markov Chain"] = all_results["Markov Chain"]
+        if "LSTM" in all_results:
+            zero_shot_results["LSTM"] = all_results["LSTM"]
+
+        return zero_shot_results
 
     def run(self) -> Dict:
         """运行完整对比实验"""
@@ -529,7 +551,9 @@ if __name__ == "__main__":
                         help="Base Model API URL (vLLM)")
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果路径")
+    parser.add_argument("--baseline", default=None,
+                        help="已有对照实验结果路径 (baseline_results_*.json)")
     args = parser.parse_args()
 
-    runner = FullComparisonRunner(args.base_url, args.ablation)
+    runner = FullComparisonRunner(args.base_url, args.ablation, args.baseline)
     results = runner.run()
