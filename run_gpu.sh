@@ -21,9 +21,10 @@ echo "=================================================="
 # 处理 test1.jpg
 echo ""
 echo "[*] 处理 test1.jpg..."
+mkdir -p data/outputs/test1
 python scripts/generate_paper_figure_gpu.py \
     --image data/test1.jpg \
-    --output data/outputs/paper_figure_test1_predicted.png \
+    --output data/outputs/test1/paper_figure.png \
     --sam2-model $SAM2_MODEL_PATH \
     --sam2-config $SAM2_CONFIG_PATH \
     --num-fixations 10 \
@@ -32,9 +33,10 @@ python scripts/generate_paper_figure_gpu.py \
 # 处理 test2.jpg
 echo ""
 echo "[*] 处理 test2.jpg..."
+mkdir -p data/outputs/test2
 python scripts/generate_paper_figure_gpu.py \
     --image data/test2.jpg \
-    --output data/outputs/paper_figure_test2_predicted.png \
+    --output data/outputs/test2/paper_figure.png \
     --sam2-model $SAM2_MODEL_PATH \
     --sam2-config $SAM2_CONFIG_PATH \
     --num-fixations 10 \
@@ -44,11 +46,12 @@ echo ""
 echo "[OK] 全部完成!"
 echo ""
 echo "输出文件:"
-echo "  - data/outputs/paper_figure_test1_predicted.png"
-echo "  - data/outputs/paper_figure_test2_predicted.png"
+echo "  - data/outputs/test1/"
+echo "    ├── paper_figure.png           (四宫格图表)"
+echo "    ├── paper_figure_mask.png      (分割掩码)"
+echo "    ├── paper_figure_mask_outline.png (分割轮廓)"
+echo "    ├── paper_figure_heatmap.png   (预测热力图)"
+echo "    └── paper_figure_trajectory.png (预测轨迹)"
 echo ""
-echo "单独的子图:"
-echo "  - *_mask.png       (SAM2 分割掩码)"
-echo "  - *_mask_outline.png (分割轮廓)"
-echo "  - *_heatmap.png    (预测热力图)"
-echo "  - *_trajectory.png (预测轨迹)"
+echo "  - data/outputs/test2/"
+echo "    └── (同上)"

@@ -630,7 +630,7 @@ def main():
         image_path=args.image,
         output_path=args.output,
         sam2_model_path=args.sam2_model,
-        sam2_config_path=args.sam2_config_path,
+        sam2_config_path=args.sam2_config,
         num_fixations=args.num_fixations,
         points_per_side=args.points_per_side
     )
