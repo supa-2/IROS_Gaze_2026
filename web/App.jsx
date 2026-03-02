@@ -1,285 +1,161 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion';
-import { ArrowRight, Box, Layers, Cpu, ShoppingCart, Menu, X, Globe, Play, CheckCircle, ChevronRight, Zap, Send, Code, Maximize2, RotateCcw, Download, Sparkles, FileText, Ruler, Paperclip, Image as ImageIcon, Loader2, ZoomIn, Check, LayoutGrid, Hammer, Package, Heart, MapPin, User, Eye, Settings, MessageSquare, Brain, Activity, Network, Wand2, Upload } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Box,
+  Layers,
+  Cpu,
+  Menu,
+  X,
+  Send,
+  Code,
+  Download,
+  Sparkles,
+  FileText,
+  Paperclip,
+  Image as ImageIcon,
+  Loader2,
+  Eye,
+  MapPin,
+  ChevronRight,
+} from 'lucide-react';
 
-// --- API Configuration ---
-const API_BASE = 'http://localhost:5000/api';
-
-// --- Global Styles & Utils ---
-const GridBackground = () => (
-  <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70"></div>
-  </div>
-);
-
-// --- Components ---
-
-// 1. Navigation Bar
+// ==================== NAVBAR ====================
 const Navbar = ({ onStartCreate, isCreatorMode, onBack }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isCreatorMode ? 'bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-[#2a2a2a] py-4' : 'bg-transparent py-6'}`}>
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={onBack}>
-            <div className="w-10 h-10 bg-gradient-to-br from-[#00d1ff] to-[#0066ff] flex items-center justify-center font-bold text-xl relative overflow-hidden group-hover:scale-110 transition-transform duration-300">
-               <Eye className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-2xl tracking-tighter text-white">PalX</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-b border-gray-800 py-4">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
+          <div className="w-10 h-10 bg-white text-black flex items-center justify-center font-bold text-xl">
+            P
           </div>
+          <span className="font-bold text-2xl tracking-tighter text-white">PalX</span>
+        </div>
 
-          {/* Desktop Menu */}
-          {!isCreatorMode ? (
-            <div className="hidden md:flex items-center space-x-10">
-              {['Technology', 'Workflow', 'Products', 'Pricing'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wider">
-                  {item}
-                </a>
-              ))}
-              <button
-                onClick={onStartCreate}
-                className="bg-[#00d1ff] text-black px-8 py-3 font-semibold hover:bg-[#00b8e0] transition-colors duration-300 text-sm tracking-wide flex items-center gap-2"
-              >
-                <Sparkles size={16} />
-                START CREATING
-              </button>
-            </div>
-          ) : (
-             <div className="hidden md:flex items-center gap-6">
-                <span className="flex items-center gap-2 text-xs font-mono text-gray-500 bg-[#1a1a1a] px-3 py-1 rounded-full border border-[#2a2a2a]">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                  PalX_Core_Engine Active
-                </span>
-                <button
-                  onClick={onBack}
-                  className="text-sm font-bold text-gray-400 hover:text-white transition-colors"
-                >
-                  EXIT TERMINAL
-                </button>
-             </div>
-          )}
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2">
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {!isCreatorMode ? (
+          <div className="hidden md:flex items-center space-x-10">
+            {['Technology', 'Workflow', 'Products', 'Pricing'].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wider">
+                {item}
+              </a>
+            ))}
+            <button onClick={onStartCreate} className="bg-white text-black px-8 py-3 font-semibold hover:bg-gray-200 transition-colors text-sm tracking-wide flex items-center gap-2">
+              <Sparkles size={16} />
+              START CREATING
             </button>
           </div>
+        ) : (
+          <div className="hidden md:flex items-center gap-6">
+            <span className="flex items-center gap-2 text-xs font-mono text-gray-500 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              PalX_Core_Engine Active
+            </span>
+            <button onClick={onBack} className="text-sm font-bold text-gray-400 hover:text-white">
+              EXIT TERMINAL
+            </button>
+          </div>
+        )}
+
+        <div className="md:hidden">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2">
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
-
-      {/* Mobile Dropdown */}
-      <AnimatePresence>
-        {isOpen && !isCreatorMode && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0a0a0a] border-b border-[#2a2a2a] overflow-hidden"
-          >
-            <div className="px-6 py-8 space-y-6 flex flex-col">
-              {['Technology', 'Workflow', 'Products', 'Pricing'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-xl font-medium text-white">
-                  {item}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
 
-// 2. Hero Section
-const HeroSection = ({ onStartCreate }) => {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+// ==================== LANDING PAGE ====================
+const LandingPage = ({ onStartCreate }) => (
+  <div className="min-h-screen bg-black">
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem) opacity-20"></div>
 
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <motion.div style={{ y, opacity }} className="text-center z-10 px-6">
+    <section className="relative min-h-screen flex items-center justify-center px-6">
+      <div className="text-center z-10 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-            Design with <span className="text-[#00d1ff]">AI Intelligence</span>
+            Design the Future
           </h1>
-          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-            Transform your ideas into professional designs with spatial awareness and intelligent automation.
+          <p className="text-xl text-gray-400 mb-8">
+            AI-powered spatial design system for intelligent environments
           </p>
           <button
             onClick={onStartCreate}
-            className="group bg-[#00d1ff] text-black px-10 py-4 rounded-full font-bold text-lg hover:bg-[#00b8e0] transition-all duration-300 flex items-center gap-3 mx-auto"
+            className="bg-white text-black px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transition-all flex items-center gap-3 mx-auto"
           >
+            <Sparkles size={20} />
             Start Creating
-            <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={20} />
           </button>
         </motion.div>
-      </motion.div>
-
-      {/* Floating Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-20 h-20 border border-[#00d1ff]/20 rounded-xl"
-            style={{
-              left: `${10 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 5, 0],
-            }}
-            transition={{
-              duration: 3 + i,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
       </div>
+
+      {/* Floating elements */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-16 h-16 border border-gray-700 rounded-lg"
+          style={{
+            left: `${10 + i * 15}%`,
+            top: `${20 + (i % 3) * 25}%`,
+          }}
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 3, 0],
+          }}
+          transition={{
+            duration: 4 + i,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
     </section>
-  );
-};
 
-// 3. Feature Cards
-const FeatureCard = ({ icon: Icon, title, description, delay }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, delay }}
-    className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-8 hover:border-[#00d1ff]/50 transition-all duration-300 group"
-  >
-    <div className="w-14 h-14 bg-[#1a1a1a] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#00d1ff]/20 transition-colors">
-      <Icon className="w-7 h-7 text-[#00d1ff]" />
-    </div>
-    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-    <p className="text-gray-400">{description}</p>
-  </motion.div>
-);
-
-const FeaturesSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  const features = [
-    { icon: Box, title: 'Smart Generation', description: 'AI-powered design generation with spatial awareness and intelligent layout optimization.' },
-    { icon: Layers, title: 'Multi-Layer Output', description: 'Generate complex designs with multiple layers, components, and hierarchical structures.' },
-    { icon: Cpu, title: 'Real-time Processing', description: 'Lightning-fast processing with real-time previews and instant iterations.' },
-  ];
-
-  return (
-    <section ref={ref} id="technology" className="py-24 px-6">
+    {/* Features */}
+    <section className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-4xl font-bold text-white text-center mb-4"
-        >
-          Powerful Technology
-        </motion.h2>
-        <p className="text-gray-400 text-center mb-16 max-w-2xl mx-auto">
-          Built with cutting-edge AI models to transform your ideas into reality
-        </p>
         <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, i) => (
-            <FeatureCard key={i} {...feature} delay={i * 0.1} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// 4. Workflow Section
-const WorkflowSection = () => {
-  const steps = [
-    { num: '01', title: 'Describe', desc: 'Input your design requirements in natural language' },
-    { num: '02', title: 'Generate', desc: 'AI processes and generates initial design concepts' },
-    { num: '03', title: 'Refine', desc: 'Iterate and refine until perfection' },
-    { num: '04', title: 'Export', desc: 'Download in multiple formats including DXF' },
-  ];
-
-  return (
-    <section id="workflow" className="py-24 px-6 bg-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-white text-center mb-16">Simple Workflow</h2>
-        <div className="grid md:grid-cols-4 gap-6">
-          {steps.map((step, i) => (
-            <div key={i} className="relative">
-              <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 text-center">
-                <span className="text-4xl font-bold text-[#00d1ff]/30">{step.num}</span>
-                <h3 className="text-lg font-bold text-white mt-4 mb-2">{step.title}</h3>
-                <p className="text-sm text-gray-400">{step.desc}</p>
+          {[
+            { icon: Box, title: 'Smart Generation', desc: 'AI-powered design with spatial awareness' },
+            { icon: Layers, title: 'Multi-Layer Output', desc: 'Complex designs with hierarchical structures' },
+            { icon: Cpu, title: 'Real-time Processing', desc: 'Instant previews and iterations' },
+          ].map((feature, i) => (
+            <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8">
+              <div className="w-14 h-14 bg-gray-800 rounded-xl flex items-center justify-center mb-6">
+                <feature.icon className="w-7 h-7 text-white" />
               </div>
-              {i < 3 && (
-                <ChevronRight className="hidden md:block absolute top-1/2 -right-3 text-[#00d1ff]" />
-              )}
+              <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+              <p className="text-gray-400">{feature.desc}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
-};
-
-// 5. CTA Section
-const CTASection = ({ onStartCreate }) => (
-  <section className="py-24 px-6">
-    <div className="max-w-4xl mx-auto text-center bg-gradient-to-r from-[#00d1ff]/10 to-[#0066ff]/10 border border-[#00d1ff]/20 rounded-3xl p-12">
-      <h2 className="text-3xl font-bold text-white mb-4">Ready to Create?</h2>
-      <p className="text-gray-400 mb-8">Join thousands of designers already using PalX</p>
-      <button
-        onClick={onStartCreate}
-        className="bg-[#00d1ff] text-black px-10 py-4 rounded-full font-bold hover:bg-[#00b8e0] transition-colors"
-      >
-        Get Started Free
-      </button>
-    </div>
-  </section>
-);
-
-// 6. Landing Page
-const LandingPage = ({ onStartCreate }) => (
-  <div className="min-h-screen bg-[#0a0a0a]">
-    <GridBackground />
-    <Navbar onStartCreate={onStartCreate} isCreatorMode={false} />
-    <HeroSection onStartCreate={onStartCreate} />
-    <FeaturesSection />
-    <WorkflowSection />
-    <CTASection onStartCreate={onStartCreate} />
   </div>
 );
 
-// 7. Creator App (Design Terminal)
+// ==================== CREATOR APP (DESIGN TERMINAL) ====================
 const CreatorApp = ({ onBack }) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       role: 'assistant',
-      content: 'PalX Design Terminal initialized.\n\nConnected to: TH Museum Map\nAvailable commands:\n• Input design descriptions\n• Upload reference images\n• Generate DXF blueprints\n• Export designs\n\nReady to create.',
+      content: '> PalX Design Terminal v2.0\n> Connected to: TH_Museum_Map\n> System ready.\n\nAvailable commands:\n• Type design descriptions\n• Upload reference images\n• Generate DXF blueprints\n• Export designs\n\nWaiting for input...',
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [blueprintPreview, setBlueprintPreview] = useState(null);
+  const [blueprintData, setBlueprintData] = useState(null);
   const [showExport, setShowExport] = useState(false);
 
   const messagesEndRef = useRef(null);
@@ -314,7 +190,7 @@ const CreatorApp = ({ onBack }) => {
     const userMessage = {
       id: Date.now(),
       role: 'user',
-      content: input || 'Analyze this reference image',
+      content: input || 'Analyze reference image',
       timestamp: new Date(),
       image: selectedImage?.preview,
     };
@@ -325,60 +201,53 @@ const CreatorApp = ({ onBack }) => {
 
     // Simulate AI response
     setTimeout(() => {
+      const newBlueprint = {
+        id: 'TH-E01',
+        name: 'Entrance Hall',
+        exits: ['TH-I-B01', 'TH-B02'],
+        features: 'High visibility area with optimized flow',
+        coordinates: { x: 120, y: 80 },
+      };
+
       const responseMessage = {
         id: Date.now() + 1,
         role: 'assistant',
-        content: `Processing design command: "${userMessage.content}"\n\nAnalyzing spatial requirements...\nGenerating topology-based layout...\nOptimizing for museum flow...\n\n✅ Design ready! Preview available on the right panel.`,
+        content: `> Processing: "${userMessage.content}"\n\n> Analyzing spatial requirements...\n> Computing topology...\n> Generating blueprint...\n\n✅ Design complete!\n\nBlueprint ID: ${newBlueprint.id}\nExits: ${newBlueprint.exits.join(', ')}`,
         timestamp: new Date(),
-        blueprint: {
-          id: 'TH-E01',
-          name: 'Entrance Hall Design',
-          description: 'Optimized layout for visitor flow and exhibit visibility',
-        },
       };
+
       setMessages((prev) => [...prev, responseMessage]);
-      setBlueprintPreview({
-        id: 'TH-E01',
-        name: 'Entrance Hall Design',
-        exits: ['TH-I-B01', 'TH-B02'],
-        features: 'High visibility area with dual exit points',
-      });
+      setBlueprintData(newBlueprint);
       setIsTyping(false);
       setSelectedImage(null);
     }, 2000);
   };
 
   return (
-    <div className="h-screen bg-[#0a0a0a] flex flex-col">
+    <div className="h-screen bg-black flex flex-col pt-16">
       {/* Terminal Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-[#2a2a2a] bg-[#111111]/80 backdrop-blur-xl">
+      <header className="flex items-center justify-between px-6 py-3 border-b border-gray-800 bg-gray-900/50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00d1ff] to-[#0066ff] flex items-center justify-center">
-            <Code className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 bg-white text-black flex items-center justify-center font-bold text-sm">
+            P
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">Design Terminal</h1>
-            <p className="text-xs text-gray-500 font-mono">TH_Museum_Map :: PalX_Engine_v2.0</p>
+            <h1 className="text-sm font-bold text-white">Design Terminal</h1>
+            <p className="text-[10px] text-gray-500 font-mono">TH_Map :: PalX_Engine_v2.0</p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2 text-xs font-mono text-gray-500 bg-[#1a1a1a] px-3 py-1 rounded-full border border-[#2a2a2a]">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            System Online
-          </div>
-          <button
-            onClick={() => setShowExport(!showExport)}
-            className="p-2 hover:bg-[#1a1a1a] rounded-lg transition-colors"
-          >
-            <Download className="w-5 h-5 text-gray-400" />
+          <span className="hidden md:flex items-center gap-2 text-[10px] font-mono text-gray-500 bg-gray-800 px-3 py-1 rounded-full border border-gray-700">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            ONLINE
+          </span>
+          <button onClick={() => setShowExport(!showExport)} className="p-2 hover:bg-gray-800 rounded-lg">
+            <Download className="w-4 h-4 text-gray-400" />
           </button>
-          <button
-            onClick={onBack}
-            className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-lg transition-colors text-sm font-medium"
-          >
-            <X className="w-4 h-4" />
-            Exit
+          <button onClick={onBack} className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs">
+            <X className="w-3 h-3" />
+            EXIT
           </button>
         </div>
       </header>
@@ -386,15 +255,15 @@ const CreatorApp = ({ onBack }) => {
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Chat Panel */}
-        <div className="flex-1 flex flex-col border-r border-[#2a2a2a]">
+        <div className="flex-1 flex flex-col border-r border-gray-800">
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] rounded-2xl px-5 py-4 ${
+                <div className={`max-w-[80%] rounded-xl px-4 py-3 ${
                   msg.role === 'user'
-                    ? 'bg-[#00d1ff] text-black rounded-br-md'
-                    : 'bg-[#1a1a1a] border border-[#2a2a2a] text-gray-200 rounded-bl-md'
+                    ? 'bg-white text-black rounded-br-md'
+                    : 'bg-gray-900 border border-gray-800 text-gray-200 rounded-bl-md'
                 }`}>
                   {msg.image && (
                     <div className="mb-3 rounded-lg overflow-hidden">
@@ -402,8 +271,7 @@ const CreatorApp = ({ onBack }) => {
                     </div>
                   )}
                   <p className="text-sm whitespace-pre-wrap font-mono">{msg.content}</p>
-                  {msg.blueprint && setBlueprintPreview(msg.blueprint)}
-                  <span className="text-xs opacity-50 mt-2 block font-mono">
+                  <span className="text-[10px] opacity-40 mt-2 block font-mono">
                     {new Date(msg.timestamp).toLocaleTimeString()}
                   </span>
                 </div>
@@ -411,34 +279,29 @@ const CreatorApp = ({ onBack }) => {
             ))}
             {isTyping && (
               <div className="flex items-center gap-3 text-gray-400">
-                <Loader2 className="w-5 h-5 animate-spin text-[#00d1ff]" />
-                <span className="loading-dots font-mono text-sm">
-                  <span>Processing</span>
-                  <span>.</span>
-                  <span>.</span>
-                  <span>.</span>
-                </span>
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+                <span className="text-xs font-mono">Processing</span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input Area */}
-          <div className="p-4 border-t border-[#2a2a2a] bg-[#111111]/50">
+          <div className="p-4 border-t border-gray-800 bg-gray-900/30">
             {selectedImage && (
-              <div className="mb-3 p-3 bg-[#1a1a1a] rounded-xl border border-[#2a2a2a] flex items-center gap-3">
-                <img src={selectedImage.preview} alt="Preview" className="w-12 h-12 object-cover rounded-lg" />
+              <div className="mb-3 p-2 bg-gray-900 rounded-lg border border-gray-800 flex items-center gap-3">
+                <img src={selectedImage.preview} alt="Preview" className="w-10 h-10 object-cover rounded" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{selectedImage.name}</p>
-                  <p className="text-xs text-gray-500">Reference image attached</p>
+                  <p className="text-xs font-medium truncate text-white">{selectedImage.name}</p>
+                  <p className="text-[10px] text-gray-500">Reference attached</p>
                 </div>
-                <button onClick={() => setSelectedImage(null)} className="p-1 hover:bg-[#2a2a2a] rounded">
-                  <X className="w-4 h-4 text-gray-400" />
+                <button onClick={() => setSelectedImage(null)} className="p-1 hover:bg-gray-800 rounded">
+                  <X className="w-3 h-3 text-gray-400" />
                 </button>
               </div>
             )}
 
-            <div className="flex gap-3 items-end">
+            <div className="flex gap-2 items-end">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -448,13 +311,13 @@ const CreatorApp = ({ onBack }) => {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className={`p-3 rounded-xl transition-all border ${
+                className={`p-2.5 rounded-lg transition-all border ${
                   selectedImage
-                    ? 'bg-[#00d1ff] text-black border-[#00d1ff]'
-                    : 'bg-[#1a1a1a] text-gray-400 border-[#2a2a2a] hover:border-[#00d1ff]'
+                    ? 'bg-white text-black border-white'
+                    : 'bg-gray-800 text-gray-400 border-gray-700 hover:border-gray-500'
                 }`}
               >
-                {selectedImage ? <ImageIcon className="w-5 h-5" /> : <Paperclip className="w-5 h-5" />}
+                {selectedImage ? <ImageIcon className="w-4 h-4" /> : <Paperclip className="w-4 h-4" />}
               </button>
 
               <div className="flex-1 relative">
@@ -464,18 +327,18 @@ const CreatorApp = ({ onBack }) => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Input design command..."
-                  className="w-full bg-[#1a1a1a] text-white placeholder-gray-500 font-mono text-sm rounded-xl pl-5 pr-14 py-4 focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/20 border border-[#2a2a2a] focus:border-[#00d1ff] transition-all"
+                  className="w-full bg-gray-800 text-white placeholder-gray-500 font-mono text-sm rounded-lg px-4 pr-10 py-2.5 focus:outline-none focus:ring-1 focus:ring-white/20 border border-gray-700 focus:border-gray-500"
                 />
                 <button
                   onClick={handleSend}
                   disabled={(!input.trim() && !selectedImage) || isTyping}
-                  className={`absolute right-3 top-3 p-2 rounded-lg transition-all ${
+                  className={`absolute right-2 top-1.5 p-1.5 rounded transition-all ${
                     (input.trim() || selectedImage) && !isTyping
-                      ? 'bg-[#00d1ff] text-black hover:bg-[#00b8e0]'
-                      : 'bg-[#2a2a2a] text-gray-500'
+                      ? 'bg-white text-black'
+                      : 'bg-gray-700 text-gray-500'
                   }`}
                 >
-                  {isTyping ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  {isTyping ? <Loader2 className="w-3 h-3 animate-spin" /> : <Send className="w-3 h-3" />}
                 </button>
               </div>
             </div>
@@ -483,53 +346,76 @@ const CreatorApp = ({ onBack }) => {
         </div>
 
         {/* Blueprint Preview Panel */}
-        <div className="w-80 bg-[#0a0a0a] border-l border-[#2a2a2a] flex flex-col">
-          <div className="p-4 border-b border-[#2a2a2a]">
-            <h3 className="font-bold text-white flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#00d1ff]" />
+        <div className="w-72 bg-black border-l border-gray-800 flex flex-col">
+          <div className="p-3 border-b border-gray-800">
+            <h3 className="font-bold text-white text-sm flex items-center gap-2">
+              <FileText className="w-3 h-3" />
               Blueprint Preview
             </h3>
           </div>
 
           <div className="flex-1 p-4 overflow-auto">
-            {blueprintPreview ? (
-              <div className="space-y-4">
-                {/* Preview Card */}
-                <div className="bg-[#1a1a1a] rounded-xl overflow-hidden border border-[#2a2a2a]">
-                  <div className="aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] flex items-center justify-center relative">
-                    <div className="text-center">
-                      <div className="w-20 h-20 mx-auto mb-3 rounded-full border-2 border-[#00d1ff]/30 flex items-center justify-center">
-                        <MapPin className="w-8 h-8 text-[#00d1ff]" />
+            {blueprintData ? (
+              <div className="space-y-3">
+                {/* Blueprint Card */}
+                <div className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
+                  <div className="aspect-square bg-gradient-to-br from-gray-900 to-black flex items-center justify-center relative p-4">
+                    {/* Grid overlay */}
+                    <div className="absolute inset-0 opacity-20" style={{
+                      backgroundImage: 'linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)',
+                      backgroundSize: '20px 20px'
+                    }}></div>
+
+                    {/* Location marker */}
+                    <div className="relative z-10 text-center">
+                      <div className="w-16 h-16 mx-auto mb-2 rounded-full border-2 border-white/20 flex items-center justify-center">
+                        <MapPin className="w-6 h-6 text-white" />
                       </div>
-                      <p className="text-xs font-mono text-gray-500">{blueprintPreview.id}</p>
+                      <p className="text-[10px] font-mono text-gray-400">{blueprintData.id}</p>
                     </div>
 
-                                            <FileText size={48} className="text-gray-600" />
-                                        )}
-                                        {/* Download Badge */}
-                                        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10">
-                                            DXF
-                                        </div>
-                                    </div>
+                    {/* DXF Badge */}
+                    <div className="absolute top-2 right-2 bg-black/70 backdrop-blur text-white text-[8px] font-bold px-2 py-0.5 rounded border border-white/10">
+                      DXF
+                    </div>
+                  </div>
 
-                                    {/* Footer Info */}
-                                    <div className="p-3 bg-[#1e293b] flex justify-between items-center border-t border-gray-700">
-                                        <div className="overflow-hidden mr-2">
-                                            <div className="font-bold text-gray-300 text-xs truncate">Blueprint</div>
-                                            <div className="text-[10px] text-gray-500 font-mono truncate">{msg.blueprint || "design_v1.dxf"}</div>
-                                        </div>
-                                        <button className="text-[10px] font-bold bg-[#00D1FF] hover:bg-[#00b8e0] text-white px-3 py-1.5 rounded-full flex items-center gap-1 transition-colors">
-                                            <Download size={10} /> GET
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                     </div>
-                 )}
+                  {/* Card Footer */}
+                  <div className="p-3 bg-gray-800/50 flex justify-between items-center border-t border-gray-700">
+                    <div className="overflow-hidden">
+                      <div className="font-bold text-white text-[10px] truncate">{blueprintData.name}</div>
+                      <div className="text-[8px] text-gray-500 font-mono">{blueprintData.id}</div>
+                    </div>
+                    <button className="text-[8px] font-bold bg-white hover:bg-gray-200 text-black px-2 py-1 rounded-full flex items-center gap-1">
+                      <Download size={8} />
+                      GET
+                    </button>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800 text-xs space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Exits:</span>
+                    <span className="text-white">{blueprintData.exits.length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Type:</span>
+                    <span className="text-white">Hall</span>
+                  </div>
+                  <div className="pt-2 border-t border-gray-800">
+                    <p className="text-gray-400 text-[10px]">{blueprintData.features}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="text-center text-gray-600 py-12">
+                <FileText className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-xs">No blueprint</p>
+                <p className="text-[10px] mt-1">Submit a command to create</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -545,26 +431,26 @@ const CreatorApp = ({ onBack }) => {
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 300, opacity: 0 }}
-              className="fixed right-0 top-0 bottom-0 w-80 bg-[#111111] border-l border-[#2a2a2a] z-50 p-6"
+              className="fixed right-0 top-0 bottom-0 w-64 bg-gray-900 border-l border-gray-800 z-50 p-4"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold">Export Options</h2>
+                <h2 className="text-sm font-bold">Export</h2>
                 <button onClick={() => setShowExport(false)}>
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="space-y-4">
-                <button className="w-full p-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-xl border border-[#2a2a2a] text-left transition-colors">
-                  <div className="font-bold mb-1">DXF Format</div>
-                  <div className="text-xs text-gray-500">AutoCAD compatible</div>
+              <div className="space-y-2">
+                <button className="w-full p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left text-sm">
+                  <div className="font-bold">DXF Format</div>
+                  <div className="text-[10px] text-gray-500">AutoCAD</div>
                 </button>
-                <button className="w-full p-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-xl border border-[#2a2a2a] text-left transition-colors">
-                  <div className="font-bold mb-1">JSON Data</div>
-                  <div className="text-xs text-gray-500">Raw topology data</div>
+                <button className="w-full p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left text-sm">
+                  <div className="font-bold">JSON</div>
+                  <div className="text-[10px] text-gray-500">Raw data</div>
                 </button>
-                <button className="w-full p-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] rounded-xl border border-[#2a2a2a] text-left transition-colors">
-                  <div className="font-bold mb-1">Image Export</div>
-                  <div className="text-xs text-gray-500">PNG with annotations</div>
+                <button className="w-full p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left text-sm">
+                  <div className="font-bold">PNG</div>
+                  <div className="text-[10px] text-gray-500">Image export</div>
                 </button>
               </div>
             </motion.div>
@@ -575,12 +461,12 @@ const CreatorApp = ({ onBack }) => {
   );
 };
 
-// Main App Component
+// ==================== MAIN APP ====================
 const App = () => {
   const [view, setView] = useState('landing');
 
   return (
-    <div className="font-sans antialiased text-white bg-[#0a0a0a] selection:bg-[#00d1ff] selection:text-black overflow-x-hidden">
+    <div className="font-sans antialiased text-white bg-black overflow-x-hidden">
       <Navbar
         onStartCreate={() => setView('creator')}
         onBack={() => setView('landing')}
