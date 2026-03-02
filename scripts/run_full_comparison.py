@@ -3,10 +3,11 @@
 """
 完整对比实验脚本
 
-使用 Base Model (Qwen2.5-32B 4bit) 运行：
-1. 与闭源模型对照实验 (GPT-5.2, Claude, Gemini)
-2. 与消融实验结果对比
-3. 生成完整的对比报告
+使用 Base Model (Qwen2.5-32B 4bit) 运行完整对比：
+1. 测试 Base Model (4bit) 性能
+2. 加载已有的闭源模型结果 (GPT-5.2, Claude, Gemini)
+3. 加载消融实验结果 (Ours)
+4. 生成完整对比报告
 
 使用方法：
     python scripts/run_full_comparison.py --base-url http://<服务器IP>:8000/v1
@@ -373,10 +374,44 @@ class FullComparisonRunner:
             'correlation': -0.083,
         }
 
-    def run(self, include_zero_shot: bool = False) -> Dict:
+    def load_existing_baseline_results(self) -> Dict:
+        """加载已有的闭源模型对照实验结果"""
+        baseline_dir = Path(project_root) / "data" / "outputs" / "baselines"
+        baseline_files = list(baseline_dir.glob("baseline_results_*.json"))
+
+        if not baseline_files:
+            print("    [!] 未找到已有的对照实验结果")
+            return {}
+
+        # 使用最新的结果文件
+        latest_file = max(baseline_files, key=lambda p: p.stat().st_mtime)
+        print(f"    [*] 加载已有对照实验结果: {latest_file.name}")
+
+        try:
+            with open(latest_file, 'r', encoding='utf-8') as f:
+                all_results = json.load(f)
+
+            # 提取闭源模型结果
+            zero_shot_results = {}
+            for key in ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]:
+                if key in all_results:
+                    zero_shot_results[key] = all_results[key]
+
+            # 也加载 Markov Chain 和 LSTM
+            if "Markov Chain" in all_results:
+                zero_shot_results["Markov Chain"] = all_results["Markov Chain"]
+            if "LSTM" in all_results:
+                zero_shot_results["LSTM"] = all_results["LSTM"]
+
+            return zero_shot_results
+        except Exception as e:
+            print(f"    [!] 加载已有结果失败: {e}")
+            return {}
+
+    def run(self) -> Dict:
         """运行完整对比实验"""
         print("="*90)
-        print("完整对比实验 - Base Model vs Ours")
+        print("完整对比实验 - Base Model (4bit) vs Fine-tuned vs Zero-Shot LLMs")
         print("="*90)
         print(f"Base Model URL: {self.base_url}")
         print(f"真实分布起点数: {len(self.real_distributions)}")
@@ -384,26 +419,24 @@ class FullComparisonRunner:
 
         results = {}
 
-        # 1. Base Model (4bit)
+        # 1. 加载已有的闭源模型结果
+        print("\n[*] Loading: 已有对照实验结果...")
+        existing_results = self.load_existing_baseline_results()
+        for name, result in existing_results.items():
+            results[name] = result
+            print(f"    {name}: Top-1={result['top1_accuracy']:.1%}")
+
+        # 2. Base Model (4bit)
         print("\n[*] Testing: Base Model (Qwen2.5-32B 4bit)...")
         base_model = BaseModelEvaluator(self.base_url)
         results['Base Model (4bit)'] = self.evaluate_method(base_model)
         results['Base Model (4bit)'].update(base_model.get_efficiency_stats())
         self._print_result('Base Model (4bit)', results['Base Model (4bit)'])
 
-        # 2. Ours (消融实验结果)
+        # 3. Ours (消融实验结果)
         print("\n[*] Loading: Ours (Fine-tuned) from ablation results...")
         results['Ours (Fine-tuned)'] = self.load_ablation_results()
         self._print_result('Ours (Fine-tuned)', results['Ours (Fine-tuned)'])
-
-        # 3. Zero-Shot LLMs (可选)
-        if include_zero_shot:
-            zero_shot_models = ["GPT-5.2", "Claude-Sonnet-4-6", "Gemini-3.1-Pro-Thinking"]
-            for model_name in zero_shot_models:
-                print(f"\n[*] Testing: {model_name}...")
-                # 这里需要实现 Zero-Shot LLM 的调用
-                # 由于需要 API key，暂时跳过
-                pass
 
         # 保存结果
         self._save_results(results)
@@ -491,14 +524,12 @@ class FullComparisonRunner:
 # ============================================
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="完整对比实验 - Base Model vs Fine-tuned")
+    parser = argparse.ArgumentParser(description="完整对比实验 - Base Model (4bit) vs Fine-tuned vs Zero-Shot LLMs")
     parser.add_argument("--base-url", default="http://localhost:8000/v1",
                         help="Base Model API URL (vLLM)")
     parser.add_argument("--ablation", default=None,
                         help="消融实验结果路径")
-    parser.add_argument("--include-zero-shot", action="store_true",
-                        help="是否包含 Zero-Shot LLM 对照")
     args = parser.parse_args()
 
     runner = FullComparisonRunner(args.base_url, args.ablation)
-    results = runner.run(include_zero_shot=args.include_zero_shot)
+    results = runner.run()
