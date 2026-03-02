@@ -221,20 +221,23 @@ def predict_saliency_heatmap(image_path, masks_data, output_path, sigma=20):
     if saliency_masked.max() > 0:
         saliency_masked = saliency_masked / saliency_masked.max()
 
-    # 使用 'hot' 色图（红黄色，适合热力图）
-    colormap = plt.get_cmap('hot')
+    # 增强对比度 - 使热度更深
+    saliency_masked = np.power(saliency_masked, 0.5)  # 降低幂次增强高值区域
+
+    # 使用 'jet' 色图（蓝到红，更明显）
+    colormap = plt.get_cmap('jet')
     colored_heatmap = colormap(saliency_masked)
 
-    # 叠加到原图
-    alpha = 0.7  # 热力图透明度
+    # 叠加到原图 - 降低原图透明度使热力图更明显
+    alpha = 0.5  # 原图透明度（降低）
     result_array = image.copy().astype(np.float32)
 
     # 只在有显著性的区域叠加
-    mask = saliency_masked > 0.1
+    mask = saliency_masked > 0.05
     for c in range(3):
         result_array[:, :, c] = (
-            image[:, :, c] * (1 - alpha * saliency_masked) +
-            colored_heatmap[:, :, c] * 255 * alpha * saliency_masked
+            image[:, :, c] * alpha +
+            colored_heatmap[:, :, c] * 255 * (1 - alpha)
         )
 
     result_array = np.clip(result_array, 0, 255).astype(np.uint8)
@@ -301,36 +304,36 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(img_array)
 
-    # 白色路径线
+    # 白色路径线 - 加粗
     if len(fixations) > 1:
         path_x = [f['center'][0] for f in fixations]
         path_y = [f['center'][1] for f in fixations]
-        # 外层黑色轮廓（增加对比度）
-        ax.plot(path_x, path_y, color='black', linewidth=5, alpha=0.8,
+        # 外层黑色轮廓（加粗）
+        ax.plot(path_x, path_y, color='black', linewidth=8, alpha=0.9,
                linestyle='-', marker='', zorder=2)
-        # 内层白色
-        ax.plot(path_x, path_y, color='white', linewidth=3, alpha=1.0,
+        # 内层白色（加粗）
+        ax.plot(path_x, path_y, color='white', linewidth=5, alpha=1.0,
                linestyle='-', marker='', zorder=3)
 
-    # 注视点圆圈
+    # 注视点圆圈 - 加大
     for fix in fixations:
         cx, cy = fix['center']
         duration = fix['duration']
         seq = fix['sequence']
 
-        radius = max(15, min(45, int(duration / 4)))
+        radius = max(25, min(60, int(duration / 3.5)))  # 加大圆圈
 
-        # 黑色轮廓
+        # 黑色轮廓（加粗）
         circle = Circle((cx, cy), radius, facecolor='white',
-                       edgecolor='black', linewidth=4, alpha=0.95, zorder=4)
+                       edgecolor='black', linewidth=6, alpha=0.95, zorder=4)
         ax.add_patch(circle)
         # 白色填充
-        circle_inner = Circle((cx, cy), radius - 2, facecolor='white',
-                       edgecolor='white', linewidth=2, alpha=0.9, zorder=5)
+        circle_inner = Circle((cx, cy), radius - 3, facecolor='white',
+                       edgecolor='white', linewidth=3, alpha=0.9, zorder=5)
         ax.add_patch(circle_inner)
 
-        # 序号
-        ax.text(cx, cy, str(seq), color='black', fontsize=14, fontweight='bold',
+        # 序号（加大字体）
+        ax.text(cx, cy, str(seq), color='black', fontsize=18, fontweight='bold',
                ha='center', va='center', zorder=6)
 
     ax.axis('off')
@@ -372,19 +375,26 @@ def generate_table_data(masks_data, fixations, image_path, output_dir):
                     first_fixation = fix['sequence']
                 last_fixation = fix['sequence']
 
+        avg_duration = total_duration / gaze_count if gaze_count > 0 else 0
+
         exhibits.append({
-            'id': f'EX-{i:03d}',
+            'id': f'E{i+1}',
             'bbox': [int(x) for x in bbox],
             'center': [cx, cy],
             'area_pixels': area,
-            'area_ratio': f'{area / (width * height) * 100:.2f}%',
-            'sam_score': f'{score:.3f}',
+            'area_ratio': area / (width * height) * 100,
+            'sam_score': score,
             'gaze_count': gaze_count,
-            'total_duration': f'{total_duration:.1f}',
-            'avg_duration': f'{total_duration / gaze_count:.1f}' if gaze_count > 0 else '0',
-            'first_look': first_fixation,
-            'last_look': last_fixation
+            'total_duration': total_duration,
+            'avg_duration': avg_duration,
+            'first_look': first_fixation or '-',
+            'last_look': last_fixation or '-'
         })
+
+    # 计算总体统计
+    total_duration_all = sum(f['duration'] for f in fixations)
+    avg_duration_all = total_duration_all / len(fixations) if fixations else 0
+    gazed_count = sum(1 for e in exhibits if e['gaze_count'] > 0)
 
     summary = {
         'timestamp': '2026-03-02T00:00:00',
@@ -394,20 +404,37 @@ def generate_table_data(masks_data, fixations, image_path, output_dir):
             'height': height,
             'total_pixels': width * height
         },
-        'summary': {
-            'total_exhibits': len(masks_data),
-            'analyzed_exhibits': len(exhibits),
-            'total_fixations': len(fixations),
-            'gazed_exhibits': sum(1 for e in exhibits if e['gaze_count'] > 0)
+        'table1_exhibit_stats': {
+            'columns': ['Exhibit', 'Area(%)', 'Fixations', 'Total(s)', 'Avg(s)', 'First#'],
+            'rows': [
+                [e['id'],
+                 f"{e['area_ratio']:.1f}",
+                 e['gaze_count'],
+                 f"{e['total_duration']:.1f}",
+                 f"{e['avg_duration']:.1f}" if e['avg_duration'] > 0 else '-',
+                 e['first_look']]
+                for e in exhibits
+            ]
+        },
+        'table2_scanpath_stats': {
+            'columns': ['Metric', 'Value'],
+            'rows': [
+                ['Total Exhibits', len(masks_data)],
+                ['Gazed Exhibits', gazed_count],
+                ['Total Fixations', len(fixations)],
+                ['Total Duration (s)', f'{total_duration_all/1000:.1f}'],
+                ['Avg Fixation (s)', f'{avg_duration_all/1000:.1f}'],
+                ['Gaze Coverage (%)', f'{gazed_count/len(exhibits)*100:.1f}' if exhibits else '0']
+            ]
         },
         'exhibits': exhibits,
         'fixations': [
             {
                 'sequence': f['sequence'],
-                'exhibit_id': f"EX-{f['index']:03d}",
+                'exhibit_id': f"E{f['index']+1}",
                 'center': f['center'],
-                'duration': f'{f["duration"]:.1f}',
-                'score': f'{f["score"]:.3f}'
+                'duration': f['duration'],
+                'score': f['score']
             }
             for f in fixations
         ]
@@ -419,15 +446,71 @@ def generate_table_data(masks_data, fixations, image_path, output_dir):
         json.dump(summary, f, indent=2, ensure_ascii=False)
     print(f"[+] 保存表格数据: {json_path}")
 
-    # 打印Markdown表格
+    # 打印论文格式表格 TABLE I
     print("\n" + "=" * 100)
-    print("论文表格数据 (Markdown格式)")
+    print("TABLE I: Exhibit Gaze Statistics")
     print("=" * 100)
-    print("| 展品ID | 边界框 | 面积占比 | SAM分数 | 注视次数 | 总时长(ms) | 平均时长 | 首次注视 |")
-    print("|--------|--------|----------|---------|----------|------------|----------|----------|")
+
+    # 表头
+    header = f"{'Exhibit':<10} {'Area(%)':<10} {'Fixations':<12} {'Total(s)':<12} {'Avg(s)':<10} {'First#':<8}"
+    print(header)
+    print("-" * 80)
+
     for e in exhibits:
-        bbox_str = f"({e['bbox'][0]},{e['bbox'][1]},{e['bbox'][2]},{e['bbox'][3]})"
-        print(f"| {e['id']} | {bbox_str} | {e['area_ratio']} | {e['sam_score']} | {e['gaze_count']} | {e['total_duration']} | {e['avg_duration']} | {e['first_look'] or '-'} |")
+        row = f"{e['id']:<10} {e['area_ratio']:<10.1f} {e['gaze_count']:<12} "
+        row += f"{e['total_duration']:<12.1f} "
+        if e['avg_duration'] > 0:
+            row += f"{e['avg_duration']:<10.1f} "
+        else:
+            row += f"{'-':<10} "
+        row += f"{e['first_look']:<8}"
+        print(row)
+
+    # 打印论文格式表格 TABLE II
+    print("\n" + "=" * 100)
+    print("TABLE II: Scan Path Statistics")
+    print("=" * 100)
+
+    stats = summary['table2_scanpath_stats']['rows']
+    for metric, value in stats:
+        print(f"{metric:<30} {value}")
+
+    # LaTeX 格式输出
+    latex_path = os.path.join(output_dir, 'table_latex.txt')
+    with open(latex_path, 'w', encoding='utf-8') as f:
+        f.write("% TABLE I: Exhibit Gaze Statistics\\n")
+        f.write("\\begin{table}[htbp]\\n")
+        f.write("\\centering\\n")
+        f.write("\\caption{Exhibit Gaze Statistics}\\n")
+        f.write("\\label{tab:exhibit_stats}\\n")
+        f.write("\\begin{tabular}{lccccc}\\n")
+        f.write("\\hline\\n")
+        f.write("Exhibit & Area(\\%) & Fixations & Total(s) & Avg(s) & First\\# \\\\\\\\\n")
+        f.write("\\hline\\n")
+        for e in exhibits:
+            avg_str = f"{e['avg_duration']:.1f}" if e['avg_duration'] > 0 else "-"
+            f.write(f"{e['id']} & {e['area_ratio']:.1f} & {e['gaze_count']} & "
+                   f"{e['total_duration']:.1f} & {avg_str} & {e['first_look']} \\\\\\\\\n")
+        f.write("\\hline\\n")
+        f.write("\\end{tabular}\\n")
+        f.write("\\end{table}\\n\\n")
+
+        f.write("% TABLE II: Scan Path Statistics\\n")
+        f.write("\\begin{table}[htbp]\\n")
+        f.write("\\centering\\n")
+        f.write("\\caption{Scan Path Statistics}\\n")
+        f.write("\\label{tab:scanpath_stats}\\n")
+        f.write("\\begin{tabular}{ll}\\n")
+        f.write("\\hline\\n")
+        f.write("Metric & Value \\\\\\\\\n")
+        f.write("\\hline\\n")
+        for metric, value in stats:
+            f.write(f"{metric} & {value} \\\\\\\\\n")
+        f.write("\\hline\\n")
+        f.write("\\end{tabular}\\n")
+        f.write("\\end{table}\\n")
+
+    print(f"\n[+] 保存LaTeX表格: {latex_path}")
 
     return summary
 
