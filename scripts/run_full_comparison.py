@@ -169,8 +169,8 @@ class BaseModelEvaluator:
         self.total_time = 0
         self.num_requests = 0
 
-    def get_distribution(self, current: str, candidates: List[str]) -> Dict[str, float]:
-        """获取概率分布"""
+    def get_distribution(self, current: str, candidates: List[str], max_retries: int = 3) -> Dict[str, float]:
+        """获取概率分布（支持重试）"""
         features = EXHIBIT_FEATURES.get(current, "")
         neighbors = TOPOLOGY_ADJACENCY.get(current, [])
 
@@ -186,53 +186,59 @@ class BaseModelEvaluator:
 {{"predictions": [{{"name": "展品1", "probability": 0.5}}, {{"name": "展品2", "probability": 0.3}}, ...]}}
 """
 
-        start_time = time.time()
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=300
-            )
+        for retry in range(max_retries):
+            start_time = time.time()
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.3,
+                    max_tokens=300
+                )
 
-            elapsed = time.time() - start_time
-            result = response.choices[0].message.content.strip()
+                elapsed = time.time() - start_time
+                result = response.choices[0].message.content.strip()
 
-            # 追踪 token 和时间
-            self.total_input_tokens += response.usage.prompt_tokens
-            self.total_output_tokens += response.usage.completion_tokens
-            self.total_time += elapsed
-            self.num_requests += 1
+                # 追踪 token 和时间（只在第一次成功时记录）
+                if retry == 0:
+                    self.total_input_tokens += response.usage.prompt_tokens
+                    self.total_output_tokens += response.usage.completion_tokens
+                    self.total_time += elapsed
 
-            # 解析JSON
-            import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                preds = parsed.get('predictions', [])
-                if preds:
-                    dist = {}
-                    for p in preds:
-                        name = p.get('name')
-                        prob = p.get('probability', 0)
-                        if name and name in candidates:
-                            dist[name] = prob
-                    # 归一化
-                    total = sum(dist.values())
-                    if total > 0:
-                        dist = {k: v/total for k, v in dist.items()}
-                        return dist
+                # 解析JSON
+                import re
+                json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                if json_match:
+                    parsed = json.loads(json_match.group())
+                    preds = parsed.get('predictions', [])
+                    if preds:
+                        dist = {}
+                        for p in preds:
+                            name = p.get('name')
+                            prob = p.get('probability', 0)
+                            if name and name in candidates:
+                                dist[name] = prob
+                        # 归一化
+                        total = sum(dist.values())
+                        if total > 0:
+                            self.num_requests += 1
+                            return {k: v/total for k, v in dist.items()}
+                        else:
+                            print(f"    [RETRY {retry+1}] {current} -> 概率和为0")
                     else:
-                        print(f"    [DEBUG] {current} -> 概率和为0，原始预测: {preds}")
+                        print(f"    [RETRY {retry+1}] {current} -> 无predictions，返回: {result[:80]}")
                 else:
-                    print(f"    [DEBUG] {current} -> 无predictions，原始返回: {result[:100]}")
-            else:
-                print(f"    [DEBUG] {current} -> JSON解析失败，原始返回: {result[:100]}")
-        except Exception as e:
-            print(f"    [!] Base Model error for {current}: {e}")
+                    print(f"    [RETRY {retry+1}] {current} -> JSON解析失败，返回: {result[:80]}")
 
-        # 默认：均匀分布
-        print(f"    [DEBUG] {current} -> 使用均匀分布")
+                # 重试：调整 prompt
+                if retry < max_retries - 1:
+                    prompt += "\n\n请直接返回JSON格式，不要有其他文字说明。"
+
+            except Exception as e:
+                print(f"    [RETRY {retry+1}] {current} -> 错误: {e}")
+
+        # 所有重试都失败，使用均匀分布
+        print(f"    [FAILED] {current} -> 使用均匀分布（已重试{max_retries}次）")
         return {c: 1.0/len(candidates) for c in candidates}
 
     def get_efficiency_stats(self) -> Dict:
