@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 生成论文用图表 - IROS Gaze 系统 (GPU服务器版本)
+集成 VLM + SAM2 + 热力图 + 扫描路径
 """
 
 import os
 import sys
 import argparse
 import json
+import base64
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -30,20 +32,132 @@ if sam2_path not in sys.path:
     sys.path.insert(0, sam2_path)
 
 
+def call_qwen_vlm(image_path):
+    """使用 Qwen-VL 识别图片中的展品及位置"""
+    print("\n" + "="*60)
+    print("步骤 (a): VLM 识别展品")
+    print("="*60)
+
+    # 获取 API 配置
+    api_key = os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
+    if not api_key or api_key == "your_api_key_here":
+        print("[!] 错误: 未找到有效的 API Key")
+        print("    请在 .env 文件中设置 QWEN_API_KEY")
+        return []
+
+    base_url = os.getenv("QWEN_BASE_URL") or os.getenv("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+    model = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
+
+    print(f"    API: {base_url}")
+    print(f"    Model: {model}")
+
+    # 编码图片
+    with open(image_path, "rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode('utf-8')
+
+    prompt = """请分析这张展厅图片，识别出所有值得观看的展品。
+
+对于每个展品，请提供：
+1. 展品名称（简洁，如：画作1、雕塑A）
+2. 展品类型（必须是：画作、雕塑、装置艺术、摄影作品之一）
+3. 在图片中的位置（边界框坐标 [x1, y1, x2, y2]，其中 (0,0) 是左上角）
+4. 简短描述（10字以内）
+
+请以 JSON 格式返回：
+[
+  {
+    "name": "展品名称",
+    "type": "画作/雕塑/装置艺术/摄影作品",
+    "bbox": [x1, y1, x2, y2],
+    "description": "描述"
+  }
+]
+
+要求：
+- 只识别真正的展品，忽略墙壁、地板、展柜、灯光
+- 边界框要紧凑地包围展品主体
+- 返回 5-12 个主要展品
+- type 必须是：画作、雕塑、装置艺术、摄影作品 之一"""
+
+    print("[*] 调用 Qwen-VL API...")
+
+    try:
+        from openai import OpenAI
+
+        client = OpenAI(api_key=api_key, base_url=base_url)
+
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}
+                        }
+                    ]
+                }
+            ],
+            temperature=0.3,
+            max_tokens=2000
+        )
+
+        result_text = response.choices[0].message.content
+
+        # 解析 JSON
+        import re
+        json_match = re.search(r'\[.*\]', result_text, re.DOTALL)
+        if json_match:
+            exhibits = json.loads(json_match.group())
+
+            # 验证并过滤
+            valid_exhibits = []
+            for ex in exhibits:
+                bbox = ex.get('bbox', [])
+                if len(bbox) == 4:
+                    try:
+                        x1, y1, x2, y2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
+                        area = (x2 - x1) * (y2 - y1)
+                        if 500 < area < 600000:  # 面积合理
+                            # 规范化 type
+                            ex_type = ex.get('type', '画作')
+                            if ex_type not in ['画作', '雕塑', '装置艺术', '摄影作品']:
+                                ex_type = '画作'
+                            valid_exhibits.append({
+                                "name": ex.get('name', f'展品{len(valid_exhibits)+1}'),
+                                "type": ex_type,
+                                "bbox": [x1, y1, x2, y2],
+                                "description": ex.get('description', '')
+                            })
+                    except (ValueError, TypeError):
+                        continue
+
+            print(f"[+] VLM 识别到 {len(valid_exhibits)} 个有效展品")
+            return valid_exhibits
+        else:
+            print("[!] 无法解析 VLM 响应为 JSON")
+            return []
+
+    except Exception as e:
+        print(f"[!] VLM 调用失败: {e}")
+        return []
+
+
 class SAM2Segmenter:
-    """SAM2 自动分割器"""
+    """SAM2 精细分割器"""
 
     def __init__(self, model_path, device='cuda'):
         self.model_path = model_path
         self.device = device
 
-        # 获取绝对路径（在切换目录之前）
         if not os.path.isabs(model_path):
             abs_model_path = os.path.join(project_root, model_path)
         else:
             abs_model_path = model_path
 
-        print(f"[*] 初始化 SAM2...")
+        print(f"\n[*] 初始化 SAM2...")
         print(f"    模型: {model_path}")
 
         if not os.path.exists(abs_model_path):
@@ -54,11 +168,8 @@ class SAM2Segmenter:
             from sam2.sam2_image_predictor import SAM2ImagePredictor
 
             # 根据文件名确定配置
-            # 注意: sam2_hiera_small.pt 是 SAM2 v1，用 sam2_hiera_s
-            #       sam2.1_hiera_small.pt 是 SAM2 v2.1，用 sam2.1_hiera_s
             model_filename = os.path.basename(model_path).lower()
             if 'sam2.1' in model_filename:
-                # SAM2 v2.1 模型
                 if 'hiera_small' in model_filename:
                     config_name = "sam2.1_hiera_s"
                 elif 'hiera_tiny' in model_filename:
@@ -66,7 +177,6 @@ class SAM2Segmenter:
                 else:
                     config_name = "sam2.1_hiera_s"
             else:
-                # SAM2 v1 模型 (默认)
                 if 'hiera_small' in model_filename or 'small' in model_filename:
                     config_name = "sam2_hiera_s"
                 elif 'hiera_tiny' in model_filename or 'tiny' in model_filename:
@@ -80,7 +190,6 @@ class SAM2Segmenter:
 
             print(f"    配置: {config_name}")
 
-            # 直接调用 build_sam2，不切换目录
             model = build_sam2(
                 config_file=config_name,
                 ckpt_path=abs_model_path,
@@ -92,64 +201,105 @@ class SAM2Segmenter:
 
         except Exception as e:
             print(f"[!] SAM2 加载失败: {e}")
-            print("[*] 请检查:")
-            print("    1. 模型文件存在: ls -la models/sam2/")
-            print("    2. SAM2 已正确安装: cd sam2 && pip install -e .")
             raise
 
+    def refine_with_vlm_boxes(self, image_np, vlm_exhibits):
+        """基于 VLM bbox 进行精细分割"""
+        print("\n" + "="*60)
+        print("步骤 (b): SAM2 精细分割")
+        print("="*60)
 
-    def auto_segment_all(self, image_path, points_per_side=32,
-                        pred_iou_thresh=0.88, stability_score_thresh=0.95,
-                        min_mask_region_area=500, max_mask_region_area=500000):
-        """自动分割图像中的所有区域"""
-        from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
-
-        image = Image.open(image_path).convert('RGB')
-        image_np = np.array(image)
+        self.predictor.set_image(image_np)
         height, width = image_np.shape[:2]
 
-        print(f"\n[*] 运行 SAM2 自动分割...")
-        print(f"    图像尺寸: {width}x{height}")
+        refined_exhibits = []
 
-        mask_generator = SAM2AutomaticMaskGenerator(
-            model=self.predictor.model,
-            points_per_side=points_per_side,
-            pred_iou_thresh=pred_iou_thresh,
-            stability_score_thresh=stability_score_thresh,
-            min_mask_region_area=min_mask_region_area,
-            max_mask_region_area=max_mask_region_area,
-            output_mode='binary_mask'
-        )
+        for i, exhibit in enumerate(vlm_exhibits):
+            print(f"    处理 {exhibit['name']}...")
 
-        masks = mask_generator.generate(image_np)
-        print(f"[+] 发现 {len(masks)} 个区域")
+            bbox = exhibit['bbox']
+            x1, y1, x2, y2 = bbox
+            box = np.array([x1, y1, x2, y2])
 
-        valid_masks = []
-        for mask_data in masks:
-            area = mask_data.get('area', 0)
-            if min_mask_region_area <= area <= max_mask_region_area:
-                score = mask_data.get('predicted_iou', 0)
-                if score > pred_iou_thresh:
-                    valid_masks.append(mask_data)
+            try:
+                masks, scores, logits = self.predictor.predict(
+                    box=box,
+                    multimask_output=True,
+                )
 
-        valid_masks.sort(key=lambda x: x.get('area', 0), reverse=True)
-        print(f"[+] 过滤后有效区域: {len(valid_masks)}")
+                best_idx = np.argmax(scores)
+                best_mask = masks[best_idx]
+                best_score = float(scores[best_idx])
 
-        return valid_masks, image_np
+                # 计算精细边界框
+                rows = np.any(best_mask, axis=1)
+                cols = np.any(best_mask, axis=0)
 
-    def create_segmentation_visualization(self, image_np, masks_data, output_path):
-        """创建分割掩码可视化 - 分割区域显示原图，其他区域黑色"""
+                if np.any(rows) and np.any(cols):
+                    rmin, rmax = np.where(rows)[0][[0, -1]]
+                    cmin, cmax = np.where(cols)[0][[0, -1]]
+
+                    refined_bbox = [int(cmin), int(rmin), int(cmax), int(rmax)]
+                    center = [int((cmin + cmax) / 2), int((rmin + rmax) / 2)]
+                    area = int((cmax - cmin) * (rmax - rmin))
+
+                    refined_exhibits.append({
+                        'id': f"E{i+1}",
+                        'name': exhibit['name'],
+                        'type': exhibit['type'],
+                        'description': exhibit['description'],
+                        'vlm_bbox': bbox,
+                        'bbox': refined_bbox,
+                        'center': center,
+                        'area': area,
+                        'sam_score': best_score,
+                        'mask': best_mask
+                    })
+                    print(f"        分割成功: 面积={area}, 置信度={best_score:.3f}")
+                else:
+                    # 使用原始 bbox
+                    self._add_fallback(exhibit, i, refined_exhibits)
+
+            except Exception as e:
+                print(f"        分割失败: {e}, 使用VLM bbox")
+                self._add_fallback(exhibit, i, refined_exhibits)
+
+        print(f"[+] 精细分割完成: {len(refined_exhibits)} 个展品")
+        return refined_exhibits, image_np
+
+    def _add_fallback(self, exhibit, idx, refined_list):
+        """添加使用原始 VLM bbox 的展品"""
+        bbox = exhibit['bbox']
+        x1, y1, x2, y2 = bbox
+        refined_list.append({
+            'id': f"E{idx+1}",
+            'name': exhibit['name'],
+            'type': exhibit['type'],
+            'description': exhibit['description'],
+            'vlm_bbox': bbox,
+            'bbox': [int(x1), int(y1), int(x2), int(y2)],
+            'center': [int((x1 + x2) / 2), int((y1 + y2) / 2)],
+            'area': int((x2 - x1) * (y2 - y1)),
+            'sam_score': 0.80,
+            'mask': None
+        })
+
+    def create_segmentation_visualization(self, image_np, exhibits, output_path):
+        """创建分割掩码可视化"""
         height, width = image_np.shape[:2]
 
         # 创建黑色背景
         result = np.zeros_like(image_np)
 
-        # 创建统一的掩码（所有分割区域）
+        # 创建统一掩码
         combined_mask = np.zeros((height, width), dtype=bool)
 
-        for mask_data in masks_data:
-            mask = mask_data.get('segmentation')
-            combined_mask = combined_mask | mask
+        for ex in exhibits:
+            if ex.get('mask') is not None:
+                combined_mask = combined_mask | ex['mask']
+            else:
+                x1, y1, x2, y2 = ex['bbox']
+                combined_mask[y1:y2, x1:x2] = True
 
         # 只在掩码区域显示原图
         result[combined_mask] = image_np[combined_mask]
@@ -161,79 +311,69 @@ class SAM2Segmenter:
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='black', pad_inches=0)
         plt.close()
-        print(f"[+] 保存 SAM2 分割图: {output_path}")
+        print(f"[+] 保存分割图: {output_path}")
 
         return result
 
 
-def predict_saliency_heatmap(image_path, masks_data, output_path, sigma=20):
-    """基于视觉显著性模型预测热力图 - 只在分割区域显示热度"""
+def predict_saliency_heatmap(image_path, exhibits, output_path, sigma=20):
+    """基于展品位置预测热力图"""
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     height, width = image.shape[:2]
 
-    print("\n[*] 计算视觉显著性...")
+    print("\n" + "="*60)
+    print("步骤 (c): 视觉显著性预测")
+    print("="*60)
 
-    lab = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
-    l_channel = lab[:, :, 0].astype(np.float32)
-    a_channel = lab[:, :, 1].astype(np.float32)
-    b_channel = lab[:, :, 2].astype(np.float32)
+    # 创建基础显著性图
+    saliency = np.zeros((height, width), dtype=np.float32)
 
-    g1 = cv2.GaussianBlur(l_channel, (0, 0), 5)
-    g2 = cv2.GaussianBlur(l_channel, (0, 0), 20)
-    brightness_contrast = np.abs(g1 - g2)
+    for ex in exhibits:
+        bbox = ex['bbox']
+        x1, y1, x2, y2 = bbox
+        cx, cy = ex['center']
 
-    a_blur = cv2.GaussianBlur(a_channel, (0, 0), 10)
-    b_blur = cv2.GaussianBlur(b_channel, (0, 0), 10)
-    color_contrast = np.sqrt((a_channel - a_blur) ** 2 + (b_channel - b_blur) ** 2)
+        # 基于面积的基础显著性
+        area_ratio = ex['area'] / (width * height)
+        base_saliency = 0.5 + min(0.5, area_ratio * 10)
 
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    edges = cv2.Canny(gray, 50, 150)
-    edges = cv2.GaussianBlur(edges.astype(np.float32), (0, 0), 5)
-    edges = edges / edges.max() if edges.max() > 0 else edges
+        # 在 bbox 区域创建高斯分布
+        y, x = np.mgrid[y1:y2, x1:x2]
+        if y.size > 0 and x.size > 0:
+            local_sigma = min(x2-x1, y2-y1) / 4
+            if local_sigma > 1:
+                gaussian = np.exp(-((x - cx)**2 + (y - cy)**2) / (2 * local_sigma**2))
+                # 只在有效范围内设置
+                valid_y = np.clip(y, 0, height-1).astype(int)
+                valid_x = np.clip(x, 0, width-1).astype(int)
+                for iy, ix, val in zip(valid_y.flatten(), valid_x.flatten(), gaussian.flatten()):
+                    if 0 <= iy < height and 0 <= ix < width:
+                        saliency[iy, ix] = max(saliency[iy, ix], val * base_saliency)
 
+    # 添加中心偏置
     cy, cx = height // 2, width // 2
     y, x = np.mgrid[:height, :width]
-    center_bias = np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * (min(height, width) / 3) ** 2))
+    center_bias = np.exp(-((x - cx)**2 + (y - cy)**2) / (2 * (min(height, width) / 2.5)**2))
+    saliency = saliency * 0.7 + center_bias * 0.3
 
-    saliency = (
-        brightness_contrast * 0.3 +
-        color_contrast * 0.3 +
-        edges * 0.2 +
-        center_bias * 0.2
-    )
-
+    # 平滑和归一化
     saliency = gaussian_filter(saliency, sigma=sigma)
     if saliency.max() > 0:
         saliency = saliency / saliency.max()
 
-    # 创建统一掩码
-    combined_mask = np.zeros((height, width), dtype=bool)
-    for mask_data in masks_data:
-        mask = mask_data.get('segmentation')
-        combined_mask = combined_mask | mask
+    # 增强对比度
+    saliency = np.power(saliency, 0.4)
 
-    # 只在分割区域保留显著性
-    saliency_masked = saliency.copy()
-    saliency_masked[~combined_mask] = 0
-
-    # 重新归一化（只在分割区域内）
-    if saliency_masked.max() > 0:
-        saliency_masked = saliency_masked / saliency_masked.max()
-
-    # 增强对比度 - 使热度更深
-    saliency_masked = np.power(saliency_masked, 0.5)  # 降低幂次增强高值区域
-
-    # 使用 'jet' 色图（蓝到红，更明显）
+    # 使用 'jet' 色图
     colormap = plt.get_cmap('jet')
-    colored_heatmap = colormap(saliency_masked)
+    colored_heatmap = colormap(saliency)
 
-    # 叠加到原图 - 降低原图透明度使热力图更明显
-    alpha = 0.5  # 原图透明度（降低）
+    # 叠加到原图
+    alpha = 0.45
     result_array = image.copy().astype(np.float32)
 
-    # 只在有显著性的区域叠加
-    mask = saliency_masked > 0.05
+    mask = saliency > 0.02
     for c in range(3):
         result_array[:, :, c] = (
             image[:, :, c] * alpha +
@@ -242,7 +382,6 @@ def predict_saliency_heatmap(image_path, masks_data, output_path, sigma=20):
 
     result_array = np.clip(result_array, 0, 255).astype(np.uint8)
 
-    # 单图显示
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(result_array)
     ax.axis('off')
@@ -250,90 +389,109 @@ def predict_saliency_heatmap(image_path, masks_data, output_path, sigma=20):
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
-    print(f"[+] 保存预测热力图: {output_path}")
+    print(f"[+] 保存热力图: {output_path}")
 
-    return saliency_masked
+    return saliency
 
 
-def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fixations=10):
-    """基于显著性和分割结果预测扫描路径"""
+def predict_scan_path(image_path, saliency_map, exhibits, output_path, num_fixations=10):
+    """基于显著性和展品信息预测扫描路径"""
     image = Image.open(image_path).convert('RGB')
     img_array = np.array(image)
     height, width = img_array.shape[:2]
 
-    print(f"\n[*] 预测扫描路径 ({num_fixations} 个注视点)...")
+    print("\n" + "="*60)
+    print("步骤 (d): 扫描路径预测")
+    print("="*60)
 
-    mask_scores = []
-    for i, mask_data in enumerate(masks_data):
-        mask = mask_data.get('segmentation')
-        bbox = mask_data.get('bbox', [])
+    # 计算每个展品的注视得分
+    exhibit_scores = []
+    for ex in exhibits:
+        bbox = ex['bbox']
+        x1, y1, x2, y2 = bbox
+        cx, cy = ex['center']
 
-        mean_saliency = saliency_map[mask].mean()
+        # 该区域的平均显著性
+        mean_saliency = saliency_map[y1:y2, x1:x2].mean() if y2 > y1 and x2 > x1 else 0
 
-        x, y, w, h = bbox
-        cx, cy = x + w/2, y + h/2
+        # 中心偏置
         img_cx, img_cy = width/2, height/2
         dist_to_center = np.sqrt((cx - img_cx)**2 + (cy - img_cy)**2)
         center_bias = np.exp(-dist_to_center / (min(width, height) / 2))
 
-        score = mean_saliency * 0.7 + center_bias * 0.3
+        # 类型偏好：画作 > 雕塑 > 其他
+        type_bonus = {'画作': 1.0, '雕塑': 0.9, '摄影作品': 0.85, '装置艺术': 0.8}
+        type_pref = type_bonus.get(ex['type'], 0.85)
 
-        mask_scores.append({
-            'index': i,
-            'bbox': bbox,
-            'center': (int(cx), int(cy)),
+        # 综合得分
+        score = (mean_saliency * 0.5 + center_bias * 0.3 + type_pref * 0.2)
+
+        exhibit_scores.append({
+            'exhibit': ex,
             'score': score,
-            'area': mask_data.get('area', 0)
+            'mean_saliency': mean_saliency
         })
 
-    mask_scores.sort(key=lambda x: x['score'], reverse=True)
-    fixations = mask_scores[:num_fixations]
+    # 按得分排序，选择前 N 个
+    exhibit_scores.sort(key=lambda x: x['score'], reverse=True)
+    selected = exhibit_scores[:min(num_fixations, len(exhibit_scores))]
 
-    def scan_order_key(fix):
-        cx, cy = fix['center']
-        return cx * 0.7 + cy * 0.3
+    # 按空间位置排序（从左到右，从上到下）
+    def scan_order_key(item):
+        cx, cy = item['exhibit']['center']
+        return cx * 0.6 + cy * 0.4
 
-    fixations.sort(key=scan_order_key)
+    selected.sort(key=scan_order_key)
 
-    for i, fix in enumerate(fixations):
-        fix['sequence'] = i + 1
-        base_duration = 30
-        duration = base_duration * (0.5 + fix['score']) * (1 + np.log(fix['area'] / 1000 + 1) * 0.2)
-        fix['duration'] = min(duration, 200)
+    # 生成注视点数据
+    fixations = []
+    for i, item in enumerate(selected):
+        ex = item['exhibit']
+        score = item['score']
 
+        # 预测注视时长（基于得分和面积）
+        base_duration = 40
+        area_factor = np.log(ex['area'] / 5000 + 1) * 0.3
+        duration = base_duration * (0.6 + score) * (1 + area_factor)
+        duration = min(duration, 250)
+
+        fixations.append({
+            'sequence': i + 1,
+            'exhibit_id': ex['id'],
+            'exhibit_name': ex['name'],
+            'center': ex['center'],
+            'duration': duration,
+            'score': score
+        })
+
+    # 绘制
     fig, ax = plt.subplots(figsize=(width/100, height/100))
     ax.imshow(img_array)
 
-    # 白色路径线 - 加粗
+    # 路径线
     if len(fixations) > 1:
         path_x = [f['center'][0] for f in fixations]
         path_y = [f['center'][1] for f in fixations]
-        # 外层黑色轮廓（加粗）
-        ax.plot(path_x, path_y, color='black', linewidth=8, alpha=0.9,
-               linestyle='-', marker='', zorder=2)
-        # 内层白色（加粗）
-        ax.plot(path_x, path_y, color='white', linewidth=5, alpha=1.0,
-               linestyle='-', marker='', zorder=3)
+        ax.plot(path_x, path_y, color='black', linewidth=10, alpha=0.85, zorder=2)
+        ax.plot(path_x, path_y, color='white', linewidth=6, alpha=1.0, zorder=3)
 
-    # 注视点圆圈 - 加大
+    # 注视点
     for fix in fixations:
         cx, cy = fix['center']
         duration = fix['duration']
         seq = fix['sequence']
 
-        radius = max(25, min(60, int(duration / 3.5)))  # 加大圆圈
+        radius = max(28, min(65, int(duration / 3.5)))
 
-        # 黑色轮廓（加粗）
         circle = Circle((cx, cy), radius, facecolor='white',
-                       edgecolor='black', linewidth=6, alpha=0.95, zorder=4)
+                       edgecolor='black', linewidth=7, alpha=0.95, zorder=4)
         ax.add_patch(circle)
-        # 白色填充
-        circle_inner = Circle((cx, cy), radius - 3, facecolor='white',
-                       edgecolor='white', linewidth=3, alpha=0.9, zorder=5)
+
+        circle_inner = Circle((cx, cy), radius - 4, facecolor='white',
+                       edgecolor='white', linewidth=4, alpha=0.9, zorder=5)
         ax.add_patch(circle_inner)
 
-        # 序号（加大字体）
-        ax.text(cx, cy, str(seq), color='black', fontsize=18, fontweight='bold',
+        ax.text(cx, cy, str(seq), color='black', fontsize=20, fontweight='bold',
                ha='center', va='center', zorder=6)
 
     ax.axis('off')
@@ -341,142 +499,160 @@ def predict_scan_path(image_path, saliency_map, masks_data, output_path, num_fix
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
-    print(f"[+] 保存预测轨迹图: {output_path}")
+    print(f"[+] 保存轨迹图: {output_path}")
 
     return fixations
 
 
-def generate_table_data(masks_data, fixations, image_path, output_dir):
-    """生成用于论文表格的统计数据"""
+def get_attention_level(duration, all_durations):
+    """根据时长计算关注等级 A/B/C/D/E"""
+    if not all_durations:
+        return 'C'
+
+    max_dur = max(all_durations)
+    min_dur = min(all_durations)
+    range_dur = max_dur - min_dur
+
+    if range_dur == 0:
+        return 'C'
+
+    # 5个等级
+    ratio = (duration - min_dur) / range_dur
+    if ratio >= 0.8:
+        return 'A'
+    elif ratio >= 0.6:
+        return 'B'
+    elif ratio >= 0.4:
+        return 'C'
+    elif ratio >= 0.2:
+        return 'D'
+    else:
+        return 'E'
+
+
+def generate_table_data(exhibits, fixations, image_path, output_dir):
+    """生成论文用表格数据"""
     img = Image.open(image_path)
     width, height = img.size
+    total_pixels = width * height
 
-    # 计算统计数据
-    exhibits = []
-    for i, mask_data in enumerate(masks_data[:15]):  # 最多15个展品
-        bbox = mask_data.get('bbox', [])
-        area = mask_data.get('area', 0)
-        score = mask_data.get('predicted_iou', 0)
+    print("\n" + "="*60)
+    print("生成表格数据")
+    print("="*60)
 
-        x, y, w, h = bbox
-        cx, cy = int(x + w/2), int(y + h/2)
+    # 计算每个展品的注视统计
+    exhibit_stats = []
+    all_durations = []
 
-        # 计算该展品的注视次数和总时长
-        gaze_count = 0
-        total_duration = 0
-        first_fixation = None
-        last_fixation = None
+    for ex in exhibits:
+        # 查找该展品的注视
+        ex_fixations = [f for f in fixations if f['exhibit_id'] == ex['id']]
+        gaze_count = len(ex_fixations)
+        total_duration = sum(f['duration'] for f in ex_fixations)
+        all_durations.append(total_duration)
 
-        for fix in fixations:
-            if fix['index'] == i:
-                gaze_count += 1
-                total_duration += fix['duration']
-                if first_fixation is None:
-                    first_fixation = fix['sequence']
-                last_fixation = fix['sequence']
+        # 首次和末次注视
+        first_seq = min([f['sequence'] for f in ex_fixations]) if ex_fixations else '-'
+        last_seq = max([f['sequence'] for f in ex_fixations]) if ex_fixations else '-'
 
-        avg_duration = total_duration / gaze_count if gaze_count > 0 else 0
-
-        exhibits.append({
-            'id': f'E{i+1}',
-            'bbox': [int(x) for x in bbox],
-            'center': [cx, cy],
-            'area_pixels': area,
-            'area_ratio': area / (width * height) * 100,
-            'sam_score': score,
+        exhibit_stats.append({
+            'exhibit': ex,
             'gaze_count': gaze_count,
             'total_duration': total_duration,
-            'avg_duration': avg_duration,
-            'first_look': first_fixation or '-',
-            'last_look': last_fixation or '-'
+            'first_seq': first_seq,
+            'last_seq': last_seq
         })
 
-    # 计算总体统计
-    total_duration_all = sum(f['duration'] for f in fixations)
-    avg_duration_all = total_duration_all / len(fixations) if fixations else 0
-    gazed_count = sum(1 for e in exhibits if e['gaze_count'] > 0)
+    # 计算关注等级
+    for stat in exhibit_stats:
+        stat['attention_level'] = get_attention_level(stat['total_duration'], all_durations) if stat['gaze_count'] > 0 else '-'
+        stat['avg_duration'] = stat['total_duration'] / stat['gaze_count'] if stat['gaze_count'] > 0 else 0
 
+    # 计算总统计
+    total_fixations = len(fixations)
+    total_duration_all = sum(f['duration'] for f in fixations)
+    avg_duration_all = total_duration_all / total_fixations if total_fixations > 0 else 0
+    gazed_count = sum(1 for s in exhibit_stats if s['gaze_count'] > 0)
+
+    # 打印表格
+    print("\n" + "=" * 140)
+    print("TABLE I: Gaze Statistics Summary")
+    print("=" * 140)
+
+    # 表头
+    header = f"{'ID':<6} {'Type':<12} {'Area(%)':<10} {'SAM':<6} {'Fix':<6} {'Total(s)':<10} {'Avg(s)':<10} {'First':<8} {'Last':<8} {'Attn':<6} {'Center':<12}"
+    print(header)
+    print("-" * 140)
+
+    for stat in exhibit_stats:
+        ex = stat['exhibit']
+        row = f"{ex['id']:<6} {ex['type']:<12} "
+        row += f"{ex['area']/total_pixels*100:<10.1f} "
+        row += f"{ex['sam_score']:<6.3f} "
+        row += f"{stat['gaze_count']:<6} "
+        row += f"{stat['total_duration']/1000:<10.1f} "
+        if stat['avg_duration'] > 0:
+            row += f"{stat['avg_duration']/1000:<10.1f} "
+        else:
+            row += f"{'-':<10} "
+        row += f"{str(stat['first_seq']):<8} "
+        row += f"{str(stat['last_seq']):<8} "
+        row += f"{stat['attention_level']:<6} "
+        row += f"({ex['center'][0]},{ex['center'][1]})"
+        print(row)
+
+    print("-" * 140)
+    print(f"{'TOTAL':<6} {'':<12} {'100':<10} {'':<6} {total_fixations:<6} {total_duration_all/1000:<10.1f} {avg_duration_all/1000:<10.1f}", end='')
+    print(f" {'':<8} {'':<8} {gazed_count}/{len(exhibits):<6}")
+    print("-" * 140)
+
+    print(f"\nTotal Exhibits: {len(exhibits)} | Gazed: {gazed_count} | Coverage: {gazed_count/len(exhibits)*100:.1f}%")
+
+    # 保存 JSON
     summary = {
-        'timestamp': '2026-03-02T00:00:00',
+        'timestamp': '2026-03-03T00:00:00',
         'image_info': {
             'path': image_path,
             'width': width,
-            'height': height,
-            'total_pixels': width * height
+            'height': height
         },
-        'table1_exhibit_stats': {
-            'columns': ['Exhibit', 'Area(%)', 'Fixations', 'Total(s)', 'Avg(s)', 'First#'],
-            'rows': [
-                [e['id'],
-                 f"{e['area_ratio']:.1f}",
-                 e['gaze_count'],
-                 f"{e['total_duration']:.1f}",
-                 f"{e['avg_duration']:.1f}" if e['avg_duration'] > 0 else '-',
-                 e['first_look']]
-                for e in exhibits
-            ]
+        'summary': {
+            'total_exhibits': len(exhibits),
+            'gazed_exhibits': gazed_count,
+            'total_fixations': total_fixations,
+            'total_duration_ms': total_duration_all,
+            'avg_duration_ms': avg_duration_all,
+            'coverage_percent': gazed_count/len(exhibits)*100 if exhibits else 0
         },
-        'table2_scanpath_stats': {
-            'columns': ['Metric', 'Value'],
-            'rows': [
-                ['Total Exhibits', len(masks_data)],
-                ['Gazed Exhibits', gazed_count],
-                ['Total Fixations', len(fixations)],
-                ['Total Duration (s)', f'{total_duration_all/1000:.1f}'],
-                ['Avg Fixation (s)', f'{avg_duration_all/1000:.1f}'],
-                ['Gaze Coverage (%)', f'{gazed_count/len(exhibits)*100:.1f}' if exhibits else '0']
-            ]
-        },
-        'exhibits': exhibits,
-        'fixations': [
+        'exhibits': [
             {
-                'sequence': f['sequence'],
-                'exhibit_id': f"E{f['index']+1}",
-                'center': f['center'],
-                'duration': f['duration'],
-                'score': f['score']
+                'id': s['exhibit']['id'],
+                'name': s['exhibit']['name'],
+                'type': s['exhibit']['type'],
+                'description': s['exhibit']['description'],
+                'bbox': s['exhibit']['bbox'],
+                'center': s['exhibit']['center'],
+                'area_pixels': s['exhibit']['area'],
+                'area_percent': s['exhibit']['area']/total_pixels*100,
+                'sam_score': s['exhibit']['sam_score'],
+                'gaze_count': s['gaze_count'],
+                'total_duration_ms': s['total_duration'],
+                'avg_duration_ms': s['avg_duration'],
+                'first_fixation': s['first_seq'],
+                'last_fixation': s['last_seq'],
+                'attention_level': s['attention_level']
             }
-            for f in fixations
-        ]
+            for s in exhibit_stats
+        ],
+        'fixations': fixations
     }
 
-    # 保存JSON
     json_path = os.path.join(output_dir, 'table_data.json')
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
-    print(f"[+] 保存表格数据: {json_path}")
+    print(f"\n[+] 保存表格数据: {json_path}")
 
-    # 打印论文格式表格 - 合并版本
-    print("\n" + "=" * 100)
-    print("TABLE I: Gaze Statistics Summary")
-    print("=" * 100)
-
-    # 表头
-    header = f"{'Exhibit':<10} {'Area(%)':<10} {'Fixations':<12} {'Total(s)':<12} {'Avg(s)':<10}"
-    print(header)
-    print("-" * 70)
-
-    for e in exhibits:
-        row = f"{e['id']:<10} {e['area_ratio']:<10.1f} {e['gaze_count']:<12} "
-        row += f"{e['total_duration']:<12.1f} "
-        if e['avg_duration'] > 0:
-            row += f"{e['avg_duration']:<10.1f}"
-        else:
-            row += f"{'-':<10}"
-        print(row)
-
-    # 汇总行
-    print("-" * 70)
-    total_f = sum(e['gaze_count'] for e in exhibits)
-    total_d = sum(e['total_duration'] for e in exhibits)
-    avg_d = total_d / total_f if total_f > 0 else 0
-    print(f"{'TOTAL':<10} {'100':<10} {total_f:<12} {total_d:<12.1f} {avg_d:<10.1f}")
-    print("-" * 70)
-
-    # 打印额外的统计信息
-    print(f"\nTotal Exhibits: {len(masks_data)} | Gazed Exhibits: {gazed_count} | Gaze Coverage: {gazed_count/len(exhibits)*100:.1f}%")
-
-    # LaTeX 格式输出 - 合并版本
+    # LaTeX 表格
     latex_path = os.path.join(output_dir, 'table_latex.txt')
     with open(latex_path, 'w', encoding='utf-8') as f:
         f.write(r"% TABLE I: Gaze Statistics Summary" + "\n")
@@ -484,86 +660,79 @@ def generate_table_data(masks_data, fixations, image_path, output_dir):
         f.write(r"\centering" + "\n")
         f.write(r"\caption{Gaze Statistics Summary}" + "\n")
         f.write(r"\label{tab:gaze_stats}" + "\n")
-        f.write(r"\begin{tabular}{lcccc}" + "\n")
+        f.write(r"\begin{tabular}{lcccccccccc}" + "\n")
         f.write(r"\hline" + "\n")
-        f.write(r"Exhibit & Area(\%) & Fixations & Total(s) & Avg(s) \\" + "\n")
+        f.write(r"ID & Type & Area(\%) & SAM & Fix & Total(s) & Avg(s) & First & Last & Attn \\" + "\n")
         f.write(r"\hline" + "\n")
-        for e in exhibits:
-            avg_str = f"{e['avg_duration']:.1f}" if e['avg_duration'] > 0 else "-"
-            f.write(f"{e['id']} & {e['area_ratio']:.1f} & {e['gaze_count']} & "
-                   f"{e['total_duration']:.1f} & {avg_str} \\\\\\\\\n")
+        for s in exhibit_stats:
+            ex = s['exhibit']
+            avg_str = f"{s['avg_duration']/1000:.1f}" if s['avg_duration'] > 0 else "-"
+            f.write(f"{ex['id']} & {ex['type']} & {ex['area']/total_pixels*100:.1f} & "
+                   f"{ex['sam_score']:.2f} & {s['gaze_count']} & "
+                   f"{s['total_duration']/1000:.1f} & {avg_str} & "
+                   f"{s['first_seq']} & {s['last_seq']} & {s['attention_level']} \\\\\\\\\n")
         f.write(r"\hline" + "\n")
-        f.write(f"TOTAL & 100 & {total_f} & {total_d:.1f} & {avg_d:.1f} \\\\\\\\\n")
+        f.write(f"TOTAL & - & 100 & - & {total_fixations} & "
+               f"{total_duration_all/1000:.1f} & {avg_duration_all/1000:.1f} & "
+               f"- & - & {gazed_count}/{len(exhibits)} \\\\\\\\\n")
         f.write(r"\hline" + "\n")
         f.write(r"\end{tabular}" + "\n")
         f.write(r"\end{table}" + "\n")
 
-    print(f"\n[+] 保存LaTeX表格: {latex_path}")
-        f.write("Metric & Value \\\\\\\\\n")
-        f.write("\\hline\\n")
-        for metric, value in stats:
-            f.write(f"{metric} & {value} \\\\\\\\\n")
-        f.write("\\hline\\n")
-        f.write("\\end{tabular}\\n")
-        f.write("\\end{table}\\n")
-
-    print(f"\n[+] 保存LaTeX表格: {latex_path}")
+    print(f"[+] 保存LaTeX表格: {latex_path}")
 
     return summary
 
 
-def create_paper_figure(image_path, output_path, sam2_model_path,
-                       num_fixations=10, points_per_side=32):
+def create_paper_figure(image_path, output_path, sam2_model_path, num_fixations=10):
     """生成论文用四宫格图表"""
 
     if not torch.cuda.is_available():
         print("[!] CUDA 不可用")
         return False
 
-    print(f"\n[*] 处理图像: {image_path}")
+    print(f"\n{'='*60}")
+    print(f"IROS Gaze 论文图表生成")
+    print(f"{'='*60}")
+    print(f"图像: {image_path}")
+
     output_dir = os.path.dirname(output_path) or '.'
     os.makedirs(output_dir, exist_ok=True)
 
     original_img = Image.open(image_path).convert('RGB')
     img_array = np.array(original_img)
     width, height = original_img.size
-    print(f"    尺寸: {width}x{height}")
+    print(f"尺寸: {width}x{height}")
 
-    print("\n" + "="*60)
-    print("步骤 (b): SAM2 自动分割")
-    print("="*60)
+    # Step 1: VLM 识别
+    vlm_exhibits = call_qwen_vlm(image_path)
+    if not vlm_exhibits:
+        print("[!] VLM 识别失败，退出")
+        return False
 
+    # Step 2: SAM2 精细分割
     segmenter = SAM2Segmenter(sam2_model_path)
-    masks_data, _ = segmenter.auto_segment_all(image_path, points_per_side)
+    exhibits, _ = segmenter.refine_with_vlm_boxes(img_array, vlm_exhibits)
 
     mask_path = output_path.replace('.png', '_mask.png')
-    mask_result = segmenter.create_segmentation_visualization(img_array, masks_data, mask_path)
+    segmenter.create_segmentation_visualization(img_array, exhibits, mask_path)
 
-    print("\n" + "="*60)
-    print("步骤 (c): 视觉显著性预测热力图")
-    print("="*60)
-
+    # Step 3: 热力图
     heatmap_path = output_path.replace('.png', '_heatmap.png')
-    saliency_map = predict_saliency_heatmap(image_path, masks_data, heatmap_path)
+    saliency_map = predict_saliency_heatmap(image_path, exhibits, heatmap_path)
 
-    print("\n" + "="*60)
-    print("步骤 (d): 扫描路径预测")
-    print("="*60)
-
+    # Step 4: 扫描路径
     trajectory_path = output_path.replace('.png', '_trajectory.png')
-    fixations = predict_scan_path(image_path, saliency_map, masks_data, trajectory_path, num_fixations)
+    fixations = predict_scan_path(image_path, saliency_map, exhibits, trajectory_path, num_fixations)
 
-    print("\n" + "="*60)
-    print("生成表格数据")
-    print("="*60)
+    # Step 5: 生成表格数据
+    generate_table_data(exhibits, fixations, image_path, output_dir)
 
-    generate_table_data(masks_data, fixations, image_path, output_dir)
-
+    # Step 6: 生成四宫格图表
     print("\n" + "="*60)
     print("生成四宫格图表")
     print("="*60)
 
-    # 读取生成的图片
     mask_img = Image.open(mask_path)
     heatmap_img = Image.open(heatmap_path)
     trajectory_img = Image.open(trajectory_path)
@@ -591,17 +760,6 @@ def create_paper_figure(image_path, output_path, sam2_model_path,
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"\n[+] 保存四宫格图表: {output_path}")
 
-    print("\n" + "=" * 80)
-    print("分割区域统计")
-    print("=" * 80)
-    print(f"{'ID':<5} {'Area':<10} {'Score':<10}")
-    print("-" * 80)
-    for i, mask_data in enumerate(masks_data[:15]):
-        area = mask_data.get('area', 0)
-        score = mask_data.get('predicted_iou', 0)
-        print(f"{i+1:<5} {area:<10} {score:.3f}")
-    print(f"\n共发现 {len(masks_data)} 个区域")
-
     plt.close()
     return True
 
@@ -612,7 +770,6 @@ def main():
     parser.add_argument('--output', type=str, default='data/outputs/paper_figure.png')
     parser.add_argument('--sam2-model', type=str, default='models/sam2/sam2_hiera_small.pt')
     parser.add_argument('--num-fixations', type=int, default=10)
-    parser.add_argument('--points-per-side', type=int, default=32)
 
     args = parser.parse_args()
 
@@ -620,22 +777,22 @@ def main():
         print(f"[!] 图像不存在: {args.image}")
         return
 
+    # 检查 API Key
+    api_key = os.getenv("QWEN_API_KEY") or os.getenv("OPENAI_API_KEY")
+    if not api_key or api_key == "your_api_key_here":
+        print("[!] 错误: 未设置 QWEN_API_KEY")
+        print("    请在 .env 文件中设置: QWEN_API_KEY=你的密钥")
+        return
+
     if torch.cuda.is_available():
-        print(f"[+] CUDA 可用: {torch.cuda.get_device_name(0)}")
+        print(f"[+] CUDA: {torch.cuda.get_device_name(0)}")
         print(f"    显存: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
     else:
         print("[!] CUDA 不可用")
         return
 
-    print("=" * 60)
-    print("IROS Gaze 论文图表生成")
-    print("=" * 60)
-    print(f"原图: {args.image}")
-    print(f"模型: {args.sam2_model}")
-
     create_paper_figure(
-        args.image, args.output, args.sam2_model,
-        args.num_fixations, args.points_per_side
+        args.image, args.output, args.sam2_model, args.num_fixations
     )
 
     print("\n[OK] 完成!")
