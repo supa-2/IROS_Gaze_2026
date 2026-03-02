@@ -20,6 +20,8 @@ import {
   Upload,
   FileImage,
   Network,
+  Brain,
+  Wand2,
 } from 'lucide-react';
 
 // API Base URL
@@ -31,7 +33,7 @@ function App() {
     {
       id: 1,
       role: 'assistant',
-      content: 'Welcome to IROS Gaze! 👁️\n\nI can help you:\n• Upload images to generate heatmaps\n• Create eye-tracking trajectory visualizations\n• Analyze gaze patterns\n\nTry uploading an image to get started!',
+      content: 'Welcome to IROS Gaze! 👁️\n\nI can help you:\n• 🧠 Analyze images with Qwen Vision AI\n• 🔥 Generate eye-tracking heatmaps\n• 📈 Create trajectory visualizations\n• 💬 Chat about gaze patterns and predictions\n\nTry uploading an image or typing a message to get started!',
       timestamp: new Date(),
     },
   ]);
@@ -92,6 +94,33 @@ function App() {
     formData.append('options', JSON.stringify({ type: analysisType }));
 
     try {
+      // Qwen Vision Analysis
+      if (analysisType === 'qwen-vision') {
+        const response = await fetch(`${API_BASE}/analyze-image`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Vision analysis failed');
+
+        const data = await response.json();
+
+        // Add analysis result as a message
+        const resultMessage = {
+          id: Date.now(),
+          role: 'assistant',
+          content: data.analysis || 'Analysis complete.',
+          timestamp: new Date(),
+          image: uploadedImagePreview,
+        };
+        setMessages((prev) => [...prev, resultMessage]);
+        setUploadedImage(null);
+        setUploadedImagePreview(null);
+        setIsLoading(false);
+        return;
+      }
+
+      // Standard visualization endpoints
       const endpoint =
         analysisType === 'heatmap'
           ? '/heatmap'
@@ -310,7 +339,18 @@ function App() {
                     </p>
 
                     {/* Analysis Type Selector */}
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      <button
+                        onClick={() => setAnalysisType('qwen-vision')}
+                        className={`px-2 py-1 rounded text-xs font-medium transition-all flex items-center gap-1 ${
+                          analysisType === 'qwen-vision'
+                            ? 'bg-purple-500 text-white'
+                            : 'bg-[#2a2a2a] text-gray-400 hover:text-white'
+                        }`}
+                      >
+                        <Brain className="w-3 h-3" />
+                        AI Analysis
+                      </button>
                       <button
                         onClick={() => setAnalysisType('heatmap')}
                         className={`px-2 py-1 rounded text-xs font-medium transition-all ${
@@ -319,6 +359,7 @@ function App() {
                             : 'bg-[#2a2a2a] text-gray-400 hover:text-white'
                         }`}
                       >
+                        <Activity className="w-3 h-3 inline mr-1" />
                         Heatmap
                       </button>
                       <button
@@ -329,6 +370,7 @@ function App() {
                             : 'bg-[#2a2a2a] text-gray-400 hover:text-white'
                         }`}
                       >
+                        <Network className="w-3 h-3 inline mr-1" />
                         Trajectory
                       </button>
                       <button
@@ -380,7 +422,9 @@ function App() {
                   onKeyDown={handleKeyDown}
                   placeholder={
                     uploadedImage
-                      ? 'Describe the image or click send to analyze...'
+                      ? analysisType === 'qwen-vision'
+                        ? 'Ask AI to analyze this image...'
+                        : 'Describe the image or click send to analyze...'
                       : 'Type a message or upload an image...'
                   }
                   className="w-full bg-[#1a1a1a] text-white placeholder-gray-500 rounded-xl pl-4 pr-12 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[#00d1ff]/20 border border-[#2a2a2a] focus:border-[#00d1ff] transition-all"
@@ -486,10 +530,23 @@ function App() {
                 <button
                   onClick={analyzeImage}
                   disabled={isLoading}
-                  className="px-6 py-3 bg-[#00d1ff] text-black rounded-xl font-semibold hover:bg-[#00b8e0] transition-colors flex items-center gap-2 mx-auto"
+                  className={`px-6 py-3 rounded-xl font-semibold transition-colors flex items-center gap-2 mx-auto ${
+                    analysisType === 'qwen-vision'
+                      ? 'bg-purple-500 text-white hover:bg-purple-600'
+                      : 'bg-[#00d1ff] text-black hover:bg-[#00b8e0]'
+                  }`}
                 >
-                  <Sparkles className="w-5 h-5" />
-                  {isLoading ? 'Analyzing...' : 'Analyze Image'}
+                  {analysisType === 'qwen-vision' ? (
+                    <>
+                      <Brain className="w-5 h-5" />
+                      {isLoading ? 'Analyzing with AI...' : 'Analyze with Qwen Vision'}
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-5 h-5" />
+                      {isLoading ? 'Analyzing...' : 'Analyze Image'}
+                    </>
+                  )}
                 </button>
               </div>
             ) : (
@@ -550,6 +607,7 @@ function App() {
                     onChange={(e) => setAnalysisType(e.target.value)}
                     className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#00d1ff]"
                   >
+                    <option value="qwen-vision">AI Analysis (Qwen Vision)</option>
                     <option value="heatmap">Heatmap Only</option>
                     <option value="trajectory">Trajectory Only</option>
                     <option value="both">Both (Recommended)</option>
