@@ -1,0 +1,271 @@
+{
+  "timestamp": "2026-03-03T00:00:00",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Courage Panel Left",
+      "type": "Installation",
+      "bbox": [
+        0,
+        300,
+        344,
+        667
+      ],
+      "center": [
+        172,
+        483
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 525,
+      "attention_level": "C"
+    },
+    {
+      "id": "E2",
+      "name": "Courage Panel Right",
+      "type": "Installation",
+      "bbox": [
+        712,
+        317,
+        999,
+        672
+      ],
+      "center": [
+        855,
+        494
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 562,
+      "attention_level": "C"
+    },
+    {
+      "id": "E3",
+      "name": "Framed Print 1",
+      "type": "Painting",
+      "bbox": [
+        445,
+        366,
+        477,
+        433
+      ],
+      "center": [
+        461,
+        399
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 0,
+      "total_duration_ms": 0,
+      "attention_level": "-"
+    },
+    {
+      "id": "E4",
+      "name": "Framed Print 2",
+      "type": "Painting",
+      "bbox": [
+        485,
+        371,
+        514,
+        436
+      ],
+      "center": [
+        499,
+        403
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 0,
+      "total_duration_ms": 0,
+      "attention_level": "-"
+    },
+    {
+      "id": "E5",
+      "name": "Framed Print 3",
+      "type": "Painting",
+      "bbox": [
+        523,
+        374,
+        548,
+        438
+      ],
+      "center": [
+        536,
+        400
+      ],
+      "sam_score": 0.5750073790550232,
+      "gaze_count": 1,
+      "total_duration_ms": 914,
+      "attention_level": "A"
+    },
+    {
+      "id": "E6",
+      "name": "Framed Print 4",
+      "type": "Painting",
+      "bbox": [
+        446,
+        444,
+        476,
+        511
+      ],
+      "center": [
+        461,
+        477
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 0,
+      "total_duration_ms": 0,
+      "attention_level": "-"
+    },
+    {
+      "id": "E7",
+      "name": "Framed Print 5",
+      "type": "Painting",
+      "bbox": [
+        485,
+        446,
+        516,
+        511
+      ],
+      "center": [
+        500,
+        478
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 0,
+      "total_duration_ms": 0,
+      "attention_level": "-"
+    },
+    {
+      "id": "E8",
+      "name": "Framed Print 6",
+      "type": "Painting",
+      "bbox": [
+        529,
+        448,
+        561,
+        498
+      ],
+      "center": [
+        548,
+        469
+      ],
+      "sam_score": 0.7056930065155029,
+      "gaze_count": 1,
+      "total_duration_ms": 875,
+      "attention_level": "A"
+    },
+    {
+      "id": "E9",
+      "name": "Framed Print 7",
+      "type": "Painting",
+      "bbox": [
+        536,
+        508,
+        560,
+        570
+      ],
+      "center": [
+        553,
+        535
+      ],
+      "sam_score": 0.6741207242012024,
+      "gaze_count": 1,
+      "total_duration_ms": 854,
+      "attention_level": "A"
+    },
+    {
+      "id": "E10",
+      "name": "Framed Print 8",
+      "type": "Painting",
+      "bbox": [
+        569,
+        522,
+        600,
+        570
+      ],
+      "center": [
+        586,
+        545
+      ],
+      "sam_score": 0.7609207630157471,
+      "gaze_count": 1,
+      "total_duration_ms": 878,
+      "attention_level": "A"
+    },
+    {
+      "id": "E11",
+      "name": "Framed Print 9",
+      "type": "Painting",
+      "bbox": [
+        614,
+        403,
+        652,
+        463
+      ],
+      "center": [
+        633,
+        433
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 526,
+      "attention_level": "C"
+    },
+    {
+      "id": "E12",
+      "name": "Framed Print 10",
+      "type": "Painting",
+      "bbox": [
+        390,
+        525,
+        412,
+        573
+      ],
+      "center": [
+        406,
+        547
+      ],
+      "sam_score": 0.7954928874969482,
+      "gaze_count": 1,
+      "total_duration_ms": 1042,
+      "attention_level": "A"
+    },
+    {
+      "id": "E13",
+      "name": "Sculpture Display Case",
+      "type": "Sculpture",
+      "bbox": [
+        433,
+        532,
+        539,
+        586
+      ],
+      "center": [
+        491,
+        562
+      ],
+      "sam_score": 0.807447075843811,
+      "gaze_count": 1,
+      "total_duration_ms": 899,
+      "attention_level": "A"
+    },
+    {
+      "id": "E14",
+      "name": "Small Sculpture Shelf",
+      "type": "Sculpture",
+      "bbox": [
+        665,
+        532,
+        703,
+        563
+      ],
+      "center": [
+        682,
+        548
+      ],
+      "sam_score": 0.7721245884895325,
+      "gaze_count": 1,
+      "total_duration_ms": 1062,
+      "attention_level": "A"
+    }
+  ]
+}

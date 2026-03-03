@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-03-03T00:00:00",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Exhibition Title Panel",
+      "type": "Installation",
+      "bbox": [
+        25,
+        48,
+        535,
+        600
+      ],
+      "center": [
+        280,
+        324
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 679,
+      "attention_level": "D"
+    },
+    {
+      "id": "E2",
+      "name": "Small Book Display",
+      "type": "Installation",
+      "bbox": [
+        543,
+        246,
+        638,
+        458
+      ],
+      "center": [
+        590,
+        352
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 450,
+      "attention_level": "E"
+    },
+    {
+      "id": "E3",
+      "name": "Framed Artwork 1",
+      "type": "Painting",
+      "bbox": [
+        658,
+        129,
+        785,
+        320
+      ],
+      "center": [
+        721,
+        224
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 466,
+      "attention_level": "E"
+    },
+    {
+      "id": "E4",
+      "name": "Framed Artwork 2",
+      "type": "Painting",
+      "bbox": [
+        826,
+        129,
+        953,
+        320
+      ],
+      "center": [
+        889,
+        219
+      ],
+      "sam_score": 0.8888766169548035,
+      "gaze_count": 1,
+      "total_duration_ms": 1102,
+      "attention_level": "A"
+    },
+    {
+      "id": "E5",
+      "name": "Framed Artwork 3",
+      "type": "Painting",
+      "bbox": [
+        658,
+        352,
+        783,
+        542
+      ],
+      "center": [
+        720,
+        447
+      ],
+      "sam_score": 0.0,
+      "gaze_count": 1,
+      "total_duration_ms": 510,
+      "attention_level": "E"
+    },
+    {
+      "id": "E6",
+      "name": "Framed Artwork 4",
+      "type": "Painting",
+      "bbox": [
+        826,
+        352,
+        951,
+        542
+      ],
+      "center": [
+        845,
+        418
+      ],
+      "sam_score": 0.6981221437454224,
+      "gaze_count": 1,
+      "total_duration_ms": 890,
+      "attention_level": "B"
+    }
+  ]
+}

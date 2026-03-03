@@ -1,0 +1,27 @@
+% TABLE I: Gaze Statistics Summary
+\begin{table}[htbp]
+\centering
+\caption{Gaze Statistics Summary}
+\label{tab:gaze_stats}
+\begin{tabular}{lcccccccccc}
+\hline
+ID & Type & Area(\%) & SAM & Fix & Total(s) & Avg(s) & First & Last & Attn \\
+\hline
+E1 & Painting & 0.1 & 0.89 & 1 & 25.0 & 25.0 & 2 & 2 & A \\\\
+E2 & Painting & 0.0 & 0.89 & 1 & 25.0 & 25.0 & 3 & 3 & A \\\\
+E3 & Painting & 0.0 & 0.63 & 1 & 25.0 & 25.0 & 4 & 4 & A \\\\
+E4 & Painting & 0.0 & 0.41 & 0 & 0.0 & - & - & - & - \\\\
+E5 & Painting & 0.0 & 0.40 & 0 & 0.0 & - & - & - & - \\\\
+E6 & Painting & 0.1 & 0.66 & 1 & 25.0 & 25.0 & 6 & 6 & A \\\\
+E7 & Painting & 0.1 & 0.67 & 1 & 25.0 & 25.0 & 7 & 7 & A \\\\
+E8 & Painting & 0.1 & 0.73 & 1 & 25.0 & 25.0 & 8 & 8 & A \\\\
+E9 & Painting & 0.1 & 0.79 & 1 & 25.0 & 25.0 & 1 & 1 & A \\\\
+E10 & Sculpture & 0.2 & 0.78 & 1 & 25.0 & 25.0 & 5 & 5 & A \\\\
+E11 & Installation & 0.0 & 0.57 & 1 & 25.0 & 25.0 & 10 & 10 & A \\\\
+E12 & Painting & 0.0 & 0.57 & 1 & 25.0 & 25.0 & 9 & 9 & A \\\\
+E13 & Painting & 0.0 & 0.47 & 0 & 0.0 & - & - & - & - \\\\
+\hline
+TOTAL & - & 100 & - & 10 & 250.0 & 25.0 & - & - & 10/13 \\\\
+\hline
+\end{tabular}
+\end{table}
