@@ -1,145 +1,145 @@
 {
-  "timestamp": "2026-03-03T10:27:25.497593",
+  "timestamp": "2026-03-03T10:43:58.070970",
   "image_info": {
     "path": "data/test1.jpg",
     "width": 3000,
     "height": 2000
   },
   "summary": {
-    "total_exhibits": 13,
+    "total_exhibits": 14,
     "gazed_exhibits": 10,
     "total_fixations": 10,
-    "total_duration_ms": 56.44375521800502,
-    "avg_duration_ms": 5.6443755218005025
+    "total_duration_ms": 59.29011047038057,
+    "avg_duration_ms": 5.929011047038057
   },
   "exhibits": [
     {
       "id": "E1",
+      "name": "Installation 1",
+      "type": "Installation",
+      "description": "",
+      "bbox": [
+        0,
+        368,
+        1202,
+        683
+      ],
+      "center": [
+        527,
+        532
+      ],
+      "area": 226833,
+      "sam_score": 0.7751293778419495,
+      "gaze_count": 0,
+      "total_duration": 0,
+      "avg_duration": 0,
+      "attention_level": "-"
+    },
+    {
+      "id": "E2",
       "name": "Painting 1",
       "type": "Painting",
       "description": "",
       "bbox": [
-        2959,
-        1392,
+        2153,
+        638,
         2999,
-        1570
+        1675
       ],
       "center": [
-        2980,
-        1488
+        2647,
+        1075
       ],
-      "area": 5777,
-      "sam_score": 0.9302719235420227,
+      "area": 175152,
+      "sam_score": 0.003865114413201809,
       "gaze_count": 1,
-      "total_duration": 5.386595220747687,
-      "avg_duration": 5.386595220747687,
-      "attention_level": "B"
+      "total_duration": 7.497308256155715,
+      "avg_duration": 7.497308256155715,
+      "attention_level": "A"
     },
     {
-      "id": "E2",
+      "id": "E3",
       "name": "Painting 2",
       "type": "Painting",
       "description": "",
       "bbox": [
-        1306,
-        366,
-        1451,
-        465
+        2153,
+        638,
+        2999,
+        1676
       ],
       "center": [
-        1376,
-        411
+        2648,
+        1077
       ],
-      "area": 10235,
-      "sam_score": 0.659273624420166,
+      "area": 166974,
+      "sam_score": 0.006306611467152834,
       "gaze_count": 1,
-      "total_duration": 5.556004447286625,
-      "avg_duration": 5.556004447286625,
-      "attention_level": "B"
+      "total_duration": 7.446008591869145,
+      "avg_duration": 7.446008591869145,
+      "attention_level": "A"
     },
     {
-      "id": "E3",
+      "id": "E4",
       "name": "Painting 3",
       "type": "Painting",
       "description": "",
       "bbox": [
-        1424,
-        360,
-        1565,
-        467
+        2152,
+        638,
+        2999,
+        1738
       ],
       "center": [
-        1498,
-        416
+        2644,
+        1082
       ],
-      "area": 8879,
-      "sam_score": 0.6427619457244873,
+      "area": 167886,
+      "sam_score": 0.009554578922688961,
       "gaze_count": 1,
-      "total_duration": 5.433434528842722,
-      "avg_duration": 5.433434528842722,
-      "attention_level": "B"
+      "total_duration": 7.450756368887984,
+      "avg_duration": 7.450756368887984,
+      "attention_level": "A"
     },
     {
-      "id": "E4",
+      "id": "E5",
       "name": "Painting 4",
       "type": "Painting",
       "description": "",
       "bbox": [
-        1550,
-        355,
-        1658,
-        473
+        2173,
+        639,
+        2999,
+        1833
       ],
       "center": [
-        1595,
-        415
+        2727,
+        1144
       ],
-      "area": 6112,
-      "sam_score": 0.41693902015686035,
-      "gaze_count": 1,
-      "total_duration": 5.106803956161133,
-      "avg_duration": 5.106803956161133,
-      "attention_level": "B"
+      "area": 82669,
+      "sam_score": 0.013711391016840935,
+      "gaze_count": 0,
+      "total_duration": 0,
+      "avg_duration": 0,
+      "attention_level": "-"
     },
     {
-      "id": "E5",
+      "id": "E6",
       "name": "Painting 5",
       "type": "Painting",
       "description": "",
       "bbox": [
-        1310,
-        432,
-        1476,
-        535
+        2181,
+        639,
+        2999,
+        1832
       ],
       "center": [
-        1395,
-        486
+        2735,
+        1131
       ],
-      "area": 12776,
-      "sam_score": 0.753864586353302,
-      "gaze_count": 1,
-      "total_duration": 5.932748187736666,
-      "avg_duration": 5.932748187736666,
-      "attention_level": "B"
-    },
-    {
-      "id": "E6",
-      "name": "Painting 6",
-      "type": "Painting",
-      "description": "",
-      "bbox": [
-        894,
-        0,
-        2990,
-        589
-      ],
-      "center": [
-        1692,
-        403
-      ],
-      "area": 148091,
-      "sam_score": 0.45337504148483276,
+      "area": 75489,
+      "sam_score": 0.017815841361880302,
       "gaze_count": 0,
       "total_duration": 0,
       "avg_duration": 0,
@@ -147,21 +147,21 @@
     },
     {
       "id": "E7",
-      "name": "Painting 7",
+      "name": "Painting 6",
       "type": "Painting",
       "description": "",
       "bbox": [
-        0,
-        0,
+        2158,
+        637,
         2999,
-        1037
+        1379
       ],
       "center": [
-        1854,
-        364
+        2720,
+        1104
       ],
-      "area": 266767,
-      "sam_score": 0.46986863017082214,
+      "area": 85456,
+      "sam_score": 0.07880952954292297,
       "gaze_count": 0,
       "total_duration": 0,
       "avg_duration": 0,
@@ -169,94 +169,116 @@
     },
     {
       "id": "E8",
-      "name": "Sculpture Group",
-      "type": "Sculpture",
+      "name": "Painting 7",
+      "type": "Painting",
       "description": "",
       "bbox": [
         2959,
-        1449,
+        1391,
         2999,
-        1571
+        1569
       ],
       "center": [
-        2979,
-        1511
+        2980,
+        1482
       ],
-      "area": 4347,
-      "sam_score": 0.928674578666687,
+      "area": 5792,
+      "sam_score": 0.9295144081115723,
       "gaze_count": 1,
-      "total_duration": 5.435084961346029,
-      "avg_duration": 5.435084961346029,
+      "total_duration": 5.395880839427633,
+      "avg_duration": 5.395880839427633,
       "attention_level": "B"
     },
     {
       "id": "E9",
+      "name": "Sculpture A",
+      "type": "Sculpture",
+      "description": "",
+      "bbox": [
+        1421,
+        504,
+        1546,
+        597
+      ],
+      "center": [
+        1484,
+        547
+      ],
+      "area": 4601,
+      "sam_score": 0.481630802154541,
+      "gaze_count": 1,
+      "total_duration": 4.735589153704284,
+      "avg_duration": 4.735589153704284,
+      "attention_level": "B"
+    },
+    {
+      "id": "E10",
       "name": "Painting 8",
       "type": "Painting",
       "description": "",
       "bbox": [
-        1541,
-        503,
-        1682,
-        606
+        2959,
+        1384,
+        2999,
+        1567
       ],
       "center": [
-        1610,
-        557
+        2979,
+        1469
       ],
-      "area": 3420,
-      "sam_score": 0.6287737488746643,
+      "area": 6582,
+      "sam_score": 0.9539489150047302,
       "gaze_count": 1,
-      "total_duration": 4.8215890712682405,
-      "avg_duration": 4.8215890712682405,
-      "attention_level": "C"
+      "total_duration": 5.4635831186181445,
+      "avg_duration": 5.4635831186181445,
+      "attention_level": "B"
     },
     {
-      "id": "E10",
+      "id": "E11",
       "name": "Painting 9",
       "type": "Painting",
       "description": "",
       "bbox": [
-        0,
-        0,
+        2960,
+        1390,
         2999,
-        1130
+        1566
       ],
       "center": [
-        1454,
-        508
+        2980,
+        1472
       ],
-      "area": 168764,
-      "sam_score": 0.3463054299354553,
+      "area": 6175,
+      "sam_score": 0.9424402713775635,
       "gaze_count": 1,
-      "total_duration": 8.134474538210181,
-      "avg_duration": 8.134474538210181,
-      "attention_level": "A"
-    },
-    {
-      "id": "E11",
-      "name": "Painting 10",
-      "type": "Painting",
-      "description": "",
-      "bbox": [
-        1820,
-        381,
-        1928,
-        481
-      ],
-      "center": [
-        1875,
-        430
-      ],
-      "area": 8523,
-      "sam_score": 0.7537123560905457,
-      "gaze_count": 1,
-      "total_duration": 5.321545621365835,
-      "avg_duration": 5.321545621365835,
+      "total_duration": 5.485204448465791,
+      "avg_duration": 5.485204448465791,
       "attention_level": "B"
     },
     {
       "id": "E12",
+      "name": "Painting 10",
+      "type": "Painting",
+      "description": "",
+      "bbox": [
+        2925,
+        1089,
+        2999,
+        1272
+      ],
+      "center": [
+        2966,
+        1181
+      ],
+      "area": 11411,
+      "sam_score": 0.8009693622589111,
+      "gaze_count": 1,
+      "total_duration": 5.181533942324206,
+      "avg_duration": 5.181533942324206,
+      "attention_level": "B"
+    },
+    {
+      "id": "E13",
       "name": "Sculpture B",
       "type": "Sculpture",
       "description": "",
@@ -268,148 +290,148 @@
       ],
       "center": [
         2979,
-        1483
+        1484
       ],
-      "area": 5105,
-      "sam_score": 0.9372227191925049,
+      "area": 5062,
+      "sam_score": 0.9382690191268921,
       "gaze_count": 1,
-      "total_duration": 5.315474685039902,
-      "avg_duration": 5.315474685039902,
+      "total_duration": 5.368128739305925,
+      "avg_duration": 5.368128739305925,
       "attention_level": "B"
     },
     {
-      "id": "E13",
+      "id": "E14",
       "name": "Painting 11",
       "type": "Painting",
       "description": "",
       "bbox": [
         2924,
-        1063,
+        1062,
         2999,
         1273
       ],
       "center": [
         2966,
-        1168
+        1167
       ],
-      "area": 13329,
-      "sam_score": 0.5251806974411011,
-      "gaze_count": 0,
-      "total_duration": 0,
-      "avg_duration": 0,
-      "attention_level": "-"
+      "area": 13608,
+      "sam_score": 0.3921245336532593,
+      "gaze_count": 1,
+      "total_duration": 5.266117011621739,
+      "avg_duration": 5.266117011621739,
+      "attention_level": "B"
     }
   ],
   "fixations": [
     {
       "sequence": 1,
-      "exhibit_id": "E2",
-      "exhibit_name": "Painting 2",
+      "exhibit_id": "E9",
+      "exhibit_name": "Sculpture A",
       "center": [
-        1376,
-        411
+        1484,
+        547
       ],
-      "duration": 5.556004447286625,
-      "score": 0.44103726788310105
+      "duration": 4.735589153704284,
+      "score": 0.3901051846230176
     },
     {
       "sequence": 2,
-      "exhibit_id": "E5",
-      "exhibit_name": "Painting 5",
+      "exhibit_id": "E2",
+      "exhibit_name": "Painting 1",
       "center": [
-        1395,
-        486
+        2647,
+        1075
       ],
-      "duration": 5.932748187736666,
-      "score": 0.47436574496480405
+      "duration": 7.497308256155715,
+      "score": 0.30315569737263837
     },
     {
       "sequence": 3,
-      "exhibit_id": "E10",
-      "exhibit_name": "Painting 9",
+      "exhibit_id": "E4",
+      "exhibit_name": "Painting 3",
       "center": [
-        1454,
-        508
+        2644,
+        1082
       ],
-      "duration": 8.134474538210181,
-      "score": 0.38505219813839353
+      "duration": 7.450756368887984,
+      "score": 0.30292132692925594
     },
     {
       "sequence": 4,
       "exhibit_id": "E3",
-      "exhibit_name": "Painting 3",
+      "exhibit_name": "Painting 2",
       "center": [
-        1498,
-        416
+        2648,
+        1077
       ],
-      "duration": 5.433434528842722,
-      "score": 0.4398665418808838
+      "duration": 7.446008591869145,
+      "score": 0.3030405447380757
     },
     {
       "sequence": 5,
-      "exhibit_id": "E4",
-      "exhibit_name": "Painting 4",
+      "exhibit_id": "E14",
+      "exhibit_name": "Painting 11",
       "center": [
-        1595,
-        415
+        2966,
+        1167
       ],
-      "duration": 5.106803956161133,
-      "score": 0.4299494923371304
+      "duration": 5.266117011621739,
+      "score": 0.34425887092789886
     },
     {
       "sequence": 6,
-      "exhibit_id": "E9",
-      "exhibit_name": "Painting 8",
+      "exhibit_id": "E12",
+      "exhibit_name": "Painting 10",
       "center": [
-        1610,
-        557
+        2966,
+        1181
       ],
-      "duration": 4.8215890712682405,
-      "score": 0.44241417069180816
+      "duration": 5.181533942324206,
+      "score": 0.3549072980977264
     },
     {
       "sequence": 7,
-      "exhibit_id": "E11",
-      "exhibit_name": "Painting 10",
+      "exhibit_id": "E10",
+      "exhibit_name": "Painting 8",
       "center": [
-        1875,
-        430
+        2979,
+        1469
       ],
-      "duration": 5.321545621365835,
-      "score": 0.42456722067967034
+      "duration": 5.4635831186181445,
+      "score": 0.4909673431984584
     },
     {
       "sequence": 8,
-      "exhibit_id": "E12",
-      "exhibit_name": "Sculpture B",
+      "exhibit_id": "E11",
+      "exhibit_name": "Painting 9",
       "center": [
-        2979,
-        1483
+        2980,
+        1472
       ],
-      "duration": 5.315474685039902,
-      "score": 0.4972612547215004
+      "duration": 5.485204448465791,
+      "score": 0.5047544012135997
     },
     {
       "sequence": 9,
-      "exhibit_id": "E1",
-      "exhibit_name": "Painting 1",
+      "exhibit_id": "E13",
+      "exhibit_name": "Sculpture B",
       "center": [
-        2980,
-        1488
+        2979,
+        1484
       ],
-      "duration": 5.386595220747687,
-      "score": 0.4944868173225197
+      "duration": 5.368128739305925,
+      "score": 0.5093023198214787
     },
     {
       "sequence": 10,
       "exhibit_id": "E8",
-      "exhibit_name": "Sculpture Group",
+      "exhibit_name": "Painting 7",
       "center": [
-        2979,
-        1511
+        2980,
+        1482
       ],
-      "duration": 5.435084961346029,
-      "score": 0.5440499342561855
+      "duration": 5.395880839427633,
+      "score": 0.49600184623851623
     }
   ]
 }
