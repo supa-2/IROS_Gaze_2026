@@ -850,23 +850,32 @@ def run_unified_pipeline(
     # Step (e): Generate Table Data
     generate_table_data(exhibits, fixations, image_path, output_dir)
 
-    # Step (f): Generate 4-Panel Figure
+    # Step (f): Generate 4-Panel Figure (all panels from same image data)
     print("\n" + "="*70)
     print("Generating 4-Panel Figure")
     print("="*70)
 
     fig, axes = plt.subplots(1, 4, figsize=(14, 3.5))
 
+    # Panel (a): Original image
     axes[0].imshow(original_img)
     axes[0].set_title('(a) Original', fontsize=12, fontweight='bold')
     axes[0].axis('off')
 
-    if mask_path and os.path.exists(mask_path):
-        from PIL import Image as PILImage
-        mask_img = PILImage.open(mask_path)
-        axes[1].imshow(mask_img)
+    # Panel (b): Segmentation - generate from current exhibits data
+    if use_sam2 and any(ex.get('mask') is not None for ex in exhibits):
+        # Show SAM2 segmentation (black background with segmented regions)
+        height, width = img_array.shape[:2]
+        seg_result = np.zeros_like(img_array)
+        combined_mask = np.zeros((height, width), dtype=bool)
+        for ex in exhibits:
+            if ex.get('mask') is not None:
+                mask = ex['mask'].astype(bool)
+                combined_mask = combined_mask | mask
+        seg_result[combined_mask] = img_array[combined_mask]
+        axes[1].imshow(seg_result)
     else:
-        # Draw VLM bboxes
+        # Draw VLM bboxes with colored labels
         import matplotlib.patches as mpatches
         axes[1].imshow(original_img)
         colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
@@ -875,16 +884,60 @@ def run_unified_pipeline(
             rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
                                      fill=False, edgecolor=colors[i], linewidth=2)
             axes[1].add_patch(rect)
+            # Add label
+            label_y = max(bbox[1] - 5, 5)
+            axes[1].text(bbox[0], label_y, ex['name'], color=colors[i], fontsize=9,
+                        fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
+                        facecolor='white', alpha=0.7, edgecolor=colors[i]))
     axes[1].set_title('(b) Segmentation', fontsize=12, fontweight='bold')
     axes[1].axis('off')
 
-    heatmap_img = PILImage.open(heatmap_path)
-    axes[2].imshow(heatmap_img)
+    # Panel (c): Heatmap - regenerate from saliency_map
+    height, width = img_array.shape[:2]
+    combined_mask = np.zeros((height, width), dtype=bool)
+    for ex in exhibits:
+        if ex.get('mask') is not None:
+            combined_mask = combined_mask | ex['mask'].astype(bool)
+        else:
+            x1, y1, x2, y2 = ex['bbox']
+            combined_mask[y1:y2, x1:x2] = True
+
+    # Apply colormap
+    colormap = plt.get_cmap('jet')
+    colored_heatmap = (colormap(saliency_map)[:, :, :3] * 255).astype(np.uint8)
+
+    # Overlay on original image
+    alpha = 0.55
+    heatmap_result = img_array.copy()
+    heatmap_mask = saliency_map > 0.01
+    for c in range(3):
+        heatmap_result[:, :, c] = np.where(
+            heatmap_mask,
+            img_array[:, :, c] * (1 - alpha) + colored_heatmap[:, :, c] * alpha,
+            img_array[:, :, c]
+        )
+    axes[2].imshow(heatmap_result)
     axes[2].set_title('(c) Heatmap', fontsize=12, fontweight='bold')
     axes[2].axis('off')
 
-    trajectory_img = PILImage.open(trajectory_path)
-    axes[3].imshow(trajectory_img)
+    # Panel (d): Scan Path - regenerate from fixations data
+    axes[3].imshow(img_array)
+
+    if len(fixations) > 1:
+        path_x = [f['center'][0] for f in fixations]
+        path_y = [f['center'][1] for f in fixations]
+        axes[3].plot(path_x, path_y, color='black', linewidth=8, alpha=0.9, zorder=2)
+        axes[3].plot(path_x, path_y, color='white', linewidth=5, alpha=1.0, zorder=3)
+
+    for fix in fixations:
+        cx, cy = fix['center']
+        seq = fix['sequence']
+        radius = max(22, min(50, int(fix['duration'] * 2)))
+        axes[3].add_patch(Circle((cx, cy), radius+3, facecolor='black', edgecolor='none', alpha=0.9, zorder=4))
+        axes[3].add_patch(Circle((cx, cy), radius, facecolor='#FFD700', edgecolor='none', alpha=1.0, zorder=5))
+        axes[3].text(cx, cy, str(seq), color='black', fontsize=18, fontweight='bold',
+                    ha='center', va='center', zorder=6)
+
     axes[3].set_title('(d) Scan Path', fontsize=12, fontweight='bold')
     axes[3].axis('off')
 
@@ -896,6 +949,73 @@ def run_unified_pipeline(
     print(f"[+] Saved 4-panel figure: {final_path}")
 
     plt.close()
+
+    # Regenerate individual panel files to ensure consistency
+    print("\n[*] Regenerating individual panel files for consistency...")
+
+    # Regenerate panel (b): Segmentation
+    panel_b_path = os.path.join(output_dir, "panel_b_segmentation.png")
+    fig, ax = plt.subplots(figsize=(width/100, height/100))
+    if use_sam2 and any(ex.get('mask') is not None for ex in exhibits):
+        seg_result = np.zeros_like(img_array)
+        combined_mask = np.zeros((height, width), dtype=bool)
+        for ex in exhibits:
+            if ex.get('mask') is not None:
+                mask = ex['mask'].astype(bool)
+                combined_mask = combined_mask | mask
+        seg_result[combined_mask] = img_array[combined_mask]
+        ax.imshow(seg_result)
+    else:
+        ax.imshow(original_img)
+        colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
+        for i, ex in enumerate(exhibits):
+            bbox = ex['bbox']
+            import matplotlib.patches as mpatches
+            rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
+                                     fill=False, edgecolor=colors[i], linewidth=2)
+            ax.add_patch(rect)
+            label_y = max(bbox[1] - 5, 5)
+            ax.text(bbox[0], label_y, ex['name'], color=colors[i], fontsize=9,
+                   fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
+                   facecolor='white', alpha=0.7, edgecolor=colors[i]))
+    ax.axis('off')
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    plt.savefig(panel_b_path, dpi=300, bbox_inches='tight', facecolor='black', pad_inches=0)
+    plt.close()
+    print(f"[+] Saved: {panel_b_path}")
+
+    # Regenerate panel (c): Heatmap
+    panel_c_path = os.path.join(output_dir, "panel_c_heatmap.png")
+    fig, ax = plt.subplots(figsize=(width/100, height/100))
+    ax.imshow(heatmap_result)
+    ax.axis('off')
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    plt.savefig(panel_c_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0)
+    plt.close()
+    print(f"[+] Saved: {panel_c_path}")
+
+    # Regenerate panel (d): Trajectory
+    panel_d_path = os.path.join(output_dir, "panel_d_trajectory.png")
+    fig, ax = plt.subplots(figsize=(width/100, height/100))
+    ax.imshow(img_array)
+    if len(fixations) > 1:
+        path_x = [f['center'][0] for f in fixations]
+        path_y = [f['center'][1] for f in fixations]
+        ax.plot(path_x, path_y, color='black', linewidth=8, alpha=0.9, zorder=2)
+        ax.plot(path_x, path_y, color='white', linewidth=5, alpha=1.0, zorder=3)
+    for fix in fixations:
+        cx, cy = fix['center']
+        seq = fix['sequence']
+        radius = max(22, min(50, int(fix['duration'] * 2)))
+        ax.add_patch(Circle((cx, cy), radius+3, facecolor='black', edgecolor='none', alpha=0.9, zorder=4))
+        ax.add_patch(Circle((cx, cy), radius, facecolor='#FFD700', edgecolor='none', alpha=1.0, zorder=5))
+        ax.text(cx, cy, str(seq), color='black', fontsize=18, fontweight='bold',
+               ha='center', va='center', zorder=6)
+    ax.axis('off')
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    plt.savefig(panel_d_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0)
+    plt.close()
+    print(f"[+] Saved: {panel_d_path}")
 
     # Summary
     print("\n" + "="*70)
