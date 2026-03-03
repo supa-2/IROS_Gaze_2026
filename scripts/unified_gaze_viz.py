@@ -78,27 +78,35 @@ class VLMRecognizer:
         width, height = img.size
         print(f"    Image: {width}x{height}")
 
-        prompt = f"""Analyze this exhibition hall image and identify all exhibits worth viewing.
+        prompt = f"""You are analyzing an exhibition hall image. The image size is {width} pixels wide by {height} pixels high.
+
+IMPORTANT COORDINATE SYSTEM:
+- Origin (0, 0) is at the TOP-LEFT corner
+- X axis goes from 0 to {width} (left to right)
+- Y axis goes from 0 to {height} (top to bottom)
+
+Your task: Identify all exhibits (paintings, sculptures, installations) worth viewing.
 
 For each exhibit, provide:
-1. Name (concise, e.g., Painting 1, Sculpture A)
-2. Type (must be one of: Painting, Sculpture, Installation, Photography)
-3. Location (bounding box [x1, y1, x2, y2], where (0,0) is top-left)
-4. Brief description (within 10 words)
+1. name: Short name like "Painting 1" or "Sculpture A"
+2. type: Must be exactly one of: Painting, Sculpture, Installation, Photography
+3. bbox: [x1, y1, x2, y2] where:
+   - x1, y1 are top-left coordinates
+   - x2, y2 are bottom-right coordinates
+   - Must satisfy: 0 <= x1 < x2 <= {width} and 0 <= y1 < y2 <= {height}
 
-Image size: {width} x {height}
-
-Return in JSON format:
+Return ONLY valid JSON format:
 [
-  {{"name": "Name", "type": "Painting", "bbox": [x1, y1, x2, y2], "description": "Desc"}}
+  {{"name": "Painting 1", "type": "Painting", "bbox": [100, 200, 300, 400]}},
+  {{"name": "Sculpture A", "type": "Sculpture", "bbox": [500, 100, 700, 500]}}
 ]
 
-Requirements:
-- Only identify real exhibits (paintings, sculptures, installations)
-- Ignore walls, floors, display cases, lights
-- Bounding box should tightly enclose the exhibit
-- Return 5-12 exhibits
-- Type must be one of: Painting, Sculpture, Installation, Photography"""
+CRITICAL REQUIREMENTS:
+- Return 5-15 exhibits total
+- Each bbox must be within image bounds [0, 0, {width}, {height}]
+- Bounding boxes should tightly enclose the exhibit content
+- IGNORE: walls, floors, ceilings, empty frames, display cases, lighting fixtures
+- FOCUS ON: Actual exhibit content (paintings, sculptures, installations)"""
 
         print("[*] Calling VLM API...")
 
@@ -140,21 +148,42 @@ Requirements:
                     if len(bbox) == 4:
                         try:
                             x1, y1, x2, y2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
-                            if 0 <= x1 < x2 <= width and 0 <= y1 < y2 <= height:
-                                area = (x2 - x1) * (y2 - y1)
-                                if 500 < area < width * height * 0.5:
-                                    ex_type = ex.get('type', 'Painting')
-                                    ex_type = type_map.get(ex_type, ex_type)
-                                    if ex_type not in ['Painting', 'Sculpture', 'Installation', 'Photography']:
-                                        ex_type = 'Painting'
 
-                                    valid_exhibits.append({
-                                        "id": f"E{i+1}",
-                                        "name": ex.get('name', f'Exhibit{i+1}'),
-                                        "type": ex_type,
-                                        "bbox": [x1, y1, x2, y2],
-                                        "description": ex.get('description', '')
-                                    })
+                            # Coordinate validation and adjustment
+                            # Clamp to image bounds
+                            x1 = max(0, min(x1, width - 1))
+                            y1 = max(0, min(y1, height - 1))
+                            x2 = max(x1 + 1, min(x2, width))
+                            y2 = max(y1 + 1, min(y2, height))
+
+                            # Ensure minimum size (at least 30x30)
+                            min_size = 30
+                            if (x2 - x1) < min_size:
+                                center_x = (x1 + x2) // 2
+                                x1 = max(0, center_x - min_size // 2)
+                                x2 = min(width, center_x + min_size // 2)
+                            if (y2 - y1) < min_size:
+                                center_y = (y1 + y2) // 2
+                                y1 = max(0, center_y - min_size // 2)
+                                y2 = min(height, center_y + min_size // 2)
+
+                            # Area check (not too small, not too large)
+                            area = (x2 - x1) * (y2 - y1)
+                            if area < 200 or area > width * height * 0.5:
+                                continue
+
+                            ex_type = ex.get('type', 'Painting')
+                            ex_type = type_map.get(ex_type, ex_type)
+                            if ex_type not in ['Painting', 'Sculpture', 'Installation', 'Photography']:
+                                ex_type = 'Painting'
+
+                            valid_exhibits.append({
+                                "id": f"E{i+1}",
+                                "name": ex.get('name', f'Exhibit{i+1}'),
+                                "type": ex_type,
+                                "bbox": [x1, y1, x2, y2],
+                                "description": ex.get('description', '')
+                            })
                         except (ValueError, TypeError):
                             continue
 
