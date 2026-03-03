@@ -149,6 +149,24 @@ CRITICAL REQUIREMENTS:
                         try:
                             x1, y1, x2, y2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
 
+                            # Detect if VLM used scaled coordinates
+                            # If exhibits are too small, VLM likely saw a downscaled image
+                            bbox_w, bbox_h = x2 - x1, y2 - y1
+                            expected_min_size = min(width, height) * 0.02  # At least 2% of image dimension
+
+                            if bbox_w < expected_min_size or bbox_h < expected_min_size:
+                                # Calculate scale factor
+                                # VLM likely saw image at ~1100x600 scale
+                                scale_x = width / 1100  # Assuming VLM saw ~1100 width
+                                scale_y = height / 600   # Assuming VLM saw ~600 height
+                                scale = min(scale_x, scale_y)
+
+                                print(f"[*] Auto-scaling bbox {i+1}: scale factor = {scale:.2f}x")
+                                x1 = int(x1 * scale)
+                                y1 = int(y1 * scale)
+                                x2 = int(x2 * scale)
+                                y2 = int(y2 * scale)
+
                             # Coordinate validation and adjustment
                             # Clamp to image bounds
                             x1 = max(0, min(x1, width - 1))
@@ -156,8 +174,8 @@ CRITICAL REQUIREMENTS:
                             x2 = max(x1 + 1, min(x2, width))
                             y2 = max(y1 + 1, min(y2, height))
 
-                            # Ensure minimum size (at least 30x30)
-                            min_size = 30
+                            # Ensure minimum size (at least 100x100 for paintings)
+                            min_size = 100
                             if (x2 - x1) < min_size:
                                 center_x = (x1 + x2) // 2
                                 x1 = max(0, center_x - min_size // 2)
@@ -169,7 +187,7 @@ CRITICAL REQUIREMENTS:
 
                             # Area check (not too small, not too large)
                             area = (x2 - x1) * (y2 - y1)
-                            if area < 200 or area > width * height * 0.5:
+                            if area < 5000 or area > width * height * 0.3:
                                 continue
 
                             ex_type = ex.get('type', 'Painting')
@@ -189,7 +207,9 @@ CRITICAL REQUIREMENTS:
 
                 print(f"[+] Detected {len(valid_exhibits)} valid exhibits")
                 for ex in valid_exhibits:
-                    print(f"    - {ex['name']} ({ex['type']}) at {ex['bbox']}")
+                    bbox = ex['bbox']
+                    w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
+                    print(f"    - {ex['name']} ({ex['type']}) at {bbox}  [{w}x{h}]")
                 return valid_exhibits
             else:
                 print("[!] Cannot parse VLM response as JSON")
