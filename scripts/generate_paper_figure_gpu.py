@@ -303,9 +303,13 @@ def predict_scan_path(image_path, saliency_map, exhibits, output_path, num_fixat
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
     plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0)
     plt.close()
+<<<<<<< HEAD
     
     return fixations
 
+=======
+    return fixations
+>>>>>>> 11748b2719a66e0a4e215bdf79d848bc0502269c
 
 def get_attention_level(duration, all_durations):
     if not all_durations: return 'C'

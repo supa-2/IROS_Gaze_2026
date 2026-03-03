@@ -3,25 +3,25 @@
 \centering
 \caption{Gaze Statistics Summary}
 \label{tab:gaze_stats}
-\begin{tabular}{lcccccccccc}
+\begin{tabular}{lccccccccc}
 \hline
 ID & Type & Area(\%) & SAM & Fix & Total(s) & Avg(s) & First & Last & Attn \\
 \hline
-E1 & Painting & 0.1 & 0.89 & 1 & 25.0 & 25.0 & 2 & 2 & A \\\\
-E2 & Painting & 0.0 & 0.89 & 1 & 25.0 & 25.0 & 3 & 3 & A \\\\
-E3 & Painting & 0.0 & 0.63 & 1 & 25.0 & 25.0 & 4 & 4 & A \\\\
-E4 & Painting & 0.0 & 0.41 & 0 & 0.0 & - & - & - & - \\\\
-E5 & Painting & 0.0 & 0.40 & 0 & 0.0 & - & - & - & - \\\\
-E6 & Painting & 0.1 & 0.66 & 1 & 25.0 & 25.0 & 6 & 6 & A \\\\
-E7 & Painting & 0.1 & 0.67 & 1 & 25.0 & 25.0 & 7 & 7 & A \\\\
-E8 & Painting & 0.1 & 0.73 & 1 & 25.0 & 25.0 & 8 & 8 & A \\\\
-E9 & Painting & 0.1 & 0.79 & 1 & 25.0 & 25.0 & 1 & 1 & A \\\\
-E10 & Sculpture & 0.2 & 0.78 & 1 & 25.0 & 25.0 & 5 & 5 & A \\\\
-E11 & Installation & 0.0 & 0.57 & 1 & 25.0 & 25.0 & 10 & 10 & A \\\\
-E12 & Painting & 0.0 & 0.57 & 1 & 25.0 & 25.0 & 9 & 9 & A \\\\
-E13 & Painting & 0.0 & 0.47 & 0 & 0.0 & - & - & - & - \\\\
+E1 & Painting & 0.1 & 0.93 & 1 & 5.4 & 5.4 & 9 & 9 & B \\\\
+E2 & Painting & 0.2 & 0.66 & 1 & 5.6 & 5.6 & 1 & 1 & B \\\\
+E3 & Painting & 0.1 & 0.64 & 1 & 5.4 & 5.4 & 4 & 4 & B \\\\
+E4 & Painting & 0.1 & 0.42 & 1 & 5.1 & 5.1 & 5 & 5 & B \\\\
+E5 & Painting & 0.2 & 0.75 & 1 & 5.9 & 5.9 & 2 & 2 & B \\\\
+E6 & Painting & 2.5 & 0.45 & 0 & 0.0 & - & - & - & - \\\\
+E7 & Painting & 4.4 & 0.47 & 0 & 0.0 & - & - & - & - \\\\
+E8 & Sculpture & 0.1 & 0.93 & 1 & 5.4 & 5.4 & 10 & 10 & B \\\\
+E9 & Painting & 0.1 & 0.63 & 1 & 4.8 & 4.8 & 6 & 6 & C \\\\
+E10 & Painting & 2.8 & 0.35 & 1 & 8.1 & 8.1 & 3 & 3 & A \\\\
+E11 & Painting & 0.1 & 0.75 & 1 & 5.3 & 5.3 & 7 & 7 & B \\\\
+E12 & Sculpture & 0.1 & 0.94 & 1 & 5.3 & 5.3 & 8 & 8 & B \\\\
+E13 & Painting & 0.2 & 0.53 & 0 & 0.0 & - & - & - & - \\\\
 \hline
-TOTAL & - & 100 & - & 10 & 250.0 & 25.0 & - & - & 10/13 \\\\
+TOTAL & - & 100 & - & 10 & 56.4 & 5.6 & - & - & 10/13 \\\\
 \hline
 \end{tabular}
 \end{table}
