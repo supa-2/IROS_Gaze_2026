@@ -265,9 +265,13 @@ class SAM2Segmenter:
         print("Step (b): SAM2 Fine Segmentation")
         print("="*70)
 
+        orig_height, orig_width = image_np.shape[:2]
         self.predictor.set_image(image_np)
-        height, width = image_np.shape[:2]
         refined_exhibits = []
+
+        # SAM2 may resize the image internally - get the actual size
+        input_image = self.predictor._is_image_set
+        print(f"    Original image: {orig_width}x{orig_height}")
 
         for i, exhibit in enumerate(vlm_exhibits):
             print(f"    Processing {exhibit['name']}...")
@@ -280,7 +284,20 @@ class SAM2Segmenter:
                 best_mask = masks[best_idx]
                 best_score = float(scores[best_idx])
 
-                # Compute refined bbox
+                # Check if mask size matches original image size
+                mask_h, mask_w = best_mask.shape
+                print(f"        Mask size: {mask_w}x{mask_h}, Original: {orig_width}x{orig_height}")
+
+                # Scale mask back to original size if needed
+                if mask_w != orig_width or mask_h != orig_height:
+                    scale_x = orig_width / mask_w
+                    scale_y = orig_height / mask_h
+                    from skimage.transform import resize
+                    best_mask = resize(best_mask, (orig_height, orig_width),
+                                         order=0, preserve_range=True).astype(bool)
+                    print(f"        Scaled mask by {scale_x:.2f}x, {scale_y:.2f}x")
+
+                # Compute refined bbox from scaled mask
                 rows = np.any(best_mask, axis=1)
                 cols = np.any(best_mask, axis=0)
 
@@ -307,12 +324,14 @@ class SAM2Segmenter:
                         'sam_score': best_score,
                         'mask': best_mask
                     })
-                    print(f"        Segmentation OK: area={refined_exhibits[-1]['area']}, score={best_score:.3f}")
+                    print(f"        Segmentation OK: bbox=[{int(cmin)},{int(rmin)},{int(cmax)},{int(rmax)}], area={refined_exhibits[-1]['area']}, score={best_score:.3f}")
                 else:
                     self._add_fallback(exhibit, refined_exhibits)
 
             except Exception as e:
                 print(f"        Segmentation failed: {e}, using VLM bbox")
+                import traceback
+                traceback.print_exc()
                 self._add_fallback(exhibit, refined_exhibits)
 
         print(f"[+] Fine segmentation complete: {len(refined_exhibits)} exhibits")
@@ -343,12 +362,36 @@ class SAM2Segmenter:
         result = np.zeros_like(image_np)
         combined_mask = np.zeros((height, width), dtype=bool)
 
+        print(f"\n[*] Creating segmentation visualization...")
+        print(f"    Image size: {width}x{height}")
+
         for ex in exhibits:
             if ex.get('mask') is not None:
-                combined_mask = combined_mask | ex['mask'].astype(bool)
+                mask = ex['mask']
+                # Verify mask size matches image size
+                if mask.shape != (height, width):
+                    print(f"    WARNING: Mask {ex['id']} has shape {mask.shape}, expected ({height}, {width})")
+                    # Resize mask to match image
+                    from skimage.transform import resize
+                    mask = resize(mask, (height, width), order=0, preserve_range=True).astype(bool)
+                    print(f"    Resized mask to {mask.shape}")
+
+                # Verify mask is boolean
+                if mask.dtype != bool:
+                    mask = mask.astype(bool)
+
+                combined_mask = combined_mask | mask
+
+                # Debug: print bbox and mask stats
+                bbox = ex['bbox']
+                mask_area = np.sum(mask)
+                print(f"    {ex['id']}: bbox={bbox}, mask_pixels={mask_area}")
 
         # Show original image only in mask regions
         result[combined_mask] = image_np[combined_mask]
+
+        total_masked = np.sum(combined_mask)
+        print(f"    Total masked pixels: {total_masked}/{height*width} ({100*total_masked/(height*width):.1f}%)")
 
         fig, ax = plt.subplots(figsize=(width/100, height/100))
         ax.imshow(result)
