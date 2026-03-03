@@ -80,33 +80,34 @@ class VLMRecognizer:
 
         prompt = f"""You are analyzing an exhibition hall image. The image size is {width} pixels wide by {height} pixels high.
 
-IMPORTANT COORDINATE SYSTEM:
-- Origin (0, 0) is at the TOP-LEFT corner
-- X axis goes from 0 to {width} (left to right)
-- Y axis goes from 0 to {height} (top to bottom)
+CRITICAL COORDINATE SYSTEM:
+- Origin (0, 0) is at the TOP-LEFT corner (top of image)
+- Y increases DOWNWARD: y=0 is top, y={height} is bottom
+- IMPORTANT: y=0 is the TOP (ceiling area), y={height} is the BOTTOM (floor area)
 
-Your task: Identify all exhibits (paintings, sculptures, installations) worth viewing.
+Your task: Identify all PAINTINGS hanging on the WALL.
 
-For each exhibit, provide:
-1. name: Short name like "Painting 1" or "Sculpture A"
-2. type: Must be exactly one of: Painting, Sculpture, Installation, Photography
+For each painting, provide:
+1. name: "Painting 1", "Painting 2", etc. (left to right)
+2. type: "Painting"
 3. bbox: [x1, y1, x2, y2] where:
-   - x1, y1 are top-left coordinates
-   - x2, y2 are bottom-right coordinates
-   - Must satisfy: 0 <= x1 < x2 <= {width} and 0 <= y1 < y2 <= {height}
+   - x1, y1 = top-left corner of painting
+   - x2, y2 = bottom-right corner of painting
+   - Must include the painting frame
+
+CRITICAL LOCATION HINTS:
+- Paintings are HANGING ON THE WALL, typically in the MIDDLE-UPPER portion
+- Look for paintings with y coordinates between 200 and 400 (NOT at the bottom!)
+- IGNORE any reflections on the floor
+- IGNORE the floor area (y > 450)
 
 Return ONLY valid JSON format:
 [
-  {{"name": "Painting 1", "type": "Painting", "bbox": [100, 200, 300, 400]}},
-  {{"name": "Sculpture A", "type": "Sculpture", "bbox": [500, 100, 700, 500]}}
+  {{"name": "Painting 1", "type": "Painting", "bbox": [100, 250, 250, 380]}},
+  {{"name": "Painting 2", "type": "Painting", "bbox": [300, 240, 450, 370]}}
 ]
 
-CRITICAL REQUIREMENTS:
-- Return 5-15 exhibits total
-- Each bbox must be within image bounds [0, 0, {width}, {height}]
-- Bounding boxes should tightly enclose the exhibit content
-- IGNORE: walls, floors, ceilings, empty frames, display cases, lighting fixtures
-- FOCUS ON: Actual exhibit content (paintings, sculptures, installations)"""
+Make sure y1 (top) is LESS than y2 (bottom), and both are around 200-400 range!"""
 
         print("[*] Calling VLM API...")
 
@@ -132,7 +133,25 @@ CRITICAL REQUIREMENTS:
             import re
             json_match = re.search(r'\[.*\]', result_text, re.DOTALL)
             if json_match:
-                exhibits = json.loads(json_match.group())
+                json_str = json_match.group()
+                # Fix common JSON syntax errors from VLM
+                json_str = json_str.replace('},]', '}]')  # Fix },] at end
+                json_str = json_str.replace('}}', '}]')   # Fix }} -> }]
+                json_str = json_str.replace('],]', ']]')   # Fix ],] -> ]]
+                try:
+                    exhibits = json.loads(json_str)
+                except json.JSONDecodeError as je:
+                    print(f"[!] JSON parse error: {je}")
+                    print(f"[*] Attempting to fix JSON...")
+                    # More aggressive fixing: replace } with ] for array elements
+                    json_str = re.sub(r'\}\s*,\s*\{', '},{', json_str)
+                    # Fix trailing braces
+                    json_str = re.sub(r'\}\s*\}\s*$', '}]}', json_str)
+                    try:
+                        exhibits = json.loads(json_str)
+                    except:
+                        print(f"[!] Cannot fix JSON, raw response:\n{result_text[:500]}")
+                        return []
                 valid_exhibits = []
 
                 # Type mapping
@@ -210,6 +229,14 @@ CRITICAL REQUIREMENTS:
                     bbox = ex['bbox']
                     w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
                     print(f"    - {ex['name']} ({ex['type']}) at {bbox}  [{w}x{h}]")
+
+                # Stage 2: Verify and correct bboxes using VLM
+                if len(valid_exhibits) > 0:
+                    print("\n[*] Stage 2: Verifying and correcting bboxes...")
+                    valid_exhibits = self._verify_and_correct_bboxes(
+                        image_base64, width, height, valid_exhibits
+                    )
+
                 return valid_exhibits
             else:
                 print("[!] Cannot parse VLM response as JSON")
@@ -220,6 +247,94 @@ CRITICAL REQUIREMENTS:
             import traceback
             traceback.print_exc()
             return []
+
+    def _verify_and_correct_bboxes(self, image_base64: str, width: int, height: int,
+                                   exhibits: List[Dict]) -> List[Dict]:
+        """
+        Second stage: Verify and correct bounding boxes using VLM
+        """
+        # Format current bboxes for the prompt
+        bbox_str = '\n'.join([
+            f"{ex['id']}: {ex['bbox']}" for ex in exhibits
+        ])
+
+        verify_prompt = f"""You are verifying bounding box coordinates for paintings in an exhibition image.
+
+Image size: {width}x{height} pixels
+Coordinate system: (0,0) is TOP-LEFT, y increases downward
+
+Current bounding boxes to verify:
+{bbox_str}
+
+CRITICAL: Paintings are HANGING ON THE WALL in the MIDDLE-UPPER portion!
+- Expected y-coordinates: between 200 and 400 (NOT at the bottom!)
+- If a bbox has y-coordinates > 450, it's probably detecting the floor/reflections - CORRECT IT!
+
+Task:
+1. Look at the image and find the ACTUAL paintings on the wall
+2. Check if each bbox TIGHTLY encloses the painting (not the reflection!)
+3. If the bbox is at the bottom (y > 450), move it UP to the actual painting position (y ~ 250-370)
+4. Provide CORRECT coordinates for wrong bboxes
+
+Return ONLY JSON:
+[
+  {{"id": "E1", "correct": true, "bbox": [x1, y1, x2, y2]}},
+  {{"id": "E2", "correct": false, "bbox": [NEW_x1, NEW_y1, NEW_x2, NEW_y2]}}
+]"""
+
+        try:
+            from openai import OpenAI
+            client = OpenAI(api_key=self.api_key, base_url=self.base_url)
+
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "user", "content": [
+                        {"type": "text", "text": verify_prompt},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}}
+                    ]}
+                ],
+                temperature=0.1,
+                max_tokens=1500
+            )
+
+            result_text = response.choices[0].message.content
+
+            import re
+            json_match = re.search(r'\[.*\]', result_text, re.DOTALL)
+            if json_match:
+                json_str = json_match.group()
+                json_str = json_str.replace('},]', '}]')
+                json_str = json_str.replace('}}', '}]')
+                try:
+                    verified = json.loads(json_str)
+
+                    # Update exhibits with corrected bboxes
+                    corrected_map = {v['id']: v['bbox'] for v in verified}
+
+                    corrected_count = 0
+                    for ex in exhibits:
+                        old_bbox = ex['bbox']
+                        new_bbox = corrected_map.get(ex['id'], old_bbox)
+
+                        if old_bbox != new_bbox:
+                            corrected_count += 1
+                            print(f"    {ex['id']}: {old_bbox} -> {new_bbox}")
+                            ex['bbox'] = new_bbox
+
+                    if corrected_count > 0:
+                        print(f"[+] Corrected {corrected_count} bboxes")
+                    else:
+                        print("[+] All bboxes verified correct")
+
+                    return exhibits
+
+                except json.JSONDecodeError:
+                    print("[!] Could not parse verification response, using original bboxes")
+                    return exhibits
+        except Exception as e:
+            print(f"[!] Verification failed: {e}, using original bboxes")
+            return exhibits
 
 
 # ============================================
@@ -686,6 +801,7 @@ def generate_table_data(exhibits: List[Dict], fixations: List[Dict], image_path:
                 'name': s['exhibit']['name'],
                 'type': s['exhibit']['type'],
                 'description': s['exhibit']['description'],
+                'vlm_bbox': s['exhibit'].get('vlm_bbox', s['exhibit']['bbox']),
                 'bbox': s['exhibit']['bbox'],
                 'center': s['exhibit']['center'],
                 'area': s['exhibit']['area'],
@@ -832,6 +948,7 @@ def run_unified_pipeline(
                 'name': ex['name'],
                 'type': ex['type'],
                 'description': ex['description'],
+                'vlm_bbox': bbox,  # Set vlm_bbox for consistency
                 'bbox': bbox,
                 'center': [(bbox[0] + bbox[2]) // 2, (bbox[1] + bbox[3]) // 2],
                 'area': (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]),
@@ -842,6 +959,10 @@ def run_unified_pipeline(
     # Step (c): Heatmap Generation
     heatmap_path = os.path.join(output_dir, "panel_c_heatmap.png")
     saliency_map = predict_saliency_heatmap(image_path, exhibits, heatmap_path)
+
+    # Ensure mask_path is defined for later use
+    if 'mask_path' not in locals():
+        mask_path = None
 
     # Step (d): Scan Path Prediction
     trajectory_path = os.path.join(output_dir, "panel_d_trajectory.png")
@@ -862,33 +983,23 @@ def run_unified_pipeline(
     axes[0].set_title('(a) Original', fontsize=12, fontweight='bold')
     axes[0].axis('off')
 
-    # Panel (b): Segmentation - generate from current exhibits data
-    if use_sam2 and any(ex.get('mask') is not None for ex in exhibits):
-        # Show SAM2 segmentation (black background with segmented regions)
-        height, width = img_array.shape[:2]
-        seg_result = np.zeros_like(img_array)
-        combined_mask = np.zeros((height, width), dtype=bool)
-        for ex in exhibits:
-            if ex.get('mask') is not None:
-                mask = ex['mask'].astype(bool)
-                combined_mask = combined_mask | mask
-        seg_result[combined_mask] = img_array[combined_mask]
-        axes[1].imshow(seg_result)
-    else:
-        # Draw VLM bboxes with colored labels
-        import matplotlib.patches as mpatches
-        axes[1].imshow(original_img)
-        colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
-        for i, ex in enumerate(exhibits):
-            bbox = ex['bbox']
-            rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
-                                     fill=False, edgecolor=colors[i], linewidth=2)
-            axes[1].add_patch(rect)
-            # Add label
-            label_y = max(bbox[1] - 5, 5)
-            axes[1].text(bbox[0], label_y, ex['name'], color=colors[i], fontsize=9,
-                        fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
-                        facecolor='white', alpha=0.7, edgecolor=colors[i]))
+    # Panel (b): Segmentation - show original image with bboxes
+    import matplotlib.patches as mpatches
+    axes[1].imshow(original_img)
+    colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
+    for i, ex in enumerate(exhibits):
+        # Use VLM bbox for visualization (more accurate for bounding boxes)
+        # SAM2 refines the mask, but VLM bbox is better for display
+        bbox = ex.get('vlm_bbox', ex['bbox'])
+        rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
+                                 fill=False, edgecolor=colors[i], linewidth=2.5)
+        axes[1].add_patch(rect)
+        # Add label with exhibit info
+        label_y = max(bbox[1] - 8, 5)
+        label_text = f"{ex['id']} {ex['type'][0]}"
+        axes[1].text(bbox[0], label_y, label_text, color=colors[i], fontsize=8,
+                    fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
+                    facecolor='white', alpha=0.8, edgecolor=colors[i], linewidth=1.5))
     axes[1].set_title('(b) Segmentation', fontsize=12, fontweight='bold')
     axes[1].axis('off')
 
@@ -956,31 +1067,24 @@ def run_unified_pipeline(
     # Regenerate panel (b): Segmentation
     panel_b_path = os.path.join(output_dir, "panel_b_segmentation.png")
     fig, ax = plt.subplots(figsize=(width/100, height/100))
-    if use_sam2 and any(ex.get('mask') is not None for ex in exhibits):
-        seg_result = np.zeros_like(img_array)
-        combined_mask = np.zeros((height, width), dtype=bool)
-        for ex in exhibits:
-            if ex.get('mask') is not None:
-                mask = ex['mask'].astype(bool)
-                combined_mask = combined_mask | mask
-        seg_result[combined_mask] = img_array[combined_mask]
-        ax.imshow(seg_result)
-    else:
-        ax.imshow(original_img)
-        colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
-        for i, ex in enumerate(exhibits):
-            bbox = ex['bbox']
-            import matplotlib.patches as mpatches
-            rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
-                                     fill=False, edgecolor=colors[i], linewidth=2)
-            ax.add_patch(rect)
-            label_y = max(bbox[1] - 5, 5)
-            ax.text(bbox[0], label_y, ex['name'], color=colors[i], fontsize=9,
-                   fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
-                   facecolor='white', alpha=0.7, edgecolor=colors[i]))
+    ax.imshow(original_img)
+    import matplotlib.patches as mpatches
+    colors = plt.cm.tab10(np.linspace(0, 1, len(exhibits)))
+    for i, ex in enumerate(exhibits):
+        # Use VLM bbox for visualization (more accurate for bounding boxes)
+        bbox = ex.get('vlm_bbox', ex['bbox'])
+        rect = mpatches.Rectangle((bbox[0], bbox[1]), bbox[2]-bbox[0], bbox[3]-bbox[1],
+                                 fill=False, edgecolor=colors[i], linewidth=2.5)
+        ax.add_patch(rect)
+        # Add label with exhibit info
+        label_y = max(bbox[1] - 8, 5)
+        label_text = f"{ex['id']} {ex['type'][0]}"
+        ax.text(bbox[0], label_y, label_text, color=colors[i], fontsize=8,
+               fontweight='bold', bbox=dict(boxstyle='round,pad=0.3',
+               facecolor='white', alpha=0.8, edgecolor=colors[i], linewidth=1.5))
     ax.axis('off')
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    plt.savefig(panel_b_path, dpi=300, bbox_inches='tight', facecolor='black', pad_inches=0)
+    plt.savefig(panel_b_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0)
     plt.close()
     print(f"[+] Saved: {panel_b_path}")
 

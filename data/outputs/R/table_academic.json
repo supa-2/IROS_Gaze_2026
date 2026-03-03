@@ -1,0 +1,135 @@
+{
+  "scene": "R",
+  "timestamp": "2026-03-03T11:46:07.484835",
+  "table_info": {
+    "title": "Exhibit Gaze Analysis - Scene R",
+    "columns": [
+      {
+        "id": "exhibit_id",
+        "label": "ID",
+        "width": 0.08
+      },
+      {
+        "id": "name",
+        "label": "Exhibit Name",
+        "width": 0.25
+      },
+      {
+        "id": "type",
+        "label": "Type",
+        "width": 0.12
+      },
+      {
+        "id": "location",
+        "label": "Location",
+        "width": 0.2
+      },
+      {
+        "id": "gaze_count",
+        "label": "Gaze Count",
+        "width": 0.1
+      },
+      {
+        "id": "duration",
+        "label": "Duration (s)",
+        "width": 0.1
+      },
+      {
+        "id": "attention",
+        "label": "Attention Level",
+        "width": 0.15
+      }
+    ]
+  },
+  "rows": [
+    {
+      "exhibit_id": "E1",
+      "name": "Landscape Abstraction",
+      "type": "Painting",
+      "location": "Left Wall - Position 1",
+      "gaze_count": 1,
+      "duration": 4.97,
+      "attention": "Low"
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Portrait Study",
+      "type": "Painting",
+      "location": "Left Wall - Position 2",
+      "gaze_count": 1,
+      "duration": 5.54,
+      "attention": "Medium-Low"
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Dark Composition",
+      "type": "Painting",
+      "location": "Left Wall - Position 3",
+      "gaze_count": 1,
+      "duration": 5.84,
+      "attention": "Medium"
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Light Minimalist",
+      "type": "Painting",
+      "location": "Left Wall - Position 4",
+      "gaze_count": 1,
+      "duration": 6.25,
+      "attention": "Medium-High"
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Central Sculpture",
+      "type": "Painting",
+      "location": "Center - Pedestal",
+      "gaze_count": 1,
+      "duration": 6.07,
+      "attention": "Medium-High"
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Sculpture Base",
+      "type": "Sculpture",
+      "location": "Center - Pedestal",
+      "gaze_count": 1,
+      "duration": 5.72,
+      "attention": "Medium"
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "Silhouette Landscape",
+      "type": "Painting",
+      "location": "Right Wall - Main",
+      "gaze_count": 1,
+      "duration": 5.67,
+      "attention": "Medium"
+    },
+    {
+      "exhibit_id": "E8",
+      "name": "Upper Wall Art A",
+      "type": "Painting",
+      "location": "Upper Right Wall",
+      "gaze_count": 1,
+      "duration": 6.69,
+      "attention": "High"
+    },
+    {
+      "exhibit_id": "E9",
+      "name": "Upper Wall Art B",
+      "type": "Painting",
+      "location": "Upper Right Wall",
+      "gaze_count": 1,
+      "duration": 6.6,
+      "attention": "High"
+    }
+  ],
+  "statistics": {
+    "total_exhibits": 9,
+    "gazed_exhibits": 9,
+    "total_fixations": 9,
+    "mean_duration": 5.93,
+    "total_duration": 53.34,
+    "std_duration": 0.51
+  }
+}

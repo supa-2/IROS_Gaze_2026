@@ -1,0 +1,214 @@
+{
+  "timestamp": "2026-03-03T13:04:37.050996",
+  "image_info": {
+    "path": "data/G.jpg",
+    "width": 1100,
+    "height": 618
+  },
+  "summary": {
+    "total_exhibits": 5,
+    "gazed_exhibits": 5,
+    "total_fixations": 5,
+    "total_duration_ms": 26.153360535868377,
+    "avg_duration_ms": 5.2306721071736755
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        85,
+        265,
+        175,
+        375
+      ],
+      "bbox": [
+        95,
+        271,
+        190,
+        360
+      ],
+      "center": [
+        142,
+        324
+      ],
+      "area": 6576,
+      "sam_score": 0.9713858962059021,
+      "gaze_count": 1,
+      "total_duration": 5.796790643749853,
+      "avg_duration": 5.796790643749853,
+      "attention_level": "B"
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        210,
+        255,
+        340,
+        370
+      ],
+      "bbox": [
+        223,
+        260,
+        377,
+        373
+      ],
+      "center": [
+        296,
+        316
+      ],
+      "area": 15334,
+      "sam_score": 0.6634485721588135,
+      "gaze_count": 1,
+      "total_duration": 6.617585616571409,
+      "avg_duration": 6.617585616571409,
+      "attention_level": "A"
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        400,
+        250,
+        510,
+        395
+      ],
+      "bbox": [
+        427,
+        255,
+        450,
+        387
+      ],
+      "center": [
+        440,
+        294
+      ],
+      "area": 58,
+      "sam_score": 0.4086620807647705,
+      "gaze_count": 1,
+      "total_duration": 4.073347381140726,
+      "avg_duration": 4.073347381140726,
+      "attention_level": "E"
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        615,
+        255,
+        790,
+        385
+      ],
+      "bbox": [
+        628,
+        294,
+        685,
+        365
+      ],
+      "center": [
+        641,
+        345
+      ],
+      "area": 138,
+      "sam_score": 0.6138584017753601,
+      "gaze_count": 1,
+      "total_duration": 4.139779508508674,
+      "avg_duration": 4.139779508508674,
+      "attention_level": "E"
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        860,
+        260,
+        965,
+        395
+      ],
+      "bbox": [
+        846,
+        248,
+        1051,
+        416
+      ],
+      "center": [
+        919,
+        325
+      ],
+      "area": 14159,
+      "sam_score": 0.1075805053114891,
+      "gaze_count": 1,
+      "total_duration": 5.525857385897711,
+      "avg_duration": 5.525857385897711,
+      "attention_level": "C"
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "exhibit_name": "Painting 1",
+      "center": [
+        142,
+        324
+      ],
+      "duration": 5.796790643749853,
+      "score": 0.5576459027897621
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "exhibit_name": "Painting 2",
+      "center": [
+        296,
+        316
+      ],
+      "duration": 6.617585616571409,
+      "score": 0.5643652246704534
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E3",
+      "exhibit_name": "Painting 3",
+      "center": [
+        440,
+        294
+      ],
+      "duration": 4.073347381140726,
+      "score": 0.41482557847329793
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E4",
+      "exhibit_name": "Painting 4",
+      "center": [
+        641,
+        345
+      ],
+      "duration": 4.139779508508674,
+      "score": 0.4265601434211872
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "exhibit_name": "Painting 5",
+      "center": [
+        919,
+        325
+      ],
+      "duration": 5.525857385897711,
+      "score": 0.3846500018606993
+    }
+  ]
+}

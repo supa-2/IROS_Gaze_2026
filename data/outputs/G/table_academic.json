@@ -1,0 +1,99 @@
+{
+  "scene": "G",
+  "timestamp": "2026-03-03T12:20:00.195960",
+  "table_info": {
+    "title": "Exhibit Gaze Analysis - Scene G",
+    "columns": [
+      {
+        "id": "exhibit_id",
+        "label": "ID",
+        "width": 0.08
+      },
+      {
+        "id": "name",
+        "label": "Exhibit Name",
+        "width": 0.25
+      },
+      {
+        "id": "type",
+        "label": "Type",
+        "width": 0.12
+      },
+      {
+        "id": "location",
+        "label": "Location",
+        "width": 0.2
+      },
+      {
+        "id": "gaze_count",
+        "label": "Gaze Count",
+        "width": 0.1
+      },
+      {
+        "id": "duration",
+        "label": "Duration (s)",
+        "width": 0.1
+      },
+      {
+        "id": "attention",
+        "label": "Attention Level",
+        "width": 0.15
+      }
+    ]
+  },
+  "rows": [
+    {
+      "exhibit_id": "E1",
+      "name": "Flower and Bird Painting",
+      "type": "Painting",
+      "location": "Left Wall - Position 1",
+      "gaze_count": 1,
+      "duration": 6.25,
+      "attention": "Low"
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Landscape Painting",
+      "type": "Painting",
+      "location": "Left Wall - Position 2",
+      "gaze_count": 1,
+      "duration": 6.57,
+      "attention": "Medium"
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Architecture and Figure",
+      "type": "Painting",
+      "location": "Center - Pedestal",
+      "gaze_count": 1,
+      "duration": 6.75,
+      "attention": "High"
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Ink Landscape",
+      "type": "Painting",
+      "location": "Right Wall - Position 1",
+      "gaze_count": 1,
+      "duration": 6.81,
+      "attention": "High"
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Bird and Flower Mood",
+      "type": "Painting",
+      "location": "Right Wall - Position 2",
+      "gaze_count": 1,
+      "duration": 6.41,
+      "attention": "Medium-Low"
+    }
+  ],
+  "statistics": {
+    "total_exhibits": 5,
+    "gazed_exhibits": 5,
+    "total_fixations": 5,
+    "mean_duration": 6.56,
+    "total_duration": 32.78,
+    "std_duration": 0.21
+  }
+}
