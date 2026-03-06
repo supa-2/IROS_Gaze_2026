@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-03-06T11:18:13.326727",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        44,
+        579,
+        108,
+        663
+      ],
+      "norm_bbox": [
+        0.05,
+        0.58,
+        0.14,
+        0.67
+      ],
+      "description": "Colorful abstract painting in a white frame",
+      "center": [
+        76,
+        620
+      ],
+      "area": 5457,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        352,
+        591,
+        435,
+        730
+      ],
+      "norm_bbox": [
+        0.47,
+        0.59,
+        0.59,
+        0.74
+      ],
+      "description": "Vibrant abstract artwork with bold colors and patterns",
+      "center": [
+        393,
+        660
+      ],
+      "area": 11488,
+      "sam_score": 0.9765625
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        509,
+        585,
+        543,
+        708
+      ],
+      "norm_bbox": [
+        0.69,
+        0.59,
+        0.74,
+        0.72
+      ],
+      "description": "Abstract painting with splashes of color",
+      "center": [
+        526,
+        647
+      ],
+      "area": 3926,
+      "sam_score": 0.96484375
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "center": [
+        76,
+        620
+      ],
+      "duration": 6.561344394616176,
+      "score": 0.7430515017404822
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        393,
+        660
+      ],
+      "duration": 7.428834469253323,
+      "score": 0.7676475721168405
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E3",
+      "center": [
+        526,
+        647
+      ],
+      "duration": 6.455631481664611,
+      "score": 0.7748735438004177
+    }
+  ]
+}

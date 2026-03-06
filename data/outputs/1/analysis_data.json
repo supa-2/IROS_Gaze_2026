@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-03-06T11:09:32.268402",
+  "timestamp": "2026-03-06T11:29:59.676868",
   "exhibits": [
     {
       "id": "E1",
       "name": "Painting 1",
       "type": "Painting",
       "bbox": [
-        68,
-        194,
+        67,
+        193,
         119,
         257
       ],
       "norm_bbox": [
         0.09,
-        0.41,
+        0.42,
         0.16,
         0.52
       ],
@@ -22,7 +22,7 @@
         93,
         224
       ],
-      "area": 2799,
+      "area": 2843,
       "sam_score": 0.9609375
     },
     {
@@ -30,10 +30,10 @@
       "name": "Painting 2",
       "type": "Painting",
       "bbox": [
-        248,
-        210,
-        297,
-        253
+        241,
+        209,
+        300,
+        254
       ],
       "norm_bbox": [
         0.33,
@@ -46,8 +46,32 @@
         272,
         231
       ],
-      "area": 2142,
-      "sam_score": 0.9609375
+      "area": 2463,
+      "sam_score": 0.921875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        345,
+        202,
+        383,
+        256
+      ],
+      "norm_bbox": [
+        0.47,
+        0.42,
+        0.52,
+        0.51
+      ],
+      "description": "Portrait in dark frame",
+      "center": [
+        363,
+        229
+      ],
+      "area": 2020,
+      "sam_score": 0.94140625
     },
     {
       "id": "E4",
@@ -57,7 +81,7 @@
         432,
         210,
         484,
-        253
+        254
       ],
       "norm_bbox": [
         0.59,
@@ -70,8 +94,32 @@
         457,
         231
       ],
-      "area": 2216,
-      "sam_score": 0.9609375
+      "area": 2316,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        619,
+        205,
+        661,
+        251
+      ],
+      "norm_bbox": [
+        0.84,
+        0.42,
+        0.89,
+        0.51
+      ],
+      "description": "Small framed painting with red and gold tones",
+      "center": [
+        640,
+        227
+      ],
+      "area": 1970,
+      "sam_score": 0.97265625
     }
   ],
   "fixations": [
@@ -82,8 +130,8 @@
         93,
         224
       ],
-      "duration": 6.182940692230526,
-      "score": 0.7638431222573221
+      "duration": 5.413086432925525,
+      "score": 0.5922519595757425
     },
     {
       "sequence": 2,
@@ -92,18 +140,38 @@
         272,
         231
       ],
-      "duration": 6.558491199807764,
-      "score": 0.8811855896837895
+      "duration": 6.264922763574989,
+      "score": 0.7982256695158665
     },
     {
       "sequence": 3,
+      "exhibit_id": "E3",
+      "center": [
+        363,
+        229
+      ],
+      "duration": 6.884380323603844,
+      "score": 0.9620791821435841
+    },
+    {
+      "sequence": 4,
       "exhibit_id": "E4",
       "center": [
         457,
         231
       ],
-      "duration": 6.5613478833259915,
-      "score": 0.8777026951608475
+      "duration": 6.2412068501223406,
+      "score": 0.8003938913640793
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        640,
+        227
+      ],
+      "duration": 5.284624627627605,
+      "score": 0.60142983667406
     }
   ]
 }

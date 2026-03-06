@@ -1,15 +1,39 @@
 {
-  "timestamp": "2026-03-06T11:11:20.642236",
+  "timestamp": "2026-03-06T11:31:23.100110",
   "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        3,
+        498,
+        48,
+        584
+      ],
+      "norm_bbox": [
+        0.0,
+        0.45,
+        0.06,
+        0.52
+      ],
+      "description": "Portrait in ornate gold frame",
+      "center": [
+        24,
+        541
+      ],
+      "area": 3654,
+      "sam_score": 0.96484375
+    },
     {
       "id": "E2",
       "name": "Painting 2",
       "type": "Painting",
       "bbox": [
         176,
-        345,
-        238,
-        657
+        343,
+        239,
+        667
       ],
       "norm_bbox": [
         0.24,
@@ -17,12 +41,12 @@
         0.32,
         0.58
       ],
-      "description": "Large classical painting with ornate frame",
+      "description": "Large classical painting with golden frame",
       "center": [
         205,
-        508
+        511
       ],
-      "area": 16338,
+      "area": 17361,
       "sam_score": 0.96875
     },
     {
@@ -30,10 +54,10 @@
       "name": "Painting 3",
       "type": "Painting",
       "bbox": [
-        301,
-        459,
-        436,
-        575
+        284,
+        450,
+        453,
+        610
       ],
       "norm_bbox": [
         0.41,
@@ -41,12 +65,12 @@
         0.59,
         0.52
       ],
-      "description": "Central artwork depicting a dramatic scene",
+      "description": "Central framed artwork depicting a dramatic scene",
       "center": [
-        368,
-        517
+        369,
+        530
       ],
-      "area": 15221,
+      "area": 26055,
       "sam_score": 0.95703125
     },
     {
@@ -55,8 +79,8 @@
       "type": "Painting",
       "bbox": [
         488,
-        413,
-        541,
+        410,
+        542,
         618
       ],
       "norm_bbox": [
@@ -65,20 +89,44 @@
         0.73,
         0.56
       ],
-      "description": "Portrait in elaborate gold frame",
+      "description": "Ornate framed portrait on wooden panel",
       "center": [
         516,
-        519
+        518
       ],
-      "area": 9659,
+      "area": 10132,
       "sam_score": 0.96875
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        599,
+        507,
+        637,
+        582
+      ],
+      "norm_bbox": [
+        0.81,
+        0.45,
+        0.87,
+        0.52
+      ],
+      "description": "Portrait in gold frame",
+      "center": [
+        617,
+        545
+      ],
+      "area": 2723,
+      "sam_score": 0.88671875
     },
     {
       "id": "E6",
       "name": "Painting 6",
       "type": "Painting",
       "bbox": [
-        636,
+        635,
         491,
         685,
         591
@@ -86,58 +134,112 @@
       "norm_bbox": [
         0.87,
         0.44,
-        0.94,
-        0.53
+        0.93,
+        0.52
       ],
-      "description": "Portrait with rich colors and detailed clothing",
+      "description": "Portrait in gold frame",
       "center": [
         660,
         542
       ],
-      "area": 4527,
+      "area": 4611,
       "sam_score": 0.9609375
+    },
+    {
+      "id": "E7",
+      "name": "Painting 7",
+      "type": "Painting",
+      "bbox": [
+        692,
+        489,
+        735,
+        583
+      ],
+      "norm_bbox": [
+        0.94,
+        0.44,
+        1.0,
+        0.52
+      ],
+      "description": "Portrait in gold frame",
+      "center": [
+        715,
+        536
+      ],
+      "area": 3709,
+      "sam_score": 0.96875
     }
   ],
   "fixations": [
     {
       "sequence": 1,
-      "exhibit_id": "E2",
+      "exhibit_id": "E1",
       "center": [
-        205,
-        508
+        24,
+        541
       ],
-      "duration": 6.916146510371966,
-      "score": 0.6046387352979232
+      "duration": 5.45446968523686,
+      "score": 0.5709140950065343
     },
     {
       "sequence": 2,
-      "exhibit_id": "E3",
+      "exhibit_id": "E2",
       "center": [
-        368,
-        517
+        205,
+        511
       ],
-      "duration": 8.28585628432701,
-      "score": 0.8596151213815029
+      "duration": 6.175383248750721,
+      "score": 0.4651883625973868
     },
     {
       "sequence": 3,
-      "exhibit_id": "E4",
+      "exhibit_id": "E3",
       "center": [
-        516,
-        519
+        369,
+        530
       ],
-      "duration": 7.030772700157757,
-      "score": 0.7288826999822458
+      "duration": 7.446934346805918,
+      "score": 0.6027506345611298
     },
     {
       "sequence": 4,
+      "exhibit_id": "E4",
+      "center": [
+        516,
+        518
+      ],
+      "duration": 6.083732060512302,
+      "score": 0.5416597788005069
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        617,
+        545
+      ],
+      "duration": 5.918106810423294,
+      "score": 0.7088182072182154
+    },
+    {
+      "sequence": 6,
       "exhibit_id": "E6",
       "center": [
         660,
         542
       ],
-      "duration": 6.567340847217439,
-      "score": 0.7757539571505099
+      "duration": 6.417124081827472,
+      "score": 0.741325986502698
+    },
+    {
+      "sequence": 7,
+      "exhibit_id": "E7",
+      "center": [
+        715,
+        536
+      ],
+      "duration": 6.371291639056597,
+      "score": 0.765500271169151
     }
   ]
 }

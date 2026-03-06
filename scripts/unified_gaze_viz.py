@@ -186,7 +186,7 @@ Return strictly JSON format:
                 # --- Robust Filtering Rules ---
                 # 1. Size Check: Must be at least 0.5% of image area
                 area = (x2 - x1) * (y2 - y1)
-                min_area = (width * height) * 0.005
+                min_area = (width * height) * 0.0015
                 if area < min_area:
                     continue
 
@@ -342,9 +342,17 @@ class SAM2Segmenter:
         with self.torch.inference_mode(), autocast_ctx:
             for exhibit in vlm_exhibits:
                 x1, y1, x2, y2 = exhibit['bbox']
-                box_prompt = np.array([
-                    min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)
-                ], dtype=np.float32)
+                w = x2 - x1
+                h = y2 - y1
+                pad_x = int(w * 0.15)
+                pad_y = int(h * 0.15)
+
+                x1p = max(0, x1 - pad_x)
+                y1p = max(0, y1 - pad_y)
+                x2p = min(image_np.shape[1] - 1, x2 + pad_x)
+                y2p = min(image_np.shape[0] - 1, y2 + pad_y)
+
+                box_prompt = np.array([x1p, y1p, x2p, y2p], dtype=np.float32)
 
                 try:
                     masks, scores, _ = self.predictor.predict(
