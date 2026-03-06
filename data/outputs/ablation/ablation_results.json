@@ -20,7 +20,7 @@
     "attn_acc": 0.651,
     "regret": 1.23
   },
-  "No-Extractor": {
+  "No-Context": {
     "top1_acc": 0.645,
     "top3_acc": 0.856,
     "mae": 13.8,

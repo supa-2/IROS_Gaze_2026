@@ -1,0 +1,192 @@
+{
+  "timestamp": "2026-03-05T16:59:53.161674",
+  "source_image": "/home/supa_2/Projects/IROS_Gaze/IROS_Gaze_2026/data/simulation/capture_FP_20260305_163054_034.jpg",
+  "nodes": [
+    {
+      "id": "E1",
+      "name": "黑白建筑风景画",
+      "type": "painting",
+      "bbox": [
+        145,
+        55,
+        235,
+        395
+      ],
+      "center": [
+        190,
+        225
+      ],
+      "description": "黑白素描风格，描绘古老建筑与水面倒影，线条细腻，具有历史感。",
+      "visual_features": "竖构图，黑白灰色调，带银色画框，位于左侧墙面最前端。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E2",
+      "name": "黑白植物插画",
+      "type": "painting",
+      "bbox": [
+        255,
+        135,
+        315,
+        395
+      ],
+      "center": [
+        285,
+        265
+      ],
+      "description": "简约风格黑白植物画，线条流畅，构图大量留白，清新淡雅。",
+      "visual_features": "竖构图，黑白对比，带银色画框，位于E1右侧。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E3",
+      "name": "木质流线型雕塑",
+      "type": "sculpture",
+      "bbox": [
+        225,
+        370,
+        465,
+        580
+      ],
+      "center": [
+        345,
+        475
+      ],
+      "description": "浅色木质，流线型船体状或叶片状，现代抽象风格，极具视觉冲击力。",
+      "visual_features": "浅木色，长条形不规则曲线，悬浮于墙面中下部，横跨E2与E3区域。",
+      "attention_level": "A"
+    },
+    {
+      "id": "E4",
+      "name": "蓝色抽象风景画",
+      "type": "painting",
+      "bbox": [
+        325,
+        195,
+        360,
+        390
+      ],
+      "center": [
+        342,
+        292
+      ],
+      "description": "蓝色调为主，可能描绘天空或水面，色彩朦胧，意境深远。",
+      "visual_features": "竖构图，蓝色系，带画框，位于雕塑后方墙面。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E5",
+      "name": "蓝白风景画",
+      "type": "painting",
+      "bbox": [
+        370,
+        235,
+        395,
+        390
+      ],
+      "center": [
+        382,
+        312
+      ],
+      "description": "蓝白色调，可能是雪山或云层，笔触柔和，意境开阔。",
+      "visual_features": "竖构图，蓝白相间，尺寸略小于前两幅。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E6",
+      "name": "暖色调风景画",
+      "type": "painting",
+      "bbox": [
+        405,
+        255,
+        425,
+        390
+      ],
+      "center": [
+        415,
+        322
+      ],
+      "description": "暖棕色或橙色调，与周围冷色调形成对比，可能是秋日景色。",
+      "visual_features": "竖构图，暖色系，位于序列中部。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E7",
+      "name": "深蓝风景画",
+      "type": "painting",
+      "bbox": [
+        430,
+        265,
+        445,
+        390
+      ],
+      "center": [
+        437,
+        327
+      ],
+      "description": "深蓝色调，可能是夜景或深海，神秘幽静。",
+      "visual_features": "竖构图，深蓝色，位于E6右侧。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E8",
+      "name": "纸飞机装置艺术",
+      "type": "sculpture",
+      "bbox": [
+        430,
+        30,
+        640,
+        350
+      ],
+      "center": [
+        535,
+        190
+      ],
+      "description": "大量白色折纸悬挂于天花板，形成动态的视觉流，象征梦想或飞翔。",
+      "visual_features": "白色，重复几何形状，悬挂于天花板中央通道上方。",
+      "attention_level": "B"
+    }
+  ],
+  "edges": [
+    {
+      "source": "E1",
+      "target": "E2",
+      "relation": "next_to"
+    },
+    {
+      "source": "E2",
+      "target": "E4",
+      "relation": "next_to"
+    },
+    {
+      "source": "E4",
+      "target": "E5",
+      "relation": "next_to"
+    },
+    {
+      "source": "E5",
+      "target": "E6",
+      "relation": "next_to"
+    },
+    {
+      "source": "E6",
+      "target": "E7",
+      "relation": "next_to"
+    },
+    {
+      "source": "E3",
+      "target": "E2",
+      "relation": "visual"
+    },
+    {
+      "source": "E3",
+      "target": "E4",
+      "relation": "visual"
+    },
+    {
+      "source": "E8",
+      "target": "E3",
+      "relation": "visual"
+    }
+  ]
+}

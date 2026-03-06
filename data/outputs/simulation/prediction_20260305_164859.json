@@ -1,0 +1,386 @@
+{
+  "timestamp": "2026-03-05T16:48:59.782063",
+  "image_path": "/home/supa_2/Projects/IROS_Gaze/IROS_Gaze_2026/data/simulation/capture_FP_20260305_163054_034.jpg",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "黑白建筑素描",
+      "type": "painting",
+      "bbox": [
+        138,
+        58,
+        233,
+        392
+      ],
+      "center": [
+        185,
+        225
+      ],
+      "description": "黑白线条画，描绘古老建筑与街道，风格写实细腻，具有历史感。",
+      "visual_features": "黑白灰色调，竖构图矩形画框，位于左侧墙面最前端，清晰可见。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E2",
+      "name": "植物标本画",
+      "type": "painting",
+      "bbox": [
+        253,
+        133,
+        313,
+        396
+      ],
+      "center": [
+        283,
+        264
+      ],
+      "description": "黑白植物插画，线条细腻，类似植物学图谱，展现自然形态之美。",
+      "visual_features": "黑白对比强烈，竖构图，位于E1右侧，紧邻木质雕塑上方。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E3",
+      "name": "木质流线型雕塑",
+      "type": "sculpture",
+      "bbox": [
+        222,
+        372,
+        463,
+        578
+      ],
+      "center": [
+        342,
+        475
+      ],
+      "description": "浅色木质，流线型设计，似船体或抽象有机形态，极具现代设计感。",
+      "visual_features": "浅木色，长条形不规则形状，悬浮于墙面前方，视觉冲击力强。",
+      "attention_level": "A"
+    },
+    {
+      "id": "E4",
+      "name": "蓝色风景画",
+      "type": "painting",
+      "bbox": [
+        323,
+        203,
+        353,
+        390
+      ],
+      "center": [
+        338,
+        296
+      ],
+      "description": "蓝色调风景画，可能是海景或山景，色彩冷峻，营造宁静氛围。",
+      "visual_features": "深蓝色主调，矩形画框，位于雕塑后方墙面上。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E5",
+      "name": "蓝白抽象画",
+      "type": "painting",
+      "bbox": [
+        363,
+        233,
+        388,
+        388
+      ],
+      "center": [
+        375,
+        310
+      ],
+      "description": "蓝白色调，笔触模糊，具有抽象表现主义风格，意境朦胧。",
+      "visual_features": "蓝白混合色，竖构图，位于E4右侧。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E6",
+      "name": "暖色风景画",
+      "type": "painting",
+      "bbox": [
+        398,
+        253,
+        418,
+        388
+      ],
+      "center": [
+        408,
+        320
+      ],
+      "description": "暖黄色调，可能是沙漠或秋日景色，与周围冷色调画作形成鲜明对比。",
+      "visual_features": "黄/橙暖色调，矩形，位于E5右侧，视觉焦点之一。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E7",
+      "name": "深蓝风景画",
+      "type": "painting",
+      "bbox": [
+        423,
+        258,
+        443,
+        385
+      ],
+      "center": [
+        433,
+        321
+      ],
+      "description": "深蓝色调，构图简洁，可能是远山或深海，延续冷色系列。",
+      "visual_features": "深蓝色，矩形，位于E6右侧，向走廊深处延伸。",
+      "attention_level": "D"
+    },
+    {
+      "id": "E8",
+      "name": "折纸飞鸟装置",
+      "type": "sculpture",
+      "bbox": [
+        430,
+        35,
+        635,
+        345
+      ],
+      "center": [
+        532,
+        190
+      ],
+      "description": "白色折纸形状，悬挂于天花板，模拟鸟群飞行，营造动态与空间感。",
+      "visual_features": "白色几何形，重复排列，占据天花板空间，贯穿走廊。",
+      "attention_level": "B"
+    }
+  ],
+  "topology": {
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "黑白建筑素描",
+        "type": "painting",
+        "bbox": [
+          138,
+          58,
+          233,
+          392
+        ],
+        "center": [
+          185,
+          225
+        ],
+        "description": "黑白线条画，描绘古老建筑与街道，风格写实细腻，具有历史感。",
+        "visual_features": "黑白灰色调，竖构图矩形画框，位于左侧墙面最前端，清晰可见。",
+        "attention_level": "B"
+      },
+      {
+        "id": "E2",
+        "name": "植物标本画",
+        "type": "painting",
+        "bbox": [
+          253,
+          133,
+          313,
+          396
+        ],
+        "center": [
+          283,
+          264
+        ],
+        "description": "黑白植物插画，线条细腻，类似植物学图谱，展现自然形态之美。",
+        "visual_features": "黑白对比强烈，竖构图，位于E1右侧，紧邻木质雕塑上方。",
+        "attention_level": "B"
+      },
+      {
+        "id": "E3",
+        "name": "木质流线型雕塑",
+        "type": "sculpture",
+        "bbox": [
+          222,
+          372,
+          463,
+          578
+        ],
+        "center": [
+          342,
+          475
+        ],
+        "description": "浅色木质，流线型设计，似船体或抽象有机形态，极具现代设计感。",
+        "visual_features": "浅木色，长条形不规则形状，悬浮于墙面前方，视觉冲击力强。",
+        "attention_level": "A"
+      },
+      {
+        "id": "E4",
+        "name": "蓝色风景画",
+        "type": "painting",
+        "bbox": [
+          323,
+          203,
+          353,
+          390
+        ],
+        "center": [
+          338,
+          296
+        ],
+        "description": "蓝色调风景画，可能是海景或山景，色彩冷峻，营造宁静氛围。",
+        "visual_features": "深蓝色主调，矩形画框，位于雕塑后方墙面上。",
+        "attention_level": "C"
+      },
+      {
+        "id": "E5",
+        "name": "蓝白抽象画",
+        "type": "painting",
+        "bbox": [
+          363,
+          233,
+          388,
+          388
+        ],
+        "center": [
+          375,
+          310
+        ],
+        "description": "蓝白色调，笔触模糊，具有抽象表现主义风格，意境朦胧。",
+        "visual_features": "蓝白混合色，竖构图，位于E4右侧。",
+        "attention_level": "C"
+      },
+      {
+        "id": "E6",
+        "name": "暖色风景画",
+        "type": "painting",
+        "bbox": [
+          398,
+          253,
+          418,
+          388
+        ],
+        "center": [
+          408,
+          320
+        ],
+        "description": "暖黄色调，可能是沙漠或秋日景色，与周围冷色调画作形成鲜明对比。",
+        "visual_features": "黄/橙暖色调，矩形，位于E5右侧，视觉焦点之一。",
+        "attention_level": "C"
+      },
+      {
+        "id": "E7",
+        "name": "深蓝风景画",
+        "type": "painting",
+        "bbox": [
+          423,
+          258,
+          443,
+          385
+        ],
+        "center": [
+          433,
+          321
+        ],
+        "description": "深蓝色调，构图简洁，可能是远山或深海，延续冷色系列。",
+        "visual_features": "深蓝色，矩形，位于E6右侧，向走廊深处延伸。",
+        "attention_level": "D"
+      },
+      {
+        "id": "E8",
+        "name": "折纸飞鸟装置",
+        "type": "sculpture",
+        "bbox": [
+          430,
+          35,
+          635,
+          345
+        ],
+        "center": [
+          532,
+          190
+        ],
+        "description": "白色折纸形状，悬挂于天花板，模拟鸟群飞行，营造动态与空间感。",
+        "visual_features": "白色几何形，重复排列，占据天花板空间，贯穿走廊。",
+        "attention_level": "B"
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "next_to"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "next_to"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "visual"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "next_to"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "next_to"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "next_to"
+      },
+      {
+        "source": "E8",
+        "target": "E3",
+        "relation": "visual"
+      },
+      {
+        "source": "E1",
+        "target": "E8",
+        "relation": "visual"
+      }
+    ],
+    "entry_point": "E1",
+    "recommended_path": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7",
+      "E8"
+    ]
+  },
+  "next_prediction": {
+    "error": "Node E8 not found.",
+    "prediction_id": null,
+    "reasoning": "Context error: Node E8 not found."
+  },
+  "predicted_sequence": [],
+  "memory_stats": {
+    "short_term_count": 5,
+    "long_term_count": 8,
+    "unique_exhibits": 8,
+    "most_visited": [
+      [
+        "E1",
+        1
+      ],
+      [
+        "E2",
+        1
+      ],
+      [
+        "E3",
+        1
+      ],
+      [
+        "E4",
+        1
+      ],
+      [
+        "E5",
+        1
+      ]
+    ],
+    "total_duration": 405,
+    "average_duration": 50.625
+  }
+}

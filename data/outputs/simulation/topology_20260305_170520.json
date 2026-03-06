@@ -1,0 +1,192 @@
+{
+  "timestamp": "2026-03-05T17:05:20.674261",
+  "source_image": "/home/supa_2/Projects/IROS_Gaze/IROS_Gaze_2026/data/simulation/capture_FP_20260305_163054_034.jpg",
+  "nodes": [
+    {
+      "id": "E1",
+      "name": "黑白建筑素描",
+      "type": "painting",
+      "bbox": [
+        146,
+        63,
+        236,
+        396
+      ],
+      "center": [
+        191,
+        229
+      ],
+      "description": "一幅黑白风格的建筑或街道素描画作，线条细腻，具有写实风格，装裱在银色画框中。",
+      "visual_features": "黑白灰色调，矩形画框，垂直悬挂，位于左侧墙面最前端。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E2",
+      "name": "植物花卉画作",
+      "type": "painting",
+      "bbox": [
+        256,
+        138,
+        316,
+        396
+      ],
+      "center": [
+        286,
+        267
+      ],
+      "description": "描绘植物茎叶或花卉的黑白画作，构图简洁，留白较多，具有现代简约风格。",
+      "visual_features": "黑白对比强烈，细长画框，位于E1右侧，紧邻木质雕塑后方。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E3",
+      "name": "流线型木质雕塑",
+      "type": "sculpture",
+      "bbox": [
+        226,
+        376,
+        466,
+        581
+      ],
+      "center": [
+        346,
+        478
+      ],
+      "description": "一件大型悬浮木质装置，呈流线型或船型，表面光滑，具有强烈的现代设计感和动态美。",
+      "visual_features": "浅木色，长条形，悬浮于半空，横跨多幅画作前方，视觉冲击力极强。",
+      "attention_level": "A"
+    },
+    {
+      "id": "E4",
+      "name": "蓝色风景画作",
+      "type": "painting",
+      "bbox": [
+        326,
+        196,
+        361,
+        391
+      ],
+      "center": [
+        343,
+        293
+      ],
+      "description": "以蓝色为主色调的风景或抽象画作，色彩冷峻，可能描绘天空或水面。",
+      "visual_features": "深蓝色调，矩形，位于E2右侧，部分被木质雕塑遮挡视线。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E5",
+      "name": "蓝色抽象画作",
+      "type": "painting",
+      "bbox": [
+        371,
+        236,
+        396,
+        391
+      ],
+      "center": [
+        383,
+        313
+      ],
+      "description": "另一幅蓝色调的画作，笔触较为模糊，营造出一种朦胧的氛围。",
+      "visual_features": "蓝白色调，位于E4右侧，沿墙面延伸。",
+      "attention_level": "C"
+    },
+    {
+      "id": "E6",
+      "name": "暖色调风景画",
+      "type": "painting",
+      "bbox": [
+        406,
+        256,
+        426,
+        386
+      ],
+      "center": [
+        416,
+        321
+      ],
+      "description": "画面中出现暖棕色或土黄色，与周围的冷色调形成对比，可能描绘山地或建筑。",
+      "visual_features": "棕黄色调，尺寸较小（因透视），位于E5右侧。",
+      "attention_level": "D"
+    },
+    {
+      "id": "E7",
+      "name": "深蓝画作",
+      "type": "painting",
+      "bbox": [
+        431,
+        266,
+        446,
+        381
+      ],
+      "center": [
+        438,
+        323
+      ],
+      "description": "深蓝色调的画作，细节因距离较远而模糊，延续了墙面的展览序列。",
+      "visual_features": "深蓝色，位于E6右侧，靠近展厅深处。",
+      "attention_level": "D"
+    },
+    {
+      "id": "E8",
+      "name": "悬挂纸飞机装置",
+      "type": "sculpture",
+      "bbox": [
+        430,
+        40,
+        630,
+        350
+      ],
+      "center": [
+        530,
+        195
+      ],
+      "description": "天花板上悬挂的一系列白色纸飞机造型装置，排列整齐，营造出飞翔和延伸的视觉效果。",
+      "visual_features": "白色，三角形/飞机形状，成排悬挂于天花板，具有强烈的纵深感。",
+      "attention_level": "B"
+    }
+  ],
+  "edges": [
+    {
+      "source": "E1",
+      "target": "E2",
+      "relation": "next_to"
+    },
+    {
+      "source": "E2",
+      "target": "E4",
+      "relation": "next_to"
+    },
+    {
+      "source": "E4",
+      "target": "E5",
+      "relation": "next_to"
+    },
+    {
+      "source": "E5",
+      "target": "E6",
+      "relation": "next_to"
+    },
+    {
+      "source": "E3",
+      "target": "E1",
+      "relation": "visual"
+    },
+    {
+      "source": "E3",
+      "target": "E2",
+      "relation": "visual"
+    },
+    {
+      "source": "E8",
+      "target": "E3",
+      "relation": "visual"
+    },
+    {
+      "source": "E1",
+      "target": "E8",
+      "relation": "visual"
+    }
+  ]
+}

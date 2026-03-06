@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-03-05T17:12:05.140945",
+  "source_image": "/home/supa_2/Projects/IROS_Gaze/IROS_Gaze_2026/data/simulation/capture_FP_20260305_163054_034.jpg",
+  "nodes": [
+    {
+      "id": "E1",
+      "name": "城市景观素描",
+      "type": "painting",
+      "bbox": [
+        204,
+        89,
+        356,
+        330
+      ],
+      "center": [
+        280,
+        190
+      ],
+      "description": "一幅黑白城市建筑素描，描绘了古老街道与建筑细节，风格写实。",
+      "visual_features": "长方形画框，黑色边框，画面为灰白色调，位于左侧墙面上方。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E2",
+      "name": "花卉静物画",
+      "type": "painting",
+      "bbox": [
+        379,
+        124,
+        482,
+        333
+      ],
+      "center": [
+        431,
+        210
+      ],
+      "description": "一幅黑白花卉静物画，细致描绘了花蕾与叶片的纹理。",
+      "visual_features": "方形画框，黑色边框，画面为灰白色调，位于E1右侧。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E3",
+      "name": "抽象风景画",
+      "type": "painting",
+      "bbox": [
+        485,
+        165,
+        570,
+        333
+      ],
+      "center": [
+        527,
+        230
+      ],
+      "description": "一幅蓝色调的抽象风景画，表现了朦胧的山峦与天空。",
+      "visual_features": "长方形画框，黑色边框，以蓝色和灰色为主色调，位于E2右侧。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E4",
+      "name": "自然风光摄影",
+      "type": "painting",
+      "bbox": [
+        576,
+        190,
+        640,
+        333
+      ],
+      "center": [
+        608,
+        245
+      ],
+      "description": "一幅色彩丰富的自然风光摄影作品，展现了山脉与湖泊的壮丽景色。",
+      "visual_features": "长方形画框，黑色边框，色彩鲜明，位于E3右侧。",
+      "attention_level": "B"
+    },
+    {
+      "id": "E5",
+      "name": "现代雕塑",
+      "type": "sculpture",
+      "bbox": [
+        330,
+        330,
+        710,
+        495
+      ],
+      "center": [
+        520,
+        400
+      ],
+      "description": "一件大型木质现代雕塑，呈流线型，仿佛漂浮在空中。",
+      "visual_features": "浅棕色木质材料，表面光滑，形状流畅，悬挂在展厅中央。",
+      "attention_level": "A"
+    },
+    {
+      "id": "E6",
+      "name": "说明牌",
+      "type": "label",
+      "bbox": [
+        380,
+        55,
+        435,
+        430
+      ],
+      "center": [
+        407,
+        230
+      ],
+      "description": "一个黄色竖条形说明牌，用于介绍展厅内的展品信息。",
+      "visual_features": "黄色竖条，位于E1和E2之间，高度与画作相当。",
+      "attention_level": "C"
+    }
+  ],
+  "edges": [
+    {
+      "source": "E1",
+      "target": "E2",
+      "relation": "next_to"
+    },
+    {
+      "source": "E2",
+      "target": "E3",
+      "relation": "next_to"
+    },
+    {
+      "source": "E3",
+      "target": "E4",
+      "relation": "next_to"
+    },
+    {
+      "source": "E1",
+      "target": "E6",
+      "relation": "visual"
+    },
+    {
+      "source": "E2",
+      "target": "E6",
+      "relation": "visual"
+    },
+    {
+      "source": "E5",
+      "target": "E1",
+      "relation": "visual"
+    },
+    {
+      "source": "E5",
+      "target": "E2",
+      "relation": "visual"
+    }
+  ]
+}

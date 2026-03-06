@@ -1,0 +1,143 @@
+{
+  "timestamp": "2026-03-06T11:11:20.642236",
+  "exhibits": [
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        176,
+        345,
+        238,
+        657
+      ],
+      "norm_bbox": [
+        0.24,
+        0.31,
+        0.32,
+        0.58
+      ],
+      "description": "Large classical painting with ornate frame",
+      "center": [
+        205,
+        508
+      ],
+      "area": 16338,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        301,
+        459,
+        436,
+        575
+      ],
+      "norm_bbox": [
+        0.41,
+        0.41,
+        0.59,
+        0.52
+      ],
+      "description": "Central artwork depicting a dramatic scene",
+      "center": [
+        368,
+        517
+      ],
+      "area": 15221,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        488,
+        413,
+        541,
+        618
+      ],
+      "norm_bbox": [
+        0.66,
+        0.37,
+        0.73,
+        0.56
+      ],
+      "description": "Portrait in elaborate gold frame",
+      "center": [
+        516,
+        519
+      ],
+      "area": 9659,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E6",
+      "name": "Painting 6",
+      "type": "Painting",
+      "bbox": [
+        636,
+        491,
+        685,
+        591
+      ],
+      "norm_bbox": [
+        0.87,
+        0.44,
+        0.94,
+        0.53
+      ],
+      "description": "Portrait with rich colors and detailed clothing",
+      "center": [
+        660,
+        542
+      ],
+      "area": 4527,
+      "sam_score": 0.9609375
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E2",
+      "center": [
+        205,
+        508
+      ],
+      "duration": 6.916146510371966,
+      "score": 0.6046387352979232
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E3",
+      "center": [
+        368,
+        517
+      ],
+      "duration": 8.28585628432701,
+      "score": 0.8596151213815029
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E4",
+      "center": [
+        516,
+        519
+      ],
+      "duration": 7.030772700157757,
+      "score": 0.7288826999822458
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E6",
+      "center": [
+        660,
+        542
+      ],
+      "duration": 6.567340847217439,
+      "score": 0.7757539571505099
+    }
+  ]
+}

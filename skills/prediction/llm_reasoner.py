@@ -35,8 +35,8 @@ class LLMReasoner:
             max_tokens=config.llm_max_tokens,
             api_key=config.llm_api_key,
             base_url=config.llm_base_url,
-            timeout=30,  # 30秒超时
-            request_timeout=30
+            timeout=120,  # 120秒超时（适应 Qwen API）
+            request_timeout=120
         )
         self.output_parser = StrOutputParser()
 

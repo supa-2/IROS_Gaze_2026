@@ -1,0 +1,334 @@
+{
+  "image": {
+    "path": "data/1.jpg",
+    "width": 735,
+    "height": 491
+  },
+  "vlm": {
+    "model": "qwen-vl-plus",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  },
+  "sam3": {
+    "provider": "roboflow_serverless",
+    "format": "polygon"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "description": "A framed painting depicting a figure in a dark setting with ornate details. The frame is gold and rectangular, and the painting appears to be oil on canvas.",
+      "features": {
+        "dominant_colors": [
+          "gold",
+          "black",
+          "brown"
+        ],
+        "style_keywords": [
+          "classical",
+          "portrait"
+        ],
+        "material_guess": "oil on canvas",
+        "orientation": "landscape"
+      },
+      "vlm_bbox": [
+        67,
+        218,
+        124,
+        285
+      ],
+      "vlm_bbox_padded": [
+        62,
+        213,
+        129,
+        290
+      ],
+      "bbox": [
+        67,
+        218,
+        124,
+        285
+      ],
+      "center": [
+        96,
+        252
+      ],
+      "area": 3819,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "description": "A framed painting with a landscape scene featuring figures and a bright sky. The frame is gold and rectangular, and the painting style suggests an impressionist influence.",
+      "features": {
+        "dominant_colors": [
+          "green",
+          "blue",
+          "yellow"
+        ],
+        "style_keywords": [
+          "impressionist",
+          "landscape"
+        ],
+        "material_guess": "oil on canvas",
+        "orientation": "landscape"
+      },
+      "vlm_bbox": [
+        243,
+        234,
+        300,
+        279
+      ],
+      "vlm_bbox_padded": [
+        238,
+        230,
+        305,
+        283
+      ],
+      "bbox": [
+        243,
+        234,
+        300,
+        279
+      ],
+      "center": [
+        272,
+        256
+      ],
+      "area": 2565,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "description": "A framed painting of a seated figure in formal attire against a neutral background. The frame is gold and rectangular, and the painting has a realistic style.",
+      "features": {
+        "dominant_colors": [
+          "black",
+          "white",
+          "gray"
+        ],
+        "style_keywords": [
+          "realistic",
+          "portrait"
+        ],
+        "material_guess": "oil on canvas",
+        "orientation": "portrait"
+      },
+      "vlm_bbox": [
+        343,
+        229,
+        384,
+        282
+      ],
+      "vlm_bbox_padded": [
+        340,
+        225,
+        387,
+        286
+      ],
+      "bbox": [
+        343,
+        229,
+        384,
+        282
+      ],
+      "center": [
+        364,
+        256
+      ],
+      "area": 2173,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "description": "A framed painting with a dynamic composition featuring multiple figures in a historical or mythological scene. The frame is gold and rectangular, and the painting uses rich colors.",
+      "features": {
+        "dominant_colors": [
+          "red",
+          "blue",
+          "gold"
+        ],
+        "style_keywords": [
+          "historical",
+          "mythological"
+        ],
+        "material_guess": "oil on canvas",
+        "orientation": "landscape"
+      },
+      "vlm_bbox": [
+        428,
+        234,
+        485,
+        279
+      ],
+      "vlm_bbox_padded": [
+        423,
+        230,
+        490,
+        283
+      ],
+      "bbox": [
+        428,
+        234,
+        485,
+        279
+      ],
+      "center": [
+        456,
+        256
+      ],
+      "area": 2565,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "description": "A smaller framed painting with a dark, possibly abstract or symbolic subject. The frame is dark and rectangular, contrasting with the lighter wall.",
+      "features": {
+        "dominant_colors": [
+          "black",
+          "dark brown"
+        ],
+        "style_keywords": [
+          "abstract",
+          "symbolic"
+        ],
+        "material_guess": "oil on canvas",
+        "orientation": "landscape"
+      },
+      "vlm_bbox": [
+        617,
+        228,
+        664,
+        275
+      ],
+      "vlm_bbox_padded": [
+        613,
+        224,
+        668,
+        279
+      ],
+      "bbox": [
+        617,
+        228,
+        664,
+        275
+      ],
+      "center": [
+        640,
+        252
+      ],
+      "area": 2209,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E6",
+      "name": "Label 1",
+      "type": "Label",
+      "description": "A small white label attached to the wall next to Painting 1, likely providing information about the artwork.",
+      "features": {
+        "material_guess": "paper",
+        "orientation": "square"
+      },
+      "vlm_bbox": [
+        38,
+        248,
+        53,
+        278
+      ],
+      "vlm_bbox_padded": [
+        37,
+        246,
+        54,
+        280
+      ],
+      "bbox": [
+        38,
+        248,
+        53,
+        278
+      ],
+      "center": [
+        46,
+        263
+      ],
+      "area": 450,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    },
+    {
+      "id": "E7",
+      "name": "Label 2",
+      "type": "Label",
+      "description": "A small white label attached to the wall next to Painting 5, likely providing information about the artwork.",
+      "features": {
+        "material_guess": "paper",
+        "orientation": "square"
+      },
+      "vlm_bbox": [
+        583,
+        253,
+        598,
+        283
+      ],
+      "vlm_bbox_padded": [
+        582,
+        251,
+        599,
+        285
+      ],
+      "bbox": [
+        583,
+        253,
+        598,
+        283
+      ],
+      "center": [
+        590,
+        268
+      ],
+      "area": 450,
+      "sam_score": null,
+      "polygon": null,
+      "gaze_count": 0,
+      "total_duration": 0.0,
+      "avg_duration": 0.0,
+      "attention_level": null
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "timestamp": "2026-03-05T20:24:28.847485",
+  "image_info": {
+    "path": "data/5.jpg",
+    "width": 736,
+    "height": 981
+  },
+  "summary": {
+    "total_exhibits": 4,
+    "gazed_exhibits": 4,
+    "total_fixations": 4,
+    "total_duration_ms": 16.37959443863287,
+    "avg_duration_ms": 4.094898609658218
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        25,
+        365,
+        105,
+        585
+      ],
+      "bbox": [
+        24,
+        337,
+        99,
+        577
+      ],
+      "center": [
+        60,
+        464
+      ],
+      "area": 16218,
+      "sam_score": 0.9662767648696899,
+      "gaze_count": 1,
+      "total_duration": 5.046355035676746,
+      "avg_duration": 5.046355035676746,
+      "attention_level": "A"
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        122,
+        482,
+        222,
+        582
+      ],
+      "bbox": [
+        113,
+        442,
+        228,
+        588
+      ],
+      "center": [
+        169,
+        521
+      ],
+      "area": 11069,
+      "sam_score": 0.38155892491340637,
+      "gaze_count": 1,
+      "total_duration": 4.10471808231447,
+      "avg_duration": 4.10471808231447,
+      "attention_level": "C"
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        210,
+        492,
+        310,
+        592
+      ],
+      "bbox": [
+        209,
+        442,
+        317,
+        604
+      ],
+      "center": [
+        256,
+        542
+      ],
+      "area": 10537,
+      "sam_score": 0.6524189114570618,
+      "gaze_count": 1,
+      "total_duration": 3.7523805454876418,
+      "avg_duration": 3.7523805454876418,
+      "attention_level": "E"
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "description": "",
+      "vlm_bbox": [
+        405,
+        462,
+        505,
+        562
+      ],
+      "bbox": [
+        403,
+        437,
+        511,
+        599
+      ],
+      "center": [
+        453,
+        514
+      ],
+      "area": 11483,
+      "sam_score": 0.5977701544761658,
+      "gaze_count": 1,
+      "total_duration": 3.476140775154011,
+      "avg_duration": 3.476140775154011,
+      "attention_level": "E"
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "exhibit_name": "Painting 1",
+      "center": [
+        60,
+        464
+      ],
+      "duration": 5.046355035676746,
+      "score": 0.8
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "exhibit_name": "Painting 2",
+      "center": [
+        169,
+        521
+      ],
+      "duration": 4.10471808231447,
+      "score": 0.6
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E3",
+      "exhibit_name": "Painting 3",
+      "center": [
+        256,
+        542
+      ],
+      "duration": 3.7523805454876418,
+      "score": 0.5
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E4",
+      "exhibit_name": "Painting 4",
+      "center": [
+        453,
+        514
+      ],
+      "duration": 3.476140775154011,
+      "score": 0.4
+    }
+  ]
+}

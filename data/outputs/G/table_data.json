@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-03T13:04:37.050996",
+  "timestamp": "2026-03-05T20:17:09.963697",
   "image_info": {
     "path": "data/G.jpg",
     "width": 1100,
@@ -9,8 +9,8 @@
     "total_exhibits": 5,
     "gazed_exhibits": 5,
     "total_fixations": 5,
-    "total_duration_ms": 26.153360535868377,
-    "avg_duration_ms": 5.2306721071736755
+    "total_duration_ms": 22.384572624506035,
+    "avg_duration_ms": 4.476914524901207
   },
   "exhibits": [
     {
@@ -19,27 +19,27 @@
       "type": "Painting",
       "description": "",
       "vlm_bbox": [
-        85,
-        265,
-        175,
-        375
+        90,
+        290,
+        190,
+        390
       ],
       "bbox": [
         95,
-        271,
-        190,
-        360
+        291,
+        191,
+        366
       ],
       "center": [
-        142,
-        324
+        143,
+        327
       ],
-      "area": 6576,
-      "sam_score": 0.9713858962059021,
+      "area": 6892,
+      "sam_score": 0.9716570973396301,
       "gaze_count": 1,
-      "total_duration": 5.796790643749853,
-      "avg_duration": 5.796790643749853,
-      "attention_level": "B"
+      "total_duration": 4.132565144818523,
+      "avg_duration": 4.132565144818523,
+      "attention_level": "D"
     },
     {
       "id": "E2",
@@ -47,26 +47,26 @@
       "type": "Painting",
       "description": "",
       "vlm_bbox": [
-        210,
-        255,
-        340,
-        370
+        260,
+        285,
+        400,
+        385
       ],
       "bbox": [
-        223,
-        260,
-        377,
-        373
+        227,
+        271,
+        788,
+        389
       ],
       "center": [
-        296,
-        316
+        323,
+        328
       ],
-      "area": 15334,
-      "sam_score": 0.6634485721588135,
+      "area": 16594,
+      "sam_score": 0.740604817867279,
       "gaze_count": 1,
-      "total_duration": 6.617585616571409,
-      "avg_duration": 6.617585616571409,
+      "total_duration": 5.410238716884877,
+      "avg_duration": 5.410238716884877,
       "attention_level": "A"
     },
     {
@@ -75,27 +75,27 @@
       "type": "Painting",
       "description": "",
       "vlm_bbox": [
-        400,
-        250,
-        510,
-        395
+        470,
+        285,
+        580,
+        385
       ],
       "bbox": [
-        427,
-        255,
-        450,
-        387
+        439,
+        282,
+        563,
+        372
       ],
       "center": [
-        440,
-        294
+        501,
+        327
       ],
-      "area": 58,
-      "sam_score": 0.4086620807647705,
+      "area": 10566,
+      "sam_score": 0.8900933265686035,
       "gaze_count": 1,
-      "total_duration": 4.073347381140726,
-      "avg_duration": 4.073347381140726,
-      "attention_level": "E"
+      "total_duration": 4.71924759972487,
+      "avg_duration": 4.71924759972487,
+      "attention_level": "C"
     },
     {
       "id": "E4",
@@ -103,27 +103,27 @@
       "type": "Painting",
       "description": "",
       "vlm_bbox": [
-        615,
-        255,
-        790,
+        660,
+        285,
+        860,
         385
       ],
       "bbox": [
-        628,
-        294,
-        685,
-        365
+        673,
+        275,
+        874,
+        368
       ],
       "center": [
-        641,
-        345
+        776,
+        320
       ],
-      "area": 138,
-      "sam_score": 0.6138584017753601,
+      "area": 16079,
+      "sam_score": 0.8868981003761292,
       "gaze_count": 1,
-      "total_duration": 4.139779508508674,
-      "avg_duration": 4.139779508508674,
-      "attention_level": "E"
+      "total_duration": 4.352221507066695,
+      "avg_duration": 4.352221507066695,
+      "attention_level": "D"
     },
     {
       "id": "E5",
@@ -131,84 +131,84 @@
       "type": "Painting",
       "description": "",
       "vlm_bbox": [
-        860,
-        260,
-        965,
-        395
+        920,
+        290,
+        1060,
+        390
       ],
       "bbox": [
-        846,
-        248,
-        1051,
-        416
+        945,
+        284,
+        1070,
+        372
       ],
       "center": [
-        919,
-        325
+        1007,
+        328
       ],
-      "area": 14159,
-      "sam_score": 0.1075805053114891,
+      "area": 10872,
+      "sam_score": 0.9712008237838745,
       "gaze_count": 1,
-      "total_duration": 5.525857385897711,
-      "avg_duration": 5.525857385897711,
-      "attention_level": "C"
+      "total_duration": 3.77029965601107,
+      "avg_duration": 3.77029965601107,
+      "attention_level": "E"
     }
   ],
   "fixations": [
     {
       "sequence": 1,
-      "exhibit_id": "E1",
-      "exhibit_name": "Painting 1",
-      "center": [
-        142,
-        324
-      ],
-      "duration": 5.796790643749853,
-      "score": 0.5576459027897621
-    },
-    {
-      "sequence": 2,
       "exhibit_id": "E2",
       "exhibit_name": "Painting 2",
       "center": [
-        296,
-        316
+        323,
+        328
       ],
-      "duration": 6.617585616571409,
-      "score": 0.5643652246704534
+      "duration": 5.410238716884877,
+      "score": 0.9
     },
     {
-      "sequence": 3,
+      "sequence": 2,
       "exhibit_id": "E3",
       "exhibit_name": "Painting 3",
       "center": [
-        440,
-        294
+        501,
+        327
       ],
-      "duration": 4.073347381140726,
-      "score": 0.41482557847329793
+      "duration": 4.71924759972487,
+      "score": 0.8
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E1",
+      "exhibit_name": "Painting 1",
+      "center": [
+        143,
+        327
+      ],
+      "duration": 4.132565144818523,
+      "score": 0.7
     },
     {
       "sequence": 4,
       "exhibit_id": "E4",
       "exhibit_name": "Painting 4",
       "center": [
-        641,
-        345
+        776,
+        320
       ],
-      "duration": 4.139779508508674,
-      "score": 0.4265601434211872
+      "duration": 4.352221507066695,
+      "score": 0.6
     },
     {
       "sequence": 5,
       "exhibit_id": "E5",
       "exhibit_name": "Painting 5",
       "center": [
-        919,
-        325
+        1007,
+        328
       ],
-      "duration": 5.525857385897711,
-      "score": 0.3846500018606993
+      "duration": 3.77029965601107,
+      "score": 0.5
     }
   ]
 }
