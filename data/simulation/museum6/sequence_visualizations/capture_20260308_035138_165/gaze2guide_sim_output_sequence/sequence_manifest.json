@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035138_165/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035138_165.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Cityscape with Snowy Streets",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city street scene under snowfall, featuring indistinct buildings and figures in muted blues, grays, and whites. The artwork is mounted on a wall, viewed at an angle.",
+      "bbox": [
+        2,
+        84,
+        157,
+        290
+      ],
+      "center": [
+        69,
+        179
+      ],
+      "dwell_time_sec": 2.5
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a winding river flanked by trees and rolling hills, rendered in earthy greens, browns, and blues. The artwork is mounted on a museum wall, framed in a simple wooden frame.",
+      "bbox": [
+        202,
+        83,
+        247,
+        170
+      ],
+      "center": [
+        224,
+        127
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Unidentifiable Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is too blurry and cropped to discern specific details, but it appears to be a section of a wall-mounted exhibit with indistinct vertical elements and possible text or graphic content.",
+      "bbox": [
+        244,
+        90,
+        264,
+        164
+      ],
+      "center": [
+        254,
+        127
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dark, indistinct forms against a lighter background, mounted on a museum wall. The composition appears to include tall, narrow shapes suggestive of architectural or natural elements.",
+      "bbox": [
+        440,
+        86,
+        483,
+        172
+      ],
+      "center": [
+        459,
+        129
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035138_165/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035138_165/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035138_165/gaze2guide_sim_output_sequence/heatmap_seq"
+}

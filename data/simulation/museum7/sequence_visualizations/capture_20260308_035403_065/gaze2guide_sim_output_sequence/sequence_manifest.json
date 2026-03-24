@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035403_065/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035403_065.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Landscape with Figures and River",
+      "typology": "Painting",
+      "description": "A landscape painting depicting figures near a river, rendered in soft, impressionistic brushstrokes with dominant blues, greens, and earth tones. The artwork is mounted on a wall within a museum setting.",
+      "bbox": [
+        283,
+        94,
+        345,
+        213
+      ],
+      "center": [
+        313,
+        155
+      ],
+      "dwell_time_sec": 2.4
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Winter Landscape with Snow-Covered House",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a snow-covered rural scene with a house nestled among trees, rendered in cool blue and white tones. The composition features a winding path through the snow, framed by bare trees under a pale sky.",
+      "bbox": [
+        54,
+        29,
+        226,
+        241
+      ],
+      "center": [
+        134,
+        140
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river flowing through a field with trees in the background, rendered in muted greens, blues, and browns. The artwork is mounted on a museum wall with a dark frame.",
+      "bbox": [
+        372,
+        120,
+        406,
+        202
+      ],
+      "center": [
+        388,
+        161
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Forest Scene with Darkened Trees",
+      "typology": "Painting",
+      "description": "A vertically oriented painting depicting a dense forest scene with dark, shadowy trees and muted earth tones. The composition emphasizes depth and texture, with the artwork mounted on a wall in a museum setting.",
+      "bbox": [
+        537,
+        116,
+        595,
+        207
+      ],
+      "center": [
+        566,
+        161
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035403_065/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035403_065/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035403_065/gaze2guide_sim_output_sequence/heatmap_seq"
+}

@@ -1,0 +1,211 @@
+{
+  "timestamp": "2026-03-06T12:32:33.915991",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        117,
+        275,
+        163,
+        332
+      ],
+      "norm_bbox": [
+        0.16,
+        0.49,
+        0.22,
+        0.58
+      ],
+      "description": "Framed painting of flowers in a vase on dark background",
+      "center": [
+        140,
+        302
+      ],
+      "area": 2602,
+      "sam_score": 0.953125
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        207,
+        274,
+        253,
+        330
+      ],
+      "norm_bbox": [
+        0.28,
+        0.49,
+        0.34,
+        0.58
+      ],
+      "description": "Framed painting of white flowers with green stems on dark background",
+      "center": [
+        229,
+        301
+      ],
+      "area": 2654,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        296,
+        273,
+        343,
+        331
+      ],
+      "norm_bbox": [
+        0.41,
+        0.49,
+        0.47,
+        0.58
+      ],
+      "description": "Framed painting of orange and red flowers in a vase",
+      "center": [
+        319,
+        301
+      ],
+      "area": 2708,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        384,
+        272,
+        430,
+        329
+      ],
+      "norm_bbox": [
+        0.53,
+        0.49,
+        0.59,
+        0.58
+      ],
+      "description": "Framed painting of white flowers with dark background",
+      "center": [
+        407,
+        300
+      ],
+      "area": 2652,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        473,
+        271,
+        520,
+        329
+      ],
+      "norm_bbox": [
+        0.65,
+        0.49,
+        0.71,
+        0.58
+      ],
+      "description": "Framed painting of yellow and orange flowers in a vase",
+      "center": [
+        496,
+        299
+      ],
+      "area": 2706,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E6",
+      "name": "Painting 6",
+      "type": "Painting",
+      "bbox": [
+        562,
+        269,
+        609,
+        328
+      ],
+      "norm_bbox": [
+        0.77,
+        0.49,
+        0.83,
+        0.58
+      ],
+      "description": "Framed painting of pink flowers in a vase on dark background",
+      "center": [
+        585,
+        298
+      ],
+      "area": 2736,
+      "sam_score": 0.953125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E4",
+      "center": [
+        407,
+        300
+      ],
+      "duration": 3.824727453444949,
+      "score": 0.8994089888067759
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E3",
+      "center": [
+        319,
+        301
+      ],
+      "duration": 3.810954375139114,
+      "score": 0.8938389877177177
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E2",
+      "center": [
+        229,
+        301
+      ],
+      "duration": 3.621288231400963,
+      "score": 0.8267287902709323
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E1",
+      "center": [
+        140,
+        302
+      ],
+      "duration": 3.2358119120476188,
+      "score": 0.6896673383979928
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        496,
+        299
+      ],
+      "duration": 3.6639698857653515,
+      "score": 0.8413676972581734
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E6",
+      "center": [
+        585,
+        298
+      ],
+      "duration": 3.309104220270648,
+      "score": 0.7142830388719376
+    }
+  ]
+}

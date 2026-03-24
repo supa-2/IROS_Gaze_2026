@@ -1,0 +1,23 @@
+{
+  "input_dir": "data/test",
+  "output_root": "data/outputs/test",
+  "total_images": 13,
+  "success": 13,
+  "failed": 0,
+  "images": [
+    "1.jpg",
+    "10.jpg",
+    "11.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "9.jpg",
+    "G.jpg",
+    "R.jpg"
+  ],
+  "timestamp": "2026-03-06T12:34:16.702921"
+}

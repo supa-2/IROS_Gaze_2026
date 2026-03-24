@@ -1,0 +1,1031 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_025039_274.png",
+    "image_path": "data/simulation/museum3/images/capture_20260308_025039_274.png",
+    "timestamp": "2026-03-08T04:23:58.679483",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E2",
+    "name": "Undetermined Wall Panel",
+    "attention_level": "E",
+    "dwell_time_sec": 1.77,
+    "typology": "WallText",
+    "description": "A plain, uniformly colored rectangular panel mounted on a wall, appearing to be made of a matte material with no visible text, imagery, or decorative elements. The surface is featureless and lacks any discernible content.",
+    "visual_signature": "Solid grayish-brown rectangle with no text or imagery, mounted vertically on a wall."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Solid Purple Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A large, uniformly purple rectangular panel mounted on a wall, with a clean edge and no visible text or imagery. The surface appears smooth and matte, with a consistent color tone across the visible area.",
+      "visual_signature": "Monochromatic purple surface, no discernible patterns or text, flat and evenly colored",
+      "bbox": [
+        2,
+        118,
+        104,
+        204
+      ],
+      "center": [
+        50,
+        163
+      ],
+      "area": 8078,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.95
+    },
+    {
+      "id": "E2",
+      "name": "Undetermined Wall Panel",
+      "typology": "WallText",
+      "description": "A plain, uniformly colored rectangular panel mounted on a wall, appearing to be made of a matte material with no visible text, imagery, or decorative elements. The surface is featureless and lacks any discernible content.",
+      "visual_signature": "Solid grayish-brown rectangle with no text or imagery, mounted vertically on a wall.",
+      "bbox": [
+        245,
+        87,
+        299,
+        177
+      ],
+      "center": [
+        270,
+        135
+      ],
+      "area": 4376,
+      "sam_score": 0.7890625,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E3",
+      "name": "Abstract Composition with Neutral Palette",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting with a muted, earth-toned color scheme, mounted on a wall above another artwork. The composition appears minimalist, featuring subtle gradations and possibly textured brushwork.",
+      "visual_signature": "Neutral beige or gray tones, vertical format, minimalistic abstract style, mounted on wall above another piece",
+      "bbox": [
+        228,
+        72,
+        307,
+        227
+      ],
+      "center": [
+        270,
+        142
+      ],
+      "area": 5350,
+      "sam_score": 0.291015625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Floral Composition",
+      "typology": "Painting",
+      "description": "A cropped view of a colorful abstract painting featuring vibrant pink and green hues, suggestive of floral forms. The artwork is mounted on a white wall, with only the lower right corner visible.",
+      "visual_signature": "Vibrant pink and green abstract floral shapes, partial view in lower right corner",
+      "bbox": [
+        320,
+        147,
+        360,
+        190
+      ],
+      "center": [
+        338,
+        164
+      ],
+      "area": 1005,
+      "sam_score": 0.50390625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "Landscape with River",
+      "typology": "Painting",
+      "description": "A landscape painting featuring a river winding through a green valley, with distant mountains under a blue sky. The artwork is mounted on a white wall alongside other similar pieces.",
+      "visual_signature": "River scene with greenery and mountains, framed in a simple wooden frame",
+      "bbox": [
+        355,
+        153,
+        384,
+        192
+      ],
+      "center": [
+        370,
+        171
+      ],
+      "area": 938,
+      "sam_score": 0.51953125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E6",
+      "name": "Abstract Color Panel Series",
+      "typology": "OtherFlatArtwork",
+      "description": "A series of vertically oriented abstract panels displayed in a row on a white wall, featuring vibrant colors including blues, yellows, and purples with soft gradients and blended hues. The artwork is mounted under a ceiling light fixture, suggesting an indoor gallery setting.",
+      "visual_signature": "Multiple vertical abstract panels with colorful gradients, arranged linearly on a white wall beneath a track light.",
+      "bbox": [
+        346,
+        88,
+        422,
+        202
+      ],
+      "center": [
+        390,
+        171
+      ],
+      "area": 2060,
+      "sam_score": 0.111328125,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E7",
+      "name": "Abstract Composition with Vertical Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A minimalist wall-mounted artwork featuring a vertical rectangular panel in a neutral tone, possibly beige or off-white, set against a plain light-colored wall. The composition is simple and unadorned, suggesting a focus on form and material.",
+      "visual_signature": "Vertical rectangular panel, neutral color, minimalistic design, mounted on plain wall",
+      "bbox": [
+        411,
+        154,
+        446,
+        190
+      ],
+      "center": [
+        429,
+        169
+      ],
+      "area": 707,
+      "sam_score": 0.61328125,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E8",
+      "name": "WallText",
+      "typology": "WallText",
+      "description": "A section of a museum wall with text, partially visible and mounted on a light-colored surface. The text appears to be in a standard sans-serif font, likely providing exhibit information or context.",
+      "visual_signature": "Partial view of printed text on a plain wall, with no discernible imagery or artwork.",
+      "bbox": [
+        484,
+        155,
+        508,
+        190
+      ],
+      "center": [
+        492,
+        168
+      ],
+      "area": 468,
+      "sam_score": 0.69921875,
+      "attr_confidence": 0.8
+    },
+    {
+      "id": "E9",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A partially visible abstract painting featuring muted earth tones and textured brushwork, mounted on a museum wall alongside other artworks. The composition includes indistinct forms in browns, beiges, and soft ochres.",
+      "visual_signature": "Muted earth tones, textured surface, abstract forms, partial view with adjacent artwork edge visible",
+      "bbox": [
+        509,
+        159,
+        535,
+        190
+      ],
+      "center": [
+        521,
+        171
+      ],
+      "area": 391,
+      "sam_score": 0.76171875,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E10",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped and blurry image showing a portion of a wall with indistinct vertical elements, possibly part of a framed artwork or text panel. The visible area is mostly light-colored with minimal detail.",
+      "visual_signature": "Faint vertical lines, light background, low resolution, no discernible text or imagery",
+      "bbox": [
+        537,
+        152,
+        556,
+        190
+      ],
+      "center": [
+        543,
+        169
+      ],
+      "area": 363,
+      "sam_score": 0.373046875,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E11",
+      "name": "Abstract Vertical Stripes with Yellow Accents",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring bold black and dark gray stripes interspersed with bright yellow rectangular accents. The artwork appears mounted on a wall, with a portion of the frame or edge visible on the left side.",
+      "visual_signature": "Vertical black and gray stripes with contrasting yellow blocks, abstract composition",
+      "bbox": [
+        561,
+        123,
+        582,
+        240
+      ],
+      "center": [
+        572,
+        180
+      ],
+      "area": 1811,
+      "sam_score": 0.87890625,
+      "attr_confidence": 0.7
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      350
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Solid Purple Wall Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          2,
+          118,
+          104,
+          204
+        ],
+        "center": [
+          50,
+          163
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "bbox": [
+          245,
+          87,
+          299,
+          177
+        ],
+        "center": [
+          270,
+          135
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Abstract Composition with Neutral Palette",
+        "typology": "Painting",
+        "bbox": [
+          228,
+          72,
+          307,
+          227
+        ],
+        "center": [
+          270,
+          142
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Floral Composition",
+        "typology": "Painting",
+        "bbox": [
+          320,
+          147,
+          360,
+          190
+        ],
+        "center": [
+          338,
+          164
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Landscape with River",
+        "typology": "Painting",
+        "bbox": [
+          355,
+          153,
+          384,
+          192
+        ],
+        "center": [
+          370,
+          171
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Abstract Color Panel Series",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          346,
+          88,
+          422,
+          202
+        ],
+        "center": [
+          390,
+          171
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "Abstract Composition with Vertical Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          411,
+          154,
+          446,
+          190
+        ],
+        "center": [
+          429,
+          169
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E8",
+        "name": "WallText",
+        "typology": "WallText",
+        "bbox": [
+          484,
+          155,
+          508,
+          190
+        ],
+        "center": [
+          492,
+          168
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E9",
+        "name": "Abstract Composition with Earth Tones",
+        "typology": "Painting",
+        "bbox": [
+          509,
+          159,
+          535,
+          190
+        ],
+        "center": [
+          521,
+          171
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E10",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          537,
+          152,
+          556,
+          190
+        ],
+        "center": [
+          543,
+          169
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E11",
+        "name": "Abstract Vertical Stripes with Yellow Accents",
+        "typology": "Painting",
+        "bbox": [
+          561,
+          123,
+          582,
+          240
+        ],
+        "center": [
+          572,
+          180
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 221.77,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 221.77,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 7.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 7.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 71.47,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 71.47,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 32.76,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 32.76,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 20.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 20.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 39.05,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 39.05,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 63.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 63.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E9",
+        "relation": "right_of",
+        "distance_px": 29.15,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E9",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 29.15,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E9",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 22.09,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E10",
+        "target": "E9",
+        "relation": "left_of",
+        "distance_px": 22.09,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E10",
+        "target": "E11",
+        "relation": "right_of",
+        "distance_px": 31.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E11",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 31.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 221.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 221.77,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 288.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 7.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 73.93,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 106.28,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "above",
+        "distance_px": 7.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 71.47,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 104.12,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 32.76,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 52.47,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 71.47,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 20.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 32.76,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 59.03,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 20.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 39.05,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 52.47,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 39.05,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 59.03,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 63.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E9",
+        "relation": "right_of",
+        "distance_px": 29.15,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 51.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 63.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 22.09,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 29.15,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E11",
+        "relation": "right_of",
+        "distance_px": 51.79,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E9",
+        "relation": "left_of",
+        "distance_px": 22.09,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E11",
+        "relation": "right_of",
+        "distance_px": 31.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 51.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 31.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E9",
+        "relation": "left_of",
+        "distance_px": 51.79,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 80.89,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E3",
+        "E2",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "E3": [
+        "E2",
+        "E4",
+        "E5"
+      ],
+      "E4": [
+        "E5",
+        "E6",
+        "E3"
+      ],
+      "E5": [
+        "E6",
+        "E4",
+        "E7"
+      ],
+      "E6": [
+        "E5",
+        "E7",
+        "E4"
+      ],
+      "E7": [
+        "E6",
+        "E5",
+        "E8"
+      ],
+      "E8": [
+        "E9",
+        "E10",
+        "E7"
+      ],
+      "E9": [
+        "E10",
+        "E8",
+        "E11"
+      ],
+      "E10": [
+        "E9",
+        "E11",
+        "E8"
+      ],
+      "E11": [
+        "E10",
+        "E9",
+        "E8"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E2",
+      "name": "Undetermined Wall Panel",
+      "typology": "WallText",
+      "description": "A plain, uniformly colored rectangular panel mounted on a wall, appearing to be made of a matte material with no visible text, imagery, or decorative elements. The surface is featureless and lacks any discernible content.",
+      "visual_signature": "Solid grayish-brown rectangle with no text or imagery, mounted vertically on a wall."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E3",
+      "E4",
+      "E5"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E2",
+      "name": "Undetermined Wall Panel",
+      "score": 0.1279
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Floral Composition",
+      "score": 0.1265
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Neutral Palette",
+      "score": 0.118
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Landscape with River",
+      "score": 0.1099
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Solid Purple Wall Panel",
+      "score": 0.1005
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Abstract Color Panel Series",
+      "score": 0.0949
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "Abstract Composition with Vertical Panel",
+      "score": 0.0819
+    },
+    {
+      "exhibit_id": "E8",
+      "name": "WallText",
+      "score": 0.0636
+    },
+    {
+      "exhibit_id": "E9",
+      "name": "Abstract Composition with Earth Tones",
+      "score": 0.0616
+    },
+    {
+      "exhibit_id": "E10",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.0603
+    },
+    {
+      "exhibit_id": "E11",
+      "name": "Abstract Vertical Stripes with Yellow Accents",
+      "score": 0.0549
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E3",
+    "E4",
+    "E5"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E3",
+    "name": "Abstract Composition with Neutral Palette",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.45,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Neutral Palette",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.39
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E4",
+      "name": "Abstract Floral Composition",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.43
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E5",
+      "name": "Landscape with River",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.35
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Undetermined Wall Panel",
+    "next_target_name": "Abstract Composition with Neutral Palette",
+    "next_target_exhibit_id": "E3"
+  }
+}

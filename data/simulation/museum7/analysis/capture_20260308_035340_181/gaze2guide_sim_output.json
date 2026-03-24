@@ -1,0 +1,315 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035340_181.png",
+    "image_path": "data/simulation/museum7/images/capture_20260308_035340_181.png",
+    "timestamp": "2026-03-08T04:43:08.921264",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Festival Scene with Traditional Performers",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "Painting",
+    "description": "A colorful mural depicting a lively festival scene with traditional performers, including dancers and musicians, set against a backdrop of lanterns and urban buildings. The artwork features vibrant clothing, dynamic poses, and festive decorations, mounted on a museum wall.",
+    "visual_signature": "Brightly colored figures in traditional attire, red lanterns, musical instruments, and a bustling street scene with architectural elements."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Festival Scene with Traditional Performers",
+      "typology": "Painting",
+      "description": "A colorful mural depicting a lively festival scene with traditional performers, including dancers and musicians, set against a backdrop of lanterns and urban buildings. The artwork features vibrant clothing, dynamic poses, and festive decorations, mounted on a museum wall.",
+      "visual_signature": "Brightly colored figures in traditional attire, red lanterns, musical instruments, and a bustling street scene with architectural elements.",
+      "bbox": [
+        183,
+        4,
+        600,
+        361
+      ],
+      "center": [
+        403,
+        186
+      ],
+      "area": 36258,
+      "sam_score": 0.41015625,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      374
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "bbox": [
+          183,
+          4,
+          600,
+          361
+        ],
+        "center": [
+          403,
+          186
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Festival Scene with Traditional Performers",
+      "typology": "Painting",
+      "description": "A colorful mural depicting a lively festival scene with traditional performers, including dancers and musicians, set against a backdrop of lanterns and urban buildings. The artwork features vibrant clothing, dynamic poses, and festive decorations, mounted on a museum wall.",
+      "visual_signature": "Brightly colored figures in traditional attire, red lanterns, musical instruments, and a bustling street scene with architectural elements."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:40:43.495918",
+        "image": "capture_20260308_035317_740.png",
+        "current_exhibit": "Battle Scene with Cavalry",
+        "attention_level": "D",
+        "dwell_time_sec": 2.69,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:20.015697",
+        "image": "capture_20260308_035323_685.png",
+        "current_exhibit": "Group Portrait of Elders in a Rural Setting",
+        "attention_level": "D",
+        "dwell_time_sec": 2.6,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:59.647502",
+        "image": "capture_20260308_035329_850.png",
+        "current_exhibit": "Religious Procession Scene",
+        "attention_level": "D",
+        "dwell_time_sec": 2.25,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:42:47.298221",
+        "image": "capture_20260308_035336_211.png",
+        "current_exhibit": "Abstract Composition with Figures",
+        "attention_level": "C",
+        "dwell_time_sec": 3.17,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Festival Scene with Traditional Performers",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Festival Scene with Traditional Performers",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:40:43.495918",
+        "image": "capture_20260308_035317_740.png",
+        "current_exhibit": "Battle Scene with Cavalry",
+        "attention_level": "D",
+        "dwell_time_sec": 2.69,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:20.015697",
+        "image": "capture_20260308_035323_685.png",
+        "current_exhibit": "Group Portrait of Elders in a Rural Setting",
+        "attention_level": "D",
+        "dwell_time_sec": 2.6,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:59.647502",
+        "image": "capture_20260308_035329_850.png",
+        "current_exhibit": "Religious Procession Scene",
+        "attention_level": "D",
+        "dwell_time_sec": 2.25,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:42:47.298221",
+        "image": "capture_20260308_035336_211.png",
+        "current_exhibit": "Abstract Composition with Figures",
+        "attention_level": "C",
+        "dwell_time_sec": 3.17,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Festival Scene with Traditional Performers",
+    "next_target_name": "Festival Scene with Traditional Performers",
+    "next_target_exhibit_id": "E1"
+  }
+}

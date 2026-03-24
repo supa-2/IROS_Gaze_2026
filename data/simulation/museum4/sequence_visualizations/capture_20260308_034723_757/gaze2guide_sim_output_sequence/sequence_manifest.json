@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034723_757/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034723_757.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Landscape with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, elongated forms in muted blues, greens, and grays, suggesting a forest or natural scene. The artwork is mounted on a museum wall with a dark frame.",
+      "bbox": [
+        261,
+        87,
+        333,
+        190
+      ],
+      "center": [
+        296,
+        140
+      ],
+      "dwell_time_sec": 2.77
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Winter Landscape with Snowy Field",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a snow-covered field with sparse vegetation and distant trees under a pale blue sky. The composition features a horizontal division between the snowy foreground and the horizon line, rendered in muted earth tones and whites.",
+      "bbox": [
+        104,
+        76,
+        196,
+        191
+      ],
+      "center": [
+        149,
+        135
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Seascape at Sunset",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a dramatic sunset over a turbulent sea, with warm orange and pink hues in the sky transitioning to dark blues and blacks in the water. The artwork is mounted on a museum wall with a simple frame.",
+      "bbox": [
+        472,
+        104,
+        523,
+        189
+      ],
+      "center": [
+        497,
+        147
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Composition with Blurred Forms",
+      "typology": "Painting",
+      "description": "A blurred, abstract artwork featuring indistinct shapes and muted tones of blue, gray, and white. The composition appears to be mounted on a wall in a museum setting, with no discernible figures or objects.",
+      "bbox": [
+        558,
+        110,
+        601,
+        189
+      ],
+      "center": [
+        579,
+        150
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034723_757/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034723_757/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034723_757/gaze2guide_sim_output_sequence/heatmap_seq"
+}

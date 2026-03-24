@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-06T11:29:59.676868",
+  "timestamp": "2026-03-08T14:19:50.502649",
   "exhibits": [
     {
       "id": "E1",
@@ -17,7 +17,7 @@
         0.16,
         0.52
       ],
-      "description": "Framed painting with equestrian figure",
+      "description": "Framed painting on left partition wall",
       "center": [
         93,
         224
@@ -41,7 +41,7 @@
         0.41,
         0.51
       ],
-      "description": "Framed historical scene painting",
+      "description": "Framed painting on back wall",
       "center": [
         272,
         231
@@ -65,7 +65,7 @@
         0.52,
         0.51
       ],
-      "description": "Portrait in dark frame",
+      "description": "Framed portrait painting on back wall",
       "center": [
         363,
         229
@@ -89,7 +89,7 @@
         0.66,
         0.51
       ],
-      "description": "Framed classical artwork",
+      "description": "Framed painting on back wall",
       "center": [
         457,
         231
@@ -102,24 +102,24 @@
       "name": "Painting 5",
       "type": "Painting",
       "bbox": [
-        619,
-        205,
-        661,
-        251
+        617,
+        204,
+        664,
+        253
       ],
       "norm_bbox": [
         0.84,
         0.42,
-        0.89,
-        0.51
+        0.91,
+        0.52
       ],
-      "description": "Small framed painting with red and gold tones",
+      "description": "Framed painting on right partition wall",
       "center": [
         640,
-        227
+        228
       ],
-      "area": 1970,
-      "sam_score": 0.97265625
+      "area": 2306,
+      "sam_score": 0.93359375
     }
   ],
   "fixations": [
@@ -130,8 +130,8 @@
         93,
         224
       ],
-      "duration": 5.413086432925525,
-      "score": 0.5922519595757425
+      "duration": 3.376983699443453,
+      "score": 0.7372992228551236
     },
     {
       "sequence": 2,
@@ -140,8 +140,8 @@
         272,
         231
       ],
-      "duration": 6.264922763574989,
-      "score": 0.7982256695158665
+      "duration": 3.4913564010126032,
+      "score": 0.7825808962799341
     },
     {
       "sequence": 3,
@@ -150,8 +150,8 @@
         363,
         229
       ],
-      "duration": 6.884380323603844,
-      "score": 0.9620791821435841
+      "duration": 3.64313136464325,
+      "score": 0.8422500136579805
     },
     {
       "sequence": 4,
@@ -160,18 +160,24 @@
         457,
         231
       ],
-      "duration": 6.2412068501223406,
-      "score": 0.8003938913640793
+      "duration": 3.4174310992816954,
+      "score": 0.7579552302707377
     },
     {
       "sequence": 5,
       "exhibit_id": "E5",
       "center": [
         640,
-        227
+        228
       ],
-      "duration": 5.284624627627605,
-      "score": 0.60142983667406
+      "duration": 3.1286265976733825,
+      "score": 0.654932890603084
     }
-  ]
+  ],
+  "progressive_outputs": {
+    "scanpath_dir": "progressive_scanpath",
+    "heatmap_dir": "progressive_heatmap",
+    "segmentation_dir": "progressive_segmentation",
+    "gif_dir": "progressive_gifs"
+  }
 }

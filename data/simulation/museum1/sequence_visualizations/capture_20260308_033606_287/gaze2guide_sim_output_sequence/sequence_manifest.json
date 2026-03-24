@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum1/analysis/capture_20260308_033606_287/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum1/images/capture_20260308_033606_287.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E3",
+      "name": "Abstract Pattern Triptych",
+      "typology": "OtherFlatArtwork",
+      "description": "Three small rectangular artworks mounted horizontally on a light gray wall, each featuring abstract patterns in contrasting colors and textures. The left piece has red and white elements, the center shows black and white forms resembling fish or birds, and the right displays dense black and white markings.",
+      "bbox": [
+        114,
+        82,
+        536,
+        322
+      ],
+      "center": [
+        387,
+        186
+      ],
+      "dwell_time_sec": 3.13
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Three Abstract Pattern Panels",
+      "typology": "OtherFlatArtwork",
+      "description": "Three rectangular framed panels are mounted horizontally on a plain white wall, each displaying abstract patterns with distinct color schemes: red and white, black and white, and dark green with white. The panels appear to be part of a minimalist art installation.",
+      "bbox": [
+        45,
+        6,
+        624,
+        323
+      ],
+      "center": [
+        301,
+        165
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E1",
+      "name": "Red and White Ornamental Pattern",
+      "typology": "OtherFlatArtwork",
+      "description": "A rectangular artwork featuring a red and white geometric or floral pattern, mounted on a light-colored wall. The design appears symmetrical with repeating motifs.",
+      "bbox": [
+        105,
+        187,
+        172,
+        227
+      ],
+      "center": [
+        136,
+        200
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033606_287/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033606_287/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033606_287/gaze2guide_sim_output_sequence/heatmap_seq"
+}

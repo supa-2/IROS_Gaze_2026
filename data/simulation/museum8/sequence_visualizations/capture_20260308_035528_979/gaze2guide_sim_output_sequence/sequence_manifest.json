@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum8/analysis/capture_20260308_035528_979/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum8/images/capture_20260308_035528_979.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Geometric Abstraction with Orange Circle",
+      "typology": "Painting",
+      "description": "A modern abstract painting featuring a series of vertical and diagonal beige and white stripes creating a tunnel-like perspective, with a prominent orange circular element near the center. The artwork is mounted on a white wall in a gallery setting.",
+      "bbox": [
+        106,
+        23,
+        307,
+        219
+      ],
+      "center": [
+        212,
+        148
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035528_979/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035528_979/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035528_979/gaze2guide_sim_output_sequence/heatmap_seq"
+}

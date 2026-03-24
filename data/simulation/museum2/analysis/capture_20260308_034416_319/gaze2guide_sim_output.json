@@ -1,0 +1,411 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034416_319.png",
+    "image_path": "data/simulation/museum2/images/capture_20260308_034416_319.png",
+    "timestamp": "2026-03-08T04:23:34.888161",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Landscape with Earth Tones",
+    "attention_level": "B",
+    "dwell_time_sec": 4.66,
+    "typology": "Painting",
+    "description": "A horizontal abstract painting featuring layered earthy tones of brown, orange, and gray, with hints of teal at the bottom. The composition suggests a natural landscape with flowing forms resembling rock formations or water erosion, mounted on a white wall in a gallery setting.",
+    "visual_signature": "Layered abstract forms in warm earth tones with textured brushwork and a teal accent at the base"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Landscape with Earth Tones",
+      "typology": "Painting",
+      "description": "A horizontal abstract painting featuring layered earthy tones of brown, orange, and gray, with hints of teal at the bottom. The composition suggests a natural landscape with flowing forms resembling rock formations or water erosion, mounted on a white wall in a gallery setting.",
+      "visual_signature": "Layered abstract forms in warm earth tones with textured brushwork and a teal accent at the base",
+      "bbox": [
+        3,
+        3,
+        370,
+        354
+      ],
+      "center": [
+        223,
+        154
+      ],
+      "area": 53345,
+      "sam_score": 0.84375,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E2",
+      "name": "Brown Textured Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A rectangular panel with a uniform brown, wood-grain texture, mounted on a wall. The surface appears smooth and consistent in color and pattern.",
+      "visual_signature": "Uniform brown wood-grain texture, no visible text or imagery",
+      "bbox": [
+        512,
+        200,
+        630,
+        241
+      ],
+      "center": [
+        571,
+        219
+      ],
+      "area": 4462,
+      "sam_score": 0.9140625,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      358
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Landscape with Earth Tones",
+        "typology": "Painting",
+        "bbox": [
+          3,
+          3,
+          370,
+          354
+        ],
+        "center": [
+          223,
+          154
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Brown Textured Wall Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          512,
+          200,
+          630,
+          241
+        ],
+        "center": [
+          571,
+          219
+        ],
+        "row_index": 1
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 354.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 354.02,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2"
+      ],
+      "E2": [
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1"
+      ],
+      [
+        "E2"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Landscape with Earth Tones",
+      "typology": "Painting",
+      "description": "A horizontal abstract painting featuring layered earthy tones of brown, orange, and gray, with hints of teal at the bottom. The composition suggests a natural landscape with flowing forms resembling rock formations or water erosion, mounted on a white wall in a gallery setting.",
+      "visual_signature": "Layered abstract forms in warm earth tones with textured brushwork and a teal accent at the base"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:53.328426",
+        "image": "capture_20260308_034352_690.png",
+        "current_exhibit": "Portrait of a Person with Purple Tones",
+        "attention_level": "E",
+        "dwell_time_sec": 1.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:23.605999",
+        "image": "capture_20260308_034406_664.png",
+        "current_exhibit": "Abstract Landscape in Blue and White",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:34.888161",
+        "image": "capture_20260308_034416_319.png",
+        "current_exhibit": "Abstract Landscape with Earth Tones",
+        "attention_level": "B",
+        "dwell_time_sec": 4.66,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {
+          "Portrait of a Person with Purple Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape in Blue and White",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:23:23.605999",
+        "transition_counts": {
+          "Abstract Landscape with Earth Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape with Earth Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.66,
+        "last_seen": "2026-03-08T04:23:34.888161",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      },
+      {
+        "name": "Portrait of a Person with Purple Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.59,
+        "last_seen": "2026-03-08T04:21:53.328426",
+        "transition_counts": {
+          "Abstract Landscape in Blue and White": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Landscape with Earth Tones",
+      "score": 0.6107
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Brown Textured Wall Panel",
+      "score": 0.3893
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Brown Textured Wall Panel",
+    "attention_level": "D",
+    "estimated_dwell_time_sec": 2.94,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Brown Textured Wall Panel",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.75
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:53.328426",
+        "image": "capture_20260308_034352_690.png",
+        "current_exhibit": "Portrait of a Person with Purple Tones",
+        "attention_level": "E",
+        "dwell_time_sec": 1.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:23.605999",
+        "image": "capture_20260308_034406_664.png",
+        "current_exhibit": "Abstract Landscape in Blue and White",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:34.888161",
+        "image": "capture_20260308_034416_319.png",
+        "current_exhibit": "Abstract Landscape with Earth Tones",
+        "attention_level": "B",
+        "dwell_time_sec": 4.66,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {
+          "Portrait of a Person with Purple Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape in Blue and White",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:23:23.605999",
+        "transition_counts": {
+          "Abstract Landscape with Earth Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape with Earth Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.66,
+        "last_seen": "2026-03-08T04:23:34.888161",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      },
+      {
+        "name": "Portrait of a Person with Purple Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.59,
+        "last_seen": "2026-03-08T04:21:53.328426",
+        "transition_counts": {
+          "Abstract Landscape in Blue and White": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Landscape with Earth Tones",
+    "next_target_name": "Brown Textured Wall Panel",
+    "next_target_exhibit_id": "E2"
+  }
+}

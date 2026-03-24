@@ -1,0 +1,323 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034347_827.png",
+    "image_path": "data/simulation/museum2/images/capture_20260308_034347_827.png",
+    "timestamp": "2026-03-08T04:21:34.231216",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Geometric Textile Wall Hanging",
+    "attention_level": "B",
+    "dwell_time_sec": 4.3,
+    "typology": "OtherFlatArtwork",
+    "description": "A vertically oriented textile artwork featuring a central dark vertical band flanked by lighter, patterned sections with repeating geometric motifs. The piece is mounted on a wall and displays a monochromatic color scheme with subtle texture variations.",
+    "visual_signature": "Central black vertical stripe with symmetrical light gray geometric patterns on either side, resembling woven or printed textile design"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Geometric Textile Wall Hanging",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented textile artwork featuring a central dark vertical band flanked by lighter, patterned sections with repeating geometric motifs. The piece is mounted on a wall and displays a monochromatic color scheme with subtle texture variations.",
+      "visual_signature": "Central black vertical stripe with symmetrical light gray geometric patterns on either side, resembling woven or printed textile design",
+      "bbox": [
+        174,
+        16,
+        303,
+        194
+      ],
+      "center": [
+        241,
+        105
+      ],
+      "area": 20610,
+      "sam_score": 0.92578125,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Geometric Composition",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring angular, geometric shapes in shades of gray and white, arranged in a fragmented composition that suggests a stylized figure or architectural form. The artwork is mounted on a wall with a visible frame.",
+      "visual_signature": "Monochrome palette, sharp geometric forms, fragmented structure resembling a figure or building",
+      "bbox": [
+        442,
+        28,
+        559,
+        187
+      ],
+      "center": [
+        498,
+        107
+      ],
+      "area": 15509,
+      "sam_score": 0.98046875,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      358
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          174,
+          16,
+          303,
+          194
+        ],
+        "center": [
+          241,
+          105
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Geometric Composition",
+        "typology": "Painting",
+        "bbox": [
+          442,
+          28,
+          559,
+          187
+        ],
+        "center": [
+          498,
+          107
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 257.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 257.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 257.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 257.01,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2"
+      ],
+      "E2": [
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Geometric Textile Wall Hanging",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented textile artwork featuring a central dark vertical band flanked by lighter, patterned sections with repeating geometric motifs. The piece is mounted on a wall and displays a monochromatic color scheme with subtle texture variations.",
+      "visual_signature": "Central black vertical stripe with symmetrical light gray geometric patterns on either side, resembling woven or printed textile design"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Geometric Textile Wall Hanging",
+      "score": 0.5498
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Geometric Composition",
+      "score": 0.4502
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Abstract Geometric Composition",
+    "attention_level": "C",
+    "estimated_dwell_time_sec": 3.28,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Abstract Geometric Composition",
+      "attention_level": "C",
+      "estimated_dwell_time_sec": 3.05
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Geometric Textile Wall Hanging",
+    "next_target_name": "Abstract Geometric Composition",
+    "next_target_exhibit_id": "E2"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum5/analysis/capture_20260308_034923_674/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum5/images/capture_20260308_034923_674.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Landscape with Mountains and Pavilion",
+      "typology": "Painting",
+      "description": "A monochromatic ink painting depicting a misty mountain landscape with rocky outcrops, sparse vegetation, and a small pavilion nestled in the foreground. The composition uses layered brushwork and varying shades of gray to create depth and atmosphere, mounted on a plain wall with a small informational plaque nearby.",
+      "bbox": [
+        151,
+        101,
+        596,
+        280
+      ],
+      "center": [
+        347,
+        191
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034923_674/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034923_674/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034923_674/gaze2guide_sim_output_sequence/heatmap_seq"
+}

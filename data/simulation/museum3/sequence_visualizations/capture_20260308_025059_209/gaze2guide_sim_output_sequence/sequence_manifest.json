@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025059_209/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025059_209.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E3",
+      "name": "Group Portrait of Figures in Formal Attire",
+      "typology": "Painting",
+      "description": "A framed painting depicting a group of individuals in formal clothing, likely from the 19th or early 20th century, arranged in a structured composition. The scene is rendered in muted tones with emphasis on facial expressions and attire details.",
+      "bbox": [
+        225,
+        148,
+        276,
+        204
+      ],
+      "center": [
+        251,
+        170
+      ],
+      "dwell_time_sec": 2.55
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E4",
+      "name": "Abstract Composition with Red and Black Elements",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dominant red and black forms against a dark background, mounted on a white wall above a lower display panel. The composition includes angular shapes and possible figurative elements in the upper portion.",
+      "bbox": [
+        210,
+        179,
+        289,
+        239
+      ],
+      "center": [
+        254,
+        214
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E2",
+      "name": "Unidentified Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a framed artwork mounted on a wall, with visible edges of the frame and a partial view of the artwork's content. The visible section includes indistinct figures or forms in muted tones.",
+      "bbox": [
+        124,
+        190,
+        209,
+        244
+      ],
+      "center": [
+        175,
+        221
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E1",
+      "name": "Portrait of a Man with Beard",
+      "typology": "Painting",
+      "description": "A cropped view of a framed portrait depicting a man with a beard, wearing period attire. The painting appears to be in a classical style with muted earth tones and is mounted on a light-colored wall.",
+      "bbox": [
+        119,
+        150,
+        208,
+        203
+      ],
+      "center": [
+        164,
+        171
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025059_209/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025059_209/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025059_209/gaze2guide_sim_output_sequence/heatmap_seq"
+}

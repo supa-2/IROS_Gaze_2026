@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum1/analysis/capture_20260308_033610_436/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum1/images/capture_20260308_033610_436.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Grid Pattern Wall Art",
+      "typology": "OtherFlatArtwork",
+      "description": "A large rectangular wall-mounted artwork featuring a dense, repetitive grid of vertical lines in varying shades of gray and white, creating a textured, monochromatic visual effect. The piece is displayed flat against a neutral-colored wall.",
+      "bbox": [
+        104,
+        210,
+        358,
+        291
+      ],
+      "center": [
+        227,
+        251
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033610_436/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033610_436/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033610_436/gaze2guide_sim_output_sequence/heatmap_seq"
+}

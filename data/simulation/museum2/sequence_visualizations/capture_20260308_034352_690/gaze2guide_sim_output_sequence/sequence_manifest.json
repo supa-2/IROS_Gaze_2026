@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum2/analysis/capture_20260308_034352_690/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum2/images/capture_20260308_034352_690.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E11",
+      "name": "Portrait of a Person with Purple Tones",
+      "typology": "Painting",
+      "description": "A stylized portrait featuring a person with prominent facial features, rendered in vivid purple and pink hues. The artwork appears to be mounted on a wall, with a focus on expressive coloration rather than realistic detail.",
+      "bbox": [
+        335,
+        173,
+        395,
+        231
+      ],
+      "center": [
+        364,
+        202
+      ],
+      "dwell_time_sec": 1.59
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E7",
+      "name": "Andy Warhol - Marilyn Monroe Diptych",
+      "typology": "Painting",
+      "description": "A diptych featuring two stylized portraits of Marilyn Monroe, each with vibrant, contrasting color palettes. The top portrait uses blue and yellow tones, while the bottom employs pink and orange hues, both rendered in a pop art style with bold outlines and flat colors.",
+      "bbox": [
+        319,
+        27,
+        414,
+        166
+      ],
+      "center": [
+        368,
+        132
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Portrait of a Blue-Faced Figure",
+      "typology": "Painting",
+      "description": "A stylized portrait featuring a figure with a blue face and yellow hair, rendered in bold, flat colors. The artwork is mounted on a wall, likely part of a modern or contemporary art exhibit.",
+      "bbox": [
+        332,
+        43,
+        415,
+        101
+      ],
+      "center": [
+        384,
+        78
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E8",
+      "name": "Coat of Arms with Red Shield and Green Mantling",
+      "typology": "OtherFlatArtwork",
+      "description": "A heraldic emblem featuring a red shield with a central golden crown-like motif, flanked by green mantling and topped with a decorative crest. The artwork is mounted on a light pink background, suggesting a display in a museum or historical exhibit.",
+      "bbox": [
+        450,
+        104,
+        513,
+        165
+      ],
+      "center": [
+        481,
+        134
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034352_690/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034352_690/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034352_690/gaze2guide_sim_output_sequence/heatmap_seq"
+}

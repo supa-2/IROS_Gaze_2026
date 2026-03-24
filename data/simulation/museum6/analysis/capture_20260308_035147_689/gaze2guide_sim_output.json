@@ -1,0 +1,562 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035147_689.png",
+    "image_path": "data/simulation/museum6/images/capture_20260308_035147_689.png",
+    "timestamp": "2026-03-08T04:39:32.204840",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E2",
+    "name": "Abstract Landscape with Blue and Green Tones",
+    "attention_level": "C",
+    "dwell_time_sec": 3.22,
+    "typology": "Painting",
+    "description": "A blurred abstract painting featuring dominant blue and green hues, suggesting a landscape or natural scene. The composition appears to include vertical and horizontal brushstrokes, possibly depicting trees or water, mounted on a museum wall.",
+    "visual_signature": "Blurred abstract form with blue and green tones, vertical and horizontal strokes, indistinct natural elements"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Landscape with River and Figures",
+      "typology": "Painting",
+      "description": "A moody landscape painting depicting a river scene with silhouetted figures near the water's edge, rendered in dark blues, grays, and muted earth tones. The composition suggests an overcast sky and distant trees, mounted on a museum wall with a simple frame.",
+      "visual_signature": "Dark atmospheric palette, river foreground, indistinct figures, vertical tree forms in background",
+      "bbox": [
+        173,
+        124,
+        229,
+        189
+      ],
+      "center": [
+        201,
+        156
+      ],
+      "area": 3532,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.75
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "typology": "Painting",
+      "description": "A blurred abstract painting featuring dominant blue and green hues, suggesting a landscape or natural scene. The composition appears to include vertical and horizontal brushstrokes, possibly depicting trees or water, mounted on a museum wall.",
+      "visual_signature": "Blurred abstract form with blue and green tones, vertical and horizontal strokes, indistinct natural elements",
+      "bbox": [
+        274,
+        117,
+        345,
+        193
+      ],
+      "center": [
+        310,
+        155
+      ],
+      "area": 5354,
+      "sam_score": 0.984375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E3",
+      "name": "Cityscape with Water Reflections",
+      "typology": "Painting",
+      "description": "A moody, impressionistic painting depicting a city skyline reflected in water, rendered in dark blues, grays, and muted tones. The composition features silhouetted buildings against a hazy sky, with soft brushwork suggesting atmospheric conditions.",
+      "visual_signature": "Dark urban skyline reflected in water, impressionistic style, dominant cool tones, blurred edges",
+      "bbox": [
+        413,
+        106,
+        519,
+        199
+      ],
+      "center": [
+        466,
+        153
+      ],
+      "area": 9179,
+      "sam_score": 0.984375,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      370
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Landscape with River and Figures",
+        "typology": "Painting",
+        "bbox": [
+          173,
+          124,
+          229,
+          189
+        ],
+        "center": [
+          201,
+          156
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Landscape with Blue and Green Tones",
+        "typology": "Painting",
+        "bbox": [
+          274,
+          117,
+          345,
+          193
+        ],
+        "center": [
+          310,
+          155
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "bbox": [
+          413,
+          106,
+          519,
+          199
+        ],
+        "center": [
+          466,
+          153
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 109.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 109.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 156.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 156.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 109.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 265.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 109.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 156.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 156.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 265.02,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3"
+      ],
+      "E2": [
+        "E1",
+        "E3"
+      ],
+      "E3": [
+        "E2",
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E2",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "typology": "Painting",
+      "description": "A blurred abstract painting featuring dominant blue and green hues, suggesting a landscape or natural scene. The composition appears to include vertical and horizontal brushstrokes, possibly depicting trees or water, mounted on a museum wall.",
+      "visual_signature": "Blurred abstract form with blue and green tones, vertical and horizontal strokes, indistinct natural elements"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:56.741862",
+        "image": "capture_20260308_035141_966.png",
+        "current_exhibit": "Cityscape with Water Reflection",
+        "attention_level": "D",
+        "dwell_time_sec": 2.48,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:39:32.204840",
+        "image": "capture_20260308_035147_689.png",
+        "current_exhibit": "Abstract Landscape with Blue and Green Tones",
+        "attention_level": "C",
+        "dwell_time_sec": 3.22,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E1",
+      "E3"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape with Blue and Green Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.22,
+        "last_seen": "2026-03-08T04:39:32.204840",
+        "transition_counts": {}
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {
+          "Cityscape with Water Reflection": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflection",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.48,
+        "last_seen": "2026-03-08T04:38:56.741862",
+        "transition_counts": {
+          "Abstract Landscape with Blue and Green Tones": 1
+        }
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "score": 0.3704
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Cityscape with Water Reflections",
+      "score": 0.3497
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Landscape with River and Figures",
+      "score": 0.2799
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E1",
+    "E3"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E3",
+    "name": "Cityscape with Water Reflections",
+    "attention_level": "D",
+    "estimated_dwell_time_sec": 2.72,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E3",
+      "name": "Cityscape with Water Reflections",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.55
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E1",
+      "name": "Landscape with River and Figures",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.2
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:56.741862",
+        "image": "capture_20260308_035141_966.png",
+        "current_exhibit": "Cityscape with Water Reflection",
+        "attention_level": "D",
+        "dwell_time_sec": 2.48,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:39:32.204840",
+        "image": "capture_20260308_035147_689.png",
+        "current_exhibit": "Abstract Landscape with Blue and Green Tones",
+        "attention_level": "C",
+        "dwell_time_sec": 3.22,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape with Blue and Green Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.22,
+        "last_seen": "2026-03-08T04:39:32.204840",
+        "transition_counts": {}
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {
+          "Cityscape with Water Reflection": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflection",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.48,
+        "last_seen": "2026-03-08T04:38:56.741862",
+        "transition_counts": {
+          "Abstract Landscape with Blue and Green Tones": 1
+        }
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Landscape with Blue and Green Tones",
+    "next_target_name": "Cityscape with Water Reflections",
+    "next_target_exhibit_id": "E3"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035423_084/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035423_084.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E6",
+      "name": "Abstract Composition with Red and White Elements",
+      "typology": "Painting",
+      "description": "A cropped section of an abstract artwork featuring a horizontal band of red with white circular forms, possibly representing stylized clouds or orbs, set against a dark background. The composition suggests a minimalist or modernist style.",
+      "bbox": [
+        277,
+        141,
+        390,
+        185
+      ],
+      "center": [
+        334,
+        169
+      ],
+      "dwell_time_sec": 1.53
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E5",
+      "name": "Floral Still Life with Vase",
+      "typology": "Painting",
+      "description": "A painting depicting a floral arrangement in a vase, featuring red and white flowers against a dark background. The artwork is mounted on a wall next to a blank or partially visible adjacent panel.",
+      "bbox": [
+        287,
+        94,
+        389,
+        154
+      ],
+      "center": [
+        362,
+        124
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E8",
+      "name": "Abstract Landscape with Diagonal Path",
+      "typology": "Painting",
+      "description": "A small abstract painting featuring a diagonal path or road receding into the distance, rendered in earthy tones with hints of green and blue. The artwork is mounted on a white wall within a grid-like display structure.",
+      "bbox": [
+        371,
+        127,
+        496,
+        181
+      ],
+      "center": [
+        442,
+        142
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E7",
+      "name": "Landscape with Blue Flowers and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a field of blue flowers in the foreground with trees and greenery in the background, rendered in soft, naturalistic tones. The artwork is mounted on a museum wall, framed in a simple dark frame.",
+      "bbox": [
+        391,
+        84,
+        494,
+        126
+      ],
+      "center": [
+        442,
+        111
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035423_084/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035423_084/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035423_084/gaze2guide_sim_output_sequence/heatmap_seq"
+}

@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035126_182/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035126_182.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Ocean Sunset Landscape",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a dramatic ocean sunset with vibrant orange and pink hues in the sky transitioning into deep blue clouds above turbulent waves. The artwork is mounted on a wall, slightly angled, showing a dynamic seascape composition.",
+      "bbox": [
+        62,
+        2,
+        183,
+        207
+      ],
+      "center": [
+        123,
+        106
+      ],
+      "dwell_time_sec": 2.64
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, elongated forms in muted tones of gray, white, and subtle brown. The composition appears layered, with soft transitions between shapes, mounted on a wall in a gallery setting.",
+      "bbox": [
+        213,
+        71,
+        249,
+        173
+      ],
+      "center": [
+        231,
+        123
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Blue and Gray Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dominant blue and gray hues with subtle textural variations. The composition includes layered brushwork and a central darker vertical element, mounted on a museum wall.",
+      "bbox": [
+        303,
+        90,
+        350,
+        175
+      ],
+      "center": [
+        326,
+        132
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Landscape with River and Windmill",
+      "typology": "Painting",
+      "description": "A pastoral landscape painting featuring a winding river, green fields, trees, and a prominent windmill in the distance. The scene is rendered in soft earth tones with a hazy sky, suggesting a serene rural setting.",
+      "bbox": [
+        388,
+        87,
+        447,
+        166
+      ],
+      "center": [
+        416,
+        126
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035126_182/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035126_182/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035126_182/gaze2guide_sim_output_sequence/heatmap_seq"
+}

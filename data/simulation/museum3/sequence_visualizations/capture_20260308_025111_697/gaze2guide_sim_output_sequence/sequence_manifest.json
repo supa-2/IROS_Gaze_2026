@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025111_697/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025111_697.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E6",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a white wall with minimal visible content; only a small section of what may be a frame or artwork edge is partially visible at the bottom right.",
+      "bbox": [
+        410,
+        148,
+        426,
+        196
+      ],
+      "center": [
+        414,
+        171
+      ],
+      "dwell_time_sec": 1.9
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E5",
+      "name": "WallText",
+      "typology": "WallText",
+      "description": "A section of a museum wall with a small, rectangular text panel mounted centrally. The panel appears to contain printed text, likely providing exhibit information, though the content is not legible in the image.",
+      "bbox": [
+        353,
+        150,
+        389,
+        201
+      ],
+      "center": [
+        370,
+        174
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E7",
+      "name": "The Red Flag",
+      "typology": "Painting",
+      "description": "A dramatic painting depicting a figure raising a red flag amidst a stormy sky, with dynamic brushwork and vivid contrasts of red and blue tones. The artwork is mounted on a white gallery wall, framed in gold, and displayed alongside another portrait-style painting.",
+      "bbox": [
+        409,
+        108,
+        619,
+        337
+      ],
+      "center": [
+        471,
+        195
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E8",
+      "name": "The Red Flag",
+      "typology": "Painting",
+      "description": "A dramatic painting depicting a figure raising a red flag against a turbulent sky, with dynamic brushwork and strong contrasts between the vivid red of the flag and the muted tones of the background. The artwork is mounted on a wall within a museum setting.",
+      "bbox": [
+        452,
+        151,
+        539,
+        320
+      ],
+      "center": [
+        493,
+        236
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025111_697/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025111_697/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025111_697/gaze2guide_sim_output_sequence/heatmap_seq"
+}

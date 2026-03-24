@@ -1,0 +1,149 @@
+{
+  "timestamp": "2026-03-08T13:52:52.082182",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        142,
+        128,
+        215,
+        221
+      ],
+      "norm_bbox": [
+        0.22,
+        0.37,
+        0.34,
+        0.58
+      ],
+      "description": "Framed painting depicting a mountain landscape with a lake",
+      "center": [
+        178,
+        174
+      ],
+      "area": 6640,
+      "sam_score": 0.98046875
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        264,
+        127,
+        337,
+        222
+      ],
+      "norm_bbox": [
+        0.41,
+        0.36,
+        0.53,
+        0.58
+      ],
+      "description": "Framed painting showing figures on horseback in a historical scene",
+      "center": [
+        300,
+        174
+      ],
+      "area": 7015,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        389,
+        125,
+        467,
+        223
+      ],
+      "norm_bbox": [
+        0.6,
+        0.36,
+        0.72,
+        0.58
+      ],
+      "description": "Framed painting of a rural or village scene with trees and buildings",
+      "center": [
+        427,
+        174
+      ],
+      "area": 7535,
+      "sam_score": 0.98046875
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        502,
+        123,
+        602,
+        224
+      ],
+      "norm_bbox": [
+        0.79,
+        0.36,
+        0.91,
+        0.58
+      ],
+      "description": "Framed painting featuring an abstract or floral composition with warm tones",
+      "center": [
+        557,
+        173
+      ],
+      "area": 8870,
+      "sam_score": 0.7890625
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E2",
+      "center": [
+        300,
+        174
+      ],
+      "duration": 3.8462885390836576,
+      "score": 0.8668246606768125
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E3",
+      "center": [
+        427,
+        174
+      ],
+      "duration": 3.668861076853099,
+      "score": 0.7996747757353788
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E4",
+      "center": [
+        557,
+        173
+      ],
+      "duration": 3.5651926332685417,
+      "score": 0.7536143045697794
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E1",
+      "center": [
+        178,
+        174
+      ],
+      "duration": 3.373451718658269,
+      "score": 0.7007854772110613
+    }
+  ],
+  "progressive_outputs": {
+    "scanpath_dir": "progressive_scanpath",
+    "heatmap_dir": "progressive_heatmap",
+    "segmentation_dir": "progressive_segmentation",
+    "gif_dir": "progressive_gifs"
+  }
+}

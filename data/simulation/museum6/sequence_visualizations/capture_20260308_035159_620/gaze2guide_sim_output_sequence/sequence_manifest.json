@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035159_620/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035159_620.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Coastal Landscape with Sandy Shore",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a coastal scene with a sandy shore, calm blue water, and a distant hillside covered in greenery under a pale sky. The artwork is mounted on a wall and appears to be framed.",
+      "bbox": [
+        42,
+        72,
+        188,
+        300
+      ],
+      "center": [
+        112,
+        189
+      ],
+      "dwell_time_sec": 3.2
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, indistinct forms in muted tones of gray, blue, and white. The composition suggests layered or stacked elements, possibly evoking architectural or natural structures, mounted on a plain wall.",
+      "bbox": [
+        238,
+        118,
+        275,
+        275
+      ],
+      "center": [
+        256,
+        197
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Horse in a Landscape",
+      "typology": "Painting",
+      "description": "A painting depicting a horse standing in a natural outdoor setting with muted earth tones and soft lighting. The composition focuses on the animal, rendered with visible brushstrokes, against a blurred background of trees and open land.",
+      "bbox": [
+        404,
+        153,
+        505,
+        242
+      ],
+      "center": [
+        454,
+        198
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035159_620/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035159_620/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035159_620/gaze2guide_sim_output_sequence/heatmap_seq"
+}

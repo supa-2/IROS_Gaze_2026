@@ -1,0 +1,235 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_033610_436.png",
+    "image_path": "data/simulation/museum1/images/capture_20260308_033610_436.png",
+    "timestamp": "2026-03-08T04:20:16.468353",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Grid Pattern Wall Art",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "OtherFlatArtwork",
+    "description": "A large rectangular wall-mounted artwork featuring a dense, repetitive grid of vertical lines in varying shades of gray and white, creating a textured, monochromatic visual effect. The piece is displayed flat against a neutral-colored wall.",
+    "visual_signature": "Monochromatic vertical line grid pattern with subtle tonal variations and uniform spacing"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Grid Pattern Wall Art",
+      "typology": "OtherFlatArtwork",
+      "description": "A large rectangular wall-mounted artwork featuring a dense, repetitive grid of vertical lines in varying shades of gray and white, creating a textured, monochromatic visual effect. The piece is displayed flat against a neutral-colored wall.",
+      "visual_signature": "Monochromatic vertical line grid pattern with subtle tonal variations and uniform spacing",
+      "bbox": [
+        104,
+        210,
+        358,
+        291
+      ],
+      "center": [
+        227,
+        251
+      ],
+      "area": 17193,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      374
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Grid Pattern Wall Art",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          104,
+          210,
+          358,
+          291
+        ],
+        "center": [
+          227,
+          251
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Grid Pattern Wall Art",
+      "typology": "OtherFlatArtwork",
+      "description": "A large rectangular wall-mounted artwork featuring a dense, repetitive grid of vertical lines in varying shades of gray and white, creating a textured, monochromatic visual effect. The piece is displayed flat against a neutral-colored wall.",
+      "visual_signature": "Monochromatic vertical line grid pattern with subtle tonal variations and uniform spacing"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:09:23.528585",
+        "image": "capture_20260308_033559_677.png",
+        "current_exhibit": "Abstract Botanical Composition",
+        "attention_level": "B",
+        "dwell_time_sec": 4.21,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:19:43.342085",
+        "image": "capture_20260308_033606_287.png",
+        "current_exhibit": "Abstract Pattern Triptych",
+        "attention_level": "C",
+        "dwell_time_sec": 3.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:20:16.468353",
+        "image": "capture_20260308_033610_436.png",
+        "current_exhibit": "Abstract Grid Pattern Wall Art",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Botanical Composition",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.21,
+        "last_seen": "2026-03-08T04:09:23.528585",
+        "transition_counts": {
+          "Abstract Pattern Triptych": 1
+        }
+      },
+      {
+        "name": "Abstract Grid Pattern Wall Art",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:20:16.468353",
+        "transition_counts": {}
+      },
+      {
+        "name": "Abstract Pattern Triptych",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.13,
+        "last_seen": "2026-03-08T04:19:43.342085",
+        "transition_counts": {
+          "Abstract Grid Pattern Wall Art": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Grid Pattern Wall Art",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Abstract Grid Pattern Wall Art",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:09:23.528585",
+        "image": "capture_20260308_033559_677.png",
+        "current_exhibit": "Abstract Botanical Composition",
+        "attention_level": "B",
+        "dwell_time_sec": 4.21,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:19:43.342085",
+        "image": "capture_20260308_033606_287.png",
+        "current_exhibit": "Abstract Pattern Triptych",
+        "attention_level": "C",
+        "dwell_time_sec": 3.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:20:16.468353",
+        "image": "capture_20260308_033610_436.png",
+        "current_exhibit": "Abstract Grid Pattern Wall Art",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Botanical Composition",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.21,
+        "last_seen": "2026-03-08T04:09:23.528585",
+        "transition_counts": {
+          "Abstract Pattern Triptych": 1
+        }
+      },
+      {
+        "name": "Abstract Grid Pattern Wall Art",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:20:16.468353",
+        "transition_counts": {}
+      },
+      {
+        "name": "Abstract Pattern Triptych",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.13,
+        "last_seen": "2026-03-08T04:19:43.342085",
+        "transition_counts": {
+          "Abstract Grid Pattern Wall Art": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Grid Pattern Wall Art",
+    "next_target_name": "Abstract Grid Pattern Wall Art",
+    "next_target_exhibit_id": "E1"
+  }
+}

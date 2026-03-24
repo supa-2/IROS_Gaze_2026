@@ -1,0 +1,126 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:26:07.087540",
+      "image": "capture_20260308_025054_232.png",
+      "current_exhibit": "Peasants in a Field with Donkeys",
+      "attention_level": "D",
+      "dwell_time_sec": 2.95,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:26:41.535476",
+      "image": "capture_20260308_025059_209.png",
+      "current_exhibit": "Group Portrait of Figures in Formal Attire",
+      "attention_level": "D",
+      "dwell_time_sec": 2.55,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:27:20.009424",
+      "image": "capture_20260308_025105_444.png",
+      "current_exhibit": "Calligraphy Panel",
+      "attention_level": "E",
+      "dwell_time_sec": 1.94,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:28:16.542945",
+      "image": "capture_20260308_025111_697.png",
+      "current_exhibit": "Undetermined Wall Exhibit",
+      "attention_level": "E",
+      "dwell_time_sec": 1.9,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:29:15.740833",
+      "image": "capture_20260308_025119_845.png",
+      "current_exhibit": "Bamboo Triptych",
+      "attention_level": "C",
+      "dwell_time_sec": 3.04,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Undetermined Wall Panel": {
+      "typology": "WallText",
+      "visits": 1,
+      "total_dwell_time_sec": 1.77,
+      "last_seen": "2026-03-08T04:23:58.679483",
+      "last_description": "A plain, uniformly colored rectangular panel mounted on a wall, appearing to be made of a matte material with no visible text, imagery, or decorative elements. The surface is featureless and lacks any discernible content.",
+      "transition_counts": {
+        "Landscape with Yellow Field and Blue Sky": 1
+      }
+    },
+    "Landscape with Yellow Field and Blue Sky": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.27,
+      "last_seen": "2026-03-08T04:25:20.144917",
+      "last_description": "A vibrant landscape painting featuring a golden-yellow field in the foreground, green rolling hills in the midground, and a bright blue sky above. The artwork is mounted on a wall and appears to be framed.",
+      "transition_counts": {
+        "Peasants in a Field with Donkeys": 1
+      }
+    },
+    "Peasants in a Field with Donkeys": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.95,
+      "last_seen": "2026-03-08T04:26:07.087540",
+      "last_description": "A painting depicting several figures, including children and adults, seated in a rural field with donkeys and scattered farm tools. The scene is rendered in warm earth tones with a focus on daily life in a pastoral setting.",
+      "transition_counts": {
+        "Group Portrait of Figures in Formal Attire": 1
+      }
+    },
+    "Group Portrait of Figures in Formal Attire": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.55,
+      "last_seen": "2026-03-08T04:26:41.535476",
+      "last_description": "A framed painting depicting a group of individuals in formal clothing, likely from the 19th or early 20th century, arranged in a structured composition. The scene is rendered in muted tones with emphasis on facial expressions and attire details.",
+      "transition_counts": {
+        "Calligraphy Panel": 1
+      }
+    },
+    "Calligraphy Panel": {
+      "typology": "OtherFlatArtwork",
+      "visits": 1,
+      "total_dwell_time_sec": 1.94,
+      "last_seen": "2026-03-08T04:27:20.009424",
+      "last_description": "A vertically oriented framed panel displaying black Chinese calligraphy on a white background, mounted on a light-colored wall. The characters are arranged in columns and written in a flowing, traditional script.",
+      "transition_counts": {
+        "Undetermined Wall Exhibit": 1
+      }
+    },
+    "Undetermined Wall Exhibit": {
+      "typology": "OtherFlatArtwork",
+      "visits": 1,
+      "total_dwell_time_sec": 1.9,
+      "last_seen": "2026-03-08T04:28:16.542945",
+      "last_description": "A cropped image showing a portion of a white wall with minimal visible content; only a small section of what may be a frame or artwork edge is partially visible at the bottom right.",
+      "transition_counts": {
+        "Bamboo Triptych": 1
+      }
+    },
+    "Bamboo Triptych": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.04,
+      "last_seen": "2026-03-08T04:29:15.740833",
+      "last_description": "A framed triptych featuring three vertical panels of black ink bamboo illustrations on light gray paper, mounted within a simple white mat and gold-colored frame. The composition emphasizes delicate brushwork and naturalistic bamboo forms.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "Bamboo Triptych",
+  "updated_at": "2026-03-08T04:29:48.593462"
+}

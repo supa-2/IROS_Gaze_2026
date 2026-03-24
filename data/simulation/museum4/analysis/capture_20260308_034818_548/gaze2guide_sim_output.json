@@ -1,0 +1,741 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034818_548.png",
+    "image_path": "data/simulation/museum4/images/capture_20260308_034818_548.png",
+    "timestamp": "2026-03-08T04:32:09.909164",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E5",
+    "name": "Landscape with River and Trees",
+    "attention_level": "D",
+    "dwell_time_sec": 2.09,
+    "typology": "Painting",
+    "description": "A landscape painting depicting a river winding through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+    "visual_signature": "River flowing through forested terrain, muted color palette, horizontal composition"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Seascape at Sunset",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a dramatic sunset over a turbulent sea, with warm orange and pink hues in the sky transitioning to dark blues and blacks in the water. The artwork is mounted on a museum wall with a simple frame.",
+      "visual_signature": "Dramatic sky gradient from orange to dark blue, choppy sea surface, horizontal composition, framed artwork",
+      "bbox": [
+        47,
+        155,
+        94,
+        216
+      ],
+      "center": [
+        70,
+        185
+      ],
+      "area": 2657,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.75
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, dark vertical forms against a muted background. The composition appears to be mounted on a wall in a gallery setting, with indistinct shapes suggesting a possible urban or architectural motif.",
+      "visual_signature": "Blurred vertical elements, dark tones, abstract style, wall-mounted",
+      "bbox": [
+        125,
+        154,
+        172,
+        216
+      ],
+      "center": [
+        148,
+        185
+      ],
+      "area": 2799,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E3",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river flowing through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "visual_signature": "River winding through forested banks, muted color palette, impressionistic brushwork",
+      "bbox": [
+        206,
+        154,
+        255,
+        216
+      ],
+      "center": [
+        230,
+        185
+      ],
+      "area": 2929,
+      "sam_score": 0.96875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A dark-toned abstract painting featuring vertical elements and muted earthy colors, possibly depicting a stylized landscape or architectural forms. The artwork is mounted on a wall in a museum setting.",
+      "visual_signature": "Vertical brushstrokes, dark palette with hints of green and brown, abstract composition",
+      "bbox": [
+        363,
+        154,
+        409,
+        215
+      ],
+      "center": [
+        385,
+        184
+      ],
+      "area": 2826,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river winding through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "visual_signature": "River flowing through forested terrain, muted color palette, horizontal composition",
+      "bbox": [
+        444,
+        153,
+        494,
+        216
+      ],
+      "center": [
+        468,
+        184
+      ],
+      "area": 3057,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.65
+    },
+    {
+      "id": "E6",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A dimly lit landscape painting depicting a river winding through a forested area, with muted greens and blues dominating the palette. The artwork is mounted on a museum wall, framed in dark wood.",
+      "visual_signature": "River flowing through dense trees, subdued color scheme, vertical composition, dark wooden frame",
+      "bbox": [
+        526,
+        153,
+        578,
+        216
+      ],
+      "center": [
+        551,
+        184
+      ],
+      "area": 3008,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.6
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      366
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "bbox": [
+          47,
+          155,
+          94,
+          216
+        ],
+        "center": [
+          70,
+          185
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          125,
+          154,
+          172,
+          216
+        ],
+        "center": [
+          148,
+          185
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "bbox": [
+          206,
+          154,
+          255,
+          216
+        ],
+        "center": [
+          230,
+          185
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          363,
+          154,
+          409,
+          215
+        ],
+        "center": [
+          385,
+          184
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "bbox": [
+          444,
+          153,
+          494,
+          216
+        ],
+        "center": [
+          468,
+          184
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "bbox": [
+          526,
+          153,
+          578,
+          216
+        ],
+        "center": [
+          551,
+          184
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 78.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 78.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 82.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 82.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 155.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 155.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 83.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 83.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 83.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 83.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 78.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 160.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 315.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 78.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 82.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 237.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 82.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 155.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 160.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 83.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 155.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 166.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 83.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 83.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 238.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 83.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 166.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 321.0,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E1",
+        "E3",
+        "E4"
+      ],
+      "E3": [
+        "E2",
+        "E4",
+        "E1"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E6"
+      ],
+      "E5": [
+        "E4",
+        "E6",
+        "E3"
+      ],
+      "E6": [
+        "E5",
+        "E4",
+        "E3"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E5",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river winding through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "visual_signature": "River flowing through forested terrain, muted color palette, horizontal composition"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:09.909164",
+        "image": "capture_20260308_034818_548.png",
+        "current_exhibit": "Landscape with River and Trees",
+        "attention_level": "D",
+        "dwell_time_sec": 2.09,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E4",
+      "E6",
+      "E3"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {
+          "Landscape with River and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.09,
+        "last_seen": "2026-03-08T04:32:09.909164",
+        "transition_counts": {}
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E5",
+      "name": "Landscape with River and Trees",
+      "score": 0.1818
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.1757
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.1743
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Landscape with River and Trees",
+      "score": 0.171
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Landscape with River and Trees",
+      "score": 0.1492
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Seascape at Sunset",
+      "score": 0.1479
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E4",
+    "E6",
+    "E3"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E4",
+    "name": "Abstract Composition with Vertical Forms",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.76,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.67
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E3",
+      "name": "Landscape with River and Trees",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.66
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.68
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:09.909164",
+        "image": "capture_20260308_034818_548.png",
+        "current_exhibit": "Landscape with River and Trees",
+        "attention_level": "D",
+        "dwell_time_sec": 2.09,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {
+          "Landscape with River and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.09,
+        "last_seen": "2026-03-08T04:32:09.909164",
+        "transition_counts": {}
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Landscape with River and Trees",
+    "next_target_name": "Abstract Composition with Vertical Forms",
+    "next_target_exhibit_id": "E4"
+  }
+}

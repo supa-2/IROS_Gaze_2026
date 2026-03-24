@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025054_232/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025054_232.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Peasants in a Field with Donkeys",
+      "typology": "Painting",
+      "description": "A painting depicting several figures, including children and adults, seated in a rural field with donkeys and scattered farm tools. The scene is rendered in warm earth tones with a focus on daily life in a pastoral setting.",
+      "bbox": [
+        302,
+        54,
+        443,
+        234
+      ],
+      "center": [
+        370,
+        146
+      ],
+      "dwell_time_sec": 2.95
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Interior View of a Long Wooden Hallway",
+      "typology": "Photography",
+      "description": "A photograph depicting a long, warmly lit hallway with polished wooden floors and walls, featuring seating areas on either side and decorative lighting fixtures overhead. The perspective draws the eye down the corridor, emphasizing depth and symmetry.",
+      "bbox": [
+        3,
+        22,
+        254,
+        242
+      ],
+      "center": [
+        149,
+        137
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Group Portrait of Figures in Historical Attire",
+      "typology": "Painting",
+      "description": "A framed oil painting depicting a group of individuals in historical clothing, likely from the 18th or 19th century, arranged in a formal composition with warm tones and soft lighting. The artwork is mounted on a museum wall with a dark frame.",
+      "bbox": [
+        521,
+        81,
+        600,
+        148
+      ],
+      "center": [
+        559,
+        116
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Figure with Red Umbrella",
+      "typology": "Painting",
+      "description": "A painting depicting a figure holding a bright red umbrella, set against a muted background. The composition focuses on the contrast between the vivid red umbrella and the subdued tones of the surroundings.",
+      "bbox": [
+        501,
+        144,
+        615,
+        216
+      ],
+      "center": [
+        546,
+        169
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025054_232/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025054_232/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025054_232/gaze2guide_sim_output_sequence/heatmap_seq"
+}

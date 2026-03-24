@@ -1,0 +1,106 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:33:57.695328",
+      "image": "capture_20260308_034923_674.png",
+      "current_exhibit": "Landscape with Mountains and Pavilion",
+      "attention_level": "A",
+      "dwell_time_sec": 5.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:34:14.234737",
+      "image": "capture_20260308_034926_613.png",
+      "current_exhibit": "Landscape with Mountains and Trees",
+      "attention_level": "B",
+      "dwell_time_sec": 4.56,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:34:34.739422",
+      "image": "capture_20260308_034932_250.png",
+      "current_exhibit": "Abstract Vertical Composition",
+      "attention_level": "D",
+      "dwell_time_sec": 2.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:35:12.011467",
+      "image": "capture_20260308_034936_156.png",
+      "current_exhibit": "Abstract Vertical Composition in Grays",
+      "attention_level": "C",
+      "dwell_time_sec": 3.24,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:35:32.646296",
+      "image": "capture_20260308_034947_678.png",
+      "current_exhibit": "World Festival of Youth and Students",
+      "attention_level": "C",
+      "dwell_time_sec": 3.31,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Landscape with Mountains and Pavilion": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 5.5,
+      "last_seen": "2026-03-08T04:33:57.695328",
+      "last_description": "A monochromatic ink painting depicting a misty mountain landscape with rocky outcrops, sparse vegetation, and a small pavilion nestled in the foreground. The composition uses layered brushwork and varying shades of gray to create depth and atmosphere, mounted on a plain wall with a small informational plaque nearby.",
+      "transition_counts": {
+        "Landscape with Mountains and Trees": 1
+      }
+    },
+    "Landscape with Mountains and Trees": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.56,
+      "last_seen": "2026-03-08T04:34:14.234737",
+      "last_description": "A horizontal ink wash painting depicting a misty mountain landscape with sparse trees and layered rock formations, rendered in monochromatic tones of black, gray, and brown. The artwork is mounted on a wall, appearing aged with visible texture and subtle discoloration.",
+      "transition_counts": {
+        "Abstract Vertical Composition": 1
+      }
+    },
+    "Abstract Vertical Composition": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.5,
+      "last_seen": "2026-03-08T04:34:34.739422",
+      "last_description": "A monochromatic abstract painting featuring a vertical dark form centered against a muted, smoky background. The artwork appears mounted on a wall with a neutral-colored frame or matting.",
+      "transition_counts": {
+        "Abstract Vertical Composition in Grays": 1
+      }
+    },
+    "Abstract Vertical Composition in Grays": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.24,
+      "last_seen": "2026-03-08T04:35:12.011467",
+      "last_description": "A monochromatic abstract painting featuring vertical bands of varying shades of gray and black, with textured brushwork creating a layered effect. The artwork is mounted on a wall, displayed in a minimalist setting.",
+      "transition_counts": {
+        "World Festival of Youth and Students": 1
+      }
+    },
+    "World Festival of Youth and Students": {
+      "typology": "Poster",
+      "visits": 1,
+      "total_dwell_time_sec": 3.31,
+      "last_seen": "2026-03-08T04:35:32.646296",
+      "last_description": "A framed poster featuring a stylized map of the world with vibrant red, blue, and yellow abstract shapes representing continents. The text 'WORLD FESTIVAL' is prominently displayed in bold lettering below the map, with additional smaller text indicating the event's theme or year.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "World Festival of Youth and Students",
+  "updated_at": "2026-03-08T04:35:57.469302"
+}

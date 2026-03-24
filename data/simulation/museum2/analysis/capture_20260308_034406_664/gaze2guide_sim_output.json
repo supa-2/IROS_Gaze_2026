@@ -1,0 +1,315 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034406_664.png",
+    "image_path": "data/simulation/museum2/images/capture_20260308_034406_664.png",
+    "timestamp": "2026-03-08T04:23:23.605999",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Landscape in Blue and White",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "Painting",
+    "description": "An abstract painting featuring dominant blue and white tones, with vertical brushstrokes in the upper portion and horizontal forms resembling a horizon or landmass below. The artwork is mounted on a light-colored wall, suggesting a gallery setting.",
+    "visual_signature": "Vertical blue stripes above horizontal white and dark forms, evoking a minimalist landscape; textured brushwork and limited color palette."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Landscape in Blue and White",
+      "typology": "Painting",
+      "description": "An abstract painting featuring dominant blue and white tones, with vertical brushstrokes in the upper portion and horizontal forms resembling a horizon or landmass below. The artwork is mounted on a light-colored wall, suggesting a gallery setting.",
+      "visual_signature": "Vertical blue stripes above horizontal white and dark forms, evoking a minimalist landscape; textured brushwork and limited color palette.",
+      "bbox": [
+        6,
+        10,
+        522,
+        217
+      ],
+      "center": [
+        405,
+        106
+      ],
+      "area": 426,
+      "sam_score": 0.66015625,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      358
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Landscape in Blue and White",
+        "typology": "Painting",
+        "bbox": [
+          6,
+          10,
+          522,
+          217
+        ],
+        "center": [
+          405,
+          106
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Landscape in Blue and White",
+      "typology": "Painting",
+      "description": "An abstract painting featuring dominant blue and white tones, with vertical brushstrokes in the upper portion and horizontal forms resembling a horizon or landmass below. The artwork is mounted on a light-colored wall, suggesting a gallery setting.",
+      "visual_signature": "Vertical blue stripes above horizontal white and dark forms, evoking a minimalist landscape; textured brushwork and limited color palette."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:53.328426",
+        "image": "capture_20260308_034352_690.png",
+        "current_exhibit": "Portrait of a Person with Purple Tones",
+        "attention_level": "E",
+        "dwell_time_sec": 1.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:23.605999",
+        "image": "capture_20260308_034406_664.png",
+        "current_exhibit": "Abstract Landscape in Blue and White",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {
+          "Portrait of a Person with Purple Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape in Blue and White",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:23:23.605999",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      },
+      {
+        "name": "Portrait of a Person with Purple Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.59,
+        "last_seen": "2026-03-08T04:21:53.328426",
+        "transition_counts": {
+          "Abstract Landscape in Blue and White": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Landscape in Blue and White",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Abstract Landscape in Blue and White",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:34.231216",
+        "image": "capture_20260308_034347_827.png",
+        "current_exhibit": "Abstract Geometric Textile Wall Hanging",
+        "attention_level": "B",
+        "dwell_time_sec": 4.3,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:53.328426",
+        "image": "capture_20260308_034352_690.png",
+        "current_exhibit": "Portrait of a Person with Purple Tones",
+        "attention_level": "E",
+        "dwell_time_sec": 1.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:23:23.605999",
+        "image": "capture_20260308_034406_664.png",
+        "current_exhibit": "Abstract Landscape in Blue and White",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Abstract Geometric Textile Wall Hanging",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.3,
+        "last_seen": "2026-03-08T04:21:34.231216",
+        "transition_counts": {
+          "Portrait of a Person with Purple Tones": 1
+        }
+      },
+      {
+        "name": "Abstract Landscape in Blue and White",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:23:23.605999",
+        "transition_counts": {}
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {
+          "Abstract Geometric Textile Wall Hanging": 1
+        }
+      },
+      {
+        "name": "Portrait of a Person with Purple Tones",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.59,
+        "last_seen": "2026-03-08T04:21:53.328426",
+        "transition_counts": {
+          "Abstract Landscape in Blue and White": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Landscape in Blue and White",
+    "next_target_name": "Abstract Landscape in Blue and White",
+    "next_target_exhibit_id": "E1"
+  }
+}

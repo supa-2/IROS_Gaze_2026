@@ -1,0 +1,689 @@
+{
+  "session_id": "20260308_035508",
+  "total_captures": 5,
+  "output_dir": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8",
+  "image_dir": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images",
+  "wsl_mirror_dir": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation",
+  "records": [
+    {
+      "capture_index": 1,
+      "filename": "capture_20260308_035523_032.png",
+      "timestamp": "20260308_035523_092",
+      "session_elapsed_sec": 14.394,
+      "image_path_windows": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images\\capture_20260308_035523_032.png",
+      "mirrored_wsl_path_hint": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation\\museum8\\images\\capture_20260308_035523_032.png",
+      "robot_state": {
+        "position": {
+          "x": -2.869,
+          "y": -3.742,
+          "z": 0.665
+        },
+        "rotation": {
+          "yaw": -3.448,
+          "pitch": -0.001
+        }
+      },
+      "active_view": "FP",
+      "capture_view_mode": "FP",
+      "capture_camera": "FP_Camera",
+      "capture_area_index": 3,
+      "area_assignments": [
+        {
+          "area_index": 1,
+          "area_ptr": 2233550213120,
+          "mode": "TP",
+          "x": 0,
+          "y": 541,
+          "width": 1481,
+          "height": 910,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 2,
+          "area_ptr": 2235354059528,
+          "mode": "SP",
+          "x": 1482,
+          "y": 541,
+          "width": 633,
+          "height": 547,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 3,
+          "area_ptr": 2235354059336,
+          "mode": "FP",
+          "x": 1482,
+          "y": 1089,
+          "width": 633,
+          "height": 362,
+          "is_capture_area": true
+        }
+      ],
+      "exhibit_name": "RobotHead",
+      "target_info": {
+        "object_name": "RobotHead",
+        "hit_location": {
+          "x": -3.063,
+          "y": -3.681,
+          "z": 1.5117
+        },
+        "surface_normal": {
+          "x": -0.849,
+          "y": 0.2682,
+          "z": 0.4552
+        },
+        "distance": 0.0033,
+        "face_index": 54855
+      },
+      "fp_camera_pose": {
+        "name": "FP_Camera",
+        "location": {
+          "x": -3.0599,
+          "y": -3.682,
+          "z": 1.5117
+        },
+        "rotation_euler": {
+          "x": 1.5718,
+          "y": -0.0,
+          "z": 1.2648
+        }
+      },
+      "tp_camera_pose": {
+        "name": "TP_Camera",
+        "location": {
+          "x": 0.3574,
+          "y": -4.8455,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.4173,
+          "y": 0.0,
+          "z": 1.2412
+        }
+      },
+      "sp_camera_pose": {
+        "name": "SP_Camera",
+        "location": {
+          "x": -5.7015,
+          "y": -2.7944,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.3979,
+          "y": -0.0,
+          "z": -1.8937
+        }
+      },
+      "top_camera_pose": {
+        "name": "TOP_Camera",
+        "location": {
+          "x": -2.8614,
+          "y": -3.7559,
+          "z": 11.6654
+        },
+        "rotation_euler": {
+          "x": 0.0014,
+          "y": -0.0,
+          "z": 0.5118
+        }
+      },
+      "human_pose": {
+        "name": "Human",
+        "location": {
+          "x": -0.8995,
+          "y": -3.0214,
+          "z": 0.0054
+        },
+        "rotation_euler": {
+          "x": 0.0,
+          "y": -0.0,
+          "z": 2.8356
+        }
+      }
+    },
+    {
+      "capture_index": 2,
+      "filename": "capture_20260308_035528_979.png",
+      "timestamp": "20260308_035529_028",
+      "session_elapsed_sec": 20.331,
+      "image_path_windows": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images\\capture_20260308_035528_979.png",
+      "mirrored_wsl_path_hint": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation\\museum8\\images\\capture_20260308_035528_979.png",
+      "robot_state": {
+        "position": {
+          "x": -2.918,
+          "y": 2.288,
+          "z": 0.665
+        },
+        "rotation": {
+          "yaw": -3.892,
+          "pitch": 0.202
+        }
+      },
+      "active_view": "FP",
+      "capture_view_mode": "FP",
+      "capture_camera": "FP_Camera",
+      "capture_area_index": 3,
+      "area_assignments": [
+        {
+          "area_index": 1,
+          "area_ptr": 2233550213120,
+          "mode": "TP",
+          "x": 0,
+          "y": 541,
+          "width": 1481,
+          "height": 910,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 2,
+          "area_ptr": 2235354059528,
+          "mode": "SP",
+          "x": 1482,
+          "y": 541,
+          "width": 633,
+          "height": 547,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 3,
+          "area_ptr": 2235354059336,
+          "mode": "FP",
+          "x": 1482,
+          "y": 1089,
+          "width": 633,
+          "height": 362,
+          "is_capture_area": true
+        }
+      ],
+      "exhibit_name": "RobotHead",
+      "target_info": {
+        "object_name": "RobotHead",
+        "hit_location": {
+          "x": -3.0965,
+          "y": 2.454,
+          "z": 1.4625
+        },
+        "surface_normal": {
+          "x": -0.7053,
+          "y": 0.657,
+          "z": 0.2663
+        },
+        "distance": 0.0033,
+        "face_index": 54855
+      },
+      "fp_camera_pose": {
+        "name": "FP_Camera",
+        "location": {
+          "x": -3.0941,
+          "y": 2.4518,
+          "z": 1.4632
+        },
+        "rotation_euler": {
+          "x": 1.3688,
+          "y": -0.0,
+          "z": 0.8208
+        }
+      },
+      "tp_camera_pose": {
+        "name": "TP_Camera",
+        "location": {
+          "x": -0.4273,
+          "y": -0.0344,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.4171,
+          "y": -0.0,
+          "z": 0.8204
+        }
+      },
+      "sp_camera_pose": {
+        "name": "SP_Camera",
+        "location": {
+          "x": -5.1274,
+          "y": 4.3059,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.3982,
+          "y": -0.0,
+          "z": -2.3111
+        }
+      },
+      "top_camera_pose": {
+        "name": "TOP_Camera",
+        "location": {
+          "x": -2.9243,
+          "y": 2.2714,
+          "z": 11.6654
+        },
+        "rotation_euler": {
+          "x": 0.0016,
+          "y": -0.0,
+          "z": -0.3454
+        }
+      },
+      "human_pose": {
+        "name": "Human",
+        "location": {
+          "x": -0.8674,
+          "y": 2.2553,
+          "z": 0.0054
+        },
+        "rotation_euler": {
+          "x": 0.0,
+          "y": -0.0,
+          "z": 2.3916
+        }
+      }
+    },
+    {
+      "capture_index": 3,
+      "filename": "capture_20260308_035533_191.png",
+      "timestamp": "20260308_035533_239",
+      "session_elapsed_sec": 24.542,
+      "image_path_windows": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images\\capture_20260308_035533_191.png",
+      "mirrored_wsl_path_hint": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation\\museum8\\images\\capture_20260308_035533_191.png",
+      "robot_state": {
+        "position": {
+          "x": -0.3,
+          "y": 4.028,
+          "z": 0.665
+        },
+        "rotation": {
+          "yaw": -4.795,
+          "pitch": 0.162
+        }
+      },
+      "active_view": "FP",
+      "capture_view_mode": "FP",
+      "capture_camera": "FP_Camera",
+      "capture_area_index": 3,
+      "area_assignments": [
+        {
+          "area_index": 1,
+          "area_ptr": 2233550213120,
+          "mode": "TP",
+          "x": 0,
+          "y": 541,
+          "width": 1481,
+          "height": 910,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 2,
+          "area_ptr": 2235354059528,
+          "mode": "SP",
+          "x": 1482,
+          "y": 541,
+          "width": 633,
+          "height": 547,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 3,
+          "area_ptr": 2235354059336,
+          "mode": "FP",
+          "x": 1482,
+          "y": 1089,
+          "width": 633,
+          "height": 362,
+          "is_capture_area": true
+        }
+      ],
+      "exhibit_name": "RobotHead",
+      "target_info": {
+        "object_name": "RobotHead",
+        "hit_location": {
+          "x": -0.2801,
+          "y": 4.2641,
+          "z": 1.4728
+        },
+        "surface_normal": {
+          "x": 0.0782,
+          "y": 0.9492,
+          "z": 0.3047
+        },
+        "distance": 0.0033,
+        "face_index": 54855
+      },
+      "fp_camera_pose": {
+        "name": "FP_Camera",
+        "location": {
+          "x": -0.2804,
+          "y": 4.2609,
+          "z": 1.4734
+        },
+        "rotation_euler": {
+          "x": 1.4088,
+          "y": -0.0,
+          "z": -0.0822
+        }
+      },
+      "tp_camera_pose": {
+        "name": "TP_Camera",
+        "location": {
+          "x": -0.6836,
+          "y": 0.6091,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.4187,
+          "y": -0.0,
+          "z": -0.112
+        }
+      },
+      "sp_camera_pose": {
+        "name": "SP_Camera",
+        "location": {
+          "x": -0.133,
+          "y": 6.9852,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.3964,
+          "y": -0.0,
+          "z": 3.0852
+        }
+      },
+      "top_camera_pose": {
+        "name": "TOP_Camera",
+        "location": {
+          "x": -0.3911,
+          "y": 3.9964,
+          "z": 11.6654
+        },
+        "rotation_euler": {
+          "x": 0.0088,
+          "y": -0.0,
+          "z": -1.2344
+        }
+      },
+      "human_pose": {
+        "name": "Human",
+        "location": {
+          "x": 0.8388,
+          "y": 2.2478,
+          "z": 0.0054
+        },
+        "rotation_euler": {
+          "x": 0.0,
+          "y": -0.0,
+          "z": 1.4886
+        }
+      }
+    },
+    {
+      "capture_index": 4,
+      "filename": "capture_20260308_035538_074.png",
+      "timestamp": "20260308_035538_129",
+      "session_elapsed_sec": 29.432,
+      "image_path_windows": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images\\capture_20260308_035538_074.png",
+      "mirrored_wsl_path_hint": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation\\museum8\\images\\capture_20260308_035538_074.png",
+      "robot_state": {
+        "position": {
+          "x": 2.991,
+          "y": 3.603,
+          "z": 0.665
+        },
+        "rotation": {
+          "yaw": -6.273,
+          "pitch": 0.02
+        }
+      },
+      "active_view": "FP",
+      "capture_view_mode": "FP",
+      "capture_camera": "FP_Camera",
+      "capture_area_index": 3,
+      "area_assignments": [
+        {
+          "area_index": 1,
+          "area_ptr": 2233550213120,
+          "mode": "TP",
+          "x": 0,
+          "y": 541,
+          "width": 1481,
+          "height": 910,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 2,
+          "area_ptr": 2235354059528,
+          "mode": "SP",
+          "x": 1482,
+          "y": 541,
+          "width": 633,
+          "height": 547,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 3,
+          "area_ptr": 2235354059336,
+          "mode": "FP",
+          "x": 1482,
+          "y": 1089,
+          "width": 633,
+          "height": 362,
+          "is_capture_area": true
+        }
+      ],
+      "exhibit_name": "RobotHead",
+      "target_info": {
+        "object_name": "RobotHead",
+        "hit_location": {
+          "x": 3.1989,
+          "y": 3.6057,
+          "z": 1.507
+        },
+        "surface_normal": {
+          "x": 0.8997,
+          "y": 0.0095,
+          "z": 0.4364
+        },
+        "distance": 0.0033,
+        "face_index": 54855
+      },
+      "fp_camera_pose": {
+        "name": "FP_Camera",
+        "location": {
+          "x": 3.1956,
+          "y": 3.6056,
+          "z": 1.507
+        },
+        "rotation_euler": {
+          "x": 1.5508,
+          "y": 0.0,
+          "z": -1.5602
+        }
+      },
+      "tp_camera_pose": {
+        "name": "TP_Camera",
+        "location": {
+          "x": -0.4703,
+          "y": 3.4847,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.4196,
+          "y": 0.0,
+          "z": -1.5364
+        }
+      },
+      "sp_camera_pose": {
+        "name": "SP_Camera",
+        "location": {
+          "x": 5.9289,
+          "y": 3.5811,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.3951,
+          "y": -0.0,
+          "z": 1.5633
+        }
+      },
+      "top_camera_pose": {
+        "name": "TOP_Camera",
+        "location": {
+          "x": 2.9293,
+          "y": 3.5359,
+          "z": 11.6654
+        },
+        "rotation_euler": {
+          "x": 0.0083,
+          "y": 0.0,
+          "z": -0.7386
+        }
+      },
+      "human_pose": {
+        "name": "Human",
+        "location": {
+          "x": 1.311,
+          "y": 1.8799,
+          "z": 0.0054
+        },
+        "rotation_euler": {
+          "x": 0.0,
+          "y": -0.0,
+          "z": 0.0106
+        }
+      }
+    },
+    {
+      "capture_index": 5,
+      "filename": "capture_20260308_035541_125.png",
+      "timestamp": "20260308_035541_173",
+      "session_elapsed_sec": 32.475,
+      "image_path_windows": "D:\\Python\\IROS 2026_gaze\\simulate\\blender_output\\museum8\\images\\capture_20260308_035541_125.png",
+      "mirrored_wsl_path_hint": "\\\\wsl$\\Ubuntu\\home\\supa_2\\Projects\\IROS_Gaze\\IROS_Gaze_2026\\data\\simulation\\museum8\\images\\capture_20260308_035541_125.png",
+      "robot_state": {
+        "position": {
+          "x": 3.062,
+          "y": -1.354,
+          "z": 0.665
+        },
+        "rotation": {
+          "yaw": -6.306,
+          "pitch": 0.03
+        }
+      },
+      "active_view": "FP",
+      "capture_view_mode": "FP",
+      "capture_camera": "FP_Camera",
+      "capture_area_index": 3,
+      "area_assignments": [
+        {
+          "area_index": 1,
+          "area_ptr": 2233550213120,
+          "mode": "TP",
+          "x": 0,
+          "y": 541,
+          "width": 1481,
+          "height": 910,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 2,
+          "area_ptr": 2235354059528,
+          "mode": "SP",
+          "x": 1482,
+          "y": 541,
+          "width": 633,
+          "height": 547,
+          "is_capture_area": false
+        },
+        {
+          "area_index": 3,
+          "area_ptr": 2235354059336,
+          "mode": "FP",
+          "x": 1482,
+          "y": 1089,
+          "width": 633,
+          "height": 362,
+          "is_capture_area": true
+        }
+      ],
+      "exhibit_name": "RobotHead",
+      "target_info": {
+        "object_name": "RobotHead",
+        "hit_location": {
+          "x": 3.2727,
+          "y": -1.3584,
+          "z": 1.5047
+        },
+        "surface_normal": {
+          "x": 0.9038,
+          "y": -0.0203,
+          "z": 0.4274
+        },
+        "distance": 0.0033,
+        "face_index": 54855
+      },
+      "fp_camera_pose": {
+        "name": "FP_Camera",
+        "location": {
+          "x": 3.2694,
+          "y": -1.3583,
+          "z": 1.5048
+        },
+        "rotation_euler": {
+          "x": 1.5408,
+          "y": 0.0,
+          "z": -1.5932
+        }
+      },
+      "tp_camera_pose": {
+        "name": "TP_Camera",
+        "location": {
+          "x": -0.331,
+          "y": -1.1269,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.4169,
+          "y": -0.0,
+          "z": -1.6377
+        }
+      },
+      "sp_camera_pose": {
+        "name": "SP_Camera",
+        "location": {
+          "x": 6.0655,
+          "y": -1.3165,
+          "z": 1.8154
+        },
+        "rotation_euler": {
+          "x": 1.3988,
+          "y": -0.0,
+          "z": 1.5829
+        }
+      },
+      "top_camera_pose": {
+        "name": "TOP_Camera",
+        "location": {
+          "x": 3.0671,
+          "y": -1.2276,
+          "z": 11.6654
+        },
+        "rotation_euler": {
+          "x": 0.0115,
+          "y": -0.0,
+          "z": 3.1046
+        }
+      },
+      "human_pose": {
+        "name": "Human",
+        "location": {
+          "x": 1.531,
+          "y": -2.3479,
+          "z": 0.0054
+        },
+        "rotation_euler": {
+          "x": 0.0,
+          "y": -0.0,
+          "z": -0.0224
+        }
+      }
+    }
+  ]
+}

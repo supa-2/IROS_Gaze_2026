@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025039_274/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025039_274.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Undetermined Wall Panel",
+      "typology": "WallText",
+      "description": "A plain, uniformly colored rectangular panel mounted on a wall, appearing to be made of a matte material with no visible text, imagery, or decorative elements. The surface is featureless and lacks any discernible content.",
+      "bbox": [
+        245,
+        87,
+        299,
+        177
+      ],
+      "center": [
+        270,
+        135
+      ],
+      "dwell_time_sec": 1.77
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E3",
+      "name": "Abstract Composition with Neutral Palette",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting with a muted, earth-toned color scheme, mounted on a wall above another artwork. The composition appears minimalist, featuring subtle gradations and possibly textured brushwork.",
+      "bbox": [
+        228,
+        72,
+        307,
+        227
+      ],
+      "center": [
+        270,
+        142
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E4",
+      "name": "Abstract Floral Composition",
+      "typology": "Painting",
+      "description": "A cropped view of a colorful abstract painting featuring vibrant pink and green hues, suggestive of floral forms. The artwork is mounted on a white wall, with only the lower right corner visible.",
+      "bbox": [
+        320,
+        147,
+        360,
+        190
+      ],
+      "center": [
+        338,
+        164
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E5",
+      "name": "Landscape with River",
+      "typology": "Painting",
+      "description": "A landscape painting featuring a river winding through a green valley, with distant mountains under a blue sky. The artwork is mounted on a white wall alongside other similar pieces.",
+      "bbox": [
+        355,
+        153,
+        384,
+        192
+      ],
+      "center": [
+        370,
+        171
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025039_274/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025039_274/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025039_274/gaze2guide_sim_output_sequence/heatmap_seq"
+}

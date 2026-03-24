@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035131_699/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035131_699.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E4",
+      "name": "Abstract Cityscape with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, upright forms in warm earth tones and muted reds, suggesting a city skyline. The artwork is mounted on a wall, partially cropped at the edges, with soft brushwork and indistinct details.",
+      "bbox": [
+        225,
+        51,
+        334,
+        177
+      ],
+      "center": [
+        280,
+        118
+      ],
+      "dwell_time_sec": 2.63
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E5",
+      "name": "Abstract Vertical Composition",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, vertical streaks of muted earth tones and grays, mounted on a wall with a white, curved architectural element in the foreground.",
+      "bbox": [
+        334,
+        51,
+        446,
+        178
+      ],
+      "center": [
+        381,
+        121
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Landscape with Sunset and Water",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a serene sunset over a body of water, with warm hues of orange and pink blending into a dusky blue sky. The horizon line is centered, and the reflection of the sky is visible on the calm water surface.",
+      "bbox": [
+        163,
+        88,
+        184,
+        119
+      ],
+      "center": [
+        173,
+        103
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E2",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river winding through a forested area, with muted earth tones and soft lighting. The artwork is mounted on a museum wall with a dark frame.",
+      "bbox": [
+        122,
+        83,
+        154,
+        121
+      ],
+      "center": [
+        137,
+        102
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035131_699/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035131_699/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035131_699/gaze2guide_sim_output_sequence/heatmap_seq"
+}

@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum2/analysis/capture_20260308_034328_625/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum2/images/capture_20260308_034328_625.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Black and White Wall Text",
+      "typology": "WallText",
+      "description": "A black-and-white wall exhibit featuring a horizontal band of abstract, jagged black shapes resembling stylized text or brushstrokes against a white background. The composition is minimalist and monochromatic, mounted flat on a wall.",
+      "bbox": [
+        166,
+        81,
+        560,
+        209
+      ],
+      "center": [
+        361,
+        149
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034328_625/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034328_625/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034328_625/gaze2guide_sim_output_sequence/heatmap_seq"
+}

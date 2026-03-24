@@ -1,0 +1,195 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034336_976.png",
+    "image_path": "data/simulation/museum2/images/capture_20260308_034336_976.png",
+    "timestamp": "2026-03-08T04:21:24.706038",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Orange Cat with Black Spots",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "Painting",
+    "description": "A stylized painting of an orange cat with black spots, sitting upright and facing forward. The artwork features bold outlines and flat color application on a light background, mounted on a wall.",
+    "visual_signature": "Simplified feline figure in orange with irregular black markings, large eyes, and prominent whiskers."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Orange Cat with Black Spots",
+      "typology": "Painting",
+      "description": "A stylized painting of an orange cat with black spots, sitting upright and facing forward. The artwork features bold outlines and flat color application on a light background, mounted on a wall.",
+      "visual_signature": "Simplified feline figure in orange with irregular black markings, large eyes, and prominent whiskers.",
+      "bbox": [
+        244,
+        3,
+        406,
+        244
+      ],
+      "center": [
+        327,
+        121
+      ],
+      "area": 35117,
+      "sam_score": 0.578125,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      358
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "bbox": [
+          244,
+          3,
+          406,
+          244
+        ],
+        "center": [
+          327,
+          121
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Orange Cat with Black Spots",
+      "typology": "Painting",
+      "description": "A stylized painting of an orange cat with black spots, sitting upright and facing forward. The artwork features bold outlines and flat color application on a light background, mounted on a wall.",
+      "visual_signature": "Simplified feline figure in orange with irregular black markings, large eyes, and prominent whiskers."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Orange Cat with Black Spots",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Orange Cat with Black Spots",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:21:24.706038",
+        "image": "capture_20260308_034336_976.png",
+        "current_exhibit": "Orange Cat with Black Spots",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {
+          "Orange Cat with Black Spots": 1
+        }
+      },
+      {
+        "name": "Orange Cat with Black Spots",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:24.706038",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Orange Cat with Black Spots",
+    "next_target_name": "Orange Cat with Black Spots",
+    "next_target_exhibit_id": "E1"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025119_845/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025119_845.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Bamboo Triptych",
+      "typology": "Painting",
+      "description": "A framed triptych featuring three vertical panels of black ink bamboo illustrations on light gray paper, mounted within a simple white mat and gold-colored frame. The composition emphasizes delicate brushwork and naturalistic bamboo forms.",
+      "bbox": [
+        9,
+        29,
+        174,
+        280
+      ],
+      "center": [
+        97,
+        161
+      ],
+      "dwell_time_sec": 3.04
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Red and White Elements",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dominant red and white forms, with hints of black and gray, arranged in a dynamic composition. The artwork is mounted on a wall within a white frame, suggesting an indoor gallery setting.",
+      "bbox": [
+        270,
+        95,
+        332,
+        229
+      ],
+      "center": [
+        291,
+        148
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Vertical Composition",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract artwork featuring a series of thin, dark vertical lines on a light background. The piece is mounted on a plain wall, with minimal framing or border visible.",
+      "bbox": [
+        399,
+        119,
+        446,
+        238
+      ],
+      "center": [
+        422,
+        178
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Ink Wash Composition",
+      "typology": "Painting",
+      "description": "A vertical abstract painting featuring dark ink washes on a light background, with expressive, fluid brushstrokes concentrated toward the upper portion. The artwork is mounted on a white wall within a simple frame.",
+      "bbox": [
+        515,
+        142,
+        550,
+        227
+      ],
+      "center": [
+        532,
+        185
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025119_845/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025119_845/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025119_845/gaze2guide_sim_output_sequence/heatmap_seq"
+}

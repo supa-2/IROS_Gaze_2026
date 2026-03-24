@@ -1,0 +1,177 @@
+{
+  "timestamp": "2026-03-06T12:33:33.791295",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        96,
+        291,
+        191,
+        360
+      ],
+      "norm_bbox": [
+        0.08,
+        0.46,
+        0.17,
+        0.57
+      ],
+      "description": "Framed painting depicting birds and rocks on a side wall",
+      "center": [
+        143,
+        325
+      ],
+      "area": 6599,
+      "sam_score": 0.97265625
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        226,
+        271,
+        376,
+        353
+      ],
+      "norm_bbox": [
+        0.21,
+        0.43,
+        0.34,
+        0.56
+      ],
+      "description": "Landscape painting with misty mountains and water",
+      "center": [
+        297,
+        313
+      ],
+      "area": 11118,
+      "sam_score": 0.9453125
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        431,
+        280,
+        560,
+        372
+      ],
+      "norm_bbox": [
+        0.39,
+        0.43,
+        0.51,
+        0.57
+      ],
+      "description": "Central artwork featuring a traditional East Asian gate structure",
+      "center": [
+        497,
+        325
+      ],
+      "area": 11134,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        633,
+        259,
+        875,
+        355
+      ],
+      "norm_bbox": [
+        0.61,
+        0.43,
+        0.78,
+        0.56
+      ],
+      "description": "Monochromatic landscape painting with mountainous terrain",
+      "center": [
+        777,
+        313
+      ],
+      "area": 15390,
+      "sam_score": 0.92578125
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        946,
+        284,
+        1069,
+        372
+      ],
+      "norm_bbox": [
+        0.86,
+        0.45,
+        0.96,
+        0.57
+      ],
+      "description": "Artwork with abstract tree and bird elements in warm tones",
+      "center": [
+        1006,
+        328
+      ],
+      "area": 10711,
+      "sam_score": 0.96875
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E3",
+      "center": [
+        497,
+        325
+      ],
+      "duration": 3.8694390855240264,
+      "score": 0.8487736971442342
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        297,
+        313
+      ],
+      "duration": 3.6037260515126137,
+      "score": 0.7539647730876997
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E1",
+      "center": [
+        143,
+        325
+      ],
+      "duration": 3.130344504019873,
+      "score": 0.614276521519094
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E4",
+      "center": [
+        777,
+        313
+      ],
+      "duration": 3.6407023228200464,
+      "score": 0.7461788052792789
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        1006,
+        328
+      ],
+      "duration": 3.448196808100229,
+      "score": 0.7007021465062104
+    }
+  ]
+}

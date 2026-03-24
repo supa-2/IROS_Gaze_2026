@@ -1,0 +1,251 @@
+{
+  "timestamp": "2026-03-08T13:44:03.317188",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        19,
+        89,
+        108,
+        227
+      ],
+      "norm_bbox": [
+        0.03,
+        0.28,
+        0.17,
+        0.59
+      ],
+      "description": "Framed painting on left wall depicting a colorful scene with a tree and figures",
+      "center": [
+        60,
+        161
+      ],
+      "area": 10670,
+      "sam_score": 0.97265625
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        220,
+        46,
+        275,
+        256
+      ],
+      "norm_bbox": [
+        0.36,
+        0.41,
+        0.41,
+        0.51
+      ],
+      "description": "Framed landscape painting on the main wall",
+      "center": [
+        239,
+        132
+      ],
+      "area": 2748,
+      "sam_score": 0.6640625
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        288,
+        142,
+        325,
+        196
+      ],
+      "norm_bbox": [
+        0.46,
+        0.41,
+        0.51,
+        0.51
+      ],
+      "description": "Framed painting showing figures in a historical or rural setting",
+      "center": [
+        297,
+        163
+      ],
+      "area": 780,
+      "sam_score": 0.7890625
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        354,
+        145,
+        385,
+        196
+      ],
+      "norm_bbox": [
+        0.56,
+        0.41,
+        0.61,
+        0.51
+      ],
+      "description": "Framed painting depicting a street or urban scene",
+      "center": [
+        361,
+        167
+      ],
+      "area": 704,
+      "sam_score": 0.76171875
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        349,
+        45,
+        482,
+        262
+      ],
+      "norm_bbox": [
+        0.66,
+        0.41,
+        0.71,
+        0.51
+      ],
+      "description": "Framed artwork with floral or abstract elements",
+      "center": [
+        418,
+        148
+      ],
+      "area": 6032,
+      "sam_score": 0.037353515625
+    },
+    {
+      "id": "E6",
+      "name": "Painting 6",
+      "type": "Painting",
+      "bbox": [
+        411,
+        42,
+        629,
+        264
+      ],
+      "norm_bbox": [
+        0.76,
+        0.41,
+        0.81,
+        0.51
+      ],
+      "description": "Framed painting showing figures in a pastoral or historical context",
+      "center": [
+        495,
+        151
+      ],
+      "area": 6358,
+      "sam_score": 4.00543212890625e-05
+    },
+    {
+      "id": "E7",
+      "name": "Painting 7",
+      "type": "Painting",
+      "bbox": [
+        565,
+        143,
+        575,
+        192
+      ],
+      "norm_bbox": [
+        0.86,
+        0.41,
+        0.91,
+        0.51
+      ],
+      "description": "Framed landscape painting with trees and sky",
+      "center": [
+        572,
+        166
+      ],
+      "area": 178,
+      "sam_score": 0.478515625
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E4",
+      "center": [
+        361,
+        167
+      ],
+      "duration": 2.9902901172977745,
+      "score": 0.6276277409386789
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E5",
+      "center": [
+        418,
+        148
+      ],
+      "duration": 3.066072085746754,
+      "score": 0.5957969745473317
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E6",
+      "center": [
+        495,
+        151
+      ],
+      "duration": 2.7925138986268894,
+      "score": 0.4954974254898586
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E3",
+      "center": [
+        297,
+        163
+      ],
+      "duration": 2.7870262391184695,
+      "score": 0.5538517130556867
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E1",
+      "center": [
+        60,
+        161
+      ],
+      "duration": 3.4473480421966287,
+      "score": 0.7006323236475615
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E2",
+      "center": [
+        239,
+        132
+      ],
+      "duration": 2.595632703935382,
+      "score": 0.45933339130632866
+    },
+    {
+      "sequence": 7,
+      "exhibit_id": "E7",
+      "center": [
+        572,
+        166
+      ],
+      "duration": 2.2355744164756417,
+      "score": 0.36672470508993943
+    }
+  ],
+  "progressive_outputs": {
+    "scanpath_dir": "progressive_scanpath",
+    "heatmap_dir": "progressive_heatmap",
+    "segmentation_dir": "progressive_segmentation",
+    "gif_dir": "progressive_gifs"
+  }
+}

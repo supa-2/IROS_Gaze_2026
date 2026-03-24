@@ -1,0 +1,323 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035121_081.png",
+    "image_path": "data/simulation/museum6/images/capture_20260308_035121_081.png",
+    "timestamp": "2026-03-08T04:36:54.909481",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E2",
+    "name": "Landscape with Path and Autumn Trees",
+    "attention_level": "B",
+    "dwell_time_sec": 4.32,
+    "typology": "Painting",
+    "description": "A landscape painting depicting a winding path through a wooded area with autumnal trees, rendered in soft earth tones and muted greens and yellows. The artwork is mounted on a wall, slightly angled, with visible brushwork suggesting an impressionistic style.",
+    "visual_signature": "Impressionistic landscape, path leading into forested area, autumn foliage, soft color palette, vertical orientation"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring soft, blended hues of blue, green, and beige, suggesting a landscape or atmospheric scene. The artwork is mounted on a wall with a visible frame, displayed in a museum setting.",
+      "visual_signature": "Blurred vertical forms, muted color palette dominated by blues and greens, textured brushwork, framed presentation",
+      "bbox": [
+        270,
+        66,
+        307,
+        168
+      ],
+      "center": [
+        290,
+        117
+      ],
+      "area": 3418,
+      "sam_score": 0.96875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E2",
+      "name": "Landscape with Path and Autumn Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a winding path through a wooded area with autumnal trees, rendered in soft earth tones and muted greens and yellows. The artwork is mounted on a wall, slightly angled, with visible brushwork suggesting an impressionistic style.",
+      "visual_signature": "Impressionistic landscape, path leading into forested area, autumn foliage, soft color palette, vertical orientation",
+      "bbox": [
+        340,
+        28,
+        456,
+        178
+      ],
+      "center": [
+        401,
+        103
+      ],
+      "area": 14332,
+      "sam_score": 0.90234375,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      370
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Landscape with Blue and Green Tones",
+        "typology": "Painting",
+        "bbox": [
+          270,
+          66,
+          307,
+          168
+        ],
+        "center": [
+          290,
+          117
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "bbox": [
+          340,
+          28,
+          456,
+          178
+        ],
+        "center": [
+          401,
+          103
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 111.88,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 111.88,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 111.88,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 111.88,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2"
+      ],
+      "E2": [
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E2",
+      "name": "Landscape with Path and Autumn Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a winding path through a wooded area with autumnal trees, rendered in soft earth tones and muted greens and yellows. The artwork is mounted on a wall, slightly angled, with visible brushwork suggesting an impressionistic style.",
+      "visual_signature": "Impressionistic landscape, path leading into forested area, autumn foliage, soft color palette, vertical orientation"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:01.617784",
+        "image": "capture_20260308_035109_419.png",
+        "current_exhibit": "Abstract Cityscape with Reflections",
+        "attention_level": "B",
+        "dwell_time_sec": 4.12,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:29.873774",
+        "image": "capture_20260308_035117_546.png",
+        "current_exhibit": "Winter Landscape with Snow-Covered Field",
+        "attention_level": "C",
+        "dwell_time_sec": 3.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E1"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {}
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E2",
+      "name": "Landscape with Path and Autumn Trees",
+      "score": 0.5531
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "score": 0.4469
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E1"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Abstract Landscape with Blue and Green Tones",
+    "attention_level": "C",
+    "estimated_dwell_time_sec": 3.26,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E1",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "attention_level": "C",
+      "estimated_dwell_time_sec": 3.03
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:01.617784",
+        "image": "capture_20260308_035109_419.png",
+        "current_exhibit": "Abstract Cityscape with Reflections",
+        "attention_level": "B",
+        "dwell_time_sec": 4.12,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:29.873774",
+        "image": "capture_20260308_035117_546.png",
+        "current_exhibit": "Winter Landscape with Snow-Covered Field",
+        "attention_level": "C",
+        "dwell_time_sec": 3.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {}
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Landscape with Path and Autumn Trees",
+    "next_target_name": "Abstract Landscape with Blue and Green Tones",
+    "next_target_exhibit_id": "E1"
+  }
+}

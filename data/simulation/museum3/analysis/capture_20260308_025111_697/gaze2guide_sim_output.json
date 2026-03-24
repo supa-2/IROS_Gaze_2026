@@ -1,0 +1,965 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_025111_697.png",
+    "image_path": "data/simulation/museum3/images/capture_20260308_025111_697.png",
+    "timestamp": "2026-03-08T04:28:16.542945",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E6",
+    "name": "Undetermined Wall Exhibit",
+    "attention_level": "E",
+    "dwell_time_sec": 1.9,
+    "typology": "OtherFlatArtwork",
+    "description": "A cropped image showing a portion of a white wall with minimal visible content; only a small section of what may be a frame or artwork edge is partially visible at the bottom right.",
+    "visual_signature": "Predominantly white surface with faint edge detail in lower right corner, no discernible imagery or text."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Museum Wall Text with Red Symbol",
+      "typology": "WallText",
+      "description": "A framed wall text display featuring a red symbolic emblem at the top and black Chinese characters on a white background, mounted on a light-colored wall.",
+      "visual_signature": "Red abstract symbol above horizontal lines of black Chinese text in a rectangular frame",
+      "bbox": [
+        17,
+        87,
+        107,
+        168
+      ],
+      "center": [
+        61,
+        130
+      ],
+      "area": 5043,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.9
+    },
+    {
+      "id": "E2",
+      "name": "Untitled Wall Panel",
+      "typology": "WallText",
+      "description": "A dark rectangular panel mounted on a wall, likely containing text or informational content. The surface appears uniform and matte, with no visible imagery or decorative elements.",
+      "visual_signature": "Dark, flat, rectangular panel with no discernible text or graphics; mounted vertically on a wall.",
+      "bbox": [
+        2,
+        152,
+        96,
+        244
+      ],
+      "center": [
+        46,
+        209
+      ],
+      "area": 5661,
+      "sam_score": 0.1484375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E3",
+      "name": "Abstract Composition with Light Tones",
+      "typology": "Painting",
+      "description": "A softly rendered abstract painting featuring muted beige and off-white tones, with subtle textural variations and faint organic shapes. The artwork is mounted on a plain wall, likely within a gallery setting.",
+      "visual_signature": "Muted earthy palette, abstract forms, textured surface, indistinct figures or shapes",
+      "bbox": [
+        223,
+        164,
+        247,
+        212
+      ],
+      "center": [
+        234,
+        188
+      ],
+      "area": 974,
+      "sam_score": 0.8125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Panels",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped view of a wall exhibit featuring two vertical panels with abstract, textured surfaces in muted earth tones. The artwork appears mounted on a light-colored wall, with partial visibility of the left and right edges.",
+      "visual_signature": "Two vertical abstract panels with textured surfaces in beige and brown hues, partially visible against a neutral wall.",
+      "bbox": [
+        239,
+        143,
+        276,
+        210
+      ],
+      "center": [
+        257,
+        167
+      ],
+      "area": 1214,
+      "sam_score": 0.38671875,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "WallText",
+      "typology": "WallText",
+      "description": "A section of a museum wall with a small, rectangular text panel mounted centrally. The panel appears to contain printed text, likely providing exhibit information, though the content is not legible in the image.",
+      "visual_signature": "Rectangular white or light-colored panel with vertical text lines, mounted on a plain wall.",
+      "bbox": [
+        353,
+        150,
+        389,
+        201
+      ],
+      "center": [
+        370,
+        174
+      ],
+      "area": 1563,
+      "sam_score": 0.5,
+      "attr_confidence": 0.8
+    },
+    {
+      "id": "E6",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a white wall with minimal visible content; only a small section of what may be a frame or artwork edge is partially visible at the bottom right.",
+      "visual_signature": "Predominantly white surface with faint edge detail in lower right corner, no discernible imagery or text.",
+      "bbox": [
+        410,
+        148,
+        426,
+        196
+      ],
+      "center": [
+        414,
+        171
+      ],
+      "area": 201,
+      "sam_score": 0.546875,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E7",
+      "name": "The Red Flag",
+      "typology": "Painting",
+      "description": "A dramatic painting depicting a figure raising a red flag amidst a stormy sky, with dynamic brushwork and vivid contrasts of red and blue tones. The artwork is mounted on a white gallery wall, framed in gold, and displayed alongside another portrait-style painting.",
+      "visual_signature": "Figure holding a large red flag, turbulent sky, gold frame, vertical composition",
+      "bbox": [
+        409,
+        108,
+        619,
+        337
+      ],
+      "center": [
+        471,
+        195
+      ],
+      "area": 6533,
+      "sam_score": 0.023681640625,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E8",
+      "name": "The Red Flag",
+      "typology": "Painting",
+      "description": "A dramatic painting depicting a figure raising a red flag against a turbulent sky, with dynamic brushwork and strong contrasts between the vivid red of the flag and the muted tones of the background. The artwork is mounted on a wall within a museum setting.",
+      "visual_signature": "Figure holding a large red flag aloft, expressive sky, vertical composition, framed artwork",
+      "bbox": [
+        452,
+        151,
+        539,
+        320
+      ],
+      "center": [
+        493,
+        236
+      ],
+      "area": 10152,
+      "sam_score": 0.93359375,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      350
+    ],
+    "nodes": [
+      {
+        "id": "E2",
+        "name": "Untitled Wall Panel",
+        "typology": "WallText",
+        "bbox": [
+          2,
+          152,
+          96,
+          244
+        ],
+        "center": [
+          46,
+          209
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E1",
+        "name": "Museum Wall Text with Red Symbol",
+        "typology": "WallText",
+        "bbox": [
+          17,
+          87,
+          107,
+          168
+        ],
+        "center": [
+          61,
+          130
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Abstract Composition with Light Tones",
+        "typology": "Painting",
+        "bbox": [
+          223,
+          164,
+          247,
+          212
+        ],
+        "center": [
+          234,
+          188
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Composition with Vertical Panels",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          239,
+          143,
+          276,
+          210
+        ],
+        "center": [
+          257,
+          167
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "WallText",
+        "typology": "WallText",
+        "bbox": [
+          353,
+          150,
+          389,
+          201
+        ],
+        "center": [
+          370,
+          174
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          410,
+          148,
+          426,
+          196
+        ],
+        "center": [
+          414,
+          171
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "The Red Flag",
+        "typology": "Painting",
+        "bbox": [
+          409,
+          108,
+          619,
+          337
+        ],
+        "center": [
+          471,
+          195
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E8",
+        "name": "The Red Flag",
+        "typology": "Painting",
+        "bbox": [
+          452,
+          151,
+          539,
+          320
+        ],
+        "center": [
+          493,
+          236
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "right_of",
+        "distance_px": 80.41,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 80.41,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 182.46,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 182.46,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 31.14,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 31.14,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 113.22,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 113.22,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 61.85,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 61.85,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 46.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 46.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "below",
+        "distance_px": 80.41,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 182.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 199.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "above",
+        "distance_px": 80.41,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 189.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 215.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 31.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 136.72,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 180.8,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 31.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 113.22,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 157.05,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 103.16,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 113.22,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 61.85,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 102.3,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "below",
+        "distance_px": 46.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 61.85,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 103.16,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "above",
+        "distance_px": 46.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 102.3,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 137.74,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E1",
+        "E3",
+        "E4"
+      ],
+      "E3": [
+        "E4",
+        "E5",
+        "E6"
+      ],
+      "E4": [
+        "E3",
+        "E5",
+        "E6"
+      ],
+      "E5": [
+        "E6",
+        "E7",
+        "E4"
+      ],
+      "E6": [
+        "E5",
+        "E7",
+        "E8"
+      ],
+      "E7": [
+        "E8",
+        "E6",
+        "E5"
+      ],
+      "E8": [
+        "E7",
+        "E6",
+        "E5"
+      ]
+    },
+    "row_groups": [
+      [
+        "E2",
+        "E1",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E6",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a white wall with minimal visible content; only a small section of what may be a frame or artwork edge is partially visible at the bottom right.",
+      "visual_signature": "Predominantly white surface with faint edge detail in lower right corner, no discernible imagery or text."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:27:20.009424",
+        "image": "capture_20260308_025105_444.png",
+        "current_exhibit": "Calligraphy Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:28:16.542945",
+        "image": "capture_20260308_025111_697.png",
+        "current_exhibit": "Undetermined Wall Exhibit",
+        "attention_level": "E",
+        "dwell_time_sec": 1.9,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E5",
+      "E7",
+      "E8"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Calligraphy Panel",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.94,
+        "last_seen": "2026-03-08T04:27:20.009424",
+        "transition_counts": {
+          "Undetermined Wall Exhibit": 1
+        }
+      },
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {
+          "Calligraphy Panel": 1
+        }
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.9,
+        "last_seen": "2026-03-08T04:28:16.542945",
+        "transition_counts": {}
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E6",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.1501
+    },
+    {
+      "exhibit_id": "E8",
+      "name": "The Red Flag",
+      "score": 0.1441
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Untitled Wall Panel",
+      "score": 0.1371
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "WallText",
+      "score": 0.1285
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Museum Wall Text with Red Symbol",
+      "score": 0.1218
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "The Red Flag",
+      "score": 0.12
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Panels",
+      "score": 0.1025
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Light Tones",
+      "score": 0.096
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E5",
+    "E7",
+    "E8"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E5",
+    "name": "WallText",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.51,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E5",
+      "name": "WallText",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.44
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E7",
+      "name": "The Red Flag",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.4
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E8",
+      "name": "The Red Flag",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.52
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:27:20.009424",
+        "image": "capture_20260308_025105_444.png",
+        "current_exhibit": "Calligraphy Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:28:16.542945",
+        "image": "capture_20260308_025111_697.png",
+        "current_exhibit": "Undetermined Wall Exhibit",
+        "attention_level": "E",
+        "dwell_time_sec": 1.9,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Calligraphy Panel",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.94,
+        "last_seen": "2026-03-08T04:27:20.009424",
+        "transition_counts": {
+          "Undetermined Wall Exhibit": 1
+        }
+      },
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {
+          "Calligraphy Panel": 1
+        }
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.9,
+        "last_seen": "2026-03-08T04:28:16.542945",
+        "transition_counts": {}
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Undetermined Wall Exhibit",
+    "next_target_name": "WallText",
+    "next_target_exhibit_id": "E5"
+  }
+}

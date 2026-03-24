@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034743_994/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034743_994.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Cityscape with Water Reflections",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city skyline reflected in water, with indistinct buildings and a hazy atmosphere. The artwork is mounted on a wall, framed in black, and appears to be viewed at an angle.",
+      "bbox": [
+        72,
+        2,
+        161,
+        179
+      ],
+      "center": [
+        114,
+        99
+      ],
+      "dwell_time_sec": 2.13
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring muted tones of blue, green, and brown, with soft, blended brushstrokes forming indistinct vertical shapes. The artwork is mounted on a wall within a museum setting, framed in a simple dark border.",
+      "bbox": [
+        337,
+        129,
+        375,
+        171
+      ],
+      "center": [
+        358,
+        150
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring vertical, blurred forms that suggest movement or distortion. The artwork is mounted on a wall in a gallery setting, with indistinct edges due to image cropping.",
+      "bbox": [
+        405,
+        128,
+        443,
+        171
+      ],
+      "center": [
+        424,
+        150
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Pink Rectangular Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A solid pink rectangular panel mounted on a wall, with no discernible imagery or text. The edges are slightly visible against a darker background.",
+      "bbox": [
+        485,
+        129,
+        516,
+        159
+      ],
+      "center": [
+        502,
+        150
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034743_994/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034743_994/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034743_994/gaze2guide_sim_output_sequence/heatmap_seq"
+}

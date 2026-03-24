@@ -1,0 +1,195 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035528_979.png",
+    "image_path": "data/simulation/museum8/images/capture_20260308_035528_979.png",
+    "timestamp": "2026-03-08T04:47:23.213253",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Geometric Abstraction with Orange Circle",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "Painting",
+    "description": "A modern abstract painting featuring a series of vertical and diagonal beige and white stripes creating a tunnel-like perspective, with a prominent orange circular element near the center. The artwork is mounted on a white wall in a gallery setting.",
+    "visual_signature": "Repeating striped pattern forming a receding corridor effect, central orange circle, monochromatic palette with warm accent"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Geometric Abstraction with Orange Circle",
+      "typology": "Painting",
+      "description": "A modern abstract painting featuring a series of vertical and diagonal beige and white stripes creating a tunnel-like perspective, with a prominent orange circular element near the center. The artwork is mounted on a white wall in a gallery setting.",
+      "visual_signature": "Repeating striped pattern forming a receding corridor effect, central orange circle, monochromatic palette with warm accent",
+      "bbox": [
+        106,
+        23,
+        307,
+        219
+      ],
+      "center": [
+        212,
+        148
+      ],
+      "area": 13266,
+      "sam_score": 0.69921875,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      362
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Geometric Abstraction with Orange Circle",
+        "typology": "Painting",
+        "bbox": [
+          106,
+          23,
+          307,
+          219
+        ],
+        "center": [
+          212,
+          148
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Geometric Abstraction with Orange Circle",
+      "typology": "Painting",
+      "description": "A modern abstract painting featuring a series of vertical and diagonal beige and white stripes creating a tunnel-like perspective, with a prominent orange circular element near the center. The artwork is mounted on a white wall in a gallery setting.",
+      "visual_signature": "Repeating striped pattern forming a receding corridor effect, central orange circle, monochromatic palette with warm accent"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:23.213253",
+        "image": "capture_20260308_035528_979.png",
+        "current_exhibit": "Geometric Abstraction with Orange Circle",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {
+          "Geometric Abstraction with Orange Circle": 1
+        }
+      },
+      {
+        "name": "Geometric Abstraction with Orange Circle",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:47:23.213253",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Geometric Abstraction with Orange Circle",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Geometric Abstraction with Orange Circle",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:23.213253",
+        "image": "capture_20260308_035528_979.png",
+        "current_exhibit": "Geometric Abstraction with Orange Circle",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {
+          "Geometric Abstraction with Orange Circle": 1
+        }
+      },
+      {
+        "name": "Geometric Abstraction with Orange Circle",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:47:23.213253",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Geometric Abstraction with Orange Circle",
+    "next_target_name": "Geometric Abstraction with Orange Circle",
+    "next_target_exhibit_id": "E1"
+  }
+}

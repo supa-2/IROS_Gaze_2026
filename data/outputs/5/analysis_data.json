@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-03-08T12:00:41.141665",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        2,
+        76,
+        374,
+        295
+      ],
+      "norm_bbox": [
+        0.0,
+        0.25,
+        0.59,
+        0.73
+      ],
+      "description": "Large horizontal framed painting with ink wash landscape style",
+      "center": [
+        171,
+        187
+      ],
+      "area": 65035,
+      "sam_score": 0.98046875
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        466,
+        138,
+        590,
+        244
+      ],
+      "norm_bbox": [
+        0.74,
+        0.38,
+        0.93,
+        0.62
+      ],
+      "description": "Framed abstract painting with golden elements on a blue-gray background",
+      "center": [
+        524,
+        191
+      ],
+      "area": 11391,
+      "sam_score": 0.98046875
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "center": [
+        171,
+        187
+      ],
+      "duration": 4.077358278138715,
+      "score": 0.7919532060623169
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        524,
+        191
+      ],
+      "duration": 2.9955283017653778,
+      "score": 0.5352516710525346
+    }
+  ],
+  "progressive_outputs": {
+    "scanpath_dir": "progressive_scanpath",
+    "heatmap_dir": "progressive_heatmap",
+    "segmentation_dir": "progressive_segmentation",
+    "gif_dir": "progressive_gifs"
+  }
+}

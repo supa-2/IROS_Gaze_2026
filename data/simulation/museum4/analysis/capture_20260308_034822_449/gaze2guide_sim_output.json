@@ -1,0 +1,781 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034822_449.png",
+    "image_path": "data/simulation/museum4/images/capture_20260308_034822_449.png",
+    "timestamp": "2026-03-08T04:32:51.681580",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E5",
+    "name": "Landscape Series Wall Display",
+    "attention_level": "D",
+    "dwell_time_sec": 2.33,
+    "typology": "Painting",
+    "description": "A horizontal sequence of framed landscape paintings mounted on a white wall, featuring natural scenes with muted earth tones and sky elements. The artworks are evenly spaced and appear to depict rural or coastal environments.",
+    "visual_signature": "Series of vertically oriented landscape paintings with consistent framing and color palette, displayed in a linear arrangement on a plain wall."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is too blurry and cropped to discern specific details, but it appears to be a flat artwork mounted on a wall, possibly with text or minimal imagery. The visible portion is predominantly light gray or white with no clear features.",
+      "visual_signature": "Blurred, indistinct, light-colored surface with no identifiable shapes or text",
+      "bbox": [
+        6,
+        174,
+        48,
+        193
+      ],
+      "center": [
+        26,
+        183
+      ],
+      "area": 610,
+      "sam_score": 0.60546875,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E2",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is too blurry to discern specific details, but it appears to be a flat artwork mounted on a wall, possibly with a light-colored background and faint horizontal lines or text.",
+      "visual_signature": "Blurred, light-toned surface with indistinct horizontal features",
+      "bbox": [
+        46,
+        173,
+        119,
+        196
+      ],
+      "center": [
+        85,
+        184
+      ],
+      "area": 1271,
+      "sam_score": 0.62890625,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E3",
+      "name": "Wall Exhibit with Paintings and Sculpture",
+      "typology": "OtherFlatArtwork",
+      "description": "A museum wall display featuring a series of framed paintings arranged horizontally, accompanied by a white bust sculpture on a pedestal below. The paintings vary in color and subject, including landscapes and abstract forms, mounted on a neutral gray wall.",
+      "visual_signature": "Row of five paintings with varied imagery, central white bust sculpture, low display shelf with small objects, neutral gallery wall.",
+      "bbox": [
+        174,
+        163,
+        474,
+        295
+      ],
+      "center": [
+        299,
+        191
+      ],
+      "area": 4227,
+      "sam_score": 0.06005859375,
+      "attr_confidence": 0.8
+    },
+    {
+      "id": "E4",
+      "name": "Landscape with River and Sky",
+      "typology": "Painting",
+      "description": "A large landscape painting depicting a river scene under a dynamic sky, featuring warm earth tones and soft brushwork. It is mounted on a white gallery wall alongside other artworks in a museum setting.",
+      "visual_signature": "River flowing through a natural landscape, golden-brown hues, impressionistic style, framed and hung on a gallery wall",
+      "bbox": [
+        176,
+        86,
+        510,
+        260
+      ],
+      "center": [
+        333,
+        182
+      ],
+      "area": 7120,
+      "sam_score": 0.00154876708984375,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E5",
+      "name": "Landscape Series Wall Display",
+      "typology": "Painting",
+      "description": "A horizontal sequence of framed landscape paintings mounted on a white wall, featuring natural scenes with muted earth tones and sky elements. The artworks are evenly spaced and appear to depict rural or coastal environments.",
+      "visual_signature": "Series of vertically oriented landscape paintings with consistent framing and color palette, displayed in a linear arrangement on a plain wall.",
+      "bbox": [
+        199,
+        148,
+        474,
+        223
+      ],
+      "center": [
+        293,
+        177
+      ],
+      "area": 3942,
+      "sam_score": 0.69140625,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E6",
+      "name": "Untitled Wall Text Exhibit",
+      "typology": "WallText",
+      "description": "A cropped image showing a portion of a plain wall with minimal visible content, possibly part of a text-based exhibit. The surface appears light-colored with no discernible text or imagery in the frame.",
+      "visual_signature": "Light gray or off-white wall surface with faint vertical edge suggesting text or panel boundary",
+      "bbox": [
+        364,
+        150,
+        403,
+        199
+      ],
+      "center": [
+        385,
+        173
+      ],
+      "area": 1574,
+      "sam_score": 0.64453125,
+      "attr_confidence": 0.3
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      366
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          6,
+          174,
+          48,
+          193
+        ],
+        "center": [
+          26,
+          183
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          46,
+          173,
+          119,
+          196
+        ],
+        "center": [
+          85,
+          184
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Landscape Series Wall Display",
+        "typology": "Painting",
+        "bbox": [
+          199,
+          148,
+          474,
+          223
+        ],
+        "center": [
+          293,
+          177
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Wall Exhibit with Paintings and Sculpture",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          174,
+          163,
+          474,
+          295
+        ],
+        "center": [
+          299,
+          191
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Landscape with River and Sky",
+        "typology": "Painting",
+        "bbox": [
+          176,
+          86,
+          510,
+          260
+        ],
+        "center": [
+          333,
+          182
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Untitled Wall Text Exhibit",
+        "typology": "WallText",
+        "bbox": [
+          364,
+          150,
+          403,
+          199
+        ],
+        "center": [
+          385,
+          173
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 59.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 59.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 208.12,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 208.12,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 15.23,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 15.23,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 35.17,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 35.17,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 52.77,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 52.77,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 59.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 267.07,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 273.12,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 59.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 208.12,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 214.11,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "above",
+        "distance_px": 15.23,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 35.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 87.86,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 35.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 40.31,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 52.77,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 15.23,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 40.31,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 92.09,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 52.77,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 87.86,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 92.09,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E5",
+        "E3"
+      ],
+      "E2": [
+        "E1",
+        "E5",
+        "E3"
+      ],
+      "E3": [
+        "E5",
+        "E4",
+        "E6"
+      ],
+      "E4": [
+        "E3",
+        "E5",
+        "E6"
+      ],
+      "E5": [
+        "E3",
+        "E4",
+        "E6"
+      ],
+      "E6": [
+        "E4",
+        "E3",
+        "E5"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E5",
+        "E3",
+        "E4",
+        "E6"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E5",
+      "name": "Landscape Series Wall Display",
+      "typology": "Painting",
+      "description": "A horizontal sequence of framed landscape paintings mounted on a white wall, featuring natural scenes with muted earth tones and sky elements. The artworks are evenly spaced and appear to depict rural or coastal environments.",
+      "visual_signature": "Series of vertically oriented landscape paintings with consistent framing and color palette, displayed in a linear arrangement on a plain wall."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:09.909164",
+        "image": "capture_20260308_034818_548.png",
+        "current_exhibit": "Landscape with River and Trees",
+        "attention_level": "D",
+        "dwell_time_sec": 2.09,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:51.681580",
+        "image": "capture_20260308_034822_449.png",
+        "current_exhibit": "Landscape Series Wall Display",
+        "attention_level": "D",
+        "dwell_time_sec": 2.33,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E3",
+      "E4",
+      "E6"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {
+          "Landscape with River and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape Series Wall Display",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.33,
+        "last_seen": "2026-03-08T04:32:51.681580",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.09,
+        "last_seen": "2026-03-08T04:32:09.909164",
+        "transition_counts": {
+          "Landscape Series Wall Display": 1
+        }
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E5",
+      "name": "Landscape Series Wall Display",
+      "score": 0.2213
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Landscape with River and Sky",
+      "score": 0.1955
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Wall Exhibit with Paintings and Sculpture",
+      "score": 0.1923
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Untitled Wall Text Exhibit",
+      "score": 0.1921
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.1041
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.0946
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E3",
+    "E4",
+    "E6"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E3",
+    "name": "Wall Exhibit with Paintings and Sculpture",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.86,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E3",
+      "name": "Wall Exhibit with Paintings and Sculpture",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.76
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E4",
+      "name": "Landscape with River and Sky",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.78
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E6",
+      "name": "Untitled Wall Text Exhibit",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.76
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:09.909164",
+        "image": "capture_20260308_034818_548.png",
+        "current_exhibit": "Landscape with River and Trees",
+        "attention_level": "D",
+        "dwell_time_sec": 2.09,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:32:51.681580",
+        "image": "capture_20260308_034822_449.png",
+        "current_exhibit": "Landscape Series Wall Display",
+        "attention_level": "D",
+        "dwell_time_sec": 2.33,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {
+          "Landscape with River and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape Series Wall Display",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.33,
+        "last_seen": "2026-03-08T04:32:51.681580",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.09,
+        "last_seen": "2026-03-08T04:32:09.909164",
+        "transition_counts": {
+          "Landscape Series Wall Display": 1
+        }
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Landscape Series Wall Display",
+    "next_target_name": "Wall Exhibit with Paintings and Sculpture",
+    "next_target_exhibit_id": "E3"
+  }
+}

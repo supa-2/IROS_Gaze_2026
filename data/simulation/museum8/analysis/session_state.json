@@ -1,0 +1,86 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:47:01.024255",
+      "image": "capture_20260308_035523_032.png",
+      "current_exhibit": "Abstract Sculptural Form in White",
+      "attention_level": "B",
+      "dwell_time_sec": 4.94,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:47:23.213253",
+      "image": "capture_20260308_035528_979.png",
+      "current_exhibit": "Geometric Abstraction with Orange Circle",
+      "attention_level": "A",
+      "dwell_time_sec": 5.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:47:36.306929",
+      "image": "capture_20260308_035533_191.png",
+      "current_exhibit": "Architectural Model Display",
+      "attention_level": "D",
+      "dwell_time_sec": 2.1,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:48:39.273673",
+      "image": "capture_20260308_035541_125.png",
+      "current_exhibit": "Architectural Courtyard with Palm Tree and Animals",
+      "attention_level": "B",
+      "dwell_time_sec": 4.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Abstract Sculptural Form in White": {
+      "typology": "OtherFlatArtwork",
+      "visits": 1,
+      "total_dwell_time_sec": 4.94,
+      "last_seen": "2026-03-08T04:47:01.024255",
+      "last_description": "A large-scale abstract artwork featuring undulating white forms with pleated textures, resembling folded paper or fabric, mounted on a wall. The composition uses light and shadow to emphasize depth and curvature against a neutral background.",
+      "transition_counts": {
+        "Geometric Abstraction with Orange Circle": 1
+      }
+    },
+    "Geometric Abstraction with Orange Circle": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 5.5,
+      "last_seen": "2026-03-08T04:47:23.213253",
+      "last_description": "A modern abstract painting featuring a series of vertical and diagonal beige and white stripes creating a tunnel-like perspective, with a prominent orange circular element near the center. The artwork is mounted on a white wall in a gallery setting.",
+      "transition_counts": {
+        "Architectural Model Display": 1
+      }
+    },
+    "Architectural Model Display": {
+      "typology": "OtherFlatArtwork",
+      "visits": 1,
+      "total_dwell_time_sec": 2.1,
+      "last_seen": "2026-03-08T04:47:36.306929",
+      "last_description": "A wall-mounted display featuring a detailed architectural model of a multi-story building with visible windows and structural elements, presented in a vertical format against a yellow background.",
+      "transition_counts": {
+        "Architectural Courtyard with Palm Tree and Animals": 1
+      }
+    },
+    "Architectural Courtyard with Palm Tree and Animals": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.5,
+      "last_seen": "2026-03-08T04:48:39.273673",
+      "last_description": "A serene architectural scene featuring a pink-walled courtyard with an arched opening, framed by a palm tree under a clear blue sky. Two dark silhouetted animals, possibly cats or small dogs, are positioned on the ground, adding a sense of scale and life to the minimalist composition.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "Architectural Courtyard with Palm Tree and Animals",
+  "updated_at": "2026-03-08T04:49:02.386827"
+}

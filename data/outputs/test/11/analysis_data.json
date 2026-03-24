@@ -1,0 +1,347 @@
+{
+  "timestamp": "2026-03-06T12:29:56.919666",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        109,
+        306,
+        304,
+        588
+      ],
+      "norm_bbox": [
+        0.17,
+        0.34,
+        0.41,
+        0.56
+      ],
+      "description": "Large black and white painting of a couple on the far wall",
+      "center": [
+        210,
+        455
+      ],
+      "area": 49148,
+      "sam_score": 0.8203125
+    },
+    {
+      "id": "E2",
+      "name": "Framed Artwork 1",
+      "type": "Painting",
+      "bbox": [
+        464,
+        257,
+        613,
+        421
+      ],
+      "norm_bbox": [
+        0.63,
+        0.28,
+        0.82,
+        0.44
+      ],
+      "description": "Framed artwork with botanical or abstract design on the right wall",
+      "center": [
+        540,
+        344
+      ],
+      "area": 22540,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E3",
+      "name": "Photo 1",
+      "type": "Photography",
+      "bbox": [
+        306,
+        354,
+        373,
+        438
+      ],
+      "norm_bbox": [
+        0.43,
+        0.38,
+        0.51,
+        0.46
+      ],
+      "description": "Framed photograph or print on the right wall",
+      "center": [
+        344,
+        398
+      ],
+      "area": 4143,
+      "sam_score": 0.8671875
+    },
+    {
+      "id": "E4",
+      "name": "Photo 2",
+      "type": "Photography",
+      "bbox": [
+        318,
+        433,
+        373,
+        480
+      ],
+      "norm_bbox": [
+        0.43,
+        0.47,
+        0.51,
+        0.51
+      ],
+      "description": "Smaller framed photograph below the first photo on the right wall",
+      "center": [
+        347,
+        453
+      ],
+      "area": 2132,
+      "sam_score": 0.89453125
+    },
+    {
+      "id": "E5",
+      "name": "Document Display 1",
+      "type": "Painting",
+      "bbox": [
+        468,
+        429,
+        735,
+        556
+      ],
+      "norm_bbox": [
+        0.63,
+        0.45,
+        0.94,
+        0.59
+      ],
+      "description": "Illuminated display case containing documents and images on the right wall",
+      "center": [
+        587,
+        485
+      ],
+      "area": 24769,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E6",
+      "name": "Text Panel 1",
+      "type": "Painting",
+      "bbox": [
+        399,
+        385,
+        453,
+        478
+      ],
+      "norm_bbox": [
+        0.54,
+        0.41,
+        0.61,
+        0.51
+      ],
+      "description": "White text panel mounted on the right wall",
+      "center": [
+        427,
+        431
+      ],
+      "area": 4573,
+      "sam_score": 0.94140625
+    },
+    {
+      "id": "E7",
+      "name": "Text Panel 2",
+      "type": "Painting",
+      "bbox": [
+        613,
+        380,
+        666,
+        415
+      ],
+      "norm_bbox": [
+        0.83,
+        0.4,
+        0.89,
+        0.44
+      ],
+      "description": "Small white text panel next to the framed artwork",
+      "center": [
+        640,
+        397
+      ],
+      "area": 1773,
+      "sam_score": 0.92578125
+    },
+    {
+      "id": "E8",
+      "name": "Text Panel 3",
+      "type": "Painting",
+      "bbox": [
+        698,
+        442,
+        735,
+        489
+      ],
+      "norm_bbox": [
+        0.95,
+        0.47,
+        0.99,
+        0.51
+      ],
+      "description": "White text panel on the right wall",
+      "center": [
+        717,
+        465
+      ],
+      "area": 1710,
+      "sam_score": 0.90234375
+    },
+    {
+      "id": "E9",
+      "name": "Text Panel 4",
+      "type": "Painting",
+      "bbox": [
+        699,
+        489,
+        735,
+        529
+      ],
+      "norm_bbox": [
+        0.95,
+        0.52,
+        0.99,
+        0.56
+      ],
+      "description": "White text panel below the previous one",
+      "center": [
+        717,
+        508
+      ],
+      "area": 1380,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E10",
+      "name": "Wall Display 1",
+      "type": "Painting",
+      "bbox": [
+        0,
+        356,
+        64,
+        469
+      ],
+      "norm_bbox": [
+        0.0,
+        0.38,
+        0.08,
+        0.5
+      ],
+      "description": "Series of small vertical panels arranged in a grid on the left wall",
+      "center": [
+        31,
+        411
+      ],
+      "area": 5740,
+      "sam_score": 0.95703125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "center": [
+        210,
+        455
+      ],
+      "duration": 4.16432659888569,
+      "score": 0.8459842205047607
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E4",
+      "center": [
+        347,
+        453
+      ],
+      "duration": 3.28895144504023,
+      "score": 0.7143439279101897
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E6",
+      "center": [
+        427,
+        431
+      ],
+      "duration": 3.3491065358103773,
+      "score": 0.7095461981885173
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E2",
+      "center": [
+        540,
+        344
+      ],
+      "duration": 3.7932429442052458,
+      "score": 0.7738187674959442
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        587,
+        485
+      ],
+      "duration": 3.820046648157815,
+      "score": 0.776442582273674
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E9",
+      "center": [
+        717,
+        508
+      ],
+      "duration": 3.0114913011231508,
+      "score": 0.6251995553187506
+    },
+    {
+      "sequence": 7,
+      "exhibit_id": "E8",
+      "center": [
+        717,
+        465
+      ],
+      "duration": 3.0454589015904605,
+      "score": 0.6328280864118172
+    },
+    {
+      "sequence": 8,
+      "exhibit_id": "E7",
+      "center": [
+        640,
+        397
+      ],
+      "duration": 3.0136565011497742,
+      "score": 0.6206356961428957
+    },
+    {
+      "sequence": 9,
+      "exhibit_id": "E3",
+      "center": [
+        344,
+        398
+      ],
+      "duration": 3.3356369323858424,
+      "score": 0.7088390252495698
+    },
+    {
+      "sequence": 10,
+      "exhibit_id": "E10",
+      "center": [
+        31,
+        411
+      ],
+      "duration": 2.965159261460387,
+      "score": 0.5621517740352616
+    }
+  ]
+}

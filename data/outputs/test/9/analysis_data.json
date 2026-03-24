@@ -1,0 +1,211 @@
+{
+  "timestamp": "2026-03-06T12:33:13.653561",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        75,
+        220,
+        174,
+        333
+      ],
+      "norm_bbox": [
+        0.1,
+        0.41,
+        0.24,
+        0.6
+      ],
+      "description": "Large abstract painting on a white partition wall",
+      "center": [
+        124,
+        276
+      ],
+      "area": 10854,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        210,
+        248,
+        243,
+        314
+      ],
+      "norm_bbox": [
+        0.29,
+        0.45,
+        0.32,
+        0.57
+      ],
+      "description": "Framed artwork with colorful figures on the far wall",
+      "center": [
+        225,
+        279
+      ],
+      "area": 1677,
+      "sam_score": 0.85546875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        275,
+        236,
+        302,
+        322
+      ],
+      "norm_bbox": [
+        0.38,
+        0.45,
+        0.41,
+        0.57
+      ],
+      "description": "Vertical blue-toned painting on the distant wall",
+      "center": [
+        290,
+        278
+      ],
+      "area": 1757,
+      "sam_score": 0.73046875
+    },
+    {
+      "id": "E4",
+      "name": "Photo 1",
+      "type": "Photography",
+      "bbox": [
+        401,
+        293,
+        443,
+        344
+      ],
+      "norm_bbox": [
+        0.55,
+        0.53,
+        0.6,
+        0.61
+      ],
+      "description": "Framed photograph or print mounted on a freestanding panel",
+      "center": [
+        421,
+        318
+      ],
+      "area": 2196,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E5",
+      "name": "Photo 2",
+      "type": "Photography",
+      "bbox": [
+        496,
+        292,
+        541,
+        347
+      ],
+      "norm_bbox": [
+        0.68,
+        0.53,
+        0.73,
+        0.61
+      ],
+      "description": "Framed artwork depicting figures, mounted on a wooden panel",
+      "center": [
+        519,
+        319
+      ],
+      "area": 2427,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E6",
+      "name": "Artwork 1",
+      "type": "Painting",
+      "bbox": [
+        5,
+        226,
+        29,
+        317
+      ],
+      "norm_bbox": [
+        0.01,
+        0.42,
+        0.04,
+        0.56
+      ],
+      "description": "Small framed artwork on the left wall, possibly a sketch or drawing",
+      "center": [
+        16,
+        271
+      ],
+      "area": 2187,
+      "sam_score": 0.953125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "center": [
+        124,
+        276
+      ],
+      "duration": 3.6717303796418275,
+      "score": 0.7797265711237901
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        225,
+        279
+      ],
+      "duration": 2.951215128320939,
+      "score": 0.5996097893609041
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E3",
+      "center": [
+        290,
+        278
+      ],
+      "duration": 2.776574532595451,
+      "score": 0.5361747355576667
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E4",
+      "center": [
+        421,
+        318
+      ],
+      "duration": 2.774799837846764,
+      "score": 0.5299207096190063
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        519,
+        319
+      ],
+      "duration": 2.644978858959547,
+      "score": 0.4807349410343867
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E6",
+      "center": [
+        16,
+        271
+      ],
+      "duration": 2.929534033847016,
+      "score": 0.5852946615478446
+    }
+  ]
+}

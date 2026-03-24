@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035109_419/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035109_419.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Cityscape with Reflections",
+      "typology": "Painting",
+      "description": "An abstract painting depicting a city skyline with tall buildings rendered in warm browns, oranges, and muted blues, reflected in a shimmering water surface below. The composition uses vertical brushstrokes and blended colors to evoke an urban scene at dusk or dawn.",
+      "bbox": [
+        93,
+        55,
+        260,
+        311
+      ],
+      "center": [
+        178,
+        180
+      ],
+      "dwell_time_sec": 4.12
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Winter Forest with Deer",
+      "typology": "Painting",
+      "description": "A watercolor-style painting depicting a serene winter forest scene with tall, slender trees and two deer standing in the snow-covered clearing. The composition uses muted blues, grays, and whites with subtle golden accents in the background, creating a tranquil atmosphere.",
+      "bbox": [
+        391,
+        60,
+        541,
+        284
+      ],
+      "center": [
+        462,
+        160
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035109_419/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035109_419/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035109_419/gaze2guide_sim_output_sequence/heatmap_seq"
+}

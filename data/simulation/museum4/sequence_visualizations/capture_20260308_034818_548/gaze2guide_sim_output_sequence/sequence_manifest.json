@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034818_548/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034818_548.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E5",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river winding through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "bbox": [
+        444,
+        153,
+        494,
+        216
+      ],
+      "center": [
+        468,
+        184
+      ],
+      "dwell_time_sec": 2.09
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A dark-toned abstract painting featuring vertical elements and muted earthy colors, possibly depicting a stylized landscape or architectural forms. The artwork is mounted on a wall in a museum setting.",
+      "bbox": [
+        363,
+        154,
+        409,
+        215
+      ],
+      "center": [
+        385,
+        184
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river flowing through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "bbox": [
+        206,
+        154,
+        255,
+        216
+      ],
+      "center": [
+        230,
+        185
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blurred, dark vertical forms against a muted background. The composition appears to be mounted on a wall in a gallery setting, with indistinct shapes suggesting a possible urban or architectural motif.",
+      "bbox": [
+        125,
+        154,
+        172,
+        216
+      ],
+      "center": [
+        148,
+        185
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034818_548/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034818_548/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034818_548/gaze2guide_sim_output_sequence/heatmap_seq"
+}

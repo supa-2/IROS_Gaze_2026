@@ -73,7 +73,7 @@ colors = {
     'Full': '#2E86AB',
     'No-Memory': '#A23B72',
     'No-Topology': '#F18F01',
-    'No-Extractor': '#C73E1D',
+    'No-Context': '#C73E1D',
     'No-Multi-step': '#6A994E'
 }
 

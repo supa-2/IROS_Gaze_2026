@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum1/analysis/capture_20260308_033559_677/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum1/images/capture_20260308_033559_677.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Botanical Composition",
+      "typology": "Painting",
+      "description": "A minimalist abstract painting featuring stylized green leaf-like forms on a pale background, mounted vertically on a wall. The composition uses soft, muted tones with subtle pink accents and a simple, clean layout.",
+      "bbox": [
+        423,
+        114,
+        604,
+        278
+      ],
+      "center": [
+        518,
+        172
+      ],
+      "dwell_time_sec": 4.21
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Abstract Botanical Forms",
+      "typology": "Painting",
+      "description": "Two abstract paintings featuring simplified green and dark leaf-like forms on a light background, mounted side by side on a neutral wall. The larger painting on the left displays vertical elongated shapes with rounded elements, while the smaller one on the right contains more clustered, organic forms.",
+      "bbox": [
+        45,
+        26,
+        555,
+        336
+      ],
+      "center": [
+        192,
+        169
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033559_677/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033559_677/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033559_677/gaze2guide_sim_output_sequence/heatmap_seq"
+}

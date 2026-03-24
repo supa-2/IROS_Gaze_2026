@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035117_546/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035117_546.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Winter Landscape with Snow-Covered Field",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a snow-covered field with tall, dry grasses in the foreground and a distant treeline under a pale blue sky. The scene is rendered in soft, muted tones of white, beige, and brown, suggesting a cold, serene winter atmosphere.",
+      "bbox": [
+        326,
+        53,
+        417,
+        228
+      ],
+      "center": [
+        372,
+        145
+      ],
+      "dwell_time_sec": 3.59
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Landscape with River and Buildings",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a river scene with buildings along the banks, rendered in muted tones of blue, gray, and white. The composition suggests an urban riverside view, possibly at dusk or dawn, mounted on a museum wall.",
+      "bbox": [
+        235,
+        88,
+        273,
+        193
+      ],
+      "center": [
+        255,
+        141
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A cropped view of an abstract painting featuring blended earthy tones including browns, ochres, and muted reds. The composition appears textured with visible brushwork, suggesting a dynamic interplay of color and form.",
+      "bbox": [
+        582,
+        124,
+        631,
+        175
+      ],
+      "center": [
+        607,
+        150
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035117_546/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035117_546/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035117_546/gaze2guide_sim_output_sequence/heatmap_seq"
+}

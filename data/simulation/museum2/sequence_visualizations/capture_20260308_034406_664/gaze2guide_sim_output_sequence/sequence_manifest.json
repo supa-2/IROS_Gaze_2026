@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum2/analysis/capture_20260308_034406_664/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum2/images/capture_20260308_034406_664.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Landscape in Blue and White",
+      "typology": "Painting",
+      "description": "An abstract painting featuring dominant blue and white tones, with vertical brushstrokes in the upper portion and horizontal forms resembling a horizon or landmass below. The artwork is mounted on a light-colored wall, suggesting a gallery setting.",
+      "bbox": [
+        6,
+        10,
+        522,
+        217
+      ],
+      "center": [
+        405,
+        106
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034406_664/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034406_664/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034406_664/gaze2guide_sim_output_sequence/heatmap_seq"
+}

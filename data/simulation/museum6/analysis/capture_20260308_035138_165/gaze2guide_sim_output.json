@@ -1,0 +1,719 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035138_165.png",
+    "image_path": "data/simulation/museum6/images/capture_20260308_035138_165.png",
+    "timestamp": "2026-03-08T04:38:22.828377",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Cityscape with Snowy Streets",
+    "attention_level": "D",
+    "dwell_time_sec": 2.5,
+    "typology": "Painting",
+    "description": "A blurred painting depicting a city street scene under snowfall, featuring indistinct buildings and figures in muted blues, grays, and whites. The artwork is mounted on a wall, viewed at an angle.",
+    "visual_signature": "Impressionistic urban winter scene with soft brushwork, low visibility due to blur, and cool color palette."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Cityscape with Snowy Streets",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city street scene under snowfall, featuring indistinct buildings and figures in muted blues, grays, and whites. The artwork is mounted on a wall, viewed at an angle.",
+      "visual_signature": "Impressionistic urban winter scene with soft brushwork, low visibility due to blur, and cool color palette.",
+      "bbox": [
+        2,
+        84,
+        157,
+        290
+      ],
+      "center": [
+        69,
+        179
+      ],
+      "area": 24463,
+      "sam_score": 0.984375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E2",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a winding river flanked by trees and rolling hills, rendered in earthy greens, browns, and blues. The artwork is mounted on a museum wall, framed in a simple wooden frame.",
+      "visual_signature": "Winding river, tree-lined banks, soft brushwork, naturalistic color palette",
+      "bbox": [
+        202,
+        83,
+        247,
+        170
+      ],
+      "center": [
+        224,
+        127
+      ],
+      "area": 3137,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E3",
+      "name": "Unidentifiable Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is too blurry and cropped to discern specific details, but it appears to be a section of a wall-mounted exhibit with indistinct vertical elements and possible text or graphic content.",
+      "visual_signature": "Blurred vertical lines, faint text-like patterns, light background with dark accents",
+      "bbox": [
+        244,
+        90,
+        264,
+        164
+      ],
+      "center": [
+        254,
+        127
+      ],
+      "area": 1248,
+      "sam_score": 0.86328125,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dark, indistinct forms against a lighter background, mounted on a museum wall. The composition appears to include tall, narrow shapes suggestive of architectural or natural elements.",
+      "visual_signature": "Dark vertical forms on light background, abstract style, framed artwork",
+      "bbox": [
+        440,
+        86,
+        483,
+        172
+      ],
+      "center": [
+        459,
+        129
+      ],
+      "area": 2847,
+      "sam_score": 0.890625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "Abstract Cityscape",
+      "typology": "Painting",
+      "description": "A blurred, abstract representation of a city skyline with indistinct vertical forms suggesting buildings, rendered in muted blues and grays. The artwork appears mounted on a wall within a museum setting.",
+      "visual_signature": "Blurred urban silhouette, cool color palette, vertical composition, soft edges",
+      "bbox": [
+        477,
+        87,
+        528,
+        169
+      ],
+      "center": [
+        502,
+        129
+      ],
+      "area": 3122,
+      "sam_score": 0.96875,
+      "attr_confidence": 0.6
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      370
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "bbox": [
+          2,
+          84,
+          157,
+          290
+        ],
+        "center": [
+          69,
+          179
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "bbox": [
+          202,
+          83,
+          247,
+          170
+        ],
+        "center": [
+          224,
+          127
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Unidentifiable Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          244,
+          90,
+          264,
+          164
+        ],
+        "center": [
+          254,
+          127
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          440,
+          86,
+          483,
+          172
+        ],
+        "center": [
+          459,
+          129
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Abstract Cityscape",
+        "typology": "Painting",
+        "bbox": [
+          477,
+          87,
+          528,
+          169
+        ],
+        "center": [
+          502,
+          129
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 163.49,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 163.49,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 30.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 30.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 205.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 205.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 43.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 43.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 163.49,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 192.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 393.19,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 30.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 163.49,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 235.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 30.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 192.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 205.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 43.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 205.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 235.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 43.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 248.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 278.01,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E1",
+        "E4"
+      ],
+      "E3": [
+        "E2",
+        "E1",
+        "E4"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E2"
+      ],
+      "E5": [
+        "E4",
+        "E3",
+        "E2"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Cityscape with Snowy Streets",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city street scene under snowfall, featuring indistinct buildings and figures in muted blues, grays, and whites. The artwork is mounted on a wall, viewed at an angle.",
+      "visual_signature": "Impressionistic urban winter scene with soft brushwork, low visibility due to blur, and cool color palette."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:29.873774",
+        "image": "capture_20260308_035117_546.png",
+        "current_exhibit": "Winter Landscape with Snow-Covered Field",
+        "attention_level": "C",
+        "dwell_time_sec": 3.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Cityscape with Snowy Streets",
+      "score": 0.2507
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Landscape with River and Trees",
+      "score": 0.1995
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Unidentifiable Wall Exhibit",
+      "score": 0.1984
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.181
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Abstract Cityscape",
+      "score": 0.1703
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Landscape with River and Trees",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.9,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Landscape with River and Trees",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.8
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E3",
+      "name": "Unidentifiable Wall Exhibit",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.79
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.71
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:29.873774",
+        "image": "capture_20260308_035117_546.png",
+        "current_exhibit": "Winter Landscape with Snow-Covered Field",
+        "attention_level": "C",
+        "dwell_time_sec": 3.59,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Cityscape with Snowy Streets",
+    "next_target_name": "Landscape with River and Trees",
+    "next_target_exhibit_id": "E2"
+  }
+}

@@ -1,0 +1,1435 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035423_084.png",
+    "image_path": "data/simulation/museum7/images/capture_20260308_035423_084.png",
+    "timestamp": "2026-03-08T04:45:18.759112",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E6",
+    "name": "Abstract Composition with Red and White Elements",
+    "attention_level": "E",
+    "dwell_time_sec": 1.53,
+    "typology": "Painting",
+    "description": "A cropped section of an abstract artwork featuring a horizontal band of red with white circular forms, possibly representing stylized clouds or orbs, set against a dark background. The composition suggests a minimalist or modernist style.",
+    "visual_signature": "Red horizontal stripe with white circular shapes on a dark field"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Tree and Figure in Blue Landscape",
+      "typology": "Painting",
+      "description": "A stylized painting featuring a large tree with a thick trunk and dense foliage, set against a blue background. A small figure in dark clothing stands beneath the tree, with a red object nearby, possibly a bag or container.",
+      "visual_signature": "Stylized tree with bold outlines, blue background, small human figure, red accent object",
+      "bbox": [
+        31,
+        85,
+        98,
+        183
+      ],
+      "center": [
+        65,
+        134
+      ],
+      "area": 6243,
+      "sam_score": 0.984375,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Geometric Forms",
+      "typology": "Painting",
+      "description": "A vibrant abstract painting featuring bold geometric shapes in red, green, white, and black, arranged in a dynamic composition. The artwork is mounted on a wall within a museum setting, partially visible with surrounding exhibit elements.",
+      "visual_signature": "Prominent vertical and horizontal blocks of color, including a central red rectangle and contrasting green and white sections, with a stylized figure or form in the lower left.",
+      "bbox": [
+        96,
+        152,
+        189,
+        218
+      ],
+      "center": [
+        146,
+        179
+      ],
+      "area": 4861,
+      "sam_score": 0.82421875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E3",
+      "name": "Abstract Composition with Red and Green Elements",
+      "typology": "Painting",
+      "description": "A partially visible abstract artwork featuring bold red and green sections, with indistinct forms suggesting figures or shapes in the lower portion. The piece appears mounted on a wall within a gallery setting.",
+      "visual_signature": "Dominant red and green color blocks, abstract forms, partial view of figures or objects at bottom",
+      "bbox": [
+        96,
+        187,
+        187,
+        218
+      ],
+      "center": [
+        148,
+        203
+      ],
+      "area": 1829,
+      "sam_score": 0.51171875,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E4",
+      "name": "Red Monochrome Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A solid red panel fills the entire visible area, with no discernible imagery, text, or variation in color or texture. The surface appears uniformly colored and flat, mounted directly on a wall.",
+      "visual_signature": "Uniform deep red color, no patterns or text, flat surface",
+      "bbox": [
+        144,
+        28,
+        277,
+        153
+      ],
+      "center": [
+        214,
+        116
+      ],
+      "area": 9076,
+      "sam_score": 0.85546875,
+      "attr_confidence": 0.95
+    },
+    {
+      "id": "E5",
+      "name": "Floral Still Life with Vase",
+      "typology": "Painting",
+      "description": "A painting depicting a floral arrangement in a vase, featuring red and white flowers against a dark background. The artwork is mounted on a wall next to a blank or partially visible adjacent panel.",
+      "visual_signature": "Vase with red and white flowers, dark background, framed artwork",
+      "bbox": [
+        287,
+        94,
+        389,
+        154
+      ],
+      "center": [
+        362,
+        124
+      ],
+      "area": 3262,
+      "sam_score": 0.67578125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E6",
+      "name": "Abstract Composition with Red and White Elements",
+      "typology": "Painting",
+      "description": "A cropped section of an abstract artwork featuring a horizontal band of red with white circular forms, possibly representing stylized clouds or orbs, set against a dark background. The composition suggests a minimalist or modernist style.",
+      "visual_signature": "Red horizontal stripe with white circular shapes on a dark field",
+      "bbox": [
+        277,
+        141,
+        390,
+        185
+      ],
+      "center": [
+        334,
+        169
+      ],
+      "area": 3239,
+      "sam_score": 0.75390625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E7",
+      "name": "Landscape with Blue Flowers and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a field of blue flowers in the foreground with trees and greenery in the background, rendered in soft, naturalistic tones. The artwork is mounted on a museum wall, framed in a simple dark frame.",
+      "visual_signature": "Field of blue flowers, distant treeline, impressionistic brushwork, muted greens and blues",
+      "bbox": [
+        391,
+        84,
+        494,
+        126
+      ],
+      "center": [
+        442,
+        111
+      ],
+      "area": 2942,
+      "sam_score": 0.7890625,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E8",
+      "name": "Abstract Landscape with Diagonal Path",
+      "typology": "Painting",
+      "description": "A small abstract painting featuring a diagonal path or road receding into the distance, rendered in earthy tones with hints of green and blue. The artwork is mounted on a white wall within a grid-like display structure.",
+      "visual_signature": "Diagonal composition, muted earth tones, abstract landscape elements, framed within a tiled wall layout",
+      "bbox": [
+        371,
+        127,
+        496,
+        181
+      ],
+      "center": [
+        442,
+        142
+      ],
+      "area": 3126,
+      "sam_score": 0.5078125,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E9",
+      "name": "Untitled Wall Text Exhibit",
+      "typology": "WallText",
+      "description": "A cropped image showing a portion of a wall with text, likely part of an informational or descriptive panel in a museum exhibit. The visible area includes a dark horizontal line and a light gray background, suggesting a minimalist design.",
+      "visual_signature": "Dark horizontal line on a light gray background, partial view of text panel",
+      "bbox": [
+        191,
+        181,
+        280,
+        218
+      ],
+      "center": [
+        233,
+        201
+      ],
+      "area": 2801,
+      "sam_score": 0.333984375,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E10",
+      "name": "Landscape with River and Figures",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a river scene with figures in the foreground, set against a backdrop of trees and distant hills. The artwork features earthy tones with blue and green hues, mounted on a wall alongside another similar piece.",
+      "visual_signature": "River, figures, trees, distant hills, earthy and natural color palette",
+      "bbox": [
+        438,
+        98,
+        569,
+        156
+      ],
+      "center": [
+        506,
+        133
+      ],
+      "area": 3257,
+      "sam_score": 0.3046875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E11",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image shows a uniformly gray surface with no discernible features, objects, or text. It appears to be a blank or obscured section of a museum wall exhibit.",
+      "visual_signature": "Uniform gray tone, no visible content or markings",
+      "bbox": [
+        499,
+        129,
+        569,
+        156
+      ],
+      "center": [
+        533,
+        142
+      ],
+      "area": 1881,
+      "sam_score": 0.72265625,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E12",
+      "name": "Red Monochrome Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A solid red rectangular panel mounted on a wall, with no discernible imagery, text, or variation in color or texture. The surface appears uniform and flat.",
+      "visual_signature": "Uniform deep red color, no visible patterns or text, rectangular shape, flat surface",
+      "bbox": [
+        571,
+        99,
+        630,
+        156
+      ],
+      "center": [
+        600,
+        128
+      ],
+      "area": 3310,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.95
+    },
+    {
+      "id": "E13",
+      "name": "Abstract Composition with Red and Blue Elements",
+      "typology": "Painting",
+      "description": "A cropped view of an abstract artwork featuring a dominant red upper section and a lower portion with blue and earth-toned geometric shapes. The composition appears to be mounted on a wall, with visible edges suggesting a framed or canvas presentation.",
+      "visual_signature": "Large red field above horizontal bands of blue and brownish tones; abstract geometric forms; partial cropping obscures full context.",
+      "bbox": [
+        573,
+        131,
+        630,
+        171
+      ],
+      "center": [
+        603,
+        145
+      ],
+      "area": 1201,
+      "sam_score": 0.5390625,
+      "attr_confidence": 0.6
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      374
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Tree and Figure in Blue Landscape",
+        "typology": "Painting",
+        "bbox": [
+          31,
+          85,
+          98,
+          183
+        ],
+        "center": [
+          65,
+          134
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Geometric Forms",
+        "typology": "Painting",
+        "bbox": [
+          96,
+          152,
+          189,
+          218
+        ],
+        "center": [
+          146,
+          179
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Abstract Composition with Red and Green Elements",
+        "typology": "Painting",
+        "bbox": [
+          96,
+          187,
+          187,
+          218
+        ],
+        "center": [
+          148,
+          203
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Red Monochrome Wall Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          144,
+          28,
+          277,
+          153
+        ],
+        "center": [
+          214,
+          116
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E9",
+        "name": "Untitled Wall Text Exhibit",
+        "typology": "WallText",
+        "bbox": [
+          191,
+          181,
+          280,
+          218
+        ],
+        "center": [
+          233,
+          201
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Abstract Composition with Red and White Elements",
+        "typology": "Painting",
+        "bbox": [
+          277,
+          141,
+          390,
+          185
+        ],
+        "center": [
+          334,
+          169
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Floral Still Life with Vase",
+        "typology": "Painting",
+        "bbox": [
+          287,
+          94,
+          389,
+          154
+        ],
+        "center": [
+          362,
+          124
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "Landscape with Blue Flowers and Trees",
+        "typology": "Painting",
+        "bbox": [
+          391,
+          84,
+          494,
+          126
+        ],
+        "center": [
+          442,
+          111
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E8",
+        "name": "Abstract Landscape with Diagonal Path",
+        "typology": "Painting",
+        "bbox": [
+          371,
+          127,
+          496,
+          181
+        ],
+        "center": [
+          442,
+          142
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E10",
+        "name": "Landscape with River and Figures",
+        "typology": "Painting",
+        "bbox": [
+          438,
+          98,
+          569,
+          156
+        ],
+        "center": [
+          506,
+          133
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E11",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          499,
+          129,
+          569,
+          156
+        ],
+        "center": [
+          533,
+          142
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E12",
+        "name": "Red Monochrome Wall Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          571,
+          99,
+          630,
+          156
+        ],
+        "center": [
+          600,
+          128
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E13",
+        "name": "Abstract Composition with Red and Blue Elements",
+        "typology": "Painting",
+        "bbox": [
+          573,
+          131,
+          630,
+          171
+        ],
+        "center": [
+          603,
+          145
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 92.66,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 92.66,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 24.08,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 24.08,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 109.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 109.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E9",
+        "relation": "right_of",
+        "distance_px": 87.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E9",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 87.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E9",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 105.95,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E9",
+        "relation": "left_of",
+        "distance_px": 105.95,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 53.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 53.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 81.05,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 81.05,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 31.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 31.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 64.63,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E10",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 64.63,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E10",
+        "target": "E11",
+        "relation": "right_of",
+        "distance_px": 28.46,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E11",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 28.46,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E11",
+        "target": "E12",
+        "relation": "right_of",
+        "distance_px": 68.45,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E12",
+        "target": "E11",
+        "relation": "left_of",
+        "distance_px": 68.45,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E12",
+        "target": "E13",
+        "relation": "right_of",
+        "distance_px": 17.26,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E13",
+        "target": "E12",
+        "relation": "left_of",
+        "distance_px": 17.26,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 92.66,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 107.94,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 150.08,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 24.08,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E9",
+        "relation": "right_of",
+        "distance_px": 89.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 92.66,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "above",
+        "distance_px": 24.08,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E9",
+        "relation": "right_of",
+        "distance_px": 85.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 107.94,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E9",
+        "relation": "below",
+        "distance_px": 87.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 92.7,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 109.2,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "below",
+        "distance_px": 53.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 81.05,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 82.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "above",
+        "distance_px": 53.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E9",
+        "relation": "left_of",
+        "distance_px": 105.95,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 111.32,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E8",
+        "relation": "below",
+        "distance_px": 31.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 67.68,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 81.05,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "above",
+        "distance_px": 31.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E10",
+        "relation": "right_of",
+        "distance_px": 64.63,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 82.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 85.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E4",
+        "relation": "above",
+        "distance_px": 87.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E9",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 89.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E11",
+        "relation": "right_of",
+        "distance_px": 28.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E8",
+        "relation": "left_of",
+        "distance_px": 64.63,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E10",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 67.68,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 28.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E12",
+        "relation": "right_of",
+        "distance_px": 68.45,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E11",
+        "target": "E13",
+        "relation": "right_of",
+        "distance_px": 70.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E12",
+        "target": "E13",
+        "relation": "below",
+        "distance_px": 17.26,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E12",
+        "target": "E11",
+        "relation": "left_of",
+        "distance_px": 68.45,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E12",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 94.13,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E13",
+        "target": "E12",
+        "relation": "above",
+        "distance_px": 17.26,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E13",
+        "target": "E11",
+        "relation": "left_of",
+        "distance_px": 70.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E13",
+        "target": "E10",
+        "relation": "left_of",
+        "distance_px": 97.74,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E9",
+        "E1"
+      ],
+      "E3": [
+        "E2",
+        "E9",
+        "E1"
+      ],
+      "E4": [
+        "E9",
+        "E2",
+        "E3"
+      ],
+      "E5": [
+        "E6",
+        "E7",
+        "E8"
+      ],
+      "E6": [
+        "E5",
+        "E9",
+        "E8"
+      ],
+      "E7": [
+        "E8",
+        "E10",
+        "E5"
+      ],
+      "E8": [
+        "E7",
+        "E10",
+        "E5"
+      ],
+      "E9": [
+        "E3",
+        "E4",
+        "E2"
+      ],
+      "E10": [
+        "E11",
+        "E8",
+        "E7"
+      ],
+      "E11": [
+        "E10",
+        "E12",
+        "E13"
+      ],
+      "E12": [
+        "E13",
+        "E11",
+        "E10"
+      ],
+      "E13": [
+        "E12",
+        "E11",
+        "E10"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E9",
+        "E6",
+        "E5",
+        "E7",
+        "E8",
+        "E10",
+        "E11",
+        "E12",
+        "E13"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E6",
+      "name": "Abstract Composition with Red and White Elements",
+      "typology": "Painting",
+      "description": "A cropped section of an abstract artwork featuring a horizontal band of red with white circular forms, possibly representing stylized clouds or orbs, set against a dark background. The composition suggests a minimalist or modernist style.",
+      "visual_signature": "Red horizontal stripe with white circular shapes on a dark field"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:23.098800",
+        "image": "capture_20260308_035351_995.png",
+        "current_exhibit": "Figure in Motion",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:44:03.476924",
+        "image": "capture_20260308_035403_065.png",
+        "current_exhibit": "Landscape with Figures and River",
+        "attention_level": "D",
+        "dwell_time_sec": 2.4,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:44:39.198746",
+        "image": "capture_20260308_035407_993.png",
+        "current_exhibit": "Stormy Landscape with Dark Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.42,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:45:18.759112",
+        "image": "capture_20260308_035423_084.png",
+        "current_exhibit": "Abstract Composition with Red and White Elements",
+        "attention_level": "E",
+        "dwell_time_sec": 1.53,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E5",
+      "E9",
+      "E8"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Abstract Composition with Red and White Elements",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.53,
+        "last_seen": "2026-03-08T04:45:18.759112",
+        "transition_counts": {}
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {
+          "Figure in Motion": 1
+        }
+      },
+      {
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:43:23.098800",
+        "transition_counts": {
+          "Landscape with Figures and River": 1
+        }
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Landscape with Figures and River",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.4,
+        "last_seen": "2026-03-08T04:44:03.476924",
+        "transition_counts": {
+          "Stormy Landscape with Dark Sky": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      },
+      {
+        "name": "Stormy Landscape with Dark Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.42,
+        "last_seen": "2026-03-08T04:44:39.198746",
+        "transition_counts": {
+          "Abstract Composition with Red and White Elements": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E6",
+      "name": "Abstract Composition with Red and White Elements",
+      "score": 0.0887
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Geometric Forms",
+      "score": 0.0839
+    },
+    {
+      "exhibit_id": "E9",
+      "name": "Untitled Wall Text Exhibit",
+      "score": 0.0825
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Floral Still Life with Vase",
+      "score": 0.0813
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Red and Green Elements",
+      "score": 0.0788
+    },
+    {
+      "exhibit_id": "E8",
+      "name": "Abstract Landscape with Diagonal Path",
+      "score": 0.0784
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "Landscape with Blue Flowers and Trees",
+      "score": 0.0764
+    },
+    {
+      "exhibit_id": "E10",
+      "name": "Landscape with River and Figures",
+      "score": 0.075
+    },
+    {
+      "exhibit_id": "E11",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.074
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Red Monochrome Wall Panel",
+      "score": 0.0739
+    },
+    {
+      "exhibit_id": "E12",
+      "name": "Red Monochrome Wall Panel",
+      "score": 0.071
+    },
+    {
+      "exhibit_id": "E13",
+      "name": "Abstract Composition with Red and Blue Elements",
+      "score": 0.0708
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Tree and Figure in Blue Landscape",
+      "score": 0.0654
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E5",
+    "E9",
+    "E8"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E5",
+    "name": "Floral Still Life with Vase",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.25,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E5",
+      "name": "Floral Still Life with Vase",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.21
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E8",
+      "name": "Abstract Landscape with Diagonal Path",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.19
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E7",
+      "name": "Landscape with Blue Flowers and Trees",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.18
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:23.098800",
+        "image": "capture_20260308_035351_995.png",
+        "current_exhibit": "Figure in Motion",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:44:03.476924",
+        "image": "capture_20260308_035403_065.png",
+        "current_exhibit": "Landscape with Figures and River",
+        "attention_level": "D",
+        "dwell_time_sec": 2.4,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:44:39.198746",
+        "image": "capture_20260308_035407_993.png",
+        "current_exhibit": "Stormy Landscape with Dark Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.42,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:45:18.759112",
+        "image": "capture_20260308_035423_084.png",
+        "current_exhibit": "Abstract Composition with Red and White Elements",
+        "attention_level": "E",
+        "dwell_time_sec": 1.53,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Abstract Composition with Red and White Elements",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.53,
+        "last_seen": "2026-03-08T04:45:18.759112",
+        "transition_counts": {}
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {
+          "Figure in Motion": 1
+        }
+      },
+      {
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:43:23.098800",
+        "transition_counts": {
+          "Landscape with Figures and River": 1
+        }
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Landscape with Figures and River",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.4,
+        "last_seen": "2026-03-08T04:44:03.476924",
+        "transition_counts": {
+          "Stormy Landscape with Dark Sky": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      },
+      {
+        "name": "Stormy Landscape with Dark Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.42,
+        "last_seen": "2026-03-08T04:44:39.198746",
+        "transition_counts": {
+          "Abstract Composition with Red and White Elements": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Composition with Red and White Elements",
+    "next_target_name": "Floral Still Life with Vase",
+    "next_target_exhibit_id": "E5"
+  }
+}

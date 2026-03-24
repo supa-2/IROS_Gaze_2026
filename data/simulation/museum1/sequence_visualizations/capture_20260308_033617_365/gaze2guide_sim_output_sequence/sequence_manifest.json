@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum1/analysis/capture_20260308_033617_365/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum1/images/capture_20260308_033617_365.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Triptych of Abstract Forms",
+      "typology": "OtherFlatArtwork",
+      "description": "Three small, horizontally aligned artworks mounted on a light gray wall. The left piece features a blue and white abstract pattern resembling frost or crystalline texture; the center shows a grayscale silhouette of a hand reaching toward a circular shape; the right displays vertical white lines on a light background, evoking motion or sound waves.",
+      "bbox": [
+        40,
+        47,
+        614,
+        340
+      ],
+      "center": [
+        333,
+        168
+      ],
+      "dwell_time_sec": 3.15
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Abstract Textural Composition",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract artwork featuring a textured surface with dominant blue and white tones, resembling a close-up of a natural or mineral formation. The piece is mounted on a neutral-colored wall, suggesting a gallery setting.",
+      "bbox": [
+        107,
+        155,
+        218,
+        266
+      ],
+      "center": [
+        164,
+        194
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Line Drawing",
+      "typology": "OtherFlatArtwork",
+      "description": "A minimalist artwork featuring a series of vertical, wavy lines arranged in a rectangular frame against a light background. The composition is simple and monochromatic, with the lines appearing to be drawn or etched in a subtle tone.",
+      "bbox": [
+        462,
+        151,
+        551,
+        269
+      ],
+      "center": [
+        510,
+        190
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033617_365/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033617_365/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum1/sequence_visualizations/capture_20260308_033617_365/gaze2guide_sim_output_sequence/heatmap_seq"
+}

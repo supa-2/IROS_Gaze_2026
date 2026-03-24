@@ -1,0 +1,155 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034328_625.png",
+    "image_path": "data/simulation/museum2/images/capture_20260308_034328_625.png",
+    "timestamp": "2026-03-08T04:21:06.302018",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Black and White Wall Text",
+    "attention_level": "A",
+    "dwell_time_sec": 5.5,
+    "typology": "WallText",
+    "description": "A black-and-white wall exhibit featuring a horizontal band of abstract, jagged black shapes resembling stylized text or brushstrokes against a white background. The composition is minimalist and monochromatic, mounted flat on a wall.",
+    "visual_signature": "Horizontal row of irregular black vertical forms on white background, resembling abstracted letters or calligraphic marks"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Black and White Wall Text",
+      "typology": "WallText",
+      "description": "A black-and-white wall exhibit featuring a horizontal band of abstract, jagged black shapes resembling stylized text or brushstrokes against a white background. The composition is minimalist and monochromatic, mounted flat on a wall.",
+      "visual_signature": "Horizontal row of irregular black vertical forms on white background, resembling abstracted letters or calligraphic marks",
+      "bbox": [
+        166,
+        81,
+        560,
+        209
+      ],
+      "center": [
+        361,
+        149
+      ],
+      "area": 37116,
+      "sam_score": 0.2578125,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      358
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "bbox": [
+          166,
+          81,
+          560,
+          209
+        ],
+        "center": [
+          361,
+          149
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [],
+    "neighbor_sets": {
+      "E1": []
+    },
+    "row_groups": [
+      [
+        "E1"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Black and White Wall Text",
+      "typology": "WallText",
+      "description": "A black-and-white wall exhibit featuring a horizontal band of abstract, jagged black shapes resembling stylized text or brushstrokes against a white background. The composition is minimalist and monochromatic, mounted flat on a wall.",
+      "visual_signature": "Horizontal row of irregular black vertical forms on white background, resembling abstracted letters or calligraphic marks"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Black and White Wall Text",
+      "score": 1.0
+    }
+  ],
+  "reachable_neighbor_set": [],
+  "next_prediction": {
+    "next_exhibit_id": "E1",
+    "name": "Abstract Black and White Wall Text",
+    "attention_level": "A",
+    "estimated_dwell_time_sec": 5.5,
+    "reasoning": "single detected exhibit"
+  },
+  "rollout": [],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:21:06.302018",
+        "image": "capture_20260308_034328_625.png",
+        "current_exhibit": "Abstract Black and White Wall Text",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Black and White Wall Text",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:21:06.302018",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Black and White Wall Text",
+    "next_target_name": "Abstract Black and White Wall Text",
+    "next_target_exhibit_id": "E1"
+  }
+}

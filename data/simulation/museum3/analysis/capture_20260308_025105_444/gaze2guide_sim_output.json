@@ -1,0 +1,863 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_025105_444.png",
+    "image_path": "data/simulation/museum3/images/capture_20260308_025105_444.png",
+    "timestamp": "2026-03-08T04:27:20.009424",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E7",
+    "name": "Calligraphy Panel",
+    "attention_level": "E",
+    "dwell_time_sec": 1.94,
+    "typology": "OtherFlatArtwork",
+    "description": "A vertically oriented framed panel displaying black Chinese calligraphy on a white background, mounted on a light-colored wall. The characters are arranged in columns and written in a flowing, traditional script.",
+    "visual_signature": "Black ink calligraphy in vertical columns on white paper, framed with a simple wooden border."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Seated Figure in Contemplation",
+      "typology": "Drawing",
+      "description": "A monochromatic charcoal or pencil drawing depicting a seated figure, likely male, in a contemplative pose with one hand resting on the knee. The artwork is mounted on a light-colored wall within a simple wooden frame.",
+      "visual_signature": "Monochrome sketch of a seated figure with strong shading and expressive posture, framed in wood.",
+      "bbox": [
+        2,
+        93,
+        184,
+        268
+      ],
+      "center": [
+        83,
+        158
+      ],
+      "area": 15952,
+      "sam_score": 0.5078125,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Dark Forms",
+      "typology": "Painting",
+      "description": "A partially visible artwork featuring dark, abstract forms against a light background, mounted on a white wall. The composition appears to consist of vertical and clustered shapes, possibly suggesting figures or organic forms.",
+      "visual_signature": "Dark abstract shapes on light background, framed, partial view with top-left corner cropped",
+      "bbox": [
+        203,
+        66,
+        268,
+        222
+      ],
+      "center": [
+        234,
+        173
+      ],
+      "area": 2668,
+      "sam_score": 0.74609375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E3",
+      "name": "Untitled Landscape with Figures",
+      "typology": "Painting",
+      "description": "A partially visible painting depicting a landscape scene with indistinct figures, rendered in earthy tones and soft brushwork. The artwork appears mounted on a museum wall with a neutral-colored frame.",
+      "visual_signature": "Earth-toned landscape with faint human figures, partial view of canvas edge and frame",
+      "bbox": [
+        279,
+        195,
+        307,
+        223
+      ],
+      "center": [
+        292,
+        208
+      ],
+      "area": 554,
+      "sam_score": 0.73828125,
+      "attr_confidence": 0.4
+    },
+    {
+      "id": "E4",
+      "name": "Unknown Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is entirely gray with no discernible features, objects, or text. It appears to be a blank or uniformly colored surface, possibly a wall or display panel.",
+      "visual_signature": "Uniform gray color with no visible content or texture",
+      "bbox": [
+        308,
+        165,
+        334,
+        210
+      ],
+      "center": [
+        321,
+        186
+      ],
+      "area": 1019,
+      "sam_score": 0.0001583099365234375,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E5",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image shows a cropped and indistinct portion of a wall surface with no discernible artwork, text, or imagery. The visible area is primarily a neutral tone with a slight gradient, suggesting a plain wall or mounting surface.",
+      "visual_signature": "Neutral-toned, gradient-like surface with no identifiable features or content.",
+      "bbox": [
+        333,
+        165,
+        349,
+        203
+      ],
+      "center": [
+        343,
+        182
+      ],
+      "area": 121,
+      "sam_score": 0.28125,
+      "attr_confidence": 0.1
+    },
+    {
+      "id": "E6",
+      "name": "Abstract Composition with Gray Tones",
+      "typology": "Painting",
+      "description": "A minimalist abstract artwork featuring horizontal bands of varying gray shades, mounted on a plain wall. The composition emphasizes subtle tonal gradients and geometric simplicity.",
+      "visual_signature": "Horizontal gray bands with soft transitions between tones, no discernible figures or text.",
+      "bbox": [
+        349,
+        184,
+        371,
+        209
+      ],
+      "center": [
+        363,
+        200
+      ],
+      "area": 172,
+      "sam_score": 0.55078125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E7",
+      "name": "Calligraphy Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented framed panel displaying black Chinese calligraphy on a white background, mounted on a light-colored wall. The characters are arranged in columns and written in a flowing, traditional script.",
+      "visual_signature": "Black ink calligraphy in vertical columns on white paper, framed with a simple wooden border.",
+      "bbox": [
+        461,
+        144,
+        629,
+        323
+      ],
+      "center": [
+        548,
+        217
+      ],
+      "area": 16745,
+      "sam_score": 0.6171875,
+      "attr_confidence": 0.95
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      350
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Seated Figure in Contemplation",
+        "typology": "Drawing",
+        "bbox": [
+          2,
+          93,
+          184,
+          268
+        ],
+        "center": [
+          83,
+          158
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Dark Forms",
+        "typology": "Painting",
+        "bbox": [
+          203,
+          66,
+          268,
+          222
+        ],
+        "center": [
+          234,
+          173
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Untitled Landscape with Figures",
+        "typology": "Painting",
+        "bbox": [
+          279,
+          195,
+          307,
+          223
+        ],
+        "center": [
+          292,
+          208
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Unknown Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          308,
+          165,
+          334,
+          210
+        ],
+        "center": [
+          321,
+          186
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Undetermined Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          333,
+          165,
+          349,
+          203
+        ],
+        "center": [
+          343,
+          182
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Abstract Composition with Gray Tones",
+        "typology": "Painting",
+        "bbox": [
+          349,
+          184,
+          371,
+          209
+        ],
+        "center": [
+          363,
+          200
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "Calligraphy Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          461,
+          144,
+          629,
+          323
+        ],
+        "center": [
+          548,
+          217
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 151.74,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 151.74,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 67.74,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 67.74,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 36.4,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 36.4,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 22.36,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 22.36,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 26.91,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 26.91,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 185.78,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 185.78,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 151.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 214.9,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 239.64,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 67.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 87.97,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 109.37,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 36.4,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 57.25,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 67.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 22.36,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 36.4,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 44.27,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 22.36,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 26.91,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 57.25,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 26.91,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 44.27,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 71.45,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 185.78,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 207.97,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 229.11,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "E3": [
+        "E4",
+        "E5",
+        "E2"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E6"
+      ],
+      "E5": [
+        "E4",
+        "E6",
+        "E3"
+      ],
+      "E6": [
+        "E5",
+        "E4",
+        "E3"
+      ],
+      "E7": [
+        "E6",
+        "E5",
+        "E4"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E7",
+      "name": "Calligraphy Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented framed panel displaying black Chinese calligraphy on a white background, mounted on a light-colored wall. The characters are arranged in columns and written in a flowing, traditional script.",
+      "visual_signature": "Black ink calligraphy in vertical columns on white paper, framed with a simple wooden border."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:27:20.009424",
+        "image": "capture_20260308_025105_444.png",
+        "current_exhibit": "Calligraphy Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E6",
+      "E5",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Calligraphy Panel",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.94,
+        "last_seen": "2026-03-08T04:27:20.009424",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {
+          "Calligraphy Panel": 1
+        }
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E7",
+      "name": "Calligraphy Panel",
+      "score": 0.156
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Seated Figure in Contemplation",
+      "score": 0.1503
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Unknown Exhibit",
+      "score": 0.1503
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Untitled Landscape with Figures",
+      "score": 0.1433
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Undetermined Wall Exhibit",
+      "score": 0.1386
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Dark Forms",
+      "score": 0.1357
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Abstract Composition with Gray Tones",
+      "score": 0.1258
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E6",
+    "E5",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E4",
+    "name": "Unknown Exhibit",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.63,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E4",
+      "name": "Unknown Exhibit",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.55
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E5",
+      "name": "Undetermined Wall Exhibit",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.49
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E3",
+      "name": "Untitled Landscape with Figures",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.52
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:27:20.009424",
+        "image": "capture_20260308_025105_444.png",
+        "current_exhibit": "Calligraphy Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Calligraphy Panel",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.94,
+        "last_seen": "2026-03-08T04:27:20.009424",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {
+          "Calligraphy Panel": 1
+        }
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Calligraphy Panel",
+    "next_target_name": "Unknown Exhibit",
+    "next_target_exhibit_id": "E4"
+  }
+}

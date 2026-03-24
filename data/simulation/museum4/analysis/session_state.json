@@ -1,0 +1,116 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:30:31.217284",
+      "image": "capture_20260308_034727_019.png",
+      "current_exhibit": "Seascape at Sunset",
+      "attention_level": "D",
+      "dwell_time_sec": 2.36,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:31:14.450135",
+      "image": "capture_20260308_034743_994.png",
+      "current_exhibit": "Cityscape with Water Reflections",
+      "attention_level": "D",
+      "dwell_time_sec": 2.13,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:32:09.909164",
+      "image": "capture_20260308_034818_548.png",
+      "current_exhibit": "Landscape with River and Trees",
+      "attention_level": "D",
+      "dwell_time_sec": 2.09,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:32:51.681580",
+      "image": "capture_20260308_034822_449.png",
+      "current_exhibit": "Landscape Series Wall Display",
+      "attention_level": "D",
+      "dwell_time_sec": 2.33,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:33:34.957304",
+      "image": "capture_20260308_034835_651.png",
+      "current_exhibit": "Cityscape with Tall Buildings",
+      "attention_level": "B",
+      "dwell_time_sec": 4.36,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Abstract Landscape with Vertical Forms": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.77,
+      "last_seen": "2026-03-08T04:29:53.969064",
+      "last_description": "A vertically oriented abstract painting featuring blurred, elongated forms in muted blues, greens, and grays, suggesting a forest or natural scene. The artwork is mounted on a museum wall with a dark frame.",
+      "transition_counts": {
+        "Seascape at Sunset": 1
+      }
+    },
+    "Seascape at Sunset": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.36,
+      "last_seen": "2026-03-08T04:30:31.217284",
+      "last_description": "A landscape painting depicting a dramatic sunset over a turbulent sea, with warm orange and pink hues in the sky contrasting against dark waves and silhouetted rocks along the shore. The artwork is mounted on a museum wall with a visible frame.",
+      "transition_counts": {
+        "Cityscape with Water Reflections": 1
+      }
+    },
+    "Cityscape with Water Reflections": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.13,
+      "last_seen": "2026-03-08T04:31:14.450135",
+      "last_description": "A blurred painting depicting a city skyline reflected in water, with indistinct buildings and a hazy atmosphere. The artwork is mounted on a wall, framed in black, and appears to be viewed at an angle.",
+      "transition_counts": {
+        "Landscape with River and Trees": 1
+      }
+    },
+    "Landscape with River and Trees": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.09,
+      "last_seen": "2026-03-08T04:32:09.909164",
+      "last_description": "A landscape painting depicting a river winding through a natural scene with trees and distant hills, rendered in earthy tones of brown, green, and blue. The artwork is mounted on a museum wall with a simple frame.",
+      "transition_counts": {
+        "Landscape Series Wall Display": 1
+      }
+    },
+    "Landscape Series Wall Display": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.33,
+      "last_seen": "2026-03-08T04:32:51.681580",
+      "last_description": "A horizontal sequence of framed landscape paintings mounted on a white wall, featuring natural scenes with muted earth tones and sky elements. The artworks are evenly spaced and appear to depict rural or coastal environments.",
+      "transition_counts": {
+        "Cityscape with Tall Buildings": 1
+      }
+    },
+    "Cityscape with Tall Buildings": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.36,
+      "last_seen": "2026-03-08T04:33:34.957304",
+      "last_description": "A vertical painting depicting a dense urban skyline with tall, slender buildings under a muted sky. The composition emphasizes height and architectural form, rendered in cool tones of gray and blue.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "Cityscape with Tall Buildings",
+  "updated_at": "2026-03-08T04:33:53.544957"
+}

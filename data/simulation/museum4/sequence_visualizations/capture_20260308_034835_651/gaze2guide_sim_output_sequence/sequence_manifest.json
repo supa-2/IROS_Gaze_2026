@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034835_651/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034835_651.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Cityscape with Tall Buildings",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a dense urban skyline with tall, slender buildings under a muted sky. The composition emphasizes height and architectural form, rendered in cool tones of gray and blue.",
+      "bbox": [
+        231,
+        76,
+        304,
+        164
+      ],
+      "center": [
+        268,
+        121
+      ],
+      "dwell_time_sec": 4.36
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Interior Scene",
+      "typology": "Painting",
+      "description": "A small, vertically oriented painting depicting an abstracted interior space with muted blues and grays, featuring indistinct architectural elements such as a doorway or window. The artwork is mounted on a plain white wall, centered within the frame.",
+      "bbox": [
+        308,
+        5,
+        479,
+        272
+      ],
+      "center": [
+        408,
+        143
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034835_651/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034835_651/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034835_651/gaze2guide_sim_output_sequence/heatmap_seq"
+}

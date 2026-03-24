@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum8/analysis/capture_20260308_035523_032/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum8/images/capture_20260308_035523_032.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Sculptural Form in White",
+      "typology": "OtherFlatArtwork",
+      "description": "A large-scale abstract artwork featuring undulating white forms with pleated textures, resembling folded paper or fabric, mounted on a wall. The composition uses light and shadow to emphasize depth and curvature against a neutral background.",
+      "bbox": [
+        205,
+        61,
+        476,
+        295
+      ],
+      "center": [
+        322,
+        160
+      ],
+      "dwell_time_sec": 4.94
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Yellow Horse in Arched Niche",
+      "typology": "Painting",
+      "description": "A painting depicting a bright yellow horse standing within an arched architectural niche. The composition features warm tones and a minimalist background, emphasizing the horse as the central subject.",
+      "bbox": [
+        509,
+        156,
+        577,
+        237
+      ],
+      "center": [
+        543,
+        192
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035523_032/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035523_032/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035523_032/gaze2guide_sim_output_sequence/heatmap_seq"
+}

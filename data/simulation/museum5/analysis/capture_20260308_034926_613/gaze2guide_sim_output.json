@@ -1,0 +1,283 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034926_613.png",
+    "image_path": "data/simulation/museum5/images/capture_20260308_034926_613.png",
+    "timestamp": "2026-03-08T04:34:14.234737",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Landscape with Mountains and Trees",
+    "attention_level": "B",
+    "dwell_time_sec": 4.56,
+    "typology": "Painting",
+    "description": "A horizontal ink wash painting depicting a misty mountain landscape with sparse trees and layered rock formations, rendered in monochromatic tones of black, gray, and brown. The artwork is mounted on a wall, appearing aged with visible texture and subtle discoloration.",
+    "visual_signature": "Monochromatic ink wash style, mountainous terrain, sparse vegetation, atmospheric perspective, aged paper texture"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Landscape with Mountains and Trees",
+      "typology": "Painting",
+      "description": "A horizontal ink wash painting depicting a misty mountain landscape with sparse trees and layered rock formations, rendered in monochromatic tones of black, gray, and brown. The artwork is mounted on a wall, appearing aged with visible texture and subtle discoloration.",
+      "visual_signature": "Monochromatic ink wash style, mountainous terrain, sparse vegetation, atmospheric perspective, aged paper texture",
+      "bbox": [
+        2,
+        76,
+        374,
+        295
+      ],
+      "center": [
+        171,
+        187
+      ],
+      "area": 65035,
+      "sam_score": 0.98046875,
+      "attr_confidence": 0.9
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Rust-like Streaks",
+      "typology": "Painting",
+      "description": "A large abstract painting featuring horizontal bands of muted blue-gray tones with irregular, rust-colored streaks across the upper portion. The artwork is mounted on a wall and appears to have a textured surface.",
+      "visual_signature": "Horizontal composition with rust-like orange-brown stains over a cool gray-blue background; textured surface resembling aged metal or painted canvas.",
+      "bbox": [
+        466,
+        138,
+        590,
+        244
+      ],
+      "center": [
+        524,
+        191
+      ],
+      "area": 11391,
+      "sam_score": 0.98046875,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      366
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Landscape with Mountains and Trees",
+        "typology": "Painting",
+        "bbox": [
+          2,
+          76,
+          374,
+          295
+        ],
+        "center": [
+          171,
+          187
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Rust-like Streaks",
+        "typology": "Painting",
+        "bbox": [
+          466,
+          138,
+          590,
+          244
+        ],
+        "center": [
+          524,
+          191
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 353.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 353.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 353.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 353.02,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2"
+      ],
+      "E2": [
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Landscape with Mountains and Trees",
+      "typology": "Painting",
+      "description": "A horizontal ink wash painting depicting a misty mountain landscape with sparse trees and layered rock formations, rendered in monochromatic tones of black, gray, and brown. The artwork is mounted on a wall, appearing aged with visible texture and subtle discoloration.",
+      "visual_signature": "Monochromatic ink wash style, mountainous terrain, sparse vegetation, atmospheric perspective, aged paper texture"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:33:57.695328",
+        "image": "capture_20260308_034923_674.png",
+        "current_exhibit": "Landscape with Mountains and Pavilion",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:34:14.234737",
+        "image": "capture_20260308_034926_613.png",
+        "current_exhibit": "Landscape with Mountains and Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.56,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Landscape with Mountains and Pavilion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:33:57.695328",
+        "transition_counts": {
+          "Landscape with Mountains and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape with Mountains and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.56,
+        "last_seen": "2026-03-08T04:34:14.234737",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Landscape with Mountains and Trees",
+      "score": 0.5928
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Rust-like Streaks",
+      "score": 0.4072
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Abstract Composition with Rust-like Streaks",
+    "attention_level": "C",
+    "estimated_dwell_time_sec": 3.04,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Rust-like Streaks",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.84
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:33:57.695328",
+        "image": "capture_20260308_034923_674.png",
+        "current_exhibit": "Landscape with Mountains and Pavilion",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:34:14.234737",
+        "image": "capture_20260308_034926_613.png",
+        "current_exhibit": "Landscape with Mountains and Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.56,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Landscape with Mountains and Pavilion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:33:57.695328",
+        "transition_counts": {
+          "Landscape with Mountains and Trees": 1
+        }
+      },
+      {
+        "name": "Landscape with Mountains and Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.56,
+        "last_seen": "2026-03-08T04:34:14.234737",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Landscape with Mountains and Trees",
+    "next_target_name": "Abstract Composition with Rust-like Streaks",
+    "next_target_exhibit_id": "E2"
+  }
+}

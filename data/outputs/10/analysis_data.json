@@ -1,0 +1,377 @@
+{
+  "timestamp": "2026-03-08T14:01:15.124033",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        29,
+        88,
+        121,
+        241
+      ],
+      "norm_bbox": [
+        0.04,
+        0.28,
+        0.19,
+        0.63
+      ],
+      "description": "Framed painting with colorful figures on left wall",
+      "center": [
+        72,
+        168
+      ],
+      "area": 11561,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        147,
+        133,
+        182,
+        218
+      ],
+      "norm_bbox": [
+        0.22,
+        0.35,
+        0.28,
+        0.57
+      ],
+      "description": "Framed painting with abstract or stylized figures",
+      "center": [
+        163,
+        177
+      ],
+      "area": 2665,
+      "sam_score": 0.9375
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        183,
+        119,
+        211,
+        220
+      ],
+      "norm_bbox": [
+        0.29,
+        0.35,
+        0.33,
+        0.57
+      ],
+      "description": "Framed painting with vertical composition",
+      "center": [
+        195,
+        175
+      ],
+      "area": 1779,
+      "sam_score": 0.50390625
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        195,
+        109,
+        240,
+        237
+      ],
+      "norm_bbox": [
+        0.34,
+        0.35,
+        0.37,
+        0.57
+      ],
+      "description": "Framed artwork with dark background and central figure",
+      "center": [
+        222,
+        173
+      ],
+      "area": 3731,
+      "sam_score": 0.41015625
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        256,
+        160,
+        290,
+        192
+      ],
+      "norm_bbox": [
+        0.41,
+        0.45,
+        0.45,
+        0.52
+      ],
+      "description": "Small framed painting on far wall",
+      "center": [
+        267,
+        171
+      ],
+      "area": 445,
+      "sam_score": 0.671875
+    },
+    {
+      "id": "E6",
+      "name": "Painting 6",
+      "type": "Painting",
+      "bbox": [
+        294,
+        158,
+        328,
+        193
+      ],
+      "norm_bbox": [
+        0.47,
+        0.45,
+        0.51,
+        0.52
+      ],
+      "description": "Framed artwork with landscape scene",
+      "center": [
+        309,
+        171
+      ],
+      "area": 639,
+      "sam_score": 0.71875
+    },
+    {
+      "id": "E7",
+      "name": "Painting 7",
+      "type": "Painting",
+      "bbox": [
+        330,
+        160,
+        366,
+        193
+      ],
+      "norm_bbox": [
+        0.53,
+        0.45,
+        0.57,
+        0.52
+      ],
+      "description": "Framed painting with floral or still-life subject",
+      "center": [
+        346,
+        171
+      ],
+      "area": 659,
+      "sam_score": 0.62890625
+    },
+    {
+      "id": "E8",
+      "name": "Painting 8",
+      "type": "Painting",
+      "bbox": [
+        368,
+        159,
+        404,
+        196
+      ],
+      "norm_bbox": [
+        0.59,
+        0.45,
+        0.63,
+        0.52
+      ],
+      "description": "Framed artwork with muted tones",
+      "center": [
+        385,
+        173
+      ],
+      "area": 684,
+      "sam_score": 0.80078125
+    },
+    {
+      "id": "E9",
+      "name": "Painting 9",
+      "type": "Painting",
+      "bbox": [
+        409,
+        163,
+        428,
+        189
+      ],
+      "norm_bbox": [
+        0.65,
+        0.45,
+        0.69,
+        0.52
+      ],
+      "description": "Framed artwork with abstract or textured surface",
+      "center": [
+        419,
+        174
+      ],
+      "area": 333,
+      "sam_score": 0.62109375
+    },
+    {
+      "id": "E10",
+      "name": "Painting 10",
+      "type": "Painting",
+      "bbox": [
+        451,
+        160,
+        474,
+        193
+      ],
+      "norm_bbox": [
+        0.71,
+        0.45,
+        0.75,
+        0.52
+      ],
+      "description": "Framed artwork with small scale",
+      "center": [
+        462,
+        174
+      ],
+      "area": 585,
+      "sam_score": 0.80859375
+    },
+    {
+      "id": "E11",
+      "name": "Painting 11",
+      "type": "Painting",
+      "bbox": [
+        451,
+        46,
+        630,
+        285
+      ],
+      "norm_bbox": [
+        0.71,
+        0.22,
+        1.0,
+        0.73
+      ],
+      "description": "Large landscape painting on right wall",
+      "center": [
+        553,
+        171
+      ],
+      "area": 30821,
+      "sam_score": 0.96875
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E11",
+      "center": [
+        553,
+        171
+      ],
+      "duration": 3.6384891266553927,
+      "score": 0.6950767951293025
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E10",
+      "center": [
+        462,
+        174
+      ],
+      "duration": 2.854349581296112,
+      "score": 0.5809599825979808
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E9",
+      "center": [
+        419,
+        174
+      ],
+      "duration": 2.5851482010651736,
+      "score": 0.4889389986675295
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E8",
+      "center": [
+        385,
+        173
+      ],
+      "duration": 2.5371256916385367,
+      "score": 0.46609691685298155
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E6",
+      "center": [
+        309,
+        171
+      ],
+      "duration": 2.6549690629120013,
+      "score": 0.5088935195765233
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E4",
+      "center": [
+        222,
+        173
+      ],
+      "duration": 2.862341386352493,
+      "score": 0.5439217452692323
+    },
+    {
+      "sequence": 7,
+      "exhibit_id": "E3",
+      "center": [
+        195,
+        175
+      ],
+      "duration": 2.7747463413763875,
+      "score": 0.5352315785259663
+    },
+    {
+      "sequence": 8,
+      "exhibit_id": "E2",
+      "center": [
+        163,
+        177
+      ],
+      "duration": 2.843724039364084,
+      "score": 0.5488990676398803
+    },
+    {
+      "sequence": 9,
+      "exhibit_id": "E1",
+      "center": [
+        72,
+        168
+      ],
+      "duration": 3.0464112968002066,
+      "score": 0.5525029076810334
+    },
+    {
+      "sequence": 10,
+      "exhibit_id": "E5",
+      "center": [
+        267,
+        171
+      ],
+      "duration": 2.6312127491070383,
+      "score": 0.5035349243283331
+    }
+  ],
+  "progressive_outputs": {
+    "scanpath_dir": "progressive_scanpath",
+    "heatmap_dir": "progressive_heatmap",
+    "segmentation_dir": "progressive_segmentation",
+    "gif_dir": "progressive_gifs"
+  }
+}

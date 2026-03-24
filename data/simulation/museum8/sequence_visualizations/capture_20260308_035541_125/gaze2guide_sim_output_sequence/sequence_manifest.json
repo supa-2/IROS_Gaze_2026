@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum8/analysis/capture_20260308_035541_125/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum8/images/capture_20260308_035541_125.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Architectural Courtyard with Palm Tree and Animals",
+      "typology": "Painting",
+      "description": "A serene architectural scene featuring a pink-walled courtyard with an arched opening, framed by a palm tree under a clear blue sky. Two dark silhouetted animals, possibly cats or small dogs, are positioned on the ground, adding a sense of scale and life to the minimalist composition.",
+      "bbox": [
+        3,
+        81,
+        275,
+        306
+      ],
+      "center": [
+        151,
+        205
+      ],
+      "dwell_time_sec": 4.5
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Architectural Tunnel Perspective",
+      "typology": "Painting",
+      "description": "A painting depicting a long, receding tunnel with arched wooden walls and a central pathway leading to a distant light. The composition uses perspective to create depth, with warm brown tones dominating the structure against a dark background.",
+      "bbox": [
+        357,
+        78,
+        537,
+        304
+      ],
+      "center": [
+        460,
+        179
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035541_125/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035541_125/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035541_125/gaze2guide_sim_output_sequence/heatmap_seq"
+}

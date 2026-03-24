@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-03-06T12:30:56.342667",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        145,
+        367,
+        239,
+        596
+      ],
+      "norm_bbox": [
+        0.2,
+        0.37,
+        0.32,
+        0.58
+      ],
+      "description": "Framed painting with dark ornate frame on the left wall",
+      "center": [
+        191,
+        477
+      ],
+      "area": 19198,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        257,
+        205,
+        668,
+        667
+      ],
+      "norm_bbox": [
+        0.41,
+        0.27,
+        0.67,
+        0.62
+      ],
+      "description": "Large abstract colorful painting mounted on the main wall",
+      "center": [
+        389,
+        391
+      ],
+      "area": 45521,
+      "sam_score": 0.6015625
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        518,
+        326,
+        685,
+        551
+      ],
+      "norm_bbox": [
+        0.7,
+        0.33,
+        0.93,
+        0.55
+      ],
+      "description": "Large soft-toned abstract painting on the right wall",
+      "center": [
+        602,
+        442
+      ],
+      "area": 35706,
+      "sam_score": 0.97265625
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E3",
+      "center": [
+        602,
+        442
+      ],
+      "duration": 4.0110233806260425,
+      "score": 0.8167103511792485
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        389,
+        391
+      ],
+      "duration": 3.788154291025161,
+      "score": 0.717827320098877
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E1",
+      "center": [
+        191,
+        477
+      ],
+      "duration": 3.5842632348300647,
+      "score": 0.7107340059495603
+    }
+  ]
+}

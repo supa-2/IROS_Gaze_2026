@@ -1,0 +1,146 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:43:08.921264",
+      "image": "capture_20260308_035340_181.png",
+      "current_exhibit": "Festival Scene with Traditional Performers",
+      "attention_level": "A",
+      "dwell_time_sec": 5.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:43:23.098800",
+      "image": "capture_20260308_035351_995.png",
+      "current_exhibit": "Figure in Motion",
+      "attention_level": "D",
+      "dwell_time_sec": 2.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:44:03.476924",
+      "image": "capture_20260308_035403_065.png",
+      "current_exhibit": "Landscape with Figures and River",
+      "attention_level": "D",
+      "dwell_time_sec": 2.4,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:44:39.198746",
+      "image": "capture_20260308_035407_993.png",
+      "current_exhibit": "Stormy Landscape with Dark Sky",
+      "attention_level": "D",
+      "dwell_time_sec": 2.42,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:45:18.759112",
+      "image": "capture_20260308_035423_084.png",
+      "current_exhibit": "Abstract Composition with Red and White Elements",
+      "attention_level": "E",
+      "dwell_time_sec": 1.53,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Battle Scene with Cavalry": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.69,
+      "last_seen": "2026-03-08T04:40:43.495918",
+      "last_description": "A dramatic historical painting depicting a group of mounted soldiers in combat, rendered in dark, earthy tones with dynamic movement and intense action. The figures are dressed in period military attire, suggesting a 17th or 18th-century battle scene.",
+      "transition_counts": {
+        "Group Portrait of Elders in a Rural Setting": 1
+      }
+    },
+    "Group Portrait of Elders in a Rural Setting": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.6,
+      "last_seen": "2026-03-08T04:41:20.015697",
+      "last_description": "A painted scene depicting a group of elderly individuals gathered outdoors, with one seated prominently in the foreground and others standing or sitting nearby. The composition features earthy tones and detailed clothing, suggesting a rural or historical context, mounted on a wall in a museum setting.",
+      "transition_counts": {
+        "Religious Procession Scene": 1
+      }
+    },
+    "Religious Procession Scene": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.25,
+      "last_seen": "2026-03-08T04:41:59.647502",
+      "last_description": "A painted scene depicting a group of figures in historical or religious attire, including individuals in robes and head coverings, set against a muted background with architectural elements. The composition suggests a ceremonial procession, with warm earth tones and soft lighting.",
+      "transition_counts": {
+        "Abstract Composition with Figures": 1
+      }
+    },
+    "Abstract Composition with Figures": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.17,
+      "last_seen": "2026-03-08T04:42:47.298221",
+      "last_description": "A blurred abstract painting featuring indistinct human figures in a dimly lit setting, dominated by dark tones and soft color gradients. The artwork is mounted on a wall within a museum exhibit space.",
+      "transition_counts": {
+        "Festival Scene with Traditional Performers": 1
+      }
+    },
+    "Festival Scene with Traditional Performers": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 5.5,
+      "last_seen": "2026-03-08T04:43:08.921264",
+      "last_description": "A colorful mural depicting a lively festival scene with traditional performers, including dancers and musicians, set against a backdrop of lanterns and urban buildings. The artwork features vibrant clothing, dynamic poses, and festive decorations, mounted on a museum wall.",
+      "transition_counts": {
+        "Figure in Motion": 1
+      }
+    },
+    "Figure in Motion": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.5,
+      "last_seen": "2026-03-08T04:43:23.098800",
+      "last_description": "A monochromatic sketch depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing lines suggesting movement. The artwork is mounted on a plain wall within a simple frame.",
+      "transition_counts": {
+        "Landscape with Figures and River": 1
+      }
+    },
+    "Landscape with Figures and River": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.4,
+      "last_seen": "2026-03-08T04:44:03.476924",
+      "last_description": "A landscape painting depicting figures near a river, rendered in soft, impressionistic brushstrokes with dominant blues, greens, and earth tones. The artwork is mounted on a wall within a museum setting.",
+      "transition_counts": {
+        "Stormy Landscape with Dark Sky": 1
+      }
+    },
+    "Stormy Landscape with Dark Sky": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.42,
+      "last_seen": "2026-03-08T04:44:39.198746",
+      "last_description": "A dramatic landscape painting featuring a turbulent, dark sky with swirling clouds above a silhouetted terrain of trees and hills. The composition uses deep blues and blacks to convey a moody, atmospheric scene, mounted on a museum wall.",
+      "transition_counts": {
+        "Abstract Composition with Red and White Elements": 1
+      }
+    },
+    "Abstract Composition with Red and White Elements": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 1.53,
+      "last_seen": "2026-03-08T04:45:18.759112",
+      "last_description": "A cropped section of an abstract artwork featuring a horizontal band of red with white circular forms, possibly representing stylized clouds or orbs, set against a dark background. The composition suggests a minimalist or modernist style.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "Abstract Composition with Red and White Elements",
+  "updated_at": "2026-03-08T04:46:54.294851"
+}

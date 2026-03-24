@@ -1,0 +1,156 @@
+{
+  "stm": [
+    {
+      "timestamp": "2026-03-08T04:38:22.828377",
+      "image": "capture_20260308_035138_165.png",
+      "current_exhibit": "Cityscape with Snowy Streets",
+      "attention_level": "D",
+      "dwell_time_sec": 2.5,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:38:56.741862",
+      "image": "capture_20260308_035141_966.png",
+      "current_exhibit": "Cityscape with Water Reflection",
+      "attention_level": "D",
+      "dwell_time_sec": 2.48,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:39:32.204840",
+      "image": "capture_20260308_035147_689.png",
+      "current_exhibit": "Abstract Landscape with Blue and Green Tones",
+      "attention_level": "C",
+      "dwell_time_sec": 3.22,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:39:56.540941",
+      "image": "capture_20260308_035155_797.png",
+      "current_exhibit": "Abstract Cityscape with Blue Tones",
+      "attention_level": "B",
+      "dwell_time_sec": 4.18,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    },
+    {
+      "timestamp": "2026-03-08T04:40:11.720374",
+      "image": "capture_20260308_035159_620.png",
+      "current_exhibit": "Coastal Landscape with Sandy Shore",
+      "attention_level": "C",
+      "dwell_time_sec": 3.2,
+      "position": null,
+      "rotation": null,
+      "capture_index": null
+    }
+  ],
+  "ltm": {
+    "Abstract Cityscape with Reflections": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.12,
+      "last_seen": "2026-03-08T04:36:01.617784",
+      "last_description": "An abstract painting depicting a city skyline with tall buildings rendered in warm browns, oranges, and muted blues, reflected in a shimmering water surface below. The composition uses vertical brushstrokes and blended colors to evoke an urban scene at dusk or dawn.",
+      "transition_counts": {
+        "Winter Landscape with Snow-Covered Field": 1
+      }
+    },
+    "Winter Landscape with Snow-Covered Field": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.59,
+      "last_seen": "2026-03-08T04:36:29.873774",
+      "last_description": "A landscape painting depicting a snow-covered field with tall, dry grasses in the foreground and a distant treeline under a pale blue sky. The scene is rendered in soft, muted tones of white, beige, and brown, suggesting a cold, serene winter atmosphere.",
+      "transition_counts": {
+        "Landscape with Path and Autumn Trees": 1
+      }
+    },
+    "Landscape with Path and Autumn Trees": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.32,
+      "last_seen": "2026-03-08T04:36:54.909481",
+      "last_description": "A landscape painting depicting a winding path through a wooded area with autumnal trees, rendered in soft earth tones and muted greens and yellows. The artwork is mounted on a wall, slightly angled, with visible brushwork suggesting an impressionistic style.",
+      "transition_counts": {
+        "Ocean Sunset Landscape": 1
+      }
+    },
+    "Ocean Sunset Landscape": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.64,
+      "last_seen": "2026-03-08T04:37:11.674781",
+      "last_description": "A vertical painting depicting a dramatic ocean sunset with vibrant orange and pink hues in the sky transitioning into deep blue clouds above turbulent waves. The artwork is mounted on a wall, slightly angled, showing a dynamic seascape composition.",
+      "transition_counts": {
+        "Abstract Cityscape with Vertical Forms": 1
+      }
+    },
+    "Abstract Cityscape with Vertical Forms": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.63,
+      "last_seen": "2026-03-08T04:37:40.539201",
+      "last_description": "A vertically oriented abstract painting featuring blurred, upright forms in warm earth tones and muted reds, suggesting a city skyline. The artwork is mounted on a wall, partially cropped at the edges, with soft brushwork and indistinct details.",
+      "transition_counts": {
+        "Cityscape with Snowy Streets": 1
+      }
+    },
+    "Cityscape with Snowy Streets": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.5,
+      "last_seen": "2026-03-08T04:38:22.828377",
+      "last_description": "A blurred painting depicting a city street scene under snowfall, featuring indistinct buildings and figures in muted blues, grays, and whites. The artwork is mounted on a wall, viewed at an angle.",
+      "transition_counts": {
+        "Cityscape with Water Reflection": 1
+      }
+    },
+    "Cityscape with Water Reflection": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 2.48,
+      "last_seen": "2026-03-08T04:38:56.741862",
+      "last_description": "A watercolor-style painting depicting a city skyline reflected in a body of water, rendered in muted blues, grays, and whites. The composition features tall buildings along the horizon with soft, blended edges, suggesting an atmospheric or misty urban scene.",
+      "transition_counts": {
+        "Abstract Landscape with Blue and Green Tones": 1
+      }
+    },
+    "Abstract Landscape with Blue and Green Tones": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.22,
+      "last_seen": "2026-03-08T04:39:32.204840",
+      "last_description": "A blurred abstract painting featuring dominant blue and green hues, suggesting a landscape or natural scene. The composition appears to include vertical and horizontal brushstrokes, possibly depicting trees or water, mounted on a museum wall.",
+      "transition_counts": {
+        "Abstract Cityscape with Blue Tones": 1
+      }
+    },
+    "Abstract Cityscape with Blue Tones": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 4.18,
+      "last_seen": "2026-03-08T04:39:56.540941",
+      "last_description": "A large abstract painting depicting a cityscape with blurred vertical forms suggesting buildings, rendered in shades of blue and gray. The composition features soft, blended brushstrokes and a reflective surface at the bottom, possibly representing water or a street scene.",
+      "transition_counts": {
+        "Coastal Landscape with Sandy Shore": 1
+      }
+    },
+    "Coastal Landscape with Sandy Shore": {
+      "typology": "Painting",
+      "visits": 1,
+      "total_dwell_time_sec": 3.2,
+      "last_seen": "2026-03-08T04:40:11.720374",
+      "last_description": "A landscape painting depicting a coastal scene with a sandy shore, calm blue water, and a distant hillside covered in greenery under a pale sky. The artwork is mounted on a wall and appears to be framed.",
+      "transition_counts": {}
+    }
+  },
+  "last_focus_name": "Coastal Landscape with Sandy Shore",
+  "updated_at": "2026-03-08T04:40:37.910376"
+}

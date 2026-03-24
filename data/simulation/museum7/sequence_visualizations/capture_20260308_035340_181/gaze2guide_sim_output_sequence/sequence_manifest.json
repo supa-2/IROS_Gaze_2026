@@ -1,0 +1,30 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035340_181/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035340_181.png",
+  "num_sequence_frames": 1,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Festival Scene with Traditional Performers",
+      "typology": "Painting",
+      "description": "A colorful mural depicting a lively festival scene with traditional performers, including dancers and musicians, set against a backdrop of lanterns and urban buildings. The artwork features vibrant clothing, dynamic poses, and festive decorations, mounted on a museum wall.",
+      "bbox": [
+        183,
+        4,
+        600,
+        361
+      ],
+      "center": [
+        403,
+        186
+      ],
+      "dwell_time_sec": 5.5
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035340_181/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035340_181/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035340_181/gaze2guide_sim_output_sequence/heatmap_seq"
+}

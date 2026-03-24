@@ -1,0 +1,211 @@
+{
+  "timestamp": "2026-03-06T12:34:16.701521",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        27,
+        214,
+        244,
+        438
+      ],
+      "norm_bbox": [
+        0.03,
+        0.37,
+        0.22,
+        0.71
+      ],
+      "description": "Large framed abstract painting with green and dark tones on left wall",
+      "center": [
+        127,
+        321
+      ],
+      "area": 38821,
+      "sam_score": 0.98046875
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        259,
+        225,
+        345,
+        400
+      ],
+      "norm_bbox": [
+        0.24,
+        0.38,
+        0.31,
+        0.65
+      ],
+      "description": "Framed artwork featuring a figure with a green square element",
+      "center": [
+        299,
+        310
+      ],
+      "area": 13110,
+      "sam_score": 0.9765625
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        366,
+        251,
+        409,
+        361
+      ],
+      "norm_bbox": [
+        0.33,
+        0.41,
+        0.37,
+        0.59
+      ],
+      "description": "Framed painting with muted tones and vertical composition",
+      "center": [
+        386,
+        305
+      ],
+      "area": 4265,
+      "sam_score": 0.9609375
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        407,
+        239,
+        433,
+        357
+      ],
+      "norm_bbox": [
+        0.37,
+        0.41,
+        0.39,
+        0.58
+      ],
+      "description": "Smaller framed artwork next to Painting 3",
+      "center": [
+        419,
+        301
+      ],
+      "area": 2585,
+      "sam_score": 0.80859375
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        470,
+        267,
+        573,
+        321
+      ],
+      "norm_bbox": [
+        0.43,
+        0.44,
+        0.51,
+        0.53
+      ],
+      "description": "Horizontal framed artwork in the far back wall",
+      "center": [
+        520,
+        294
+      ],
+      "area": 5231,
+      "sam_score": 0.93359375
+    },
+    {
+      "id": "E6",
+      "name": "Photo 1",
+      "type": "Photography",
+      "bbox": [
+        715,
+        207,
+        1010,
+        427
+      ],
+      "norm_bbox": [
+        0.69,
+        0.35,
+        0.91,
+        0.69
+      ],
+      "description": "Large framed photograph of a silhouette against a blue sky on right wall",
+      "center": [
+        898,
+        312
+      ],
+      "area": 40741,
+      "sam_score": 0.8203125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E5",
+      "center": [
+        520,
+        294
+      ],
+      "duration": 3.059925095072484,
+      "score": 0.6003317826631458
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        299,
+        310
+      ],
+      "duration": 3.429306234428493,
+      "score": 0.6812677302011384
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E1",
+      "center": [
+        127,
+        321
+      ],
+      "duration": 3.7947376836146782,
+      "score": 0.7328817403889314
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E3",
+      "center": [
+        386,
+        305
+      ],
+      "duration": 3.097218874378957,
+      "score": 0.6225062098404114
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E4",
+      "center": [
+        419,
+        301
+      ],
+      "duration": 2.9291495223750523,
+      "score": 0.5803449454583762
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E6",
+      "center": [
+        898,
+        312
+      ],
+      "duration": 3.5816971290724346,
+      "score": 0.6529670872916036
+    }
+  ]
+}

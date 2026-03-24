@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-03-06T12:30:40.553288",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        43,
+        578,
+        109,
+        664
+      ],
+      "norm_bbox": [
+        0.05,
+        0.58,
+        0.14,
+        0.67
+      ],
+      "description": "Framed abstract painting on left side wall",
+      "center": [
+        76,
+        620
+      ],
+      "area": 5662,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        352,
+        590,
+        436,
+        731
+      ],
+      "norm_bbox": [
+        0.48,
+        0.59,
+        0.59,
+        0.74
+      ],
+      "description": "Large colorful abstract painting at the end of the hallway",
+      "center": [
+        393,
+        660
+      ],
+      "area": 11710,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        508,
+        583,
+        544,
+        709
+      ],
+      "norm_bbox": [
+        0.69,
+        0.59,
+        0.74,
+        0.72
+      ],
+      "description": "Vertical abstract painting on right wall",
+      "center": [
+        526,
+        647
+      ],
+      "area": 4206,
+      "sam_score": 0.9453125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E2",
+      "center": [
+        393,
+        660
+      ],
+      "duration": 3.801328002802148,
+      "score": 0.8213163018781601
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E3",
+      "center": [
+        526,
+        647
+      ],
+      "duration": 2.9560295143231436,
+      "score": 0.5726518325296093
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E1",
+      "center": [
+        76,
+        620
+      ],
+      "duration": 3.057354869351851,
+      "score": 0.595729586735798
+    }
+  ]
+}

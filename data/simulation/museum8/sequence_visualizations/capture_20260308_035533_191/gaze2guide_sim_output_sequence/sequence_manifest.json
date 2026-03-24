@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum8/analysis/capture_20260308_035533_191/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum8/images/capture_20260308_035533_191.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Architectural Model Display",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted display featuring a detailed architectural model of a multi-story building with visible windows and structural elements, presented in a vertical format against a yellow background.",
+      "bbox": [
+        23,
+        67,
+        151,
+        136
+      ],
+      "center": [
+        96,
+        98
+      ],
+      "dwell_time_sec": 2.1
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E3",
+      "name": "Stacked Bookshelf Display",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted display featuring multiple stacked shelves filled with books, arranged in a vertical column. The books are uniformly aligned, creating a structured and organized appearance against a plain background.",
+      "bbox": [
+        30,
+        64,
+        154,
+        217
+      ],
+      "center": [
+        94,
+        128
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E2",
+      "name": "Stacked Bookshelf Installation",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted artwork featuring a series of stacked, bookshelf-like structures filled with books, arranged in a vertical column. The piece is displayed against a yellow and white geometric background, suggesting a modern or conceptual art installation.",
+      "bbox": [
+        3,
+        26,
+        179,
+        221
+      ],
+      "center": [
+        92,
+        121
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Wall Text Panel with Architectural Images",
+      "typology": "WallText",
+      "description": "A wall-mounted exhibit panel featuring text at the top and two small architectural photographs below, likely depicting buildings or structures. The panel has a light background with dark text and images arranged in a vertical layout.",
+      "bbox": [
+        173,
+        119,
+        266,
+        152
+      ],
+      "center": [
+        219,
+        125
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035533_191/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035533_191/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum8/sequence_visualizations/capture_20260308_035533_191/gaze2guide_sim_output_sequence/heatmap_seq"
+}

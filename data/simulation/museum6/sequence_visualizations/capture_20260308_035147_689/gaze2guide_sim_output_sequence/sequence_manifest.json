@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035147_689/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035147_689.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Landscape with Blue and Green Tones",
+      "typology": "Painting",
+      "description": "A blurred abstract painting featuring dominant blue and green hues, suggesting a landscape or natural scene. The composition appears to include vertical and horizontal brushstrokes, possibly depicting trees or water, mounted on a museum wall.",
+      "bbox": [
+        274,
+        117,
+        345,
+        193
+      ],
+      "center": [
+        310,
+        155
+      ],
+      "dwell_time_sec": 3.22
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E3",
+      "name": "Cityscape with Water Reflections",
+      "typology": "Painting",
+      "description": "A moody, impressionistic painting depicting a city skyline reflected in water, rendered in dark blues, grays, and muted tones. The composition features silhouetted buildings against a hazy sky, with soft brushwork suggesting atmospheric conditions.",
+      "bbox": [
+        413,
+        106,
+        519,
+        199
+      ],
+      "center": [
+        466,
+        153
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E1",
+      "name": "Landscape with River and Figures",
+      "typology": "Painting",
+      "description": "A moody landscape painting depicting a river scene with silhouetted figures near the water's edge, rendered in dark blues, grays, and muted earth tones. The composition suggests an overcast sky and distant trees, mounted on a museum wall with a simple frame.",
+      "bbox": [
+        173,
+        124,
+        229,
+        189
+      ],
+      "center": [
+        201,
+        156
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035147_689/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035147_689/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035147_689/gaze2guide_sim_output_sequence/heatmap_seq"
+}

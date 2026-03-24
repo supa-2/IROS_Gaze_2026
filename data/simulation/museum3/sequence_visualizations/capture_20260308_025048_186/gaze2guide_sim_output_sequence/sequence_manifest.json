@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025048_186/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025048_186.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Landscape with Yellow Field and Blue Sky",
+      "typology": "Painting",
+      "description": "A vibrant landscape painting featuring a golden-yellow field in the foreground, green rolling hills in the midground, and a bright blue sky above. The artwork is mounted on a wall and appears to be framed.",
+      "bbox": [
+        1,
+        93,
+        117,
+        309
+      ],
+      "center": [
+        49,
+        197
+      ],
+      "dwell_time_sec": 2.27
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Still Life with Fruit and Vase",
+      "typology": "Painting",
+      "description": "A colorful still life painting featuring a composition of fruit, including oranges and possibly grapes, arranged on a table with a vase in the background. The artwork uses bold, warm colors and appears to be mounted on a museum wall with a dark frame.",
+      "bbox": [
+        133,
+        142,
+        186,
+        234
+      ],
+      "center": [
+        157,
+        186
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A framed landscape painting depicting a river winding through a natural scene with trees and distant hills. The composition uses earthy tones and soft brushwork, mounted on a museum wall with a simple wooden frame.",
+      "bbox": [
+        228,
+        164,
+        295,
+        236
+      ],
+      "center": [
+        260,
+        201
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Figure in Motion",
+      "typology": "Painting",
+      "description": "A dynamic abstract painting featuring a stylized human figure in motion, rendered in earthy tones with bold brushwork. The artwork is mounted on a museum wall, framed in a simple dark border.",
+      "bbox": [
+        339,
+        164,
+        364,
+        195
+      ],
+      "center": [
+        350,
+        181
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025048_186/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025048_186/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025048_186/gaze2guide_sim_output_sequence/heatmap_seq"
+}

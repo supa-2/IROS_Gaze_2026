@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum2/analysis/capture_20260308_034347_827/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum2/images/capture_20260308_034347_827.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Geometric Textile Wall Hanging",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented textile artwork featuring a central dark vertical band flanked by lighter, patterned sections with repeating geometric motifs. The piece is mounted on a wall and displays a monochromatic color scheme with subtle texture variations.",
+      "bbox": [
+        174,
+        16,
+        303,
+        194
+      ],
+      "center": [
+        241,
+        105
+      ],
+      "dwell_time_sec": 4.3
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Geometric Composition",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring angular, geometric shapes in shades of gray and white, arranged in a fragmented composition that suggests a stylized figure or architectural form. The artwork is mounted on a wall with a visible frame.",
+      "bbox": [
+        442,
+        28,
+        559,
+        187
+      ],
+      "center": [
+        498,
+        107
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034347_827/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034347_827/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034347_827/gaze2guide_sim_output_sequence/heatmap_seq"
+}

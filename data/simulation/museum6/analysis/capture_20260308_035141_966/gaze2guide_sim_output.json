@@ -1,0 +1,739 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035141_966.png",
+    "image_path": "data/simulation/museum6/images/capture_20260308_035141_966.png",
+    "timestamp": "2026-03-08T04:38:56.741862",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Cityscape with Water Reflection",
+    "attention_level": "D",
+    "dwell_time_sec": 2.48,
+    "typology": "Painting",
+    "description": "A watercolor-style painting depicting a city skyline reflected in a body of water, rendered in muted blues, grays, and whites. The composition features tall buildings along the horizon with soft, blended edges, suggesting an atmospheric or misty urban scene.",
+    "visual_signature": "Muted color palette, reflective water surface, abstracted city buildings, soft brushwork"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Cityscape with Water Reflection",
+      "typology": "Painting",
+      "description": "A watercolor-style painting depicting a city skyline reflected in a body of water, rendered in muted blues, grays, and whites. The composition features tall buildings along the horizon with soft, blended edges, suggesting an atmospheric or misty urban scene.",
+      "visual_signature": "Muted color palette, reflective water surface, abstracted city buildings, soft brushwork",
+      "bbox": [
+        0,
+        115,
+        171,
+        326
+      ],
+      "center": [
+        73,
+        211
+      ],
+      "area": 26602,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E2",
+      "name": "Landscape with Path and Trees",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a winding path through a wooded area with trees and distant buildings, rendered in soft earth tones and greens. The artwork is mounted on a wall within a museum setting.",
+      "visual_signature": "Winding path, trees, distant structures, impressionistic brushwork, muted color palette",
+      "bbox": [
+        215,
+        116,
+        256,
+        201
+      ],
+      "center": [
+        235,
+        159
+      ],
+      "area": 3060,
+      "sam_score": 0.96875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E3",
+      "name": "Landscape with Sunset and Water",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a serene landscape with a sunset over a body of water, featuring warm hues of orange and pink in the sky transitioning to darker blues and purples near the horizon. The artwork is mounted on a wall within a museum setting.",
+      "visual_signature": "Vertical composition, sunset over water, warm sky colors, reflective surface below, framed presentation",
+      "bbox": [
+        266,
+        135,
+        295,
+        190
+      ],
+      "center": [
+        279,
+        162
+      ],
+      "area": 1410,
+      "sam_score": 0.8828125,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring vertical, column-like forms in varying shades of gray and black, mounted on a plain wall. The composition suggests architectural or urban elements through its structured arrangement.",
+      "visual_signature": "Vertical abstract forms, grayscale palette, architectural suggestion",
+      "bbox": [
+        452,
+        121,
+        490,
+        199
+      ],
+      "center": [
+        469,
+        158
+      ],
+      "area": 2340,
+      "sam_score": 0.8515625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "Cityscape with Tall Buildings",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city skyline with tall buildings, rendered in muted tones of gray and blue. The composition suggests an urban scene viewed from a distance, possibly at dusk or dawn.",
+      "visual_signature": "Faint vertical forms resembling skyscrapers, indistinct brushwork, cool color palette",
+      "bbox": [
+        491,
+        116,
+        539,
+        200
+      ],
+      "center": [
+        515,
+        159
+      ],
+      "area": 3378,
+      "sam_score": 0.97265625,
+      "attr_confidence": 0.6
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      370
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Cityscape with Water Reflection",
+        "typology": "Painting",
+        "bbox": [
+          0,
+          115,
+          171,
+          326
+        ],
+        "center": [
+          73,
+          211
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Landscape with Path and Trees",
+        "typology": "Painting",
+        "bbox": [
+          215,
+          116,
+          256,
+          201
+        ],
+        "center": [
+          235,
+          159
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Landscape with Sunset and Water",
+        "typology": "Painting",
+        "bbox": [
+          266,
+          135,
+          295,
+          190
+        ],
+        "center": [
+          279,
+          162
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          452,
+          121,
+          490,
+          199
+        ],
+        "center": [
+          469,
+          158
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Cityscape with Tall Buildings",
+        "typology": "Painting",
+        "bbox": [
+          491,
+          116,
+          539,
+          200
+        ],
+        "center": [
+          515,
+          159
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 170.14,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 170.14,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 190.04,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 190.04,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 46.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 46.01,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 170.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 211.75,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 399.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 170.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 234.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 190.04,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 211.75,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 46.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 190.04,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 234.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 46.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 236.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 280.0,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E1",
+        "E4"
+      ],
+      "E3": [
+        "E2",
+        "E4",
+        "E1"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E2"
+      ],
+      "E5": [
+        "E4",
+        "E3",
+        "E2"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Cityscape with Water Reflection",
+      "typology": "Painting",
+      "description": "A watercolor-style painting depicting a city skyline reflected in a body of water, rendered in muted blues, grays, and whites. The composition features tall buildings along the horizon with soft, blended edges, suggesting an atmospheric or misty urban scene.",
+      "visual_signature": "Muted color palette, reflective water surface, abstracted city buildings, soft brushwork"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:56.741862",
+        "image": "capture_20260308_035141_966.png",
+        "current_exhibit": "Cityscape with Water Reflection",
+        "attention_level": "D",
+        "dwell_time_sec": 2.48,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {
+          "Cityscape with Water Reflection": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflection",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.48,
+        "last_seen": "2026-03-08T04:38:56.741862",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Cityscape with Water Reflection",
+      "score": 0.2469
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Landscape with Sunset and Water",
+      "score": 0.2105
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Landscape with Path and Trees",
+      "score": 0.2049
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.174
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Cityscape with Tall Buildings",
+      "score": 0.1637
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Landscape with Path and Trees",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.93,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Landscape with Path and Trees",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.82
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E3",
+      "name": "Landscape with Sunset and Water",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.85
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.67
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:36:54.909481",
+        "image": "capture_20260308_035121_081.png",
+        "current_exhibit": "Landscape with Path and Autumn Trees",
+        "attention_level": "B",
+        "dwell_time_sec": 4.32,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:11.674781",
+        "image": "capture_20260308_035126_182.png",
+        "current_exhibit": "Ocean Sunset Landscape",
+        "attention_level": "D",
+        "dwell_time_sec": 2.64,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:37:40.539201",
+        "image": "capture_20260308_035131_699.png",
+        "current_exhibit": "Abstract Cityscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.63,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:22.828377",
+        "image": "capture_20260308_035138_165.png",
+        "current_exhibit": "Cityscape with Snowy Streets",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:38:56.741862",
+        "image": "capture_20260308_035141_966.png",
+        "current_exhibit": "Cityscape with Water Reflection",
+        "attention_level": "D",
+        "dwell_time_sec": 2.48,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Cityscape with Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.12,
+        "last_seen": "2026-03-08T04:36:01.617784",
+        "transition_counts": {
+          "Winter Landscape with Snow-Covered Field": 1
+        }
+      },
+      {
+        "name": "Abstract Cityscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.63,
+        "last_seen": "2026-03-08T04:37:40.539201",
+        "transition_counts": {
+          "Cityscape with Snowy Streets": 1
+        }
+      },
+      {
+        "name": "Cityscape with Snowy Streets",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:38:22.828377",
+        "transition_counts": {
+          "Cityscape with Water Reflection": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflection",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.48,
+        "last_seen": "2026-03-08T04:38:56.741862",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Path and Autumn Trees",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.32,
+        "last_seen": "2026-03-08T04:36:54.909481",
+        "transition_counts": {
+          "Ocean Sunset Landscape": 1
+        }
+      },
+      {
+        "name": "Ocean Sunset Landscape",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.64,
+        "last_seen": "2026-03-08T04:37:11.674781",
+        "transition_counts": {
+          "Abstract Cityscape with Vertical Forms": 1
+        }
+      },
+      {
+        "name": "Winter Landscape with Snow-Covered Field",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.59,
+        "last_seen": "2026-03-08T04:36:29.873774",
+        "transition_counts": {
+          "Landscape with Path and Autumn Trees": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Cityscape with Water Reflection",
+    "next_target_name": "Landscape with Path and Trees",
+    "next_target_exhibit_id": "E2"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum5/analysis/capture_20260308_034932_250/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum5/images/capture_20260308_034932_250.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Vertical Composition",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring a vertical dark form centered against a muted, smoky background. The artwork appears mounted on a wall with a neutral-colored frame or matting.",
+      "bbox": [
+        297,
+        164,
+        336,
+        229
+      ],
+      "center": [
+        318,
+        196
+      ],
+      "dwell_time_sec": 2.5
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E3",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring vertical forms and textured brushwork, mounted on a museum wall. The composition uses shades of gray and black, creating a sense of depth and movement.",
+      "bbox": [
+        374,
+        164,
+        411,
+        230
+      ],
+      "center": [
+        392,
+        196
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E4",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A cropped abstract painting featuring vertical and horizontal blocks of muted earth tones, including browns, grays, and off-whites. The composition appears structured with a textured surface, mounted on a wall in a museum setting.",
+      "bbox": [
+        450,
+        163,
+        490,
+        231
+      ],
+      "center": [
+        470,
+        197
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E5",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a flat, light-colored surface with a dark border, likely part of a framed exhibit on a wall. The content is indistinct and no discernible imagery or text is visible.",
+      "bbox": [
+        592,
+        140,
+        630,
+        246
+      ],
+      "center": [
+        612,
+        191
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034932_250/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034932_250/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034932_250/gaze2guide_sim_output_sequence/heatmap_seq"
+}

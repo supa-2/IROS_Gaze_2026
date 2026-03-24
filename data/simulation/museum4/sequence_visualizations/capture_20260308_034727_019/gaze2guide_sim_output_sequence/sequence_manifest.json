@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034727_019/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034727_019.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Seascape at Sunset",
+      "typology": "Painting",
+      "description": "A landscape painting depicting a dramatic sunset over a turbulent sea, with warm orange and pink hues in the sky contrasting against dark waves and silhouetted rocks along the shore. The artwork is mounted on a museum wall with a visible frame.",
+      "bbox": [
+        262,
+        101,
+        317,
+        200
+      ],
+      "center": [
+        289,
+        153
+      ],
+      "dwell_time_sec": 2.36
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A blurred abstract painting featuring vertical forms in muted tones of blue, gray, and white, suggesting a cityscape or architectural elements. The artwork is mounted on a wall within a museum setting.",
+      "bbox": [
+        347,
+        124,
+        379,
+        199
+      ],
+      "center": [
+        362,
+        162
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Landscape with Warm Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blended warm hues of orange, yellow, and brown, suggesting a landscape or sunset. The artwork is mounted on a wall with a neutral background, partially cropped at the edges.",
+      "bbox": [
+        396,
+        128,
+        419,
+        197
+      ],
+      "center": [
+        407,
+        167
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Elements",
+      "typology": "Painting",
+      "description": "A partially visible abstract artwork featuring vertical forms in muted tones, mounted on a light-colored wall. The composition appears to include layered textures and subtle gradations of color.",
+      "bbox": [
+        445,
+        130,
+        460,
+        196
+      ],
+      "center": [
+        454,
+        173
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034727_019/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034727_019/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034727_019/gaze2guide_sim_output_sequence/heatmap_seq"
+}

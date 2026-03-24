@@ -1,0 +1,865 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_034743_994.png",
+    "image_path": "data/simulation/museum4/images/capture_20260308_034743_994.png",
+    "timestamp": "2026-03-08T04:31:14.450135",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Cityscape with Water Reflections",
+    "attention_level": "D",
+    "dwell_time_sec": 2.13,
+    "typology": "Painting",
+    "description": "A blurred painting depicting a city skyline reflected in water, with indistinct buildings and a hazy atmosphere. The artwork is mounted on a wall, framed in black, and appears to be viewed at an angle.",
+    "visual_signature": "Blurred urban skyline with water reflections, muted colors, black frame, angled view"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Cityscape with Water Reflections",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city skyline reflected in water, with indistinct buildings and a hazy atmosphere. The artwork is mounted on a wall, framed in black, and appears to be viewed at an angle.",
+      "visual_signature": "Blurred urban skyline with water reflections, muted colors, black frame, angled view",
+      "bbox": [
+        72,
+        2,
+        161,
+        179
+      ],
+      "center": [
+        114,
+        99
+      ],
+      "area": 13138,
+      "sam_score": 0.98046875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring muted tones of blue, green, and brown, with soft, blended brushstrokes forming indistinct vertical shapes. The artwork is mounted on a wall within a museum setting, framed in a simple dark border.",
+      "visual_signature": "Vertical abstract forms, earthy and cool color palette, soft blending, dark frame",
+      "bbox": [
+        337,
+        129,
+        375,
+        171
+      ],
+      "center": [
+        358,
+        150
+      ],
+      "area": 1355,
+      "sam_score": 0.95703125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E3",
+      "name": "Abstract Composition with Vertical Forms",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring vertical, blurred forms that suggest movement or distortion. The artwork is mounted on a wall in a gallery setting, with indistinct edges due to image cropping.",
+      "visual_signature": "Vertical, smudged shapes in grayscale tones; lack of clear figures or landscape elements; abstract style.",
+      "bbox": [
+        405,
+        128,
+        443,
+        171
+      ],
+      "center": [
+        424,
+        150
+      ],
+      "area": 1569,
+      "sam_score": 0.9453125,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E4",
+      "name": "Pink Rectangular Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A solid pink rectangular panel mounted on a wall, with no discernible imagery or text. The edges are slightly visible against a darker background.",
+      "visual_signature": "Uniform pink color, rectangular shape, minimal detail, mounted flat on wall",
+      "bbox": [
+        485,
+        129,
+        516,
+        159
+      ],
+      "center": [
+        502,
+        150
+      ],
+      "area": 314,
+      "sam_score": 0.65625,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E5",
+      "name": "Abstract Composition with Pink Rectangles",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a wall exhibit featuring pink rectangular shapes against a neutral background. The composition appears minimalist and geometric, likely part of a larger abstract artwork or design installation.",
+      "visual_signature": "Pink rectangles on a light background, partial view, geometric abstraction",
+      "bbox": [
+        529,
+        134,
+        557,
+        160
+      ],
+      "center": [
+        538,
+        147
+      ],
+      "area": 440,
+      "sam_score": 0.6015625,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E6",
+      "name": "Pink Abstract Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A solid pink rectangular panel mounted on a wall, with no discernible imagery or text. The surface appears uniform in color and texture.",
+      "visual_signature": "Uniform pink color, rectangular shape, no visible patterns or text",
+      "bbox": [
+        490,
+        159,
+        516,
+        182
+      ],
+      "center": [
+        503,
+        170
+      ],
+      "area": 613,
+      "sam_score": 0.9453125,
+      "attr_confidence": 0.8
+    },
+    {
+      "id": "E7",
+      "name": "Pink Vertical Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a vertical rectangular panel with a solid pink color, mounted on a wall. The edges are slightly visible, suggesting a framed or bounded artwork.",
+      "visual_signature": "Solid pink color, vertical orientation, minimal detail, likely framed",
+      "bbox": [
+        529,
+        160,
+        552,
+        187
+      ],
+      "center": [
+        536,
+        174
+      ],
+      "area": 356,
+      "sam_score": 0.26953125,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E8",
+      "name": "Abstract Pink Geometric Form",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a bright pink geometric shape, likely part of an abstract artwork mounted on a wall. The form appears to be a slanted parallelogram or trapezoid with sharp edges and solid color.",
+      "visual_signature": "Bright pink, angular geometric shape with clean edges, partially visible in crop",
+      "bbox": [
+        602,
+        102,
+        630,
+        203
+      ],
+      "center": [
+        619,
+        152
+      ],
+      "area": 1854,
+      "sam_score": 0.8515625,
+      "attr_confidence": 0.6
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      366
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "bbox": [
+          72,
+          2,
+          161,
+          179
+        ],
+        "center": [
+          114,
+          99
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          337,
+          129,
+          375,
+          171
+        ],
+        "center": [
+          358,
+          150
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Abstract Composition with Vertical Forms",
+        "typology": "Painting",
+        "bbox": [
+          405,
+          128,
+          443,
+          171
+        ],
+        "center": [
+          424,
+          150
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Pink Rectangular Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          485,
+          129,
+          516,
+          159
+        ],
+        "center": [
+          502,
+          150
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Pink Abstract Wall Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          490,
+          159,
+          516,
+          182
+        ],
+        "center": [
+          503,
+          170
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "Pink Vertical Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          529,
+          160,
+          552,
+          187
+        ],
+        "center": [
+          536,
+          174
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Abstract Composition with Pink Rectangles",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          529,
+          134,
+          557,
+          160
+        ],
+        "center": [
+          538,
+          147
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E8",
+        "name": "Abstract Pink Geometric Form",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          602,
+          102,
+          630,
+          203
+        ],
+        "center": [
+          619,
+          152
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 249.27,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 249.27,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 66.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 66.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 78.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 78.0,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 20.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 20.02,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 33.24,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 33.24,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 27.07,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 27.07,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E8",
+        "relation": "right_of",
+        "distance_px": 81.15,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E8",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 81.15,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 249.27,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 314.17,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 391.34,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 66.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 144.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 146.37,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 66.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 78.0,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 81.49,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "below",
+        "distance_px": 20.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 36.12,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 41.62,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "below",
+        "distance_px": 27.07,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 36.12,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 41.88,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "above",
+        "distance_px": 20.02,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 33.24,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 41.88,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "above",
+        "distance_px": 27.07,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 33.24,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 41.62,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 81.15,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E7",
+        "relation": "left_of",
+        "distance_px": 85.87,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E8",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 117.02,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E4",
+        "E6"
+      ],
+      "E3": [
+        "E2",
+        "E4",
+        "E6"
+      ],
+      "E4": [
+        "E6",
+        "E5",
+        "E7"
+      ],
+      "E5": [
+        "E7",
+        "E4",
+        "E6"
+      ],
+      "E6": [
+        "E4",
+        "E7",
+        "E5"
+      ],
+      "E7": [
+        "E5",
+        "E6",
+        "E4"
+      ],
+      "E8": [
+        "E5",
+        "E7",
+        "E4"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E6",
+        "E7",
+        "E5",
+        "E8"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Cityscape with Water Reflections",
+      "typology": "Painting",
+      "description": "A blurred painting depicting a city skyline reflected in water, with indistinct buildings and a hazy atmosphere. The artwork is mounted on a wall, framed in black, and appears to be viewed at an angle.",
+      "visual_signature": "Blurred urban skyline with water reflections, muted colors, black frame, angled view"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {}
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Cityscape with Water Reflections",
+      "score": 0.1881
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.1363
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Vertical Forms",
+      "score": 0.1282
+    },
+    {
+      "exhibit_id": "E8",
+      "name": "Abstract Pink Geometric Form",
+      "score": 0.1117
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Pink Abstract Wall Panel",
+      "score": 0.1104
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Pink Rectangular Panel",
+      "score": 0.1096
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Abstract Composition with Pink Rectangles",
+      "score": 0.1081
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "Pink Vertical Panel",
+      "score": 0.1077
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Abstract Composition with Vertical Forms",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.55,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.48
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E3",
+      "name": "Abstract Composition with Vertical Forms",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.44
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E4",
+      "name": "Pink Rectangular Panel",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.35
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:29:53.969064",
+        "image": "capture_20260308_034723_757.png",
+        "current_exhibit": "Abstract Landscape with Vertical Forms",
+        "attention_level": "D",
+        "dwell_time_sec": 2.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:30:31.217284",
+        "image": "capture_20260308_034727_019.png",
+        "current_exhibit": "Seascape at Sunset",
+        "attention_level": "D",
+        "dwell_time_sec": 2.36,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:31:14.450135",
+        "image": "capture_20260308_034743_994.png",
+        "current_exhibit": "Cityscape with Water Reflections",
+        "attention_level": "D",
+        "dwell_time_sec": 2.13,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Landscape with Vertical Forms",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.77,
+        "last_seen": "2026-03-08T04:29:53.969064",
+        "transition_counts": {
+          "Seascape at Sunset": 1
+        }
+      },
+      {
+        "name": "Cityscape with Water Reflections",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.13,
+        "last_seen": "2026-03-08T04:31:14.450135",
+        "transition_counts": {}
+      },
+      {
+        "name": "Seascape at Sunset",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.36,
+        "last_seen": "2026-03-08T04:30:31.217284",
+        "transition_counts": {
+          "Cityscape with Water Reflections": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Cityscape with Water Reflections",
+    "next_target_name": "Abstract Composition with Vertical Forms",
+    "next_target_exhibit_id": "E2"
+  }
+}

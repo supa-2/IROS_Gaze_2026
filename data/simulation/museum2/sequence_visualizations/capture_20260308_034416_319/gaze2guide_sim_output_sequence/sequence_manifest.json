@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum2/analysis/capture_20260308_034416_319/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum2/images/capture_20260308_034416_319.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Abstract Landscape with Earth Tones",
+      "typology": "Painting",
+      "description": "A horizontal abstract painting featuring layered earthy tones of brown, orange, and gray, with hints of teal at the bottom. The composition suggests a natural landscape with flowing forms resembling rock formations or water erosion, mounted on a white wall in a gallery setting.",
+      "bbox": [
+        3,
+        3,
+        370,
+        354
+      ],
+      "center": [
+        223,
+        154
+      ],
+      "dwell_time_sec": 4.66
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Brown Textured Wall Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A rectangular panel with a uniform brown, wood-grain texture, mounted on a wall. The surface appears smooth and consistent in color and pattern.",
+      "bbox": [
+        512,
+        200,
+        630,
+        241
+      ],
+      "center": [
+        571,
+        219
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034416_319/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034416_319/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum2/sequence_visualizations/capture_20260308_034416_319/gaze2guide_sim_output_sequence/heatmap_seq"
+}

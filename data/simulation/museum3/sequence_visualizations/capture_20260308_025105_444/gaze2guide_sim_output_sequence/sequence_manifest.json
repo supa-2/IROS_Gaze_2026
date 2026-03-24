@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum3/analysis/capture_20260308_025105_444/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum3/images/capture_20260308_025105_444.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E7",
+      "name": "Calligraphy Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A vertically oriented framed panel displaying black Chinese calligraphy on a white background, mounted on a light-colored wall. The characters are arranged in columns and written in a flowing, traditional script.",
+      "bbox": [
+        461,
+        144,
+        629,
+        323
+      ],
+      "center": [
+        548,
+        217
+      ],
+      "dwell_time_sec": 1.94
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E4",
+      "name": "Unknown Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image is entirely gray with no discernible features, objects, or text. It appears to be a blank or uniformly colored surface, possibly a wall or display panel.",
+      "bbox": [
+        308,
+        165,
+        334,
+        210
+      ],
+      "center": [
+        321,
+        186
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E5",
+      "name": "Undetermined Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "The image shows a cropped and indistinct portion of a wall surface with no discernible artwork, text, or imagery. The visible area is primarily a neutral tone with a slight gradient, suggesting a plain wall or mounting surface.",
+      "bbox": [
+        333,
+        165,
+        349,
+        203
+      ],
+      "center": [
+        343,
+        182
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E3",
+      "name": "Untitled Landscape with Figures",
+      "typology": "Painting",
+      "description": "A partially visible painting depicting a landscape scene with indistinct figures, rendered in earthy tones and soft brushwork. The artwork appears mounted on a museum wall with a neutral-colored frame.",
+      "bbox": [
+        279,
+        195,
+        307,
+        223
+      ],
+      "center": [
+        292,
+        208
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025105_444/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025105_444/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum3/sequence_visualizations/capture_20260308_025105_444/gaze2guide_sim_output_sequence/heatmap_seq"
+}

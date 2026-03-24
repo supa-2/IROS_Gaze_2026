@@ -1,0 +1,783 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035533_191.png",
+    "image_path": "data/simulation/museum8/images/capture_20260308_035533_191.png",
+    "timestamp": "2026-03-08T04:47:36.306929",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Architectural Model Display",
+    "attention_level": "D",
+    "dwell_time_sec": 2.1,
+    "typology": "OtherFlatArtwork",
+    "description": "A wall-mounted display featuring a detailed architectural model of a multi-story building with visible windows and structural elements, presented in a vertical format against a yellow background.",
+    "visual_signature": "Vertical architectural model with layered floors, rectangular windows, and a light-colored facade mounted on a yellow wall."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Architectural Model Display",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted display featuring a detailed architectural model of a multi-story building with visible windows and structural elements, presented in a vertical format against a yellow background.",
+      "visual_signature": "Vertical architectural model with layered floors, rectangular windows, and a light-colored facade mounted on a yellow wall.",
+      "bbox": [
+        23,
+        67,
+        151,
+        136
+      ],
+      "center": [
+        96,
+        98
+      ],
+      "area": 4866,
+      "sam_score": 0.82421875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E2",
+      "name": "Stacked Bookshelf Installation",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted artwork featuring a series of stacked, bookshelf-like structures filled with books, arranged in a vertical column. The piece is displayed against a yellow and white geometric background, suggesting a modern or conceptual art installation.",
+      "visual_signature": "Vertical stack of bookshelf units with books, mounted on a wall with bold yellow and white angular backdrop",
+      "bbox": [
+        3,
+        26,
+        179,
+        221
+      ],
+      "center": [
+        92,
+        121
+      ],
+      "area": 3801,
+      "sam_score": 0.69140625,
+      "attr_confidence": 0.85
+    },
+    {
+      "id": "E3",
+      "name": "Stacked Bookshelf Display",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted display featuring multiple stacked shelves filled with books, arranged in a vertical column. The books are uniformly aligned, creating a structured and organized appearance against a plain background.",
+      "visual_signature": "Vertical stack of bookshelves with neatly arranged books, repeating pattern, light-colored shelves and dark spines.",
+      "bbox": [
+        30,
+        64,
+        154,
+        217
+      ],
+      "center": [
+        94,
+        128
+      ],
+      "area": 7347,
+      "sam_score": 0.49609375,
+      "attr_confidence": 0.8
+    },
+    {
+      "id": "E4",
+      "name": "Wall Text Panel with Architectural Images",
+      "typology": "WallText",
+      "description": "A wall-mounted exhibit panel featuring text at the top and two small architectural photographs below, likely depicting buildings or structures. The panel has a light background with dark text and images arranged in a vertical layout.",
+      "visual_signature": "Vertical panel with text above two rectangular architectural photos, mounted on a wall.",
+      "bbox": [
+        173,
+        119,
+        266,
+        152
+      ],
+      "center": [
+        219,
+        125
+      ],
+      "area": 250,
+      "sam_score": 0.69140625,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E5",
+      "name": "Cylindrical Display of Interior Scenes",
+      "typology": "OtherFlatArtwork",
+      "description": "Two cylindrical panels mounted on a wall, each displaying a photograph of an interior space resembling a retail or exhibition environment. The panels are set against a yellow and white geometric background, suggesting a modern exhibit design.",
+      "visual_signature": "Cylindrical format with repeated interior photography, mounted vertically on a patterned wall.",
+      "bbox": [
+        339,
+        38,
+        508,
+        185
+      ],
+      "center": [
+        442,
+        112
+      ],
+      "area": 3229,
+      "sam_score": 0.8046875,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E6",
+      "name": "Repeating Bookshelf Display",
+      "typology": "WallText",
+      "description": "A wall exhibit featuring three identical rectangular panels arranged in a diagonal pattern, each depicting a bookshelf filled with books. The panels are mounted on a yellow and white striped background, creating a repetitive visual motif.",
+      "visual_signature": "Three repeated bookshelf images on a diagonally striped yellow and white wall",
+      "bbox": [
+        374,
+        37,
+        493,
+        244
+      ],
+      "center": [
+        424,
+        120
+      ],
+      "area": 3169,
+      "sam_score": 0.365234375,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E7",
+      "name": "Museum Exhibit Display with Cylindrical Panels",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall exhibit featuring multiple cylindrical panels arranged in a diagonal pattern, each displaying images of museum interiors or collections. The panels are mounted on a yellow and white background, suggesting a modern, graphic design approach.",
+      "visual_signature": "Diagonal arrangement of cylindrical panels with repeated museum interior imagery on a yellow and white backdrop",
+      "bbox": [
+        359,
+        68,
+        513,
+        218
+      ],
+      "center": [
+        454,
+        143
+      ],
+      "area": 3151,
+      "sam_score": 0.000827789306640625,
+      "attr_confidence": 0.7
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      362
+    ],
+    "nodes": [
+      {
+        "id": "E2",
+        "name": "Stacked Bookshelf Installation",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          3,
+          26,
+          179,
+          221
+        ],
+        "center": [
+          92,
+          121
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Stacked Bookshelf Display",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          30,
+          64,
+          154,
+          217
+        ],
+        "center": [
+          94,
+          128
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E1",
+        "name": "Architectural Model Display",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          23,
+          67,
+          151,
+          136
+        ],
+        "center": [
+          96,
+          98
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Wall Text Panel with Architectural Images",
+        "typology": "WallText",
+        "bbox": [
+          173,
+          119,
+          266,
+          152
+        ],
+        "center": [
+          219,
+          125
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Repeating Bookshelf Display",
+        "typology": "WallText",
+        "bbox": [
+          374,
+          37,
+          493,
+          244
+        ],
+        "center": [
+          424,
+          120
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Cylindrical Display of Interior Scenes",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          339,
+          38,
+          508,
+          185
+        ],
+        "center": [
+          442,
+          112
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E7",
+        "name": "Museum Exhibit Display with Cylindrical Panels",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          359,
+          68,
+          513,
+          218
+        ],
+        "center": [
+          454,
+          143
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 7.28,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 7.28,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "right_of",
+        "distance_px": 30.07,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 30.07,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 125.93,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 125.93,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 205.06,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 205.06,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 19.7,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 19.7,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 33.24,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 33.24,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "below",
+        "distance_px": 23.35,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 30.07,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 125.93,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "below",
+        "distance_px": 7.28,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "above",
+        "distance_px": 23.35,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 127.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "above",
+        "distance_px": 7.28,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "above",
+        "distance_px": 30.07,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 125.04,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 125.04,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 125.93,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 127.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 19.7,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E7",
+        "relation": "below",
+        "distance_px": 33.24,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 223.38,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 19.7,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E7",
+        "relation": "right_of",
+        "distance_px": 37.8,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 205.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E5",
+        "relation": "above",
+        "distance_px": 33.24,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E6",
+        "relation": "left_of",
+        "distance_px": 37.8,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E7",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 235.69,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E1",
+        "E4"
+      ],
+      "E3": [
+        "E2",
+        "E1",
+        "E4"
+      ],
+      "E4": [
+        "E3",
+        "E1",
+        "E2"
+      ],
+      "E5": [
+        "E6",
+        "E7",
+        "E4"
+      ],
+      "E6": [
+        "E5",
+        "E7",
+        "E4"
+      ],
+      "E7": [
+        "E5",
+        "E6",
+        "E4"
+      ]
+    },
+    "row_groups": [
+      [
+        "E2",
+        "E3",
+        "E1",
+        "E4",
+        "E6",
+        "E5",
+        "E7"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Architectural Model Display",
+      "typology": "OtherFlatArtwork",
+      "description": "A wall-mounted display featuring a detailed architectural model of a multi-story building with visible windows and structural elements, presented in a vertical format against a yellow background.",
+      "visual_signature": "Vertical architectural model with layered floors, rectangular windows, and a light-colored facade mounted on a yellow wall."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:23.213253",
+        "image": "capture_20260308_035528_979.png",
+        "current_exhibit": "Geometric Abstraction with Orange Circle",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:36.306929",
+        "image": "capture_20260308_035533_191.png",
+        "current_exhibit": "Architectural Model Display",
+        "attention_level": "D",
+        "dwell_time_sec": 2.1,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {
+          "Geometric Abstraction with Orange Circle": 1
+        }
+      },
+      {
+        "name": "Architectural Model Display",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.1,
+        "last_seen": "2026-03-08T04:47:36.306929",
+        "transition_counts": {}
+      },
+      {
+        "name": "Geometric Abstraction with Orange Circle",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:47:23.213253",
+        "transition_counts": {
+          "Architectural Model Display": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Architectural Model Display",
+      "score": 0.1833
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Stacked Bookshelf Display",
+      "score": 0.1655
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Stacked Bookshelf Installation",
+      "score": 0.1518
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Repeating Bookshelf Display",
+      "score": 0.13
+    },
+    {
+      "exhibit_id": "E7",
+      "name": "Museum Exhibit Display with Cylindrical Panels",
+      "score": 0.129
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Cylindrical Display of Interior Scenes",
+      "score": 0.1276
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Wall Text Panel with Architectural Images",
+      "score": 0.1127
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E3",
+    "name": "Stacked Bookshelf Display",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.71,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E3",
+      "name": "Stacked Bookshelf Display",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.63
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E2",
+      "name": "Stacked Bookshelf Installation",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.56
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E4",
+      "name": "Wall Text Panel with Architectural Images",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.36
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:23.213253",
+        "image": "capture_20260308_035528_979.png",
+        "current_exhibit": "Geometric Abstraction with Orange Circle",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:47:36.306929",
+        "image": "capture_20260308_035533_191.png",
+        "current_exhibit": "Architectural Model Display",
+        "attention_level": "D",
+        "dwell_time_sec": 2.1,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {
+          "Geometric Abstraction with Orange Circle": 1
+        }
+      },
+      {
+        "name": "Architectural Model Display",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.1,
+        "last_seen": "2026-03-08T04:47:36.306929",
+        "transition_counts": {}
+      },
+      {
+        "name": "Geometric Abstraction with Orange Circle",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:47:23.213253",
+        "transition_counts": {
+          "Architectural Model Display": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Architectural Model Display",
+    "next_target_name": "Stacked Bookshelf Display",
+    "next_target_exhibit_id": "E3"
+  }
+}

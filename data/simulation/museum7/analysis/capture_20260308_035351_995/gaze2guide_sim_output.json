@@ -1,0 +1,719 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035351_995.png",
+    "image_path": "data/simulation/museum7/images/capture_20260308_035351_995.png",
+    "timestamp": "2026-03-08T04:43:23.098800",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E3",
+    "name": "Figure in Motion",
+    "attention_level": "D",
+    "dwell_time_sec": 2.5,
+    "typology": "Painting",
+    "description": "A monochromatic sketch depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing lines suggesting movement. The artwork is mounted on a plain wall within a simple frame.",
+    "visual_signature": "Black-and-white sketch, expressive figure with raised arms, minimal background detail, framed and displayed vertically."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Figure Study in Monochrome",
+      "typology": "Painting",
+      "description": "A monochrome artwork depicting a group of figures, possibly in a classical or historical setting, rendered in grayscale tones. The composition is framed and mounted on a wall, with visible edges suggesting a traditional canvas or paper support.",
+      "visual_signature": "Monochrome figures, vertical orientation, framed presentation, grayscale palette",
+      "bbox": [
+        3,
+        76,
+        108,
+        282
+      ],
+      "center": [
+        56,
+        181
+      ],
+      "area": 4456,
+      "sam_score": 0.0025482177734375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E2",
+      "name": "Abstract Composition with Black and White Elements",
+      "typology": "Painting",
+      "description": "A monochromatic abstract artwork featuring bold black forms against a white background, mounted on a wall within a museum setting. The composition includes irregular shapes and lines, suggesting dynamic movement.",
+      "visual_signature": "Black abstract forms on white background, framed and displayed vertically",
+      "bbox": [
+        122,
+        162,
+        216,
+        239
+      ],
+      "center": [
+        169,
+        192
+      ],
+      "area": 3574,
+      "sam_score": 0.53515625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E3",
+      "name": "Figure in Motion",
+      "typology": "Painting",
+      "description": "A monochromatic sketch depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing lines suggesting movement. The artwork is mounted on a plain wall within a simple frame.",
+      "visual_signature": "Black-and-white sketch, expressive figure with raised arms, minimal background detail, framed and displayed vertically.",
+      "bbox": [
+        218,
+        59,
+        321,
+        326
+      ],
+      "center": [
+        274,
+        168
+      ],
+      "area": 13681,
+      "sam_score": 0.061767578125,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E4",
+      "name": "Landscape with Figures and River",
+      "typology": "Painting",
+      "description": "A small, framed painting depicting a pastoral scene with two figures near a riverbank, rendered in soft earth tones and blues. The composition includes trees and distant hills, suggesting a serene natural setting.",
+      "visual_signature": "Two human figures by a winding river, stylized trees, and rolling hills under a pale sky; framed and mounted on a wall.",
+      "bbox": [
+        346,
+        187,
+        420,
+        249
+      ],
+      "center": [
+        382,
+        217
+      ],
+      "area": 3896,
+      "sam_score": 0.65625,
+      "attr_confidence": 0.75
+    },
+    {
+      "id": "E5",
+      "name": "Figure in Motion",
+      "typology": "Painting",
+      "description": "A monochromatic painting depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing garments and expressive movement. The artwork is mounted on a light-colored wall, partially visible in the frame.",
+      "visual_signature": "Black-and-white figure with elongated limbs and flowing dress, rendered in expressive brushwork, set against a plain background.",
+      "bbox": [
+        440,
+        75,
+        544,
+        289
+      ],
+      "center": [
+        485,
+        190
+      ],
+      "area": 5896,
+      "sam_score": 0.007568359375,
+      "attr_confidence": 0.65
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      374
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Figure Study in Monochrome",
+        "typology": "Painting",
+        "bbox": [
+          3,
+          76,
+          108,
+          282
+        ],
+        "center": [
+          56,
+          181
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Abstract Composition with Black and White Elements",
+        "typology": "Painting",
+        "bbox": [
+          122,
+          162,
+          216,
+          239
+        ],
+        "center": [
+          169,
+          192
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "bbox": [
+          218,
+          59,
+          321,
+          326
+        ],
+        "center": [
+          274,
+          168
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Landscape with Figures and River",
+        "typology": "Painting",
+        "bbox": [
+          346,
+          187,
+          420,
+          249
+        ],
+        "center": [
+          382,
+          217
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "bbox": [
+          440,
+          75,
+          544,
+          289
+        ],
+        "center": [
+          485,
+          190
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 113.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 113.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 107.71,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 107.71,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 118.6,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 118.6,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 106.48,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 106.48,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 113.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 218.39,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 327.98,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 107.71,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 113.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 214.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 107.71,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 118.6,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 212.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 106.48,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 118.6,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 214.46,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 106.48,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 212.14,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 316.01,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E1",
+        "E4"
+      ],
+      "E3": [
+        "E2",
+        "E4",
+        "E5"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E2"
+      ],
+      "E5": [
+        "E4",
+        "E3",
+        "E2"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E3",
+      "name": "Figure in Motion",
+      "typology": "Painting",
+      "description": "A monochromatic sketch depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing lines suggesting movement. The artwork is mounted on a plain wall within a simple frame.",
+      "visual_signature": "Black-and-white sketch, expressive figure with raised arms, minimal background detail, framed and displayed vertically."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:41:20.015697",
+        "image": "capture_20260308_035323_685.png",
+        "current_exhibit": "Group Portrait of Elders in a Rural Setting",
+        "attention_level": "D",
+        "dwell_time_sec": 2.6,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:59.647502",
+        "image": "capture_20260308_035329_850.png",
+        "current_exhibit": "Religious Procession Scene",
+        "attention_level": "D",
+        "dwell_time_sec": 2.25,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:42:47.298221",
+        "image": "capture_20260308_035336_211.png",
+        "current_exhibit": "Abstract Composition with Figures",
+        "attention_level": "C",
+        "dwell_time_sec": 3.17,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:23.098800",
+        "image": "capture_20260308_035351_995.png",
+        "current_exhibit": "Figure in Motion",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E4",
+      "E5"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {
+          "Figure in Motion": 1
+        }
+      },
+      {
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:43:23.098800",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E3",
+      "name": "Figure in Motion",
+      "score": 0.2501
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Landscape with Figures and River",
+      "score": 0.2418
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Black and White Elements",
+      "score": 0.2071
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Figure in Motion",
+      "score": 0.1588
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Figure Study in Monochrome",
+      "score": 0.1421
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E4",
+    "E5"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E4",
+    "name": "Landscape with Figures and River",
+    "attention_level": "D",
+    "estimated_dwell_time_sec": 2.13,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E4",
+      "name": "Landscape with Figures and River",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.01
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E2",
+      "name": "Abstract Composition with Black and White Elements",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.84
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E1",
+      "name": "Figure Study in Monochrome",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.51
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:41:20.015697",
+        "image": "capture_20260308_035323_685.png",
+        "current_exhibit": "Group Portrait of Elders in a Rural Setting",
+        "attention_level": "D",
+        "dwell_time_sec": 2.6,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:41:59.647502",
+        "image": "capture_20260308_035329_850.png",
+        "current_exhibit": "Religious Procession Scene",
+        "attention_level": "D",
+        "dwell_time_sec": 2.25,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:42:47.298221",
+        "image": "capture_20260308_035336_211.png",
+        "current_exhibit": "Abstract Composition with Figures",
+        "attention_level": "C",
+        "dwell_time_sec": 3.17,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:08.921264",
+        "image": "capture_20260308_035340_181.png",
+        "current_exhibit": "Festival Scene with Traditional Performers",
+        "attention_level": "A",
+        "dwell_time_sec": 5.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:43:23.098800",
+        "image": "capture_20260308_035351_995.png",
+        "current_exhibit": "Figure in Motion",
+        "attention_level": "D",
+        "dwell_time_sec": 2.5,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Composition with Figures",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 3.17,
+        "last_seen": "2026-03-08T04:42:47.298221",
+        "transition_counts": {
+          "Festival Scene with Traditional Performers": 1
+        }
+      },
+      {
+        "name": "Battle Scene with Cavalry",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.69,
+        "last_seen": "2026-03-08T04:40:43.495918",
+        "transition_counts": {
+          "Group Portrait of Elders in a Rural Setting": 1
+        }
+      },
+      {
+        "name": "Festival Scene with Traditional Performers",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 5.5,
+        "last_seen": "2026-03-08T04:43:08.921264",
+        "transition_counts": {
+          "Figure in Motion": 1
+        }
+      },
+      {
+        "name": "Figure in Motion",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.5,
+        "last_seen": "2026-03-08T04:43:23.098800",
+        "transition_counts": {}
+      },
+      {
+        "name": "Group Portrait of Elders in a Rural Setting",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.6,
+        "last_seen": "2026-03-08T04:41:20.015697",
+        "transition_counts": {
+          "Religious Procession Scene": 1
+        }
+      },
+      {
+        "name": "Religious Procession Scene",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.25,
+        "last_seen": "2026-03-08T04:41:59.647502",
+        "transition_counts": {
+          "Abstract Composition with Figures": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Figure in Motion",
+    "next_target_name": "Landscape with Figures and River",
+    "next_target_exhibit_id": "E4"
+  }
+}

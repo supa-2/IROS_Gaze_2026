@@ -1,0 +1,661 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_025048_186.png",
+    "image_path": "data/simulation/museum3/images/capture_20260308_025048_186.png",
+    "timestamp": "2026-03-08T04:25:20.144917",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Landscape with Yellow Field and Blue Sky",
+    "attention_level": "D",
+    "dwell_time_sec": 2.27,
+    "typology": "Painting",
+    "description": "A vibrant landscape painting featuring a golden-yellow field in the foreground, green rolling hills in the midground, and a bright blue sky above. The artwork is mounted on a wall and appears to be framed.",
+    "visual_signature": "Bright yellow field, green hills, blue sky, impressionistic brushwork"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Landscape with Yellow Field and Blue Sky",
+      "typology": "Painting",
+      "description": "A vibrant landscape painting featuring a golden-yellow field in the foreground, green rolling hills in the midground, and a bright blue sky above. The artwork is mounted on a wall and appears to be framed.",
+      "visual_signature": "Bright yellow field, green hills, blue sky, impressionistic brushwork",
+      "bbox": [
+        1,
+        93,
+        117,
+        309
+      ],
+      "center": [
+        49,
+        197
+      ],
+      "area": 18830,
+      "sam_score": 0.95703125,
+      "attr_confidence": 0.95
+    },
+    {
+      "id": "E2",
+      "name": "Still Life with Fruit and Vase",
+      "typology": "Painting",
+      "description": "A colorful still life painting featuring a composition of fruit, including oranges and possibly grapes, arranged on a table with a vase in the background. The artwork uses bold, warm colors and appears to be mounted on a museum wall with a dark frame.",
+      "visual_signature": "Vibrant still life with oranges, grapes, and a vase; warm color palette; visible brushwork; framed and displayed on a wall.",
+      "bbox": [
+        133,
+        142,
+        186,
+        234
+      ],
+      "center": [
+        157,
+        186
+      ],
+      "area": 3779,
+      "sam_score": 0.80859375,
+      "attr_confidence": 0.75
+    },
+    {
+      "id": "E3",
+      "name": "Landscape with River and Trees",
+      "typology": "Painting",
+      "description": "A framed landscape painting depicting a river winding through a natural scene with trees and distant hills. The composition uses earthy tones and soft brushwork, mounted on a museum wall with a simple wooden frame.",
+      "visual_signature": "River flowing through forested terrain, muted browns and greens, horizontal orientation, aged appearance",
+      "bbox": [
+        228,
+        164,
+        295,
+        236
+      ],
+      "center": [
+        260,
+        201
+      ],
+      "area": 4024,
+      "sam_score": 0.90234375,
+      "attr_confidence": 0.75
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Figure in Motion",
+      "typology": "Painting",
+      "description": "A dynamic abstract painting featuring a stylized human figure in motion, rendered in earthy tones with bold brushwork. The artwork is mounted on a museum wall, framed in a simple dark border.",
+      "visual_signature": "Stylized human form, energetic lines, warm color palette, expressive brushstrokes",
+      "bbox": [
+        339,
+        164,
+        364,
+        195
+      ],
+      "center": [
+        350,
+        181
+      ],
+      "area": 680,
+      "sam_score": 0.93359375,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E5",
+      "name": "Night Landscape with Dark Sky",
+      "typology": "Painting",
+      "description": "A dark, atmospheric landscape painting featuring a night sky with subtle hints of blue and black tones, possibly depicting a rural or forested scene. The artwork is mounted on a wall in a museum setting.",
+      "visual_signature": "Dark color palette dominated by deep blues and blacks, horizontal composition suggesting a horizon line, indistinct forms below the sky.",
+      "bbox": [
+        422,
+        163,
+        459,
+        225
+      ],
+      "center": [
+        441,
+        193
+      ],
+      "area": 2061,
+      "sam_score": 0.96875,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E6",
+      "name": "Abstract Ink Composition",
+      "typology": "Painting",
+      "description": "A monochromatic abstract artwork featuring dense, expressive brushstrokes in black ink on a light background. The composition is dynamic and gestural, with varying densities of mark-making suggesting movement and texture.",
+      "visual_signature": "Black ink on light surface, abstract gestural strokes, high contrast, no discernible figures or forms",
+      "bbox": [
+        586,
+        139,
+        630,
+        199
+      ],
+      "center": [
+        609,
+        169
+      ],
+      "area": 2456,
+      "sam_score": 0.9765625,
+      "attr_confidence": 0.7
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      350
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "bbox": [
+          1,
+          93,
+          117,
+          309
+        ],
+        "center": [
+          49,
+          197
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Still Life with Fruit and Vase",
+        "typology": "Painting",
+        "bbox": [
+          133,
+          142,
+          186,
+          234
+        ],
+        "center": [
+          157,
+          186
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Landscape with River and Trees",
+        "typology": "Painting",
+        "bbox": [
+          228,
+          164,
+          295,
+          236
+        ],
+        "center": [
+          260,
+          201
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Figure in Motion",
+        "typology": "Painting",
+        "bbox": [
+          339,
+          164,
+          364,
+          195
+        ],
+        "center": [
+          350,
+          181
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Night Landscape with Dark Sky",
+        "typology": "Painting",
+        "bbox": [
+          422,
+          163,
+          459,
+          225
+        ],
+        "center": [
+          441,
+          193
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E6",
+        "name": "Abstract Ink Composition",
+        "typology": "Painting",
+        "bbox": [
+          586,
+          139,
+          630,
+          199
+        ],
+        "center": [
+          609,
+          169
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 108.56,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 108.56,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 104.09,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 104.09,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 92.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 92.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 91.79,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 91.79,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 169.71,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 169.71,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 108.56,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 211.04,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 301.42,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 104.09,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 108.56,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 193.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 92.2,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 104.09,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 181.18,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 91.79,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 92.2,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 193.06,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 91.79,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E6",
+        "relation": "right_of",
+        "distance_px": 169.71,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 181.18,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E5",
+        "relation": "left_of",
+        "distance_px": 169.71,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 259.28,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E6",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 350.46,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E3",
+        "E1",
+        "E4"
+      ],
+      "E3": [
+        "E4",
+        "E2",
+        "E5"
+      ],
+      "E4": [
+        "E5",
+        "E3",
+        "E2"
+      ],
+      "E5": [
+        "E4",
+        "E6",
+        "E3"
+      ],
+      "E6": [
+        "E5",
+        "E4",
+        "E3"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Landscape with Yellow Field and Blue Sky",
+      "typology": "Painting",
+      "description": "A vibrant landscape painting featuring a golden-yellow field in the foreground, green rolling hills in the midground, and a bright blue sky above. The artwork is mounted on a wall and appears to be framed.",
+      "visual_signature": "Bright yellow field, green hills, blue sky, impressionistic brushwork"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {}
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Landscape with Yellow Field and Blue Sky",
+      "score": 0.2124
+    },
+    {
+      "exhibit_id": "E3",
+      "name": "Landscape with River and Trees",
+      "score": 0.1833
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Still Life with Fruit and Vase",
+      "score": 0.177
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Figure in Motion",
+      "score": 0.1721
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Night Landscape with Dark Sky",
+      "score": 0.1338
+    },
+    {
+      "exhibit_id": "E6",
+      "name": "Abstract Ink Composition",
+      "score": 0.1215
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Still Life with Fruit and Vase",
+    "attention_level": "E",
+    "estimated_dwell_time_sec": 1.77,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Still Life with Fruit and Vase",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.69
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E3",
+      "name": "Landscape with River and Trees",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.72
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E4",
+      "name": "Abstract Figure in Motion",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.66
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {}
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Landscape with Yellow Field and Blue Sky",
+    "next_target_name": "Still Life with Fruit and Vase",
+    "next_target_exhibit_id": "E2"
+  }
+}

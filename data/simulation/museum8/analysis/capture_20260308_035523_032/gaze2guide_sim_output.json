@@ -1,0 +1,243 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_035523_032.png",
+    "image_path": "data/simulation/museum8/images/capture_20260308_035523_032.png",
+    "timestamp": "2026-03-08T04:47:01.024255",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E1",
+    "name": "Abstract Sculptural Form in White",
+    "attention_level": "B",
+    "dwell_time_sec": 4.94,
+    "typology": "OtherFlatArtwork",
+    "description": "A large-scale abstract artwork featuring undulating white forms with pleated textures, resembling folded paper or fabric, mounted on a wall. The composition uses light and shadow to emphasize depth and curvature against a neutral background.",
+    "visual_signature": "White, pleated, wave-like forms with soft shadows and curved geometry"
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Abstract Sculptural Form in White",
+      "typology": "OtherFlatArtwork",
+      "description": "A large-scale abstract artwork featuring undulating white forms with pleated textures, resembling folded paper or fabric, mounted on a wall. The composition uses light and shadow to emphasize depth and curvature against a neutral background.",
+      "visual_signature": "White, pleated, wave-like forms with soft shadows and curved geometry",
+      "bbox": [
+        205,
+        61,
+        476,
+        295
+      ],
+      "center": [
+        322,
+        160
+      ],
+      "area": 35303,
+      "sam_score": 0.484375,
+      "attr_confidence": 0.9
+    },
+    {
+      "id": "E2",
+      "name": "Yellow Horse in Arched Niche",
+      "typology": "Painting",
+      "description": "A painting depicting a bright yellow horse standing within an arched architectural niche. The composition features warm tones and a minimalist background, emphasizing the horse as the central subject.",
+      "visual_signature": "Bright yellow horse, arched doorway, warm-toned background, minimalist style",
+      "bbox": [
+        509,
+        156,
+        577,
+        237
+      ],
+      "center": [
+        543,
+        192
+      ],
+      "area": 4005,
+      "sam_score": 0.7890625,
+      "attr_confidence": 0.7
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      362
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          205,
+          61,
+          476,
+          295
+        ],
+        "center": [
+          322,
+          160
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Yellow Horse in Arched Niche",
+        "typology": "Painting",
+        "bbox": [
+          509,
+          156,
+          577,
+          237
+        ],
+        "center": [
+          543,
+          192
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 223.3,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 223.3,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 223.3,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 223.3,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2"
+      ],
+      "E2": [
+        "E1"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E1",
+      "name": "Abstract Sculptural Form in White",
+      "typology": "OtherFlatArtwork",
+      "description": "A large-scale abstract artwork featuring undulating white forms with pleated textures, resembling folded paper or fabric, mounted on a wall. The composition uses light and shadow to emphasize depth and curvature against a neutral background.",
+      "visual_signature": "White, pleated, wave-like forms with soft shadows and curved geometry"
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E2"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E1",
+      "name": "Abstract Sculptural Form in White",
+      "score": 0.6563
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Yellow Horse in Arched Niche",
+      "score": 0.3437
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E2"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E2",
+    "name": "Yellow Horse in Arched Niche",
+    "attention_level": "D",
+    "estimated_dwell_time_sec": 2.69,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E2",
+      "name": "Yellow Horse in Arched Niche",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.52
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:47:01.024255",
+        "image": "capture_20260308_035523_032.png",
+        "current_exhibit": "Abstract Sculptural Form in White",
+        "attention_level": "B",
+        "dwell_time_sec": 4.94,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Abstract Sculptural Form in White",
+        "typology": "OtherFlatArtwork",
+        "visits": 1,
+        "avg_dwell_time_sec": 4.94,
+        "last_seen": "2026-03-08T04:47:01.024255",
+        "transition_counts": {}
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Abstract Sculptural Form in White",
+    "next_target_name": "Yellow Horse in Arched Niche",
+    "next_target_exhibit_id": "E2"
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "timestamp": "2026-03-06T12:30:24.365152",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        3,
+        498,
+        48,
+        584
+      ],
+      "norm_bbox": [
+        0.0,
+        0.45,
+        0.06,
+        0.52
+      ],
+      "description": "Framed painting on left wall",
+      "center": [
+        24,
+        541
+      ],
+      "area": 3654,
+      "sam_score": 0.96484375
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        176,
+        343,
+        239,
+        667
+      ],
+      "norm_bbox": [
+        0.24,
+        0.31,
+        0.32,
+        0.58
+      ],
+      "description": "Large framed painting on wooden partition",
+      "center": [
+        205,
+        511
+      ],
+      "area": 17361,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        284,
+        450,
+        453,
+        610
+      ],
+      "norm_bbox": [
+        0.41,
+        0.41,
+        0.59,
+        0.52
+      ],
+      "description": "Central framed painting on back wall",
+      "center": [
+        369,
+        530
+      ],
+      "area": 26055,
+      "sam_score": 0.95703125
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        488,
+        410,
+        542,
+        618
+      ],
+      "norm_bbox": [
+        0.66,
+        0.37,
+        0.73,
+        0.56
+      ],
+      "description": "Framed painting on right wooden partition",
+      "center": [
+        516,
+        518
+      ],
+      "area": 10132,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        599,
+        508,
+        634,
+        581
+      ],
+      "norm_bbox": [
+        0.81,
+        0.45,
+        0.86,
+        0.52
+      ],
+      "description": "Framed painting on right wall",
+      "center": [
+        616,
+        545
+      ],
+      "area": 2469,
+      "sam_score": 0.91796875
+    },
+    {
+      "id": "E6",
+      "name": "Painting 6",
+      "type": "Painting",
+      "bbox": [
+        634,
+        491,
+        685,
+        591
+      ],
+      "norm_bbox": [
+        0.86,
+        0.44,
+        0.92,
+        0.52
+      ],
+      "description": "Framed painting on right wall",
+      "center": [
+        660,
+        542
+      ],
+      "area": 4677,
+      "sam_score": 0.9609375
+    },
+    {
+      "id": "E7",
+      "name": "Painting 7",
+      "type": "Painting",
+      "bbox": [
+        685,
+        488,
+        735,
+        584
+      ],
+      "norm_bbox": [
+        0.93,
+        0.44,
+        1.0,
+        0.52
+      ],
+      "description": "Framed painting on right wall",
+      "center": [
+        711,
+        536
+      ],
+      "area": 4354,
+      "sam_score": 0.921875
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E3",
+      "center": [
+        369,
+        530
+      ],
+      "duration": 4.249532280901336,
+      "score": 0.9260542151810875
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E4",
+      "center": [
+        516,
+        518
+      ],
+      "duration": 3.3553896386004145,
+      "score": 0.6709093535772299
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E7",
+      "center": [
+        711,
+        536
+      ],
+      "duration": 3.1938193212933355,
+      "score": 0.6561527802056918
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E6",
+      "center": [
+        660,
+        542
+      ],
+      "duration": 3.1365496126284795,
+      "score": 0.6326682524151084
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E5",
+      "center": [
+        616,
+        545
+      ],
+      "duration": 2.9592415712327873,
+      "score": 0.59246813178485
+    },
+    {
+      "sequence": 6,
+      "exhibit_id": "E2",
+      "center": [
+        205,
+        511
+      ],
+      "duration": 3.46399575167133,
+      "score": 0.674830584742269
+    },
+    {
+      "sequence": 7,
+      "exhibit_id": "E1",
+      "center": [
+        24,
+        541
+      ],
+      "duration": 2.7120633120847613,
+      "score": 0.4910419213366476
+    }
+  ]
+}

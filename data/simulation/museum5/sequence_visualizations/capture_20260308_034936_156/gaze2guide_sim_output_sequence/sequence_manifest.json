@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum5/analysis/capture_20260308_034936_156/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum5/images/capture_20260308_034936_156.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Vertical Composition in Grays",
+      "typology": "Painting",
+      "description": "A monochromatic abstract painting featuring vertical bands of varying shades of gray and black, with textured brushwork creating a layered effect. The artwork is mounted on a wall, displayed in a minimalist setting.",
+      "bbox": [
+        318,
+        108,
+        406,
+        266
+      ],
+      "center": [
+        362,
+        185
+      ],
+      "dwell_time_sec": 3.24
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Abstract Monochrome Panel",
+      "typology": "Painting",
+      "description": "A large, vertically oriented abstract painting featuring a muted gray and black color palette with a central dark vertical band. The surface appears textured with subtle gradations and layered marks, mounted on a plain wall in a gallery setting.",
+      "bbox": [
+        99,
+        99,
+        209,
+        266
+      ],
+      "center": [
+        153,
+        179
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Vertical Panels",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring a composition of rectangular panels in muted earth tones, grays, and blues. The artwork appears mounted on a wall, with visible texture and layered brushwork suggesting a mixed-media or collage technique.",
+      "bbox": [
+        490,
+        116,
+        574,
+        276
+      ],
+      "center": [
+        531,
+        195
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034936_156/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034936_156/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034936_156/gaze2guide_sim_output_sequence/heatmap_seq"
+}

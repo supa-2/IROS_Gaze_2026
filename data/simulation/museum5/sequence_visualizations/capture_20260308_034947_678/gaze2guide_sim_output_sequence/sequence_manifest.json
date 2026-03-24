@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum5/analysis/capture_20260308_034947_678/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum5/images/capture_20260308_034947_678.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E3",
+      "name": "World Festival of Youth and Students",
+      "typology": "Poster",
+      "description": "A framed poster featuring a stylized map of the world with vibrant red, blue, and yellow abstract shapes representing continents. The text 'WORLD FESTIVAL' is prominently displayed in bold lettering below the map, with additional smaller text indicating the event's theme or year.",
+      "bbox": [
+        349,
+        87,
+        455,
+        202
+      ],
+      "center": [
+        403,
+        146
+      ],
+      "dwell_time_sec": 3.31
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Purple and Blue Forms",
+      "typology": "Painting",
+      "description": "An abstract painting featuring swirling forms in shades of purple, blue, and white, mounted on a wall with a red border. The composition is dynamic, with fluid brushstrokes creating a sense of movement.",
+      "bbox": [
+        217,
+        112,
+        285,
+        191
+      ],
+      "center": [
+        252,
+        152
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E1",
+      "name": "Abstract Composition with Orange and Gray",
+      "typology": "Painting",
+      "description": "A minimalist abstract painting featuring a dominant orange triangular shape against a muted gray background, mounted on a white wall within a simple black frame.",
+      "bbox": [
+        104,
+        120,
+        172,
+        188
+      ],
+      "center": [
+        138,
+        154
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034947_678/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034947_678/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034947_678/gaze2guide_sim_output_sequence/heatmap_seq"
+}

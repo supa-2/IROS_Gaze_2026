@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035329_850/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035329_850.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Religious Procession Scene",
+      "typology": "Painting",
+      "description": "A painted scene depicting a group of figures in historical or religious attire, including individuals in robes and head coverings, set against a muted background with architectural elements. The composition suggests a ceremonial procession, with warm earth tones and soft lighting.",
+      "bbox": [
+        168,
+        48,
+        295,
+        251
+      ],
+      "center": [
+        228,
+        156
+      ],
+      "dwell_time_sec": 2.25
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring a dynamic interplay of earthy browns, ochres, and muted reds, with visible brushstrokes and layered textures. The artwork is mounted on a wall, partially cropped at the edges, suggesting it is part of a larger exhibit.",
+      "bbox": [
+        340,
+        113,
+        387,
+        227
+      ],
+      "center": [
+        362,
+        172
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring blended earthy tones of brown, ochre, and muted green, with textured brushwork suggesting organic forms. The artwork is mounted on a wall, partially cropped on the right side.",
+      "bbox": [
+        405,
+        120,
+        444,
+        218
+      ],
+      "center": [
+        422,
+        173
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E4",
+      "name": "Abstract Composition with Vertical Elements",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring muted tones and geometric forms, mounted on a museum wall alongside other artworks. The composition includes soft gradients and minimalistic shapes, suggesting a modernist style.",
+      "bbox": [
+        443,
+        152,
+        478,
+        212
+      ],
+      "center": [
+        459,
+        184
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035329_850/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035329_850/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035329_850/gaze2guide_sim_output_sequence/heatmap_seq"
+}

@@ -1,0 +1,70 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035336_211/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035336_211.png",
+  "num_sequence_frames": 3,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Composition with Figures",
+      "typology": "Painting",
+      "description": "A blurred abstract painting featuring indistinct human figures in a dimly lit setting, dominated by dark tones and soft color gradients. The artwork is mounted on a wall within a museum exhibit space.",
+      "bbox": [
+        307,
+        130,
+        355,
+        242
+      ],
+      "center": [
+        329,
+        188
+      ],
+      "dwell_time_sec": 3.17
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Dancer in Motion",
+      "typology": "Painting",
+      "description": "A dynamic ink painting depicting a dancer mid-leap, rendered in expressive black and gray brushstrokes against a white background. The figure is stylized with flowing lines, and the composition includes calligraphic inscriptions and a red seal in the lower left corner.",
+      "bbox": [
+        119,
+        65,
+        261,
+        271
+      ],
+      "center": [
+        188,
+        174
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E3",
+      "name": "Abstract Composition with Earth Tones",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring a blend of earthy browns, muted greens, and dark tones, with textured brushwork suggesting layered forms. The artwork is mounted on a wall in a museum setting, framed by a simple dark border.",
+      "bbox": [
+        374,
+        155,
+        402,
+        232
+      ],
+      "center": [
+        387,
+        194
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035336_211/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035336_211/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035336_211/gaze2guide_sim_output_sequence/heatmap_seq"
+}

@@ -1,0 +1,659 @@
+{
+  "frame": {
+    "image_name": "capture_20260308_025059_209.png",
+    "image_path": "data/simulation/museum3/images/capture_20260308_025059_209.png",
+    "timestamp": "2026-03-08T04:26:41.535476",
+    "position": null,
+    "rotation": null,
+    "capture_index": null,
+    "exhibit_name_hint": null,
+    "target_info": null
+  },
+  "current_gaze_state": {
+    "exhibit_id": "E3",
+    "name": "Group Portrait of Figures in Formal Attire",
+    "attention_level": "D",
+    "dwell_time_sec": 2.55,
+    "typology": "Painting",
+    "description": "A framed painting depicting a group of individuals in formal clothing, likely from the 19th or early 20th century, arranged in a structured composition. The scene is rendered in muted tones with emphasis on facial expressions and attire details.",
+    "visual_signature": "Framed portrait with multiple figures in historical dress, central grouping, dark background, and visible frame edge."
+  },
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Portrait of a Man with Beard",
+      "typology": "Painting",
+      "description": "A cropped view of a framed portrait depicting a man with a beard, wearing period attire. The painting appears to be in a classical style with muted earth tones and is mounted on a light-colored wall.",
+      "visual_signature": "Bearded male figure, dark clothing, classical painting style, framed artwork",
+      "bbox": [
+        119,
+        150,
+        208,
+        203
+      ],
+      "center": [
+        164,
+        171
+      ],
+      "area": 2907,
+      "sam_score": 0.5625,
+      "attr_confidence": 0.6
+    },
+    {
+      "id": "E2",
+      "name": "Unidentified Wall Exhibit",
+      "typology": "OtherFlatArtwork",
+      "description": "A cropped image showing a portion of a framed artwork mounted on a wall, with visible edges of the frame and a partial view of the artwork's content. The visible section includes indistinct figures or forms in muted tones.",
+      "visual_signature": "Partial view of a framed artwork with indistinct figures, muted colors, and a dark frame against a light wall.",
+      "bbox": [
+        124,
+        190,
+        209,
+        244
+      ],
+      "center": [
+        175,
+        221
+      ],
+      "area": 2073,
+      "sam_score": 0.453125,
+      "attr_confidence": 0.3
+    },
+    {
+      "id": "E3",
+      "name": "Group Portrait of Figures in Formal Attire",
+      "typology": "Painting",
+      "description": "A framed painting depicting a group of individuals in formal clothing, likely from the 19th or early 20th century, arranged in a structured composition. The scene is rendered in muted tones with emphasis on facial expressions and attire details.",
+      "visual_signature": "Framed portrait with multiple figures in historical dress, central grouping, dark background, and visible frame edge.",
+      "bbox": [
+        225,
+        148,
+        276,
+        204
+      ],
+      "center": [
+        251,
+        170
+      ],
+      "area": 1744,
+      "sam_score": 0.609375,
+      "attr_confidence": 0.7
+    },
+    {
+      "id": "E4",
+      "name": "Abstract Composition with Red and Black Elements",
+      "typology": "Painting",
+      "description": "A vertically oriented abstract painting featuring dominant red and black forms against a dark background, mounted on a white wall above a lower display panel. The composition includes angular shapes and possible figurative elements in the upper portion.",
+      "visual_signature": "Vertical format, abstract style, red and black color scheme, angular forms, mounted on white wall",
+      "bbox": [
+        210,
+        179,
+        289,
+        239
+      ],
+      "center": [
+        254,
+        214
+      ],
+      "area": 2346,
+      "sam_score": 0.380859375,
+      "attr_confidence": 0.65
+    },
+    {
+      "id": "E5",
+      "name": "Large Dark Abstract Panel",
+      "typology": "OtherFlatArtwork",
+      "description": "A large, dark gray rectangular panel mounted on a light gray wall, positioned prominently in the foreground. It is surrounded by smaller framed artworks, including portraits and group scenes, suggesting a gallery context.",
+      "visual_signature": "Dominant dark gray rectangle with black frame, contrasting with lighter wall and surrounding smaller framed pieces.",
+      "bbox": [
+        80,
+        3,
+        627,
+        345
+      ],
+      "center": [
+        439,
+        144
+      ],
+      "area": 45425,
+      "sam_score": 0.0038299560546875,
+      "attr_confidence": 0.85
+    }
+  ],
+  "topology": {
+    "mode": "dynamic_unmapped",
+    "image_size": [
+      633,
+      350
+    ],
+    "nodes": [
+      {
+        "id": "E1",
+        "name": "Portrait of a Man with Beard",
+        "typology": "Painting",
+        "bbox": [
+          119,
+          150,
+          208,
+          203
+        ],
+        "center": [
+          164,
+          171
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E2",
+        "name": "Unidentified Wall Exhibit",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          124,
+          190,
+          209,
+          244
+        ],
+        "center": [
+          175,
+          221
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E3",
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "bbox": [
+          225,
+          148,
+          276,
+          204
+        ],
+        "center": [
+          251,
+          170
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E4",
+        "name": "Abstract Composition with Red and Black Elements",
+        "typology": "Painting",
+        "bbox": [
+          210,
+          179,
+          289,
+          239
+        ],
+        "center": [
+          254,
+          214
+        ],
+        "row_index": 0
+      },
+      {
+        "id": "E5",
+        "name": "Large Dark Abstract Panel",
+        "typology": "OtherFlatArtwork",
+        "bbox": [
+          80,
+          3,
+          627,
+          345
+        ],
+        "center": [
+          439,
+          144
+        ],
+        "row_index": 0
+      }
+    ],
+    "edges": [
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "right_of",
+        "distance_px": 51.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 51.2,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 91.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 91.53,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 44.1,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E4",
+        "target": "E5",
+        "relation": "right_of",
+        "distance_px": 197.8,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 197.8,
+        "edge_type": "spatial_row"
+      },
+      {
+        "source": "E1",
+        "target": "E2",
+        "relation": "below",
+        "distance_px": 51.2,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 87.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E1",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 99.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E1",
+        "relation": "above",
+        "distance_px": 51.2,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E4",
+        "relation": "right_of",
+        "distance_px": 79.31,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E2",
+        "target": "E3",
+        "relation": "right_of",
+        "distance_px": 91.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E4",
+        "relation": "below",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 87.01,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E3",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 91.53,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E3",
+        "relation": "above",
+        "distance_px": 44.1,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 79.31,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E4",
+        "target": "E1",
+        "relation": "left_of",
+        "distance_px": 99.74,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E3",
+        "relation": "left_of",
+        "distance_px": 189.79,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E4",
+        "relation": "left_of",
+        "distance_px": 197.8,
+        "edge_type": "knn"
+      },
+      {
+        "source": "E5",
+        "target": "E2",
+        "relation": "left_of",
+        "distance_px": 275.0,
+        "edge_type": "knn"
+      }
+    ],
+    "neighbor_sets": {
+      "E1": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "E2": [
+        "E1",
+        "E4",
+        "E3"
+      ],
+      "E3": [
+        "E4",
+        "E1",
+        "E2"
+      ],
+      "E4": [
+        "E3",
+        "E2",
+        "E1"
+      ],
+      "E5": [
+        "E3",
+        "E4",
+        "E2"
+      ]
+    },
+    "row_groups": [
+      [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    ]
+  },
+  "context_payload": {
+    "current_exhibit": {
+      "id": "E3",
+      "name": "Group Portrait of Figures in Formal Attire",
+      "typology": "Painting",
+      "description": "A framed painting depicting a group of individuals in formal clothing, likely from the 19th or early 20th century, arranged in a structured composition. The scene is rendered in muted tones with emphasis on facial expressions and attire details.",
+      "visual_signature": "Framed portrait with multiple figures in historical dress, central grouping, dark background, and visible frame edge."
+    },
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "reachable_neighbor_set": [
+      "E4",
+      "E1",
+      "E2"
+    ],
+    "transition_priors": {},
+    "long_term_memory": [
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "interest_distribution": [
+    {
+      "exhibit_id": "E3",
+      "name": "Group Portrait of Figures in Formal Attire",
+      "score": 0.259
+    },
+    {
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Red and Black Elements",
+      "score": 0.2492
+    },
+    {
+      "exhibit_id": "E5",
+      "name": "Large Dark Abstract Panel",
+      "score": 0.1682
+    },
+    {
+      "exhibit_id": "E2",
+      "name": "Unidentified Wall Exhibit",
+      "score": 0.1618
+    },
+    {
+      "exhibit_id": "E1",
+      "name": "Portrait of a Man with Beard",
+      "score": 0.1617
+    }
+  ],
+  "reachable_neighbor_set": [
+    "E4",
+    "E1",
+    "E2"
+  ],
+  "next_prediction": {
+    "next_exhibit_id": "E4",
+    "name": "Abstract Composition with Red and Black Elements",
+    "attention_level": "D",
+    "estimated_dwell_time_sec": 2.17,
+    "reasoning": "heuristic: topology-constrained saliency + center bias + transition prior - move penalty"
+  },
+  "rollout": [
+    {
+      "step": 1,
+      "exhibit_id": "E4",
+      "name": "Abstract Composition with Red and Black Elements",
+      "attention_level": "D",
+      "estimated_dwell_time_sec": 2.05
+    },
+    {
+      "step": 2,
+      "exhibit_id": "E2",
+      "name": "Unidentified Wall Exhibit",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.61
+    },
+    {
+      "step": 3,
+      "exhibit_id": "E1",
+      "name": "Portrait of a Man with Beard",
+      "attention_level": "E",
+      "estimated_dwell_time_sec": 1.61
+    }
+  ],
+  "dual_memory": {
+    "short_term_memory": [
+      {
+        "timestamp": "2026-03-08T04:23:58.679483",
+        "image": "capture_20260308_025039_274.png",
+        "current_exhibit": "Undetermined Wall Panel",
+        "attention_level": "E",
+        "dwell_time_sec": 1.77,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:25:20.144917",
+        "image": "capture_20260308_025048_186.png",
+        "current_exhibit": "Landscape with Yellow Field and Blue Sky",
+        "attention_level": "D",
+        "dwell_time_sec": 2.27,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:07.087540",
+        "image": "capture_20260308_025054_232.png",
+        "current_exhibit": "Peasants in a Field with Donkeys",
+        "attention_level": "D",
+        "dwell_time_sec": 2.95,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      },
+      {
+        "timestamp": "2026-03-08T04:26:41.535476",
+        "image": "capture_20260308_025059_209.png",
+        "current_exhibit": "Group Portrait of Figures in Formal Attire",
+        "attention_level": "D",
+        "dwell_time_sec": 2.55,
+        "position": null,
+        "rotation": null,
+        "capture_index": null
+      }
+    ],
+    "long_term_memory": [
+      {
+        "name": "Group Portrait of Figures in Formal Attire",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.55,
+        "last_seen": "2026-03-08T04:26:41.535476",
+        "transition_counts": {}
+      },
+      {
+        "name": "Landscape with Yellow Field and Blue Sky",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.27,
+        "last_seen": "2026-03-08T04:25:20.144917",
+        "transition_counts": {
+          "Peasants in a Field with Donkeys": 1
+        }
+      },
+      {
+        "name": "Peasants in a Field with Donkeys",
+        "typology": "Painting",
+        "visits": 1,
+        "avg_dwell_time_sec": 2.95,
+        "last_seen": "2026-03-08T04:26:07.087540",
+        "transition_counts": {
+          "Group Portrait of Figures in Formal Attire": 1
+        }
+      },
+      {
+        "name": "Undetermined Wall Panel",
+        "typology": "WallText",
+        "visits": 1,
+        "avg_dwell_time_sec": 1.77,
+        "last_seen": "2026-03-08T04:23:58.679483",
+        "transition_counts": {
+          "Landscape with Yellow Field and Blue Sky": 1
+        }
+      }
+    ]
+  },
+  "control_hint": {
+    "current_target_name": "Group Portrait of Figures in Formal Attire",
+    "next_target_name": "Abstract Composition with Red and Black Elements",
+    "next_target_exhibit_id": "E4"
+  }
+}

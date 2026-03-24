@@ -1,0 +1,177 @@
+{
+  "timestamp": "2026-03-06T12:32:51.727123",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        29,
+        202,
+        129,
+        302
+      ],
+      "norm_bbox": [
+        0.04,
+        0.41,
+        0.18,
+        0.57
+      ],
+      "description": "Framed landscape painting on left wall",
+      "center": [
+        76,
+        250
+      ],
+      "area": 8915,
+      "sam_score": 0.97265625
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        293,
+        226,
+        333,
+        272
+      ],
+      "norm_bbox": [
+        0.39,
+        0.44,
+        0.45,
+        0.53
+      ],
+      "description": "Framed painting on far wall",
+      "center": [
+        313,
+        249
+      ],
+      "area": 1860,
+      "sam_score": 0.94140625
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        467,
+        230,
+        514,
+        269
+      ],
+      "norm_bbox": [
+        0.64,
+        0.45,
+        0.7,
+        0.53
+      ],
+      "description": "Framed painting on far wall",
+      "center": [
+        490,
+        249
+      ],
+      "area": 1883,
+      "sam_score": 0.953125
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        557,
+        223,
+        611,
+        275
+      ],
+      "norm_bbox": [
+        0.77,
+        0.44,
+        0.83,
+        0.53
+      ],
+      "description": "Framed portrait painting on right wall",
+      "center": [
+        584,
+        248
+      ],
+      "area": 2529,
+      "sam_score": 0.90625
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        614,
+        138,
+        734,
+        336
+      ],
+      "norm_bbox": [
+        0.86,
+        0.32,
+        0.98,
+        0.62
+      ],
+      "description": "Large framed portrait of a man in formal attire",
+      "center": [
+        664,
+        215
+      ],
+      "area": 6973,
+      "sam_score": 0.69921875
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E1",
+      "center": [
+        76,
+        250
+      ],
+      "duration": 3.5422120853106893,
+      "score": 0.7451177552409824
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        313,
+        249
+      ],
+      "duration": 2.7354345891646936,
+      "score": 0.520131145299561
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E4",
+      "center": [
+        584,
+        248
+      ],
+      "duration": 3.0740974843981164,
+      "score": 0.6327737159963019
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E5",
+      "center": [
+        664,
+        215
+      ],
+      "duration": 3.004358869074085,
+      "score": 0.5664481494639049
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E3",
+      "center": [
+        490,
+        249
+      ],
+      "duration": 2.754226516025761,
+      "score": 0.5265436940286534
+    }
+  ]
+}

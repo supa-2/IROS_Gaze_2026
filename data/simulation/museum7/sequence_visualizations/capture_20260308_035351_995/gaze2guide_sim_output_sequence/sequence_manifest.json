@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum7/analysis/capture_20260308_035351_995/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum7/images/capture_20260308_035351_995.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E3",
+      "name": "Figure in Motion",
+      "typology": "Painting",
+      "description": "A monochromatic sketch depicting a figure in dynamic pose, possibly dancing or gesturing, with flowing lines suggesting movement. The artwork is mounted on a plain wall within a simple frame.",
+      "bbox": [
+        218,
+        59,
+        321,
+        326
+      ],
+      "center": [
+        274,
+        168
+      ],
+      "dwell_time_sec": 2.5
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E4",
+      "name": "Landscape with Figures and River",
+      "typology": "Painting",
+      "description": "A small, framed painting depicting a pastoral scene with two figures near a riverbank, rendered in soft earth tones and blues. The composition includes trees and distant hills, suggesting a serene natural setting.",
+      "bbox": [
+        346,
+        187,
+        420,
+        249
+      ],
+      "center": [
+        382,
+        217
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E2",
+      "name": "Abstract Composition with Black and White Elements",
+      "typology": "Painting",
+      "description": "A monochromatic abstract artwork featuring bold black forms against a white background, mounted on a wall within a museum setting. The composition includes irregular shapes and lines, suggesting dynamic movement.",
+      "bbox": [
+        122,
+        162,
+        216,
+        239
+      ],
+      "center": [
+        169,
+        192
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E1",
+      "name": "Figure Study in Monochrome",
+      "typology": "Painting",
+      "description": "A monochrome artwork depicting a group of figures, possibly in a classical or historical setting, rendered in grayscale tones. The composition is framed and mounted on a wall, with visible edges suggesting a traditional canvas or paper support.",
+      "bbox": [
+        3,
+        76,
+        108,
+        282
+      ],
+      "center": [
+        56,
+        181
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035351_995/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035351_995/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum7/sequence_visualizations/capture_20260308_035351_995/gaze2guide_sim_output_sequence/heatmap_seq"
+}

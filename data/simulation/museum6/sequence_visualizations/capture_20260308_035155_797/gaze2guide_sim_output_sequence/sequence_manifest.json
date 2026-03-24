@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum6/analysis/capture_20260308_035155_797/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum6/images/capture_20260308_035155_797.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E2",
+      "name": "Abstract Cityscape with Blue Tones",
+      "typology": "Painting",
+      "description": "A large abstract painting depicting a cityscape with blurred vertical forms suggesting buildings, rendered in shades of blue and gray. The composition features soft, blended brushstrokes and a reflective surface at the bottom, possibly representing water or a street scene.",
+      "bbox": [
+        339,
+        54,
+        430,
+        237
+      ],
+      "center": [
+        386,
+        148
+      ],
+      "dwell_time_sec": 4.18
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E1",
+      "name": "Seascape at Sunset",
+      "typology": "Painting",
+      "description": "A vertical painting depicting a dramatic seascape at sunset, with dark waves in the foreground and a vibrant sky transitioning from orange to purple. The artwork is mounted on a wall with a simple frame.",
+      "bbox": [
+        243,
+        90,
+        300,
+        220
+      ],
+      "center": [
+        269,
+        154
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035155_797/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035155_797/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum6/sequence_visualizations/capture_20260308_035155_797/gaze2guide_sim_output_sequence/heatmap_seq"
+}

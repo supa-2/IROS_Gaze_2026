@@ -1,0 +1,50 @@
+{
+  "json_path": "data/simulation/museum5/analysis/capture_20260308_034926_613/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum5/images/capture_20260308_034926_613.png",
+  "num_sequence_frames": 2,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E1",
+      "name": "Landscape with Mountains and Trees",
+      "typology": "Painting",
+      "description": "A horizontal ink wash painting depicting a misty mountain landscape with sparse trees and layered rock formations, rendered in monochromatic tones of black, gray, and brown. The artwork is mounted on a wall, appearing aged with visible texture and subtle discoloration.",
+      "bbox": [
+        2,
+        76,
+        374,
+        295
+      ],
+      "center": [
+        171,
+        187
+      ],
+      "dwell_time_sec": 4.56
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E2",
+      "name": "Abstract Composition with Rust-like Streaks",
+      "typology": "Painting",
+      "description": "A large abstract painting featuring horizontal bands of muted blue-gray tones with irregular, rust-colored streaks across the upper portion. The artwork is mounted on a wall and appears to have a textured surface.",
+      "bbox": [
+        466,
+        138,
+        590,
+        244
+      ],
+      "center": [
+        524,
+        191
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034926_613/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034926_613/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum5/sequence_visualizations/capture_20260308_034926_613/gaze2guide_sim_output_sequence/heatmap_seq"
+}

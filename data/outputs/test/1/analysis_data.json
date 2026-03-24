@@ -1,0 +1,177 @@
+{
+  "timestamp": "2026-03-06T12:29:15.992762",
+  "exhibits": [
+    {
+      "id": "E1",
+      "name": "Painting 1",
+      "type": "Painting",
+      "bbox": [
+        68,
+        193,
+        119,
+        257
+      ],
+      "norm_bbox": [
+        0.09,
+        0.41,
+        0.16,
+        0.52
+      ],
+      "description": "Framed painting on left partition wall",
+      "center": [
+        93,
+        224
+      ],
+      "area": 2841,
+      "sam_score": 0.9609375
+    },
+    {
+      "id": "E2",
+      "name": "Painting 2",
+      "type": "Painting",
+      "bbox": [
+        241,
+        209,
+        300,
+        254
+      ],
+      "norm_bbox": [
+        0.33,
+        0.43,
+        0.41,
+        0.51
+      ],
+      "description": "Framed painting on back wall",
+      "center": [
+        272,
+        231
+      ],
+      "area": 2463,
+      "sam_score": 0.921875
+    },
+    {
+      "id": "E3",
+      "name": "Painting 3",
+      "type": "Painting",
+      "bbox": [
+        345,
+        202,
+        383,
+        256
+      ],
+      "norm_bbox": [
+        0.47,
+        0.42,
+        0.52,
+        0.51
+      ],
+      "description": "Framed portrait painting on back wall",
+      "center": [
+        363,
+        229
+      ],
+      "area": 2020,
+      "sam_score": 0.94140625
+    },
+    {
+      "id": "E4",
+      "name": "Painting 4",
+      "type": "Painting",
+      "bbox": [
+        432,
+        210,
+        484,
+        254
+      ],
+      "norm_bbox": [
+        0.59,
+        0.43,
+        0.66,
+        0.51
+      ],
+      "description": "Framed painting on back wall",
+      "center": [
+        457,
+        231
+      ],
+      "area": 2316,
+      "sam_score": 0.96875
+    },
+    {
+      "id": "E5",
+      "name": "Painting 5",
+      "type": "Painting",
+      "bbox": [
+        619,
+        204,
+        662,
+        252
+      ],
+      "norm_bbox": [
+        0.84,
+        0.42,
+        0.91,
+        0.51
+      ],
+      "description": "Framed painting on right partition wall",
+      "center": [
+        640,
+        227
+      ],
+      "area": 2122,
+      "sam_score": 0.95703125
+    }
+  ],
+  "fixations": [
+    {
+      "sequence": 1,
+      "exhibit_id": "E3",
+      "center": [
+        363,
+        229
+      ],
+      "duration": 3.840882552921448,
+      "score": 0.9128754380430513
+    },
+    {
+      "sequence": 2,
+      "exhibit_id": "E2",
+      "center": [
+        272,
+        231
+      ],
+      "duration": 3.5498131795389094,
+      "score": 0.8034583171821863
+    },
+    {
+      "sequence": 3,
+      "exhibit_id": "E4",
+      "center": [
+        457,
+        231
+      ],
+      "duration": 3.501810700760272,
+      "score": 0.7880908022273723
+    },
+    {
+      "sequence": 4,
+      "exhibit_id": "E5",
+      "center": [
+        640,
+        227
+      ],
+      "duration": 2.9507613340563856,
+      "score": 0.5936870235539337
+    },
+    {
+      "sequence": 5,
+      "exhibit_id": "E1",
+      "center": [
+        93,
+        224
+      ],
+      "duration": 3.2232279627541787,
+      "score": 0.6824092309108957
+    }
+  ]
+}

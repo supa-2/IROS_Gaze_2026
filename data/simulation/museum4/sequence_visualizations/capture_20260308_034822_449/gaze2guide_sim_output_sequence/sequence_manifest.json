@@ -1,0 +1,90 @@
+{
+  "json_path": "data/simulation/museum4/analysis/capture_20260308_034822_449/gaze2guide_sim_output.json",
+  "image_path": "data/simulation/museum4/images/capture_20260308_034822_449.png",
+  "num_sequence_frames": 4,
+  "sequence_points": [
+    {
+      "sequence": 1,
+      "kind": "current",
+      "label": "1",
+      "id": "E5",
+      "name": "Landscape Series Wall Display",
+      "typology": "Painting",
+      "description": "A horizontal sequence of framed landscape paintings mounted on a white wall, featuring natural scenes with muted earth tones and sky elements. The artworks are evenly spaced and appear to depict rural or coastal environments.",
+      "bbox": [
+        199,
+        148,
+        474,
+        223
+      ],
+      "center": [
+        293,
+        177
+      ],
+      "dwell_time_sec": 2.33
+    },
+    {
+      "sequence": 2,
+      "kind": "next",
+      "label": "2",
+      "id": "E3",
+      "name": "Wall Exhibit with Paintings and Sculpture",
+      "typology": "OtherFlatArtwork",
+      "description": "A museum wall display featuring a series of framed paintings arranged horizontally, accompanied by a white bust sculpture on a pedestal below. The paintings vary in color and subject, including landscapes and abstract forms, mounted on a neutral gray wall.",
+      "bbox": [
+        174,
+        163,
+        474,
+        295
+      ],
+      "center": [
+        299,
+        191
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 4,
+      "kind": "rollout",
+      "label": "4",
+      "id": "E4",
+      "name": "Landscape with River and Sky",
+      "typology": "Painting",
+      "description": "A large landscape painting depicting a river scene under a dynamic sky, featuring warm earth tones and soft brushwork. It is mounted on a white gallery wall alongside other artworks in a museum setting.",
+      "bbox": [
+        176,
+        86,
+        510,
+        260
+      ],
+      "center": [
+        333,
+        182
+      ],
+      "dwell_time_sec": null
+    },
+    {
+      "sequence": 5,
+      "kind": "rollout",
+      "label": "5",
+      "id": "E6",
+      "name": "Untitled Wall Text Exhibit",
+      "typology": "WallText",
+      "description": "A cropped image showing a portion of a plain wall with minimal visible content, possibly part of a text-based exhibit. The surface appears light-colored with no discernible text or imagery in the frame.",
+      "bbox": [
+        364,
+        150,
+        403,
+        199
+      ],
+      "center": [
+        385,
+        173
+      ],
+      "dwell_time_sec": null
+    }
+  ],
+  "box_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034822_449/gaze2guide_sim_output_sequence/box_seq",
+  "scanpath_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034822_449/gaze2guide_sim_output_sequence/scanpath_seq",
+  "heatmap_dir": "data/simulation/museum4/sequence_visualizations/capture_20260308_034822_449/gaze2guide_sim_output_sequence/heatmap_seq"
+}
